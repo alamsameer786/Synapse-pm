@@ -1,0 +1,2012 @@
+﻿<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Login | SynapsePM | AI Predictive Maintenance</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+<meta name="description" content="Sign in to your SynapsePM account — AI-powered predictive maintenance for industrial equipment."/>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
+    .font-headline { font-family: 'Manrope', sans-serif; }
+    .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+    .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+    .gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ============================================================
+       SYNAPSEPM CUSTOM LOGO — FIXED SIZING & ALIGNMENT
+       ============================================================ */
+    .synapsepm-logo {
+        font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        font-size: 22px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        vertical-align: middle;
+    }
+    .synapsepm-logo > span:not(.logo-icon),
+    .synapsepm-logo strong {
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+        height: 32px;
+    }
+    .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+    .synapsepm-logo strong {
+        background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .synapsepm-logo .logo-icon {
+        width: 32px; height: 32px;
+        min-width: 32px; min-height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+    .synapsepm-logo .logo-icon img {
+        width: 32px; height: 32px;
+        object-fit: contain; display: block;
+    }
+    .synapsepm-logo.logo-sm { font-size: 18px; gap: 0.4rem; }
+    .synapsepm-logo.logo-sm .logo-icon,
+    .synapsepm-logo.logo-sm .logo-icon img {
+        width: 26px; height: 26px; min-width: 26px; min-height: 26px;
+    }
+    .synapsepm-logo.logo-sm > span:not(.logo-icon),
+    .synapsepm-logo.logo-sm strong { height: 26px; }
+
+    .synapsepm-logo.logo-lg { font-size: 26px; gap: 0.65rem; }
+    .synapsepm-logo.logo-lg .logo-icon,
+    .synapsepm-logo.logo-lg .logo-icon img {
+        width: 38px; height: 38px; min-width: 38px; min-height: 38px;
+    }
+    .synapsepm-logo.logo-lg > span:not(.logo-icon),
+    .synapsepm-logo.logo-lg strong { height: 38px; }
+
+    .synapsepm-logo.logo-on-dark > span:not(.logo-icon) { color: #ffffff; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .login-container { min-height: 100vh; display: flex; }
+    .login-brand {
+        flex: 1;
+        background: url('assets/img/bg img.png') center center/cover no-repeat;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 2.5rem;
+    }
+    .login-brand::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(15, 43, 61, 0.94) 0%, rgba(26, 74, 110, 0.92) 100%);
+        pointer-events: none;
+    }
+    .login-brand .brand-content { position: relative; z-index: 10; }
+
+    .feature-list { list-style: none; padding: 0; margin: 0; }
+    .feature-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+        color: rgba(255,255,255,0.9);
+    }
+    .feature-list li .material-symbols-outlined {
+        color: #00b4aa;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+        margin-top: 0.125rem;
+    }
+    .feature-list li .feature-title {
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 0.9375rem;
+        display: block;
+        margin-bottom: 0.125rem;
+    }
+    .feature-list li .feature-desc {
+        font-size: 0.8125rem;
+        color: rgba(255,255,255,0.65);
+        line-height: 1.5;
+    }
+
+    .trust-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(255,255,255,0.55);
+        font-size: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+    .trust-row .material-symbols-outlined { font-size: 1rem; color: #00b4aa; }
+
+    .login-form-panel {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        background: white;
+        overflow-y: auto;
+    }
+    .login-form-container { max-width: 440px; width: 100%; }
+
+    /* ============================================================
+       FORM
+       ============================================================ */
+    .form-input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        font-size: 0.9375rem;
+        transition: all 0.2s ease;
+        font-family: inherit;
+    }
+    .form-input:focus {
+        outline: none;
+        border-color: #00b4aa;
+        box-shadow: 0 0 0 3px rgba(0, 180, 170, 0.1);
+        background: white;
+    }
+    .form-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
+    .form-input.success { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+    .form-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #475569;
+        margin-bottom: 0.5rem;
+    }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 3rem; }
+    .password-toggle {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #94a3b8;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+    .password-toggle:hover { color: #00b4aa; }
+    .password-toggle .material-symbols-outlined { font-size: 1.25rem; }
+
+    /* ============================================================
+       ALERTS
+       ============================================================ */
+    .alert {
+        padding: 0.875rem 1rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+        line-height: 1.4;
+    }
+    .alert.show { display: flex; }
+    .alert-error { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+    .alert-error::before { content: "error"; font-family: 'Material Symbols Outlined'; font-size: 1.25rem; flex-shrink: 0; }
+    .alert-success { background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; }
+    .alert-success::before { content: "check_circle"; font-family: 'Material Symbols Outlined'; font-size: 1.25rem; flex-shrink: 0; }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-right: 0.5rem;
+        vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ============================================================
+       SOCIAL BUTTONS
+       ============================================================ */
+    .social-btn {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        background: white;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #0f2b3d;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: inherit;
+    }
+    .social-btn:hover:not(:disabled) {
+        background: #f8fafc;
+        border-color: #00b4aa;
+        transform: translateY(-1px);
+    }
+    .social-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .social-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* ============================================================
+       CHECKBOX
+       ============================================================ */
+    .checkbox-wrapper { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+    .checkbox-wrapper input[type="checkbox"] {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid #d1d5db;
+        flex-shrink: 0;
+        accent-color: #00b4aa;
+    }
+    .checkbox-wrapper .checkbox-label { font-size: 0.75rem; color: #64748b; }
+
+    .input-error-text {
+        font-size: 0.7rem;
+        color: #ef4444;
+        margin-top: 0.25rem;
+        display: none;
+    }
+    .input-error-text.show { display: block; }
+
+    /* ============================================================
+       MODAL
+       ============================================================ */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+        background: white;
+        border-radius: 1.5rem;
+        max-width: 450px;
+        width: 100%;
+        padding: 2rem;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: modalSlideUp 0.3s ease;
+        position: relative;
+    }
+    @keyframes modalSlideUp {
+        from { opacity: 0; transform: translateY(20px) scale(0.95); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-close {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #94a3b8;
+        padding: 0.25rem;
+        border-radius: 0.5rem;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .modal-close:hover { color: #0f2b3d; background: #f1f5f9; }
+    .modal-step { display: none; }
+    .modal-step.active { display: block; }
+
+    .otp-input-group { display: flex; gap: 0.5rem; justify-content: center; margin: 1.5rem 0; }
+    .otp-input-group input {
+        width: 3rem;
+        height: 3.5rem;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        border: 2px solid #e2e8f0;
+        border-radius: 0.75rem;
+        background: #f8fafc;
+        transition: border-color 0.2s ease;
+        font-family: inherit;
+    }
+    .otp-input-group input:focus {
+        outline: none;
+        border-color: #00b4aa;
+        box-shadow: 0 0 0 3px rgba(0, 180, 170, 0.1);
+        background: white;
+    }
+    .otp-input-group input.filled { border-color: #00b4aa; background: white; }
+
+    .resend-btn {
+        background: none;
+        border: none;
+        color: #00b4aa;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        padding: 0.25rem 0.5rem;
+        font-family: inherit;
+    }
+    .resend-btn:hover { text-decoration: underline; }
+    .resend-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .timer-text { font-size: 0.875rem; color: #64748b; }
+
+    .strength-bar { height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden; margin-bottom: 0.25rem; }
+    .strength-fill { height: 100%; width: 0%; transition: width 0.3s ease; }
+    .strength-weak { background: #ef4444; width: 33%; }
+    .strength-medium { background: #f59e0b; width: 66%; }
+    .strength-strong { background: #10b981; width: 100%; }
+    .strength-text { font-size: 0.7rem; color: #64748b; }
+
+    @media (max-width: 900px) {
+        .login-brand { display: none; }
+        .login-form-panel { flex: none; width: 100%; padding: 1rem; }
+        .login-form-container { max-width: 100%; }
+    }
+    @media (max-width: 768px) {
+        .modal-box { padding: 1.5rem; margin: 0.5rem; }
+        .otp-input-group input { width: 2.5rem; height: 3rem; font-size: 1.25rem; }
+    }
+    @media (max-width: 480px) {
+        .login-form-panel { padding: 0.75rem; }
+        .social-btn { font-size: 0.75rem; padding: 0.6rem; }
+        .social-btn svg { width: 16px; height: 16px; }
+        .otp-input-group input { width: 2rem; height: 2.5rem; font-size: 1rem; }
+        .otp-input-group { gap: 0.25rem; }
+    }
+
+    /* ============================================================
+       INLINE USER MFA — ADDED WITHOUT CHANGING EXISTING LOGIN CSS
+       ============================================================ */
+    .mfa-modal-box {
+        max-width: 460px;
+    }
+    .mfa-icon-wrap {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(0, 180, 170, 0.10);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+    }
+    .mfa-code-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #475569;
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+    .mfa-help-text {
+        font-size: 0.75rem;
+        color: #64748b;
+        line-height: 1.5;
+        text-align: center;
+    }
+    .mfa-switch-btn {
+        background: transparent;
+        border: none;
+        color: #00a69c;
+        font-weight: 600;
+        font-size: 0.8rem;
+        cursor: pointer;
+        padding: 0.35rem 0.5rem;
+        font-family: inherit;
+    }
+    .mfa-switch-btn:hover { text-decoration: underline; }
+    .mfa-backup-input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        text-align: center;
+        transition: all 0.2s ease;
+        font-family: inherit;
+    }
+    .mfa-backup-input:focus {
+        outline: none;
+        border-color: #00b4aa;
+        box-shadow: 0 0 0 3px rgba(0, 180, 170, 0.1);
+        background: white;
+    }
+    .mfa-status-text {
+        min-height: 1.25rem;
+        margin-top: 0.5rem;
+        font-size: 0.75rem;
+        text-align: center;
+        color: #64748b;
+    }
+    .mfa-status-text.error { color: #dc2626; }
+    .mfa-status-text.success { color: #059669; }
+    @media (max-width: 480px) {
+        .mfa-modal-box { padding: 1.25rem; }
+        .mfa-icon-wrap { width: 56px; height: 56px; }
+    }
+
+</style>
+</head>
+<body>
+
+<div class="login-container">
+    <!-- ============ BRAND SIDE ============ -->
+    <div class="login-brand">
+        <div class="brand-content">
+            <a href="index.html" class="flex items-center gap-2 mb-12" aria-label="SynapsePM home">
+                <div class="synapsepm-logo logo-lg logo-on-dark">
+                    <span class="logo-icon">
+                        <img src="assets/img/logo.png" alt="SynapsePM Logo" onerror="this.style.display='none'">
+                    </span>
+                    <span>Synapse</span><strong>PM</strong>
+                </div>
+            </a>
+
+            <div class="mt-8 text-white">
+                <h2 class="text-2xl font-bold font-headline mb-3">Welcome back</h2>
+                <p class="text-white/70 text-sm mb-8 leading-relaxed max-w-sm">
+                    Sign in to access your predictive maintenance dashboard and manage your equipment.
+                </p>
+
+                <ul class="feature-list">
+                    <li>
+                        <span class="material-symbols-outlined">neurology</span>
+                        <div>
+                            <span class="feature-title">7 ML model families</span>
+                            <span class="feature-desc">LSTM, Transformer, XGBoost, Random Forest, Gradient Boosting, SVM, Neural Network</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined">precision_manufacturing</span>
+                        <div>
+                            <span class="feature-title">Real-time equipment monitoring</span>
+                            <span class="feature-desc">Sensor ingestion via REST, MQTT, or file upload</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined">notifications_active</span>
+                        <div>
+                            <span class="feature-title">Automatic alerts</span>
+                            <span class="feature-desc">RUL-based alerts at 72h and 24h thresholds, plus sensor anomaly detection</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined">assessment</span>
+                        <div>
+                            <span class="feature-title">Reports & audit trail</span>
+                            <span class="feature-desc">Real maintenance reports as PDF / CSV / JSON</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="brand-content">
+            <div class="trust-row">
+                <span class="material-symbols-outlined">password</span>
+                <span>Passwords hashed with Argon2id</span>
+            </div>
+            <div class="trust-row">
+                <span class="material-symbols-outlined">shield_lock</span>
+                <span>Per-organization tenant isolation on every query</span>
+            </div>
+            <div class="trust-row">
+                <span class="material-symbols-outlined">vpn_key</span>
+                <span>Optional TOTP multi-factor authentication</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ FORM SIDE ============ -->
+    <div class="login-form-panel">
+        <div class="login-form-container">
+
+            <!-- Mobile Logo -->
+            <div class="text-center mb-6 block md:hidden">
+                <div class="flex items-center justify-center gap-2 mb-4">
+                    <div class="synapsepm-logo logo-sm">
+                        <span class="logo-icon">
+                            <img src="assets/img/logo.png" alt="SynapsePM" onerror="this.style.display='none'">
+                        </span>
+                        <span>Synapse</span><strong>PM</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <h1 class="text-xl sm:text-2xl font-bold text-primary mb-2 font-headline">Sign In</h1>
+                <p class="text-xs sm:text-sm text-slate-500">Access your SynapsePM dashboard</p>
+            </div>
+
+            <div id="errorAlert" class="alert alert-error" role="alert"></div>
+            <div id="successAlert" class="alert alert-success" role="status"></div>
+
+            <!-- Login Form -->
+            <form id="loginForm" novalidate autocomplete="on">
+                <div class="mb-4">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-input text-sm sm:text-base"
+                           placeholder="name@company.com" required autocomplete="email" inputmode="email">
+                    <div class="input-error-text" id="emailError">Please enter a valid email address</div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" class="form-input text-sm sm:text-base"
+                               placeholder="Enter your password" required autocomplete="current-password">
+                        <button type="button" class="password-toggle" id="togglePassword" aria-label="Toggle password visibility">
+                            <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
+                        </button>
+                    </div>
+                    <div class="input-error-text" id="passwordError">Password is required</div>
+                </div>
+
+                <div class="flex justify-between items-center mb-6">
+                    <label class="checkbox-wrapper" for="rememberMe">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <span class="checkbox-label">Remember me</span>
+                    </label>
+                    <button type="button" id="forgotPasswordBtn"
+                            class="text-xs text-secondary font-semibold hover:underline bg-transparent border-none cursor-pointer">
+                        Forgot password?
+                    </button>
+                </div>
+
+                <button type="submit" class="w-full gradient-cta text-white py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300" id="loginBtn">
+                    <span id="btnText">Sign In</span>
+                </button>
+            </form>
+
+            <!-- Social Auth -->
+            <div class="mt-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <hr class="flex-1 border-slate-200">
+                    <span class="text-xs text-slate-400 font-medium">or continue with</span>
+                    <hr class="flex-1 border-slate-200">
+                </div>
+                <div class="grid grid-cols-3 gap-2 sm:gap-3">
+                    <button type="button" class="social-btn" data-provider="google" aria-label="Sign in with Google">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+                            <path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+                            <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+                            <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+                        </svg>
+                        Google
+                    </button>
+                    <button type="button" class="social-btn" data-provider="github" aria-label="Sign in with GitHub">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="#333" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026.797-.222 1.65-.333 2.5-.336.85.003 1.703.114 2.5.336 1.91-1.295 2.75-1.026 2.75-1.026.544 1.378.201 2.397.098 2.65.64.7 1.029 1.595 1.029 2.688 0 3.846-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                        </svg>
+                        GitHub
+                    </button>
+                    <button type="button" class="social-btn" data-provider="linkedin" aria-label="Sign in with LinkedIn">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="#0A66C2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/>
+                        </svg>
+                        LinkedIn
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-center text-xs sm:text-sm text-slate-500 mt-5 sm:mt-6">
+                Don't have an account?
+                <a href="signup.html" class="text-secondary font-bold hover:underline">Start free trial →</a>
+            </p>
+
+            <div class="text-center mt-3 sm:mt-4">
+                <a href="index.html" class="text-[10px] sm:text-xs text-slate-400 hover:text-secondary transition-colors">← Return to main site</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ FORGOT PASSWORD MODAL ============ -->
+<div class="modal-overlay" id="forgotPasswordModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+        <button class="modal-close" id="closeModalBtn" aria-label="Close modal">✕</button>
+        <div class="text-center mb-6">
+            <div style="width: 56px; height: 56px; background: rgba(0, 180, 170, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                <span class="material-symbols-outlined text-secondary text-3xl" aria-hidden="true">lock</span>
+            </div>
+            <h3 class="text-xl font-bold text-primary font-headline" id="modalTitle">Reset Password</h3>
+            <p class="text-xs text-slate-500 mt-1" id="modalSubtitle">Enter your email to receive a one-time code</p>
+        </div>
+
+        <!-- Step 1: Email -->
+        <div class="modal-step active" id="step1">
+            <div id="modalError" class="alert alert-error" style="display: none; margin-bottom: 1rem;"></div>
+            <div class="mb-4">
+                <label class="form-label" for="resetEmail">Email Address</label>
+                <input type="email" id="resetEmail" class="form-input text-sm" placeholder="name@company.com" required autocomplete="email">
+            </div>
+            <button type="button" id="sendOtpBtn" class="w-full gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-300">
+                <span id="sendOtpText">Send code</span>
+            </button>
+            <p class="text-center text-xs text-slate-400 mt-3">We'll send a 6-digit code to your email</p>
+        </div>
+
+        <!-- Step 2: OTP -->
+        <div class="modal-step" id="step2">
+            <p class="text-xs text-slate-500 text-center mb-4">
+                Enter the 6-digit code sent to <span id="otpEmailDisplay" style="font-weight: 600; color: #0f2b3d;"></span>
+            </p>
+            <div class="otp-input-group" id="otpInputGroup">
+                <input type="text" maxlength="1" class="otp-input" data-index="0" autofocus inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 1">
+                <input type="text" maxlength="1" class="otp-input" data-index="1" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 2">
+                <input type="text" maxlength="1" class="otp-input" data-index="2" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 3">
+                <input type="text" maxlength="1" class="otp-input" data-index="3" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 4">
+                <input type="text" maxlength="1" class="otp-input" data-index="4" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 5">
+                <input type="text" maxlength="1" class="otp-input" data-index="5" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 6">
+            </div>
+            <div id="otpError" class="alert alert-error" style="display: none; margin-bottom: 1rem;"></div>
+            <button type="button" id="verifyOtpBtn" class="w-full gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-300">
+                <span id="verifyOtpText">Verify code</span>
+            </button>
+            <div class="text-center mt-3">
+                <span class="timer-text" id="timerText">Resend in <span id="timerCount">60</span>s</span>
+                <button type="button" id="resendOtpBtn" class="resend-btn" disabled>Resend code</button>
+            </div>
+        </div>
+
+        <!-- Step 3: New password -->
+        <div class="modal-step" id="step3">
+            <div class="mb-4">
+                <label class="form-label" for="newPassword">New Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="newPassword" class="form-input text-sm" placeholder="Create new password" required autocomplete="new-password" minlength="8">
+                    <button type="button" class="password-toggle" id="toggleNewPassword" aria-label="Toggle new password visibility">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
+                    </button>
+                </div>
+                <div class="password-strength" id="resetStrength" style="display: none; margin-top: 0.5rem;">
+                    <div class="strength-bar"><div class="strength-fill" id="resetStrengthFill"></div></div>
+                    <span class="strength-text" id="resetStrengthText"></span>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label" for="confirmNewPassword">Confirm Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirmNewPassword" class="form-input text-sm" placeholder="Confirm new password" required autocomplete="new-password">
+                    <button type="button" class="password-toggle" id="toggleConfirmNewPassword" aria-label="Toggle confirm password visibility">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
+                    </button>
+                </div>
+            </div>
+            <div id="resetError" class="alert alert-error" style="display: none; margin-bottom: 1rem;"></div>
+            <button type="button" id="resetPasswordBtn" class="w-full gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-300">
+                <span id="resetPasswordText">Reset password</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============ INLINE USER MFA MODAL ============ -->
+<div class="modal-overlay" id="mfaModal" role="dialog" aria-modal="true" aria-labelledby="mfaModalTitle" aria-describedby="mfaModalSubtitle">
+    <div class="modal-box mfa-modal-box">
+        <button type="button" class="modal-close" id="closeMfaModalBtn" aria-label="Close multi-factor authentication">✕</button>
+
+        <div class="text-center mb-5">
+            <div class="mfa-icon-wrap">
+                <span class="material-symbols-outlined text-secondary text-3xl" aria-hidden="true">shield_lock</span>
+            </div>
+            <h3 class="text-xl font-bold text-primary font-headline" id="mfaModalTitle">Verify your identity</h3>
+            <p class="text-xs text-slate-500 mt-2" id="mfaModalSubtitle">
+                Enter the 6-digit code from your authenticator app to continue signing in.
+            </p>
+        </div>
+
+        <!-- TOTP verification -->
+        <div class="modal-step active" id="mfaTotpStep">
+            <div class="mfa-code-label">Authenticator code</div>
+            <div class="otp-input-group" id="mfaInputGroup">
+                <input type="text" maxlength="1" class="mfa-otp-input" data-index="0" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code" aria-label="Authenticator digit 1">
+                <input type="text" maxlength="1" class="mfa-otp-input" data-index="1" inputmode="numeric" pattern="[0-9]" aria-label="Authenticator digit 2">
+                <input type="text" maxlength="1" class="mfa-otp-input" data-index="2" inputmode="numeric" pattern="[0-9]" aria-label="Authenticator digit 3">
+                <input type="text" maxlength="1" class="mfa-otp-input" data-index="3" inputmode="numeric" pattern="[0-9]" aria-label="Authenticator digit 4">
+                <input type="text" maxlength="1" class="mfa-otp-input" data-index="4" inputmode="numeric" pattern="[0-9]" aria-label="Authenticator digit 5">
+                <input type="text" maxlength="1" class="mfa-otp-input" data-index="5" inputmode="numeric" pattern="[0-9]" aria-label="Authenticator digit 6">
+            </div>
+            <div id="mfaError" class="alert alert-error" style="display:none; margin-bottom:1rem;" role="alert"></div>
+            <div id="mfaSuccess" class="alert alert-success" style="display:none; margin-bottom:1rem;" role="status"></div>
+            <button type="button" id="verifyMfaBtn" class="w-full gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-300">
+                <span id="verifyMfaText">Verify and continue</span>
+            </button>
+            <div class="text-center mt-3">
+                <button type="button" class="mfa-switch-btn" id="useBackupCodeBtn">Use a backup code instead</button>
+            </div>
+            <p class="mfa-help-text mt-2">Your authenticator code changes periodically. Do not share it with anyone.</p>
+        </div>
+
+        <!-- Backup-code verification -->
+        <div class="modal-step" id="mfaBackupStep">
+            <div class="mfa-code-label">Backup code</div>
+            <input type="text" id="mfaBackupCode" class="mfa-backup-input" placeholder="Enter your backup code" autocomplete="one-time-code" autocapitalize="characters" spellcheck="false">
+            <div id="mfaBackupError" class="alert alert-error" style="display:none; margin-top:1rem; margin-bottom:1rem;" role="alert"></div>
+            <button type="button" id="verifyMfaBackupBtn" class="w-full gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 mt-4">
+                <span id="verifyMfaBackupText">Verify backup code</span>
+            </button>
+            <div class="text-center mt-3">
+                <button type="button" class="mfa-switch-btn" id="useAuthenticatorBtn">Use authenticator code instead</button>
+            </div>
+            <p class="mfa-help-text mt-2">A backup code can normally be used once. Keep your unused backup codes private.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    'use strict';
+
+    console.log('✅ SynapsePM login page loaded');
+
+    // ============================================================
+    // CONFIG
+    // ============================================================
+    const API_BASE = '/api/v1/auth';
+
+    const STORAGE_KEYS = [
+        'synapse_token', 'synapse_user', 'synapse_refresh', 'synapse_tenant',
+        'synapse_admin_token', 'synapse_admin_user',
+        'synapse_mfa', 'synapse_session',
+        'token', 'user', 'refresh_token', 'organization',
+        'auth_token', 'access_token'
+    ];
+
+    const STORAGE = {
+        ACCESS_TOKEN: 'synapse_token',
+        REFRESH_TOKEN: 'synapse_refresh',
+        USER: 'synapse_user',
+        TENANT: 'synapse_tenant',
+        OAUTH_PROVIDER: 'oauth_provider'
+    };
+
+    const $ = id => document.getElementById(id);
+
+    const elements = {
+        togglePassword: $('togglePassword'),
+        password: $('password'),
+        loginForm: $('loginForm'),
+        loginBtn: $('loginBtn'),
+        btnText: $('btnText'),
+        email: $('email'),
+        emailError: $('emailError'),
+        passwordError: $('passwordError'),
+        errorAlert: $('errorAlert'),
+        successAlert: $('successAlert'),
+        rememberMe: $('rememberMe'),
+        forgotPasswordBtn: $('forgotPasswordBtn'),
+        modal: $('forgotPasswordModal'),
+        closeModalBtn: $('closeModalBtn'),
+        step1: $('step1'),
+        step2: $('step2'),
+        step3: $('step3'),
+        resetEmail: $('resetEmail'),
+        sendOtpBtn: $('sendOtpBtn'),
+        sendOtpText: $('sendOtpText'),
+        verifyOtpBtn: $('verifyOtpBtn'),
+        verifyOtpText: $('verifyOtpText'),
+        resetPasswordBtn: $('resetPasswordBtn'),
+        resetPasswordText: $('resetPasswordText'),
+        modalError: $('modalError'),
+        otpError: $('otpError'),
+        resetError: $('resetError'),
+        otpInputs: document.querySelectorAll('.otp-input'),
+        otpEmailDisplay: $('otpEmailDisplay'),
+        timerCount: $('timerCount'),
+        timerText: $('timerText'),
+        resendOtpBtn: $('resendOtpBtn'),
+        newPassword: $('newPassword'),
+        confirmNewPassword: $('confirmNewPassword'),
+        toggleNewPassword: $('toggleNewPassword'),
+        toggleConfirmNewPassword: $('toggleConfirmNewPassword'),
+        resetStrength: $('resetStrength'),
+        resetStrengthFill: $('resetStrengthFill'),
+        resetStrengthText: $('resetStrengthText'),
+        modalTitle: $('modalTitle'),
+        modalSubtitle: $('modalSubtitle'),
+
+        // Inline USER MFA
+        mfaModal: $('mfaModal'),
+        closeMfaModalBtn: $('closeMfaModalBtn'),
+        mfaTotpStep: $('mfaTotpStep'),
+        mfaBackupStep: $('mfaBackupStep'),
+        mfaInputs: document.querySelectorAll('.mfa-otp-input'),
+        mfaBackupCode: $('mfaBackupCode'),
+        mfaError: $('mfaError'),
+        mfaSuccess: $('mfaSuccess'),
+        mfaBackupError: $('mfaBackupError'),
+        verifyMfaBtn: $('verifyMfaBtn'),
+        verifyMfaText: $('verifyMfaText'),
+        verifyMfaBackupBtn: $('verifyMfaBackupBtn'),
+        verifyMfaBackupText: $('verifyMfaBackupText'),
+        useBackupCodeBtn: $('useBackupCodeBtn'),
+        useAuthenticatorBtn: $('useAuthenticatorBtn')
+    };
+
+    let resetToken = null;
+    let emailForReset = '';
+    let timerInterval = null;
+    let otpTimer = 60;
+
+    // Inline USER MFA state. This is deliberately separate from admin authentication.
+    let mfaChallenge = null;
+    let mfaEmail = '';
+    let mfaSubmitting = false;
+    let mfaRememberMe = false;
+
+    // ============================================================
+    // HELPERS
+    // ============================================================
+    function isElement(el) { return el !== null && el !== undefined; }
+    function escapeHtml(value) {
+        const div = document.createElement('div');
+        div.textContent = String(value ?? '');
+        return div.innerHTML;
+    }
+    function normalizeEmail(email) { return String(email || '').trim().toLowerCase(); }
+    function validateEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || '').trim()); }
+
+    // ============================================================
+    // AUTH STORAGE — write to every known key so any page finds it
+    // ============================================================
+    function saveAuthentication(data) {
+        if (!data || !data.access_token) {
+            throw new Error('Authentication response did not contain an access token.');
+        }
+        const t = data.access_token;
+        const r = data.refresh_token || '';
+        const u = data.user ? JSON.stringify(data.user) : '';
+        const org = data.organization ? JSON.stringify(data.organization) : '';
+
+        // Canonical keys
+        localStorage.setItem('synapse_token', t);
+        if (r) localStorage.setItem('synapse_refresh', r);
+        if (u) localStorage.setItem('synapse_user', u);
+        if (org) localStorage.setItem('synapse_tenant', org);
+
+        // Legacy mirror keys
+        localStorage.setItem('token', t);
+        localStorage.setItem('auth_token', t);
+        localStorage.setItem('access_token', t);
+        if (r) localStorage.setItem('refresh_token', r);
+        if (u) localStorage.setItem('user', u);
+        if (org) localStorage.setItem('organization', org);
+
+        // Admin mirror
+        try {
+            const role = data.user && data.user.role;
+            if (role && ['super_admin', 'org_admin', 'admin'].includes(role)) {
+                localStorage.setItem('synapse_admin_token', t);
+                if (u) localStorage.setItem('synapse_admin_user', u);
+            } else {
+                localStorage.removeItem('synapse_admin_token');
+                localStorage.removeItem('synapse_admin_user');
+            }
+        } catch (e) {}
+
+        try {
+            sessionStorage.setItem('synapse_token', t);
+            if (u) sessionStorage.setItem('synapse_user', u);
+        } catch (e) {}
+    }
+
+    function clearAuthentication() {
+        STORAGE_KEYS.forEach(k => {
+            try { localStorage.removeItem(k); } catch (e) {}
+            try { sessionStorage.removeItem(k); } catch (e) {}
+        });
+    }
+
+    function getAccessToken() {
+        return localStorage.getItem('synapse_token')
+            || localStorage.getItem('token')
+            || localStorage.getItem('auth_token')
+            || localStorage.getItem('access_token')
+            || null;
+    }
+
+    function isTokenValid(token) {
+        if (!token || typeof token !== 'string') return false;
+        try {
+            const parts = token.split('.');
+            if (parts.length !== 3) return false;
+            const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+            const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+            const payload = JSON.parse(atob(padded));
+            if (!payload || typeof payload.exp !== 'number') return false;
+            const now = Math.floor(Date.now() / 1000);
+            return payload.exp > now + 30;
+        } catch (e) { return false; }
+    }
+
+    // ============================================================
+    // ALERTS
+    // ============================================================
+    function hideAlerts() {
+        [elements.errorAlert, elements.successAlert, elements.modalError,
+         elements.otpError, elements.resetError].forEach(el => {
+            if (!isElement(el)) return;
+            el.style.display = 'none';
+            el.classList.remove('show');
+            el.textContent = '';
+        });
+    }
+
+    function showError(message, target = elements.errorAlert) {
+        if (!isElement(target)) return;
+        target.textContent = String(message || 'Something went wrong.');
+        target.style.display = 'flex';
+        target.classList.add('show');
+    }
+
+    function showSuccess(message) {
+        if (!isElement(elements.successAlert)) return;
+        elements.successAlert.textContent = String(message || '');
+        elements.successAlert.style.display = 'flex';
+        elements.successAlert.classList.add('show');
+    }
+
+    // ============================================================
+    // API REQUEST
+    // ============================================================
+    async function apiRequest(url, options = {}) {
+        const defaultHeaders = { 'Accept': 'application/json' };
+        if (options.body && !(options.headers && options.headers['Content-Type'])) {
+            defaultHeaders['Content-Type'] = 'application/json';
+        }
+
+        const response = await fetch(url, {
+            ...options,
+            headers: { ...defaultHeaders, ...(options.headers || {}) },
+            credentials: 'same-origin'
+        });
+
+        const contentType = response.headers.get('content-type') || '';
+        let data = null;
+        let rawText = '';
+
+        try {
+            if (contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                rawText = await response.text();
+                try { data = JSON.parse(rawText); } catch (e) { data = null; }
+            }
+        } catch (parseError) {
+            console.error('Response parsing error:', parseError);
+            data = null;
+        }
+
+        if (!response.ok) {
+            let message = 'Request failed. Please try again.';
+            if (data) {
+                message = data.error || data.message || data.detail || message;
+            } else if (response.status === 401) {
+                message = 'Invalid email or password.';
+            } else if (response.status === 403) {
+                message = 'You are not authorized to perform this action.';
+            } else if (response.status === 404) {
+                message = 'Requested authentication endpoint was not found.';
+            } else if (response.status === 409) {
+                message = 'This account already exists.';
+            } else if (response.status === 429) {
+                message = 'Too many attempts. Please wait and try again.';
+            } else if (response.status >= 500) {
+                message = 'Server error. Please try again later.';
+            }
+            const error = new Error(message);
+            error.status = response.status;
+            error.data = data;
+            error.rawText = rawText;
+            throw error;
+        }
+
+        return { response, data };
+    }
+
+    // ============================================================
+    // PASSWORD VISIBILITY TOGGLES
+    // ============================================================
+    function setupPasswordToggle(button, input) {
+        if (!button || !input) return;
+        button.addEventListener('click', event => {
+            event.preventDefault();
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            const icon = button.querySelector('.material-symbols-outlined');
+            if (icon) icon.textContent = isPassword ? 'visibility' : 'visibility_off';
+        });
+    }
+
+    setupPasswordToggle(elements.togglePassword, elements.password);
+    setupPasswordToggle(elements.toggleNewPassword, elements.newPassword);
+    setupPasswordToggle(elements.toggleConfirmNewPassword, elements.confirmNewPassword);
+
+    // ============================================================
+    // EMAIL VALIDATION
+    // ============================================================
+    if (elements.email) {
+        elements.email.addEventListener('input', () => {
+            const value = elements.email.value.trim();
+            if (!value) {
+                elements.email.classList.remove('error', 'success');
+                elements.emailError.classList.remove('show');
+                return;
+            }
+            if (validateEmail(value)) {
+                elements.email.classList.remove('error');
+                elements.email.classList.add('success');
+                elements.emailError.classList.remove('show');
+            } else {
+                elements.email.classList.remove('success');
+                elements.email.classList.add('error');
+                elements.emailError.textContent = 'Please enter a valid email address.';
+                elements.emailError.classList.add('show');
+            }
+        });
+    }
+
+    if (elements.password) {
+        elements.password.addEventListener('input', () => {
+            if (elements.password.value) {
+                elements.password.classList.remove('error');
+                elements.passwordError.classList.remove('show');
+            }
+        });
+    }
+
+    // ============================================================
+    // BUTTON LOADING STATE
+    // ============================================================
+    function setButtonLoading(button, textElement, text) {
+        if (!button || !textElement) return;
+        button.disabled = true;
+        textElement.innerHTML = `<span class="loading-spinner"></span>${escapeHtml(text)}`;
+    }
+
+    function resetButton(button, textElement, text) {
+        if (!button || !textElement) return;
+        button.disabled = false;
+        textElement.textContent = text;
+    }
+
+    // ============================================================
+    // OTP INPUTS
+    // ============================================================
+    function getOTP() {
+        return Array.from(elements.otpInputs).map(input => input.value).join('');
+    }
+
+    function clearOTP() {
+        elements.otpInputs.forEach(input => {
+            input.value = '';
+            input.classList.remove('filled');
+        });
+        if (elements.otpInputs.length > 0) elements.otpInputs[0].focus();
+    }
+
+    elements.otpInputs.forEach((input, index) => {
+        input.addEventListener('input', event => {
+            let value = event.target.value.replace(/\D/g, '').slice(0, 1);
+            event.target.value = value;
+            if (value) {
+                event.target.classList.add('filled');
+                if (index < elements.otpInputs.length - 1) elements.otpInputs[index + 1].focus();
+            } else {
+                event.target.classList.remove('filled');
+            }
+        });
+        input.addEventListener('keydown', event => {
+            if (event.key === 'Backspace' && !input.value && index > 0) {
+                elements.otpInputs[index - 1].value = '';
+                elements.otpInputs[index - 1].classList.remove('filled');
+                elements.otpInputs[index - 1].focus();
+            }
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (elements.verifyOtpBtn) elements.verifyOtpBtn.click();
+            }
+        });
+        input.addEventListener('paste', event => {
+            event.preventDefault();
+            const clipboard = event.clipboardData || window.clipboardData;
+            const text = clipboard ? clipboard.getData('text') : '';
+            const digits = text.replace(/\D/g, '').slice(0, 6);
+            elements.otpInputs.forEach((otpInput, otpIndex) => {
+                otpInput.value = digits[otpIndex] || '';
+                otpInput.classList.toggle('filled', Boolean(digits[otpIndex]));
+            });
+            if (digits.length) {
+                const focusIndex = Math.min(digits.length, elements.otpInputs.length - 1);
+                elements.otpInputs[focusIndex].focus();
+            }
+        });
+    });
+
+    // ============================================================
+    // PASSWORD STRENGTH (reset modal)
+    // ============================================================
+    if (elements.newPassword) {
+        elements.newPassword.addEventListener('input', () => {
+            const password = elements.newPassword.value;
+            if (!password) {
+                elements.resetStrength.style.display = 'none';
+                return;
+            }
+            elements.resetStrength.style.display = 'block';
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (password.length >= 12) score++;
+            if (/[a-z]/.test(password)) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^a-zA-Z0-9]/.test(password)) score++;
+            elements.resetStrengthFill.className = 'strength-fill';
+            if (score <= 2) {
+                elements.resetStrengthFill.classList.add('strength-weak');
+                elements.resetStrengthText.textContent = 'Weak password';
+                elements.resetStrengthText.style.color = '#ef4444';
+            } else if (score <= 4) {
+                elements.resetStrengthFill.classList.add('strength-medium');
+                elements.resetStrengthText.textContent = 'Medium password';
+                elements.resetStrengthText.style.color = '#f59e0b';
+            } else {
+                elements.resetStrengthFill.classList.add('strength-strong');
+                elements.resetStrengthText.textContent = 'Strong password';
+                elements.resetStrengthText.style.color = '#10b981';
+            }
+        });
+    }
+
+    // ============================================================
+    // TIMER
+    // ============================================================
+    function startTimer(seconds = 60) {
+        if (!elements.timerCount || !elements.resendOtpBtn || !elements.timerText) return;
+        if (timerInterval) clearInterval(timerInterval);
+        otpTimer = seconds;
+        elements.timerCount.textContent = String(otpTimer);
+        elements.resendOtpBtn.disabled = true;
+        elements.timerText.style.display = 'inline';
+        timerInterval = setInterval(() => {
+            otpTimer--;
+            elements.timerCount.textContent = String(Math.max(otpTimer, 0));
+            if (otpTimer <= 0) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                elements.resendOtpBtn.disabled = false;
+                elements.timerText.style.display = 'none';
+            }
+        }, 1000);
+    }
+
+    // ============================================================
+    // MODAL
+    // ============================================================
+    function showModalStep(step) {
+        [elements.step1, elements.step2, elements.step3].forEach(el => {
+            if (el) el.classList.remove('active');
+        });
+        if (step === 1 && elements.step1) elements.step1.classList.add('active');
+        if (step === 2 && elements.step2) elements.step2.classList.add('active');
+        if (step === 3 && elements.step3) elements.step3.classList.add('active');
+    }
+
+    function resetModal() {
+        showModalStep(1);
+        if (elements.resetEmail) elements.resetEmail.value = '';
+        clearOTP();
+        if (elements.newPassword) elements.newPassword.value = '';
+        if (elements.confirmNewPassword) elements.confirmNewPassword.value = '';
+        resetToken = null;
+        emailForReset = '';
+        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+        if (elements.resendOtpBtn) elements.resendOtpBtn.disabled = true;
+        if (elements.timerText) elements.timerText.style.display = 'inline';
+        if (elements.timerCount) elements.timerCount.textContent = '60';
+        [elements.modalError, elements.otpError, elements.resetError].forEach(el => {
+            if (!el) return;
+            el.style.display = 'none';
+            el.textContent = '';
+        });
+        if (elements.resetStrength) elements.resetStrength.style.display = 'none';
+        if (elements.modalTitle) elements.modalTitle.textContent = 'Reset Password';
+        if (elements.modalSubtitle) elements.modalSubtitle.textContent = 'Enter your email to receive a one-time code';
+        resetButton(elements.sendOtpBtn, elements.sendOtpText, 'Send code');
+        resetButton(elements.verifyOtpBtn, elements.verifyOtpText, 'Verify code');
+        resetButton(elements.resetPasswordBtn, elements.resetPasswordText, 'Reset password');
+    }
+
+    if (elements.forgotPasswordBtn) {
+        elements.forgotPasswordBtn.addEventListener('click', () => {
+            resetModal();
+            if (elements.modal) {
+                elements.modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            setTimeout(() => {
+                if (elements.resetEmail) elements.resetEmail.focus();
+            }, 300);
+        });
+    }
+
+    function closeModal() {
+        if (elements.modal) {
+            elements.modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        resetModal();
+    }
+
+    if (elements.closeModalBtn) {
+        elements.closeModalBtn.addEventListener('click', closeModal);
+    }
+    if (elements.modal) {
+        elements.modal.addEventListener('click', event => {
+            if (event.target === elements.modal) closeModal();
+        });
+    }
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && elements.modal && elements.modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    // ============================================================
+    // SEND OTP
+    // ============================================================
+    if (elements.sendOtpBtn) {
+        elements.sendOtpBtn.addEventListener('click', async () => {
+            const email = normalizeEmail(elements.resetEmail.value);
+            if (!email) {
+                showError('Please enter your email address.', elements.modalError);
+                return;
+            }
+            if (!validateEmail(email)) {
+                showError('Please enter a valid email address.', elements.modalError);
+                return;
+            }
+
+            setButtonLoading(elements.sendOtpBtn, elements.sendOtpText, 'Sending...');
+
+            try {
+                const { data } = await apiRequest(`${API_BASE}/forgot-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                if (!data || data.success !== true) {
+                    throw new Error((data && (data.error || data.message)) || 'Unable to send code.');
+                }
+
+                emailForReset = email;
+                if (elements.otpEmailDisplay) elements.otpEmailDisplay.textContent = email;
+
+                showModalStep(2);
+                clearOTP();
+                startTimer(60);
+
+                setTimeout(() => {
+                    if (elements.otpInputs[0]) elements.otpInputs[0].focus();
+                }, 200);
+
+            } catch (error) {
+                console.error('❌ Send OTP error:', error);
+                showError(error.message || 'Unable to send code.', elements.modalError);
+                resetButton(elements.sendOtpBtn, elements.sendOtpText, 'Send code');
+            }
+        });
+    }
+
+    // ============================================================
+    // RESEND OTP
+    // ============================================================
+    if (elements.resendOtpBtn) {
+        elements.resendOtpBtn.addEventListener('click', async () => {
+            if (!emailForReset) return;
+            elements.resendOtpBtn.disabled = true;
+            try {
+                const { data } = await apiRequest(`${API_BASE}/forgot-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: emailForReset })
+                });
+                if (!data || data.success !== true) {
+                    throw new Error((data && (data.error || data.message)) || 'Unable to resend code.');
+                }
+                clearOTP();
+                startTimer(60);
+            } catch (error) {
+                console.error('❌ Resend OTP error:', error);
+                showError(error.message || 'Unable to resend code.', elements.otpError);
+                elements.resendOtpBtn.disabled = false;
+            }
+        });
+    }
+
+    // ============================================================
+    // VERIFY OTP
+    // ============================================================
+    if (elements.verifyOtpBtn) {
+        elements.verifyOtpBtn.addEventListener('click', async () => {
+            const otp = getOTP();
+            if (!emailForReset) {
+                showError('Reset session expired. Please request a new code.', elements.otpError);
+                return;
+            }
+            if (!/^\d{6}$/.test(otp)) {
+                showError('Please enter the 6-digit code.', elements.otpError);
+                return;
+            }
+
+            setButtonLoading(elements.verifyOtpBtn, elements.verifyOtpText, 'Verifying...');
+
+            try {
+                const { data } = await apiRequest(`${API_BASE}/verify-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: emailForReset, otp })
+                });
+
+                if (!data || data.success !== true) {
+                    throw new Error((data && (data.error || data.message)) || 'Invalid or expired code.');
+                }
+
+                resetToken = data.reset_token || data.token;
+                if (!resetToken) {
+                    throw new Error('Code verified, but the server did not return a password reset token.');
+                }
+
+                showModalStep(3);
+                if (elements.modalTitle) elements.modalTitle.textContent = 'Create New Password';
+                if (elements.modalSubtitle) elements.modalSubtitle.textContent = 'Enter your new password';
+                if (elements.newPassword) {
+                    setTimeout(() => elements.newPassword.focus(), 200);
+                }
+            } catch (error) {
+                console.error('❌ Verify OTP error:', error);
+                showError(error.message || 'Invalid or expired code.', elements.otpError);
+            } finally {
+                resetButton(elements.verifyOtpBtn, elements.verifyOtpText, 'Verify code');
+            }
+        });
+    }
+
+    // ============================================================
+    // RESET PASSWORD
+    // ============================================================
+    if (elements.resetPasswordBtn) {
+        elements.resetPasswordBtn.addEventListener('click', async () => {
+            const password = elements.newPassword.value;
+            const confirm = elements.confirmNewPassword.value;
+
+            if (!resetToken) {
+                showError('Password reset session expired. Please start again.', elements.resetError);
+                return;
+            }
+            if (!password || password.length < 8) {
+                showError('Password must be at least 8 characters.', elements.resetError);
+                return;
+            }
+            if (password !== confirm) {
+                showError('Passwords do not match.', elements.resetError);
+                return;
+            }
+
+            setButtonLoading(elements.resetPasswordBtn, elements.resetPasswordText, 'Resetting...');
+
+            try {
+                const { data } = await apiRequest(`${API_BASE}/reset-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: resetToken, password })
+                });
+
+                if (!data || data.success !== true) {
+                    throw new Error((data && (data.error || data.message)) || 'Unable to reset password.');
+                }
+
+                closeModal();
+                showSuccess('Password reset successfully. You can now sign in.');
+
+            } catch (error) {
+                console.error('❌ Reset password error:', error);
+                showError(error.message || 'Unable to reset password.', elements.resetError);
+            } finally {
+                resetButton(elements.resetPasswordBtn, elements.resetPasswordText, 'Reset password');
+            }
+        });
+    }
+
+
+    // ============================================================
+    // INLINE USER MFA
+    // ============================================================
+    function clearMfaFields() {
+        if (elements.mfaInputs) {
+            elements.mfaInputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('filled', 'error');
+            });
+        }
+        if (elements.mfaBackupCode) elements.mfaBackupCode.value = '';
+    }
+
+    function getMfaTotpCode() {
+        return Array.from(elements.mfaInputs || []).map(input => input.value).join('');
+    }
+
+    function clearMfaAlerts() {
+        [elements.mfaError, elements.mfaSuccess, elements.mfaBackupError].forEach(el => {
+            if (!el) return;
+            el.style.display = 'none';
+            el.classList.remove('show');
+            el.textContent = '';
+        });
+    }
+
+    function showMfaError(message, target = elements.mfaError) {
+        if (!target) return;
+        target.textContent = String(message || 'Verification failed.');
+        target.style.display = 'flex';
+        target.classList.add('show');
+    }
+
+    function showMfaSuccess(message) {
+        if (!elements.mfaSuccess) return;
+        elements.mfaSuccess.textContent = String(message || '');
+        elements.mfaSuccess.style.display = 'flex';
+        elements.mfaSuccess.classList.add('show');
+    }
+
+    function showMfaStep(step) {
+        if (elements.mfaTotpStep) elements.mfaTotpStep.classList.toggle('active', step === 'totp');
+        if (elements.mfaBackupStep) elements.mfaBackupStep.classList.toggle('active', step === 'backup');
+        clearMfaAlerts();
+
+        if (step === 'totp') {
+            clearMfaFields();
+            setTimeout(() => {
+                if (elements.mfaInputs && elements.mfaInputs[0]) elements.mfaInputs[0].focus();
+            }, 80);
+        } else if (elements.mfaBackupCode) {
+            elements.mfaBackupCode.value = '';
+            setTimeout(() => elements.mfaBackupCode.focus(), 80);
+        }
+    }
+
+    function openMfaModal(challenge, email, rememberMe = false) {
+        mfaChallenge = String(challenge || '');
+        mfaEmail = normalizeEmail(email || '');
+        mfaRememberMe = !!rememberMe;
+
+        if (!mfaChallenge) {
+            showError('The MFA challenge was not returned by the server. Please sign in again.');
+            return false;
+        }
+
+        try {
+            sessionStorage.setItem('mfa_challenge', mfaChallenge);
+            sessionStorage.setItem('mfa_token', mfaChallenge);
+            sessionStorage.setItem('mfa_email', mfaEmail);
+            sessionStorage.setItem('mfa_portal', 'user');
+            sessionStorage.setItem('mfa_remember_me', mfaRememberMe ? 'true' : 'false');
+        } catch (e) {}
+
+        showMfaStep('totp');
+        if (elements.mfaModal) {
+            elements.mfaModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        return true;
+    }
+
+    function closeMfaModal(clearChallenge = true) {
+        if (elements.mfaModal) elements.mfaModal.classList.remove('active');
+        document.body.style.overflow = '';
+        mfaSubmitting = false;
+        clearMfaFields();
+        clearMfaAlerts();
+        resetButton(elements.verifyMfaBtn, elements.verifyMfaText, 'Verify and continue');
+        resetButton(elements.verifyMfaBackupBtn, elements.verifyMfaBackupText, 'Verify backup code');
+
+        if (clearChallenge) {
+            mfaChallenge = null;
+            mfaEmail = '';
+            mfaRememberMe = false;
+            try {
+                sessionStorage.removeItem('mfa_challenge');
+                sessionStorage.removeItem('mfa_token');
+                sessionStorage.removeItem('mfa_email');
+                sessionStorage.removeItem('mfa_portal');
+                sessionStorage.removeItem('mfa_remember_me');
+            } catch (e) {}
+        }
+    }
+
+    async function verifyInlineMfa(code, source = 'totp') {
+        if (mfaSubmitting) return;
+
+        const challenge = mfaChallenge
+            || sessionStorage.getItem('mfa_challenge')
+            || sessionStorage.getItem('mfa_token')
+            || '';
+
+        if (!challenge) {
+            showMfaError('Your MFA challenge has expired. Please sign in again.');
+            return;
+        }
+
+        const clean = String(code || '').trim().replace(/\s+/g, '');
+        if (source === 'totp' && !/^\d{6}$/.test(clean)) {
+            showMfaError('Please enter the 6-digit authenticator code.');
+            return;
+        }
+        if (source === 'backup' && clean.length < 4) {
+            showMfaError('Please enter your backup code.', elements.mfaBackupError);
+            return;
+        }
+
+        mfaSubmitting = true;
+        clearMfaAlerts();
+
+        const button = source === 'backup' ? elements.verifyMfaBackupBtn : elements.verifyMfaBtn;
+        const textElement = source === 'backup' ? elements.verifyMfaBackupText : elements.verifyMfaText;
+        setButtonLoading(button, textElement, 'Verifying...');
+
+        try {
+            const { data } = await apiRequest(`${API_BASE}/verify-mfa`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    challenge_token: challenge,
+                    mfa_token: challenge,
+                    code: clean,
+                    portal: 'user',
+                    remember_me: mfaRememberMe,
+                    email: mfaEmail
+                })
+            });
+
+            if (!data || data.success !== true || !data.access_token) {
+                throw new Error((data && (data.error || data.message)) || 'MFA verification failed.');
+            }
+
+            saveAuthentication(data);
+            try { sessionStorage.setItem('justLoggedIn', 'true'); } catch (e) {}
+
+            showMfaSuccess('Verification successful. Redirecting...');
+            setTimeout(() => {
+                closeMfaModal(true);
+                window.location.replace(data.redirect || 'dashboard.html');
+            }, 450);
+        } catch (error) {
+            console.error('❌ MFA verification error:', error);
+            let message = error.message || 'MFA verification failed. Please try again.';
+            if (error.status === 401) message = 'Invalid or expired MFA code. Please try again.';
+            if (error.status === 403) message = (error.data && error.data.error) || 'This account cannot complete user authentication.';
+            if (error.status === 429) message = 'Too many MFA attempts. Please wait and try again.';
+            showMfaError(message, source === 'backup' ? elements.mfaBackupError : elements.mfaError);
+            resetButton(button, textElement, source === 'backup' ? 'Verify backup code' : 'Verify and continue');
+        } finally {
+            mfaSubmitting = false;
+        }
+    }
+
+    // MFA digit behavior: numeric input, paste support, automatic focus movement.
+    if (elements.mfaInputs && elements.mfaInputs.length) {
+        elements.mfaInputs.forEach((input, index) => {
+            input.addEventListener('input', event => {
+                const digits = String(event.target.value || '').replace(/\D/g, '');
+                if (digits.length > 1) {
+                    const chars = digits.slice(0, elements.mfaInputs.length).split('');
+                    chars.forEach((char, offset) => {
+                        const target = elements.mfaInputs[index + offset];
+                        if (target) {
+                            target.value = char;
+                            target.classList.add('filled');
+                        }
+                    });
+                    const next = elements.mfaInputs[Math.min(index + chars.length, elements.mfaInputs.length - 1)];
+                    if (next) next.focus();
+                } else {
+                    event.target.value = digits.slice(0, 1);
+                    event.target.classList.toggle('filled', !!event.target.value);
+                    event.target.classList.remove('error');
+                    if (event.target.value && index < elements.mfaInputs.length - 1) {
+                        elements.mfaInputs[index + 1].focus();
+                    }
+                }
+
+                if (getMfaTotpCode().length === 6 && /^\d{6}$/.test(getMfaTotpCode())) {
+                    // Do not submit twice; clicking/Enter remains available if the user prefers.
+                    setTimeout(() => {
+                        if (!mfaSubmitting && elements.verifyMfaBtn && !elements.verifyMfaBtn.disabled) {
+                            elements.verifyMfaBtn.click();
+                        }
+                    }, 100);
+                }
+            });
+
+            input.addEventListener('keydown', event => {
+                if (event.key === 'Backspace' && !input.value && index > 0) {
+                    elements.mfaInputs[index - 1].value = '';
+                    elements.mfaInputs[index - 1].classList.remove('filled');
+                    elements.mfaInputs[index - 1].focus();
+                }
+                if (event.key === 'ArrowLeft' && index > 0) elements.mfaInputs[index - 1].focus();
+                if (event.key === 'ArrowRight' && index < elements.mfaInputs.length - 1) elements.mfaInputs[index + 1].focus();
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    if (elements.verifyMfaBtn) elements.verifyMfaBtn.click();
+                }
+            });
+
+            input.addEventListener('paste', event => {
+                event.preventDefault();
+                const pasted = (event.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+                if (!pasted) return;
+                pasted.split('').forEach((char, offset) => {
+                    if (elements.mfaInputs[offset]) {
+                        elements.mfaInputs[offset].value = char;
+                        elements.mfaInputs[offset].classList.add('filled');
+                    }
+                });
+                const last = elements.mfaInputs[Math.min(pasted.length - 1, elements.mfaInputs.length - 1)];
+                if (last) last.focus();
+                if (pasted.length === 6 && elements.verifyMfaBtn) {
+                    setTimeout(() => elements.verifyMfaBtn.click(), 100);
+                }
+            });
+        });
+    }
+
+    if (elements.verifyMfaBtn) {
+        elements.verifyMfaBtn.addEventListener('click', () => verifyInlineMfa(getMfaTotpCode(), 'totp'));
+    }
+    if (elements.verifyMfaBackupBtn) {
+        elements.verifyMfaBackupBtn.addEventListener('click', () => verifyInlineMfa(elements.mfaBackupCode?.value || '', 'backup'));
+    }
+    if (elements.mfaBackupCode) {
+        elements.mfaBackupCode.addEventListener('keydown', event => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (elements.verifyMfaBackupBtn) elements.verifyMfaBackupBtn.click();
+            }
+        });
+        elements.mfaBackupCode.addEventListener('input', () => {
+            elements.mfaBackupCode.value = elements.mfaBackupCode.value.replace(/\s+/g, '').toUpperCase();
+        });
+    }
+    if (elements.useBackupCodeBtn) {
+        elements.useBackupCodeBtn.addEventListener('click', () => showMfaStep('backup'));
+    }
+    if (elements.useAuthenticatorBtn) {
+        elements.useAuthenticatorBtn.addEventListener('click', () => showMfaStep('totp'));
+    }
+    if (elements.closeMfaModalBtn) {
+        elements.closeMfaModalBtn.addEventListener('click', () => closeMfaModal(true));
+    }
+    if (elements.mfaModal) {
+        elements.mfaModal.addEventListener('click', event => {
+            if (event.target === elements.mfaModal) closeMfaModal(true);
+        });
+    }
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && elements.mfaModal?.classList.contains('active')) {
+            closeMfaModal(true);
+        }
+    });
+
+    // If the page is refreshed while an MFA challenge is pending, restore the inline dialog.
+    try {
+        const pendingChallenge = sessionStorage.getItem('mfa_challenge') || sessionStorage.getItem('mfa_token');
+        const pendingEmail = sessionStorage.getItem('mfa_email') || '';
+        const pendingPortal = sessionStorage.getItem('mfa_portal') || 'user';
+        if (pendingChallenge && pendingPortal === 'user') {
+            openMfaModal(
+                pendingChallenge,
+                pendingEmail,
+                sessionStorage.getItem('mfa_remember_me') === 'true'
+            );
+        }
+    } catch (e) {}
+
+    // ============================================================
+    // LOGIN SUBMISSION
+    // ============================================================
+    if (elements.loginForm) {
+        elements.loginForm.addEventListener('submit', async event => {
+            event.preventDefault();
+            hideAlerts();
+
+            const email = normalizeEmail(elements.email.value);
+            const password = elements.password.value;
+            const remember = elements.rememberMe ? elements.rememberMe.checked : false;
+
+            if (!email) {
+                elements.email.classList.add('error');
+                elements.emailError.textContent = 'Email is required.';
+                elements.emailError.classList.add('show');
+                elements.email.focus();
+                return;
+            }
+            if (!validateEmail(email)) {
+                elements.email.classList.add('error');
+                elements.emailError.textContent = 'Please enter a valid email address.';
+                elements.emailError.classList.add('show');
+                elements.email.focus();
+                return;
+            }
+            if (!password) {
+                elements.password.classList.add('error');
+                elements.passwordError.textContent = 'Password is required.';
+                elements.passwordError.classList.add('show');
+                elements.password.focus();
+                return;
+            }
+
+            setButtonLoading(elements.loginBtn, elements.btnText, 'Signing in...');
+
+            try {
+                const { data } = await apiRequest(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password, remember_me: remember, portal: 'user' })
+                });
+
+                if (!data || data.success !== true) {
+                    throw new Error((data && (data.error || data.message)) || 'Login failed.');
+                }
+
+                // IMPORTANT: the MFA challenge is intentionally handled BEFORE requiring
+                // access_token. The login endpoint returns a signed challenge token, not
+                // an access token, while MFA is still pending.
+                if (data.mfa_required) {
+                    const challenge = data.challenge_token || data.mfa_token;
+                    if (!challenge) {
+                        throw new Error('The server requested MFA but did not return a challenge.');
+                    }
+
+                    mfaEmail = email;
+                    mfaRememberMe = remember;
+                    openMfaModal(challenge, email, remember);
+                    resetButton(elements.loginBtn, elements.btnText, 'Sign In');
+                    return;
+                }
+
+                if (!data.access_token) {
+                    throw new Error((data && (data.error || data.message)) || 'Login failed.');
+                }
+
+                saveAuthentication(data);
+                sessionStorage.setItem('justLoggedIn', 'true');
+
+                showSuccess('Login successful! Redirecting to dashboard...');
+
+                setTimeout(() => {
+                    window.location.replace(data.redirect || 'dashboard.html');
+                }, 700);
+
+            } catch (error) {
+                console.error('❌ Login error:', error);
+                let message = error.message || 'Login failed. Please try again.';
+
+                if (error.status === 401) {
+                    message = 'Invalid email or password.';
+                }
+                if (error.status === 403) {
+                    if (error.data && error.data.password_expired) {
+                        message = 'Your password has expired. Please reset your password.';
+                    } else if (error.data && error.data.requires_verification) {
+                        message = 'Please verify your email before signing in.';
+                    } else {
+                        message = (error.data && error.data.error) || 'Your account cannot currently sign in.';
+                    }
+                }
+                if (error.status === 429) {
+                    message = 'Too many login attempts. Please wait and try again.';
+                }
+
+                showError(message);
+                resetButton(elements.loginBtn, elements.btnText, 'Sign In');
+            }
+        });
+    }
+
+    // ============================================================
+    // OAUTH — start flow via backend
+    // ============================================================
+    async function startOAuth(provider) {
+        try {
+            const response = await fetch(`/api/v1/auth/${encodeURIComponent(provider)}`, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' },
+                credentials: 'same-origin'
+            });
+
+            let data = {};
+            try { data = await response.json(); } catch (e) {}
+
+            if (!response.ok || !data || !data.success || !data.redirect_url) {
+                throw new Error(
+                    (data && (data.error || data.message)) ||
+                    `Could not start ${provider} authentication. Make sure it is configured on the server.`
+                );
+            }
+
+            window.location.href = data.redirect_url;
+        } catch (err) {
+            console.error(`OAuth ${provider} error:`, err);
+            showError(err.message || `Could not start ${provider} login.`);
+            const btn = document.querySelector(`.social-btn[data-provider="${provider}"]`);
+            if (btn) {
+                btn.disabled = false;
+                if (btn.dataset.originalHtml) btn.innerHTML = btn.dataset.originalHtml;
+            }
+        }
+    }
+
+    document.querySelectorAll('.social-btn').forEach(button => {
+        button.dataset.originalHtml = button.innerHTML;
+        button.addEventListener('click', event => {
+            event.preventDefault();
+            const provider = button.dataset.provider;
+            if (!provider) {
+                showError('Authentication provider is not configured.');
+                return;
+            }
+            hideAlerts();
+            button.disabled = true;
+            button.innerHTML = '<span class="loading-spinner"></span> Redirecting...';
+            sessionStorage.setItem(STORAGE.OAUTH_PROVIDER, provider);
+            startOAuth(provider);
+        });
+    });
+
+    // ============================================================
+    // OAUTH CALLBACK — handle ?oauth_code= from auth-success.html
+    // ============================================================
+    async function handleOAuthCallback() {
+        const params = new URLSearchParams(window.location.search);
+        const oauthCode = params.get('oauth_code') || params.get('code');
+        const oauthError = params.get('error');
+
+        if (oauthError) {
+            sessionStorage.removeItem(STORAGE.OAUTH_PROVIDER);
+            showError(`OAuth authentication failed: ${oauthError}`);
+            return true;
+        }
+
+        if (params.has('oauth_code') && oauthCode) {
+            try {
+                const { data } = await apiRequest(`${API_BASE}/oauth/exchange`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: oauthCode })
+                });
+
+                if (data && data.access_token) {
+                    saveAuthentication(data);
+                    sessionStorage.setItem('justLoggedIn', 'true');
+                    showSuccess('Login successful! Redirecting...');
+                    setTimeout(() => {
+                        window.location.replace(data.redirect || 'dashboard.html');
+                    }, 700);
+                    return true;
+                }
+            } catch (e) {
+                console.error('OAuth exchange failed:', e);
+                showError('OAuth login failed: ' + (e.message || 'unknown error'));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ============================================================
+    // INITIAL AUTH CHECK
+    // ============================================================
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasOAuthCode = urlParams.has('oauth_code') || urlParams.has('error');
+
+    handleOAuthCallback().then(handled => {
+        if (handled) return;
+
+        // Never auto-redirect right after a real logout
+        if (sessionStorage.getItem('justLoggedOut') === 'true') {
+            sessionStorage.removeItem('justLoggedOut');
+            clearAuthentication();
+            console.log('ℹ️ Just logged out — staying on login page');
+            return;
+        }
+
+        if (!hasOAuthCode) {
+            const token = getAccessToken();
+            if (token && isTokenValid(token)) {
+                console.log('🔄 Valid token detected — redirecting to dashboard');
+                window.location.replace('dashboard.html');
+                return;
+            }
+            if (token && !isTokenValid(token)) {
+                console.log('🧹 Clearing invalid/expired token');
+                clearAuthentication();
+            }
+        }
+
+        console.log('✅ Login page ready');
+    });
+});
+</script>
+</body>
+</html>

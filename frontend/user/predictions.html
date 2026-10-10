@@ -1,0 +1,2170 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AI Predictions | SynapsePM - Predictive Maintenance</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+    <meta name="robots" content="noindex, nofollow">
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <style>
+        * { box-sizing: border-box; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+
+        .gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
+        .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+        .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+        .gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* ============================================================
+           SYNAPSEPM LOGO — same height in both sidebar states
+           ============================================================ */
+        .synapsepm-logo {
+            font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            font-size: 22px;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            vertical-align: middle;
+        }
+        .synapsepm-logo > span:not(.logo-icon),
+        .synapsepm-logo strong {
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
+            height: 32px;
+        }
+        .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+        .synapsepm-logo strong {
+            background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .synapsepm-logo .logo-icon {
+            width: 32px; height: 32px;
+            min-width: 32px; min-height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: transparent !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+        .synapsepm-logo .logo-icon img {
+            width: 32px; height: 32px;
+            object-fit: contain; display: block;
+        }
+
+        /* ============================================================
+           SIDEBAR — logo stays visible in both states
+           ============================================================ */
+        :root {
+            --sidebar-width: 264px;
+            --sidebar-collapsed-width: 84px;
+            --sidebar-border: #e2e8f0;
+            --sidebar-bg: #ffffff;
+            --sidebar-muted: #64748b;
+            --sidebar-primary: #0f2b3d;
+            --sidebar-accent: #00b4aa;
+            --sidebar-hover: #f1f5f9;
+        }
+        .sidebar {
+            width: var(--sidebar-width);
+            min-height: 100dvh; height: 100dvh;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            position: fixed; inset: 0 auto 0 0; z-index: 100;
+            display: flex; flex-direction: column; overflow: visible;
+            transition: width .28s cubic-bezier(.4,0,.2,1),
+                        transform .28s cubic-bezier(.4,0,.2,1);
+        }
+        .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+        .sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #fff; }
+        .sidebar-brand {
+            min-height: 76px; padding: 0 14px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 10px; overflow: hidden;
+        }
+        .sidebar-brand-inner {
+            display: flex; align-items: center; gap: 10px;
+            min-width: 0; transition: opacity .2s ease;
+        }
+        .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+        .sidebar.collapsed .synapsepm-logo strong { display: none !important; }
+        .sidebar.collapsed .sidebar-brand {
+            flex-direction: column; justify-content: center;
+            align-items: center; gap: 6px; padding: 10px 0; min-height: 76px;
+        }
+        .sidebar.collapsed .sidebar-brand-inner {
+            opacity: 1; pointer-events: auto; width: auto;
+            overflow: visible; justify-content: center; gap: 0;
+        }
+        .sidebar.collapsed .synapsepm-logo { justify-content: center; }
+        .sidebar.collapsed .synapsepm-logo .logo-icon {
+            display: inline-flex !important; opacity: 1 !important;
+            width: 32px !important; min-width: 32px !important;
+            height: 32px !important; min-height: 32px !important;
+        }
+        .sidebar.collapsed .synapsepm-logo .logo-icon img {
+            display: block !important; width: 32px !important;
+            height: 32px !important; object-fit: contain !important;
+        }
+        .sidebar-toggle {
+            width: 36px; height: 36px;
+            border: 1px solid #dbe4ec; border-radius: 10px;
+            background: #fff; color: #475569;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 2px 7px rgba(15,43,61,.06);
+            transition: background .2s, border-color .2s, color .2s, box-shadow .2s;
+            flex-shrink: 0; padding: 0;
+        }
+        .sidebar-toggle:hover {
+            background: #f8fafc; color: var(--sidebar-accent);
+            border-color: rgba(0,180,170,.45);
+            box-shadow: 0 5px 14px rgba(15,43,61,.10);
+        }
+        .sidebar-toggle svg {
+            width: 18px; height: 18px; stroke: currentColor;
+            transition: transform .3s cubic-bezier(.4,0,.2,1);
+        }
+        .sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
+        .sidebar-nav {
+            flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+            padding: 14px 10px; scrollbar-width: thin;
+            scrollbar-color: #dbe4ec transparent;
+        }
+        .sidebar-nav::-webkit-scrollbar { width: 4px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
+        .sidebar-group-label { padding: 7px 11px 6px; }
+        .sidebar-group { display: flex; flex-direction: column; gap: 3px; }
+        .sidebar-link {
+            min-height: 44px; display: flex; align-items: center; gap: 12px;
+            padding: 9px 11px; border-radius: 11px;
+            color: var(--sidebar-muted); font-weight: 500; font-size: .875rem;
+            line-height: 1.2; cursor: pointer; text-decoration: none;
+            position: relative; white-space: nowrap; overflow: visible;
+            transition: background .18s ease, color .18s ease;
+        }
+        .sidebar-link:hover { background: var(--sidebar-hover); color: var(--sidebar-primary); }
+        .sidebar-link.active { background: #00b4aa; color: #fff; box-shadow: 0 5px 14px rgba(0,180,170,.22); }
+        .sidebar-link .material-symbols-outlined {
+            width: 22px; min-width: 22px; font-size: 22px;
+            display: inline-flex; align-items: center; justify-content: center;
+            color: #64748b; transition: color .18s ease;
+        }
+        .sidebar-link.active .material-symbols-outlined,
+        .sidebar-link:hover .material-symbols-outlined { color: inherit; }
+        .sidebar-link .badge-count {
+            margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #f1f5f9; color: #64748b;
+            font-size: .65rem; border-radius: 999px; font-weight: 700;
+            transition: all .2s ease;
+        }
+        .sidebar-link.active .badge-count { background: rgba(255,255,255,.22); color: #fff; }
+        .sidebar-divider { margin: 14px 4px; border-top: 1px solid #edf2f7; }
+        .sidebar-text { transition: opacity .2s ease; }
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-label,
+        .sidebar.collapsed .badge-count {
+            opacity: 0; pointer-events: none;
+            width: 0; overflow: hidden; display: none !important;
+        }
+        .sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
+        .sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
+        .sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
+        .sidebar.collapsed .sidebar-link::after {
+            content: attr(data-tooltip);
+            position: absolute; left: calc(100% + 10px); top: 50%;
+            transform: translateY(-50%) translateX(-4px);
+            opacity: 0; pointer-events: none;
+            background: #0f2b3d; color: #fff;
+            padding: 7px 10px; border-radius: 8px;
+            font-size: 12px; font-weight: 600; white-space: nowrap;
+            box-shadow: 0 8px 20px rgba(15,43,61,.18);
+            transition: opacity .15s, transform .15s; z-index: 250;
+        }
+        .sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+        /* User area */
+        .sidebar-user-area { flex-shrink: 0; position: relative; padding: 10px; border-top: 1px solid var(--sidebar-border); background: #fff; }
+        .user-card {
+            min-height: 58px; display: flex; align-items: center; gap: 10px;
+            padding: 8px; background: #f8fafc;
+            border: 1px solid #eef2f7; border-radius: 12px;
+            transition: all .28s cubic-bezier(.4,0,.2,1);
+        }
+        .sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
+        .avatar-wrapper { flex-shrink: 0; position: relative; }
+        .user-card .avatar {
+            width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: .8rem; color: #fff;
+            background: linear-gradient(135deg, #00b4aa, #009688);
+            background-size: cover; background-position: center;
+            cursor: pointer; position: relative;
+            transition: box-shadow .2s ease;
+        }
+        .user-card .avatar:hover { box-shadow: 0 0 0 3px rgba(0,180,170,.15); }
+        .user-card .avatar-wrapper .status-dot {
+            position: absolute; bottom: 0; right: 0;
+            width: 11px; height: 11px; border-radius: 50%;
+            border: 2px solid #fff; background: #10b981;
+        }
+        .user-card .user-details { flex: 1; min-width: 0; transition: opacity .2s ease; }
+        .sidebar.collapsed .user-card .user-details { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
+        .user-card .user-details .name { font-weight: 600; font-size: .82rem; color: #0f2b3d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-card .user-details .email { font-size: .68rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+        .user-card .user-details .plan { font-size: .58rem; font-weight: 700; color: #00a79d; background: rgba(0,180,170,.08); padding: 1px 7px; border-radius: 999px; display: inline-block; margin-top: 2px; }
+
+        /* Profile menu */
+        .profile-menu{
+    position:absolute;
+    left:10px;
+    right:10px;
+    bottom:calc(100% + 10px);
+    padding:14px;
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    box-shadow:0 18px 45px rgba(15,23,42,.16);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(8px);
+    pointer-events:none;
+    transition:opacity .18s ease,transform .18s ease,visibility .18s ease;
+    z-index:300;
+    min-width: 276px;
+}
+
+/* When sidebar is collapsed, expand menu to the right so content stays readable */
+.sidebar.collapsed .profile-menu {
+    left: calc(100% + 10px);
+    right: auto;
+    bottom: 12px;
+    width: 300px;
+    min-width: 300px;
+    transform: translateY(0) translateX(-8px);
+}
+
+.sidebar.collapsed .profile-menu.open {
+    transform: translateY(0) translateX(0);
+}
+        .profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .profile-menu-header { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #edf2f7; }
+        .profile-menu-avatar { width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00b4aa, #009688); color: #fff; font-weight: 800; background-size: cover; background-position: center; }
+        .profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
+        .profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
+        .profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
+        .profile-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
+        .profile-detail-label { color: #94a3b8; }
+        .profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
+        .profile-menu-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7; }
+        .profile-action-btn {
+            width: 100%; min-height: 40px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            border: 1px solid #e2e8f0; border-radius: 10px; background: #fff;
+            color: #475569; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: all .18s ease; padding: 0 12px;
+            font-family: inherit;
+        }
+        .profile-action-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+        .profile-action-btn.danger { border-color: #fecaca; color: #dc2626; }
+        .profile-action-btn.danger:hover { background: #fef2f2; border-color: #fca5a5; }
+
+        /* Main layout */
+        #mainContent { margin-left: var(--sidebar-width); min-width: 0; transition: margin-left .28s cubic-bezier(.4,0,.2,1); }
+        body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-width); }
+        .sidebar-overlay { display: none; }
+        @media (max-width: 1023px) {
+            .sidebar { width: min(310px, 90vw); transform: translateX(-102%); box-shadow: none; }
+            .sidebar.mobile-open { transform: translateX(0); box-shadow: 18px 0 50px rgba(15,23,42,.18); }
+            .sidebar.collapsed { width: min(310px, 90vw); }
+            .sidebar-overlay {
+                position: fixed; inset: 0;
+                background: rgba(15,23,42,.42); backdrop-filter: blur(3px);
+                z-index: 90; display: block;
+                opacity: 0; visibility: hidden; pointer-events: none;
+                transition: opacity .25s ease, visibility .25s ease;
+            }
+            .sidebar-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+            #mainContent, body.sidebar-is-collapsed #mainContent { margin-left: 0; }
+            .sidebar.collapsed .sidebar-text,
+            .sidebar.collapsed .sidebar-label,
+            .sidebar.collapsed .badge-count { display: block !important; opacity: 1 !important; transform: none !important; width: auto !important; }
+            .sidebar.collapsed .sidebar-link { justify-content: flex-start; gap: 12px; padding: 9px 11px; }
+            .sidebar.collapsed .sidebar-link::after { display: none; }
+            .sidebar.collapsed .user-card .user-details { display: block !important; opacity: 1 !important; width: auto !important; }
+            .sidebar.collapsed .sidebar-brand-inner { opacity: 1 !important; pointer-events: auto !important; width: auto !important; }
+            .sidebar.collapsed .sidebar-brand { justify-content: space-between; flex-direction: row; padding: 0 14px; }
+            .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+            .sidebar.collapsed .synapsepm-logo strong { display: inline-flex !important; }
+            .sidebar.collapsed .sidebar-toggle svg { transform: none; }
+            @media (max-width: 1023px) {
+    /* ...existing rules... */
+
+    /* On mobile, always use the original left/right anchored layout
+       (mobile sidebar is full-width so no need to expand right) */
+    .sidebar.collapsed .profile-menu {
+        left: 10px;
+        right: 10px;
+        bottom: calc(100% + 10px);
+        width: auto;
+        min-width: 0;
+        transform: translateY(8px);
+    }
+    .sidebar.collapsed .profile-menu.open {
+        transform: translateY(0);
+    }
+}
+        }
+
+        /* ============================================================
+           FIXED: native <select> arrow overlapping text
+           ============================================================ */
+        .select-with-icon {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        .select-with-icon select {
+            width: 100%;
+            padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            background: #fff;
+            color: #0f172a;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: border-color .15s ease, box-shadow .15s ease;
+        }
+        .select-with-icon select:focus {
+            border-color: #00b4aa;
+            box-shadow: 0 0 0 3px rgba(0,180,170,.12);
+        }
+        .select-with-icon .select-arrow {
+            position: absolute;
+            top: 50%;
+            right: 0.55rem;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #94a3b8;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        /* Status pills */
+        .status-online { background: #10b98120; color: #10b981; border: 1px solid #10b98140; }
+        .status-warning { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
+        .status-critical { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+        .status-offline { background: #6b728020; color: #6b7280; border: 1px solid #6b728040; }
+
+        .progress-bar { background: #e2e8f0; border-radius: 9999px; overflow: hidden; height: 8px; }
+        .progress-fill { background: linear-gradient(90deg, #00b4aa, #009688); height: 100%; border-radius: 9999px; transition: width 0.8s ease; }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+        .modal.active { display: flex; animation: fadeIn .2s ease-out; }
+        .modal-content { background: #fff; border-radius: 1.5rem; max-width: 100%; width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
+
+        .toast {
+            position: fixed; bottom: 1.5rem; right: 1.5rem;
+            background: #fff; border-radius: .75rem;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,.1);
+            display: flex; align-items: center; gap: .75rem;
+            z-index: 1100; animation: slideInRight .3s ease-out;
+            border-left: 4px solid; max-width: 420px;
+        }
+        .toast.success { border-left-color: #10b981; }
+        .toast.error { border-left-color: #ef4444; }
+        .toast.warning { border-left-color: #f59e0b; }
+        .toast.info { border-left-color: #00b4aa; }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .table-responsive table { min-width: 600px; }
+
+        .machines-list { max-height: 380px; overflow-y: auto; }
+        .machines-list::-webkit-scrollbar { width: 4px; }
+        .machines-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+
+        .machine-item { transition: all .2s ease; cursor: pointer; }
+        .machine-item:hover { transform: translateX(4px); }
+        .machine-item.selected { border-color: #00b4aa !important; background: #00b4aa08 !important; }
+
+        .drop-zone {
+            border: 2px dashed #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            transition: all .3s;
+            cursor: pointer;
+            background: #f8fafc;
+        }
+        .drop-zone:hover { border-color: #00b4aa; background: #f0fdfa; }
+        .drop-zone.dragover { border-color: #00b4aa; background: #f0fdfa; }
+        .drop-zone .material-symbols-outlined { font-size: 2rem; color: #94a3b8; }
+        .drop-zone.uploading { opacity: .6; pointer-events: none; }
+
+        .loading-spinner {
+            display: inline-block; width: 1.25rem; height: 1.25rem;
+            border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+            border-radius: 50%; animation: spin .8s linear infinite;
+            margin-right: .5rem; vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .page-banner { border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.4; }
+        .page-banner.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+        .page-banner.warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+        .page-banner.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+        .page-banner .banner-close { margin-left: auto; cursor: pointer; opacity: .7; }
+        .page-banner .banner-close:hover { opacity: 1; }
+
+        .no-prediction-panel { background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px; padding: 16px; color: #991b1b; }
+        .no-prediction-panel .material-symbols-outlined { font-size: 28px; }
+
+        /* File chip */
+        .file-chip {
+            display: flex; align-items: center; gap: .5rem;
+            padding: .5rem .75rem;
+            background: #f0fdfa;
+            border: 1px solid #a7f3d0;
+            border-radius: .65rem;
+            font-size: .75rem;
+            color: #065f46;
+            word-break: break-all;
+        }
+        .file-chip .material-symbols-outlined { font-size: 16px; flex-shrink: 0; color: #10b981; }
+        .file-chip .chip-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+        .file-chip .chip-size { flex-shrink: 0; color: #059669; }
+        .file-chip .chip-remove {
+            flex-shrink: 0; background: none; border: none; cursor: pointer;
+            color: #059669; padding: 0; display: flex; align-items: center;
+        }
+        .file-chip .chip-remove:hover { color: #b91c1c; }
+
+        @media (max-width: 768px) {
+            .prediction-stats { flex-direction: column; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .sidebar, .sidebar-link, .sidebar-toggle, #mainContent,
+            .sidebar-overlay, .profile-menu, .machine-item, .drop-zone { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
+                <div class="synapsepm-logo">
+                    <span class="logo-icon">
+                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
+                    </span>
+                    <span>Synapse</span><strong>PM</strong>
+                </div>
+            </a>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle"
+                    title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Application">
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p>
+            </div>
+            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard" aria-label="Dashboard">
+                <span class="material-symbols-outlined" aria-hidden="true">dashboard</span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a href="machines.html" class="sidebar-link" data-tooltip="Machines" aria-label="Machines">
+                <span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span>
+                <span class="sidebar-text">Machines</span>
+            </a>
+            <a href="predictions.html" class="sidebar-link active" data-tooltip="Predictions" aria-label="Predictions" aria-current="page">
+                <span class="material-symbols-outlined" aria-hidden="true">neurology</span>
+                <span class="sidebar-text">Predictions</span>
+            </a>
+            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts" aria-label="Alerts">
+                <span class="material-symbols-outlined" aria-hidden="true">notifications_active</span>
+                <span class="sidebar-text">Alerts</span>
+                <span class="badge-count" id="sidebarAlertsBadge" aria-label="Active alerts">0</span>
+            </a>
+            <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports">
+                <span class="material-symbols-outlined" aria-hidden="true">assessment</span>
+                <span class="sidebar-text">Reports</span>
+            </a>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p>
+            </div>
+            <a href="billing.html" class="sidebar-link" data-tooltip="Billing" aria-label="Billing">
+                <span class="material-symbols-outlined" aria-hidden="true">credit_card</span>
+                <span class="sidebar-text">Billing</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="sidebar-user-area">
+        <div class="user-card">
+            <div class="avatar-wrapper">
+                <button type="button" class="avatar" id="userAvatar"
+                        aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu">
+                    <span id="userAvatarText"></span>
+                </button>
+                <div class="status-dot" aria-hidden="true"></div>
+            </div>
+            <div class="user-details">
+                <div class="name" id="userName"></div>
+                <div class="email" id="userEmail"></div>
+                <div class="plan" id="userPlan"></div>
+            </div>
+        </div>
+
+        <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
+            <div class="profile-menu-header">
+                <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
+                <div class="min-w-0">
+                    <div class="profile-menu-name" id="profileMenuName"></div>
+                    <div class="profile-menu-email" id="profileMenuEmail"></div>
+                </div>
+            </div>
+            <div class="profile-menu-details">
+                <div class="profile-detail-row"><span class="profile-detail-label">Username</span><span class="profile-detail-value" id="profileMenuUsername"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Email</span><span class="profile-detail-value" id="profileMenuEmailDetail"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Plan</span><span class="profile-detail-value" id="profileMenuPlan"></span></div>
+                <div class="profile-detail-row" id="profileRoleRow" hidden><span class="profile-detail-label">Role</span><span class="profile-detail-value" id="profileMenuRole"></span></div>
+                <div class="profile-detail-row" id="profileOrgRow" hidden><span class="profile-detail-label">Organization</span><span class="profile-detail-value" id="profileMenuOrg"></span></div>
+            </div>
+            <div class="profile-menu-actions">
+                <button type="button" class="profile-action-btn" id="profileSettingsBtn">
+                    <span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>
+                    Settings
+                </button>
+                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn">
+                    <span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>
+                    Sign out
+                </button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="flex-1 min-w-0" id="mainContent">
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Predictions</h1>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
+            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <!-- Page header -->
+        <div class="mb-6 sm:mb-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 mb-3">
+                        <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                        <span class="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-teal-700">Backend Predictive Engine</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-headline text-slate-800">Predictive Maintenance</h1>
+                    <p class="text-slate-500 text-sm sm:text-base mt-1">Run AI predictions on connected machines or uploaded datasets — real models, real results</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Total Predictions</span>
+                    <span class="material-symbols-outlined text-teal-600 text-base">neurology</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="statTotal">—</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Avg RUL (hrs)</span>
+                    <span class="material-symbols-outlined text-amber-500 text-base">schedule</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-amber-500" id="statAvgRul">—</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Healthy</span>
+                    <span class="material-symbols-outlined text-green-600 text-base">check_circle</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-green-600" id="statHealthy">—</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Critical</span>
+                    <span class="material-symbols-outlined text-red-600 text-base">error</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-red-600" id="statCritical">—</p>
+            </div>
+        </div>
+
+        <div id="pageBannerHost"></div>
+
+        <div class="flex flex-col lg:flex-row gap-5 sm:gap-6">
+            <!-- LEFT COLUMN -->
+            <div class="lg:w-1/3 space-y-5 sm:space-y-6">
+                <!-- Connected Machines -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex justify-between items-center">
+                        <h3 class="text-white font-bold flex items-center gap-2 text-sm sm:text-base">
+                            <span class="material-symbols-outlined text-teal-300 text-base">precision_manufacturing</span>
+                            Connected Machines
+                        </h3>
+                        <button onclick="loadMachines()" class="text-white/80 hover:text-white" title="Refresh" aria-label="Refresh machines">
+                            <span class="material-symbols-outlined text-sm">refresh</span>
+                        </button>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <div class="machines-list space-y-2" id="machinesList">
+                            <div class="animate-pulse space-y-2">
+                                <div class="h-14 bg-slate-100 rounded-xl"></div>
+                                <div class="h-14 bg-slate-100 rounded-xl"></div>
+                                <div class="h-14 bg-slate-100 rounded-xl"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload Dataset -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <h3 class="font-bold text-slate-800 mb-1 flex items-center gap-2 text-sm sm:text-base">
+                        <span class="material-symbols-outlined text-teal-600 text-base">upload_file</span>
+                        Upload Dataset
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-3">Upload a CSV, Excel, JSON, or TXT file. The backend picks the best trained model automatically — no manual selection needed.</p>
+
+                    <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Upload dataset">
+                        <span class="material-symbols-outlined">cloud_upload</span>
+                        <p class="text-sm text-slate-600 mt-2">Drop your dataset here</p>
+                        <p class="text-xs text-slate-400">or click to browse</p>
+                        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.json,.txt,.dat" class="hidden">
+                    </div>
+
+                    <!-- Uploaded file chip -->
+                    <div id="uploadedFileChip" class="mt-3 hidden"></div>
+
+                    <!-- Upload status / errors -->
+                    <div id="uploadStatus" class="mt-3 hidden"></div>
+
+                    <!-- Run prediction button -->
+                    <button id="predictFromDatasetBtn"
+                            class="w-full mt-3 gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            disabled>
+                        <span class="material-symbols-outlined text-base">neurology</span>
+                        Run Prediction on Dataset
+                    </button>
+
+                    <p class="text-[10px] text-slate-400 mt-2 text-center">The backend will select the best compatible trained model automatically.</p>
+                </div>
+
+                <!-- Prediction Controls -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-sm sm:text-base">
+                        <span class="material-symbols-outlined text-teal-600 text-base">tune</span>
+                        Prediction Settings
+                    </h3>
+                    <div class="space-y-3 sm:space-y-4">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="aiModel">AI Model</label>
+                            <div class="select-with-icon">
+                                <select id="aiModel">
+                                    <option value="auto" selected>Auto (backend picks best model)</option>
+                                    <option value="lstm">LSTM Neural Network</option>
+                                    <option value="transformer">Transformer Model</option>
+                                    <option value="xgboost">XGBoost Ensemble</option>
+                                    <option value="lightgbm">LightGBM</option>
+                                    <option value="catboost">CatBoost</option>
+                                    <option value="random_forest">Random Forest</option>
+                                    <option value="gradient_boosting">Gradient Boosting</option>
+                                    <option value="svm">SVM</option>
+                                    <option value="neural_network">Neural Network</option>
+                                </select>
+                                <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400 mt-1">Auto is recommended. The backend only uses validated production models.</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="predictionHorizon">Prediction Horizon</label>
+                            <div class="select-with-icon">
+                                <select id="predictionHorizon">
+                                    <option value="7">Next 7 days</option>
+                                    <option value="30" selected>Next 30 days</option>
+                                    <option value="90">Next 90 days</option>
+                                    <option value="365">Next year</option>
+                                </select>
+                                <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                            </div>
+                        </div>
+                        <button id="runPredictionMainBtn"
+                                class="w-full gradient-cta text-white py-2.5 sm:py-3 rounded-xl font-bold text-sm sm:text-base hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-base sm:text-lg">neurology</span>
+                            Run Prediction on Selected Machine
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="lg:w-2/3 space-y-5 sm:space-y-6">
+                <!-- Current Asset Card -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="assetCard">
+                    <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex flex-wrap justify-between items-center gap-2">
+                        <div>
+                            <p class="text-[10px] sm:text-xs text-white/70">Currently Analyzing</p>
+                            <h3 class="text-base sm:text-lg md:text-xl font-bold text-white" id="selectedMachineName">--</h3>
+                            <p class="text-[10px] sm:text-xs text-white/50" id="selectedMachineId">Select a machine or upload a dataset to begin</p>
+                        </div>
+                        <span class="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-white/20 text-white" id="healthBadge">---</span>
+                    </div>
+                    <div class="p-4 sm:p-5">
+                        <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                            <div class="bg-slate-50 p-3 sm:p-4 rounded-xl">
+                                <p class="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mb-1">Failure Probability</p>
+                                <div class="flex items-end gap-1 sm:gap-2">
+                                    <span class="text-xl sm:text-2xl md:text-3xl font-bold text-red-600" id="failureProbability">—</span>
+                                    <span class="material-symbols-outlined text-red-600 text-base">trending_up</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-1" id="failureProbNote">from latest prediction</p>
+                            </div>
+                            <div class="bg-slate-800 p-3 sm:p-4 rounded-xl text-white">
+                                <p class="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider mb-1">Remaining Useful Life</p>
+                                <div class="flex items-end gap-1 sm:gap-2">
+                                    <span class="text-xl sm:text-2xl md:text-3xl font-bold" id="rulValue">—</span>
+                                    <span class="text-[10px] sm:text-xs" id="rulUnit">HRS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap justify-between text-xs sm:text-sm mb-1 gap-2">
+                                <span class="font-semibold text-slate-800">Prediction Confidence</span>
+                                <span id="confidenceValue" class="text-teal-600 font-bold">—</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="confidenceFill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sensor Telemetry -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-sm sm:text-base">
+                        <span class="material-symbols-outlined text-teal-600 text-base">show_chart</span>
+                        Sensor Telemetry Trends
+                    </h3>
+                    <div class="w-full overflow-x-auto">
+                        <canvas id="sensorChart" height="200" style="max-width: 100%; height: auto; min-height: 200px;"></canvas>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-2 text-center" id="chartEmptyNote" style="display:none;">No sensor data available — connect a machine or use a simulated device.</p>
+                </div>
+
+                <!-- Prediction Results -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5" id="predictionResults" style="display:none;">
+                    <h3 class="font-bold text-slate-800 mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
+                        <span class="material-symbols-outlined text-teal-600 text-base">neurology</span>
+                        AI Prediction Results
+                    </h3>
+                    <div class="space-y-3 sm:space-y-4" id="resultsContent"></div>
+                </div>
+
+                <!-- AI Recommendations -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-sm sm:text-base">
+                        <span class="material-symbols-outlined text-teal-600 text-base">lightbulb</span>
+                        AI Recommendations
+                    </h3>
+                    <div id="recommendationsList">
+                        <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                            <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-slate-400 text-base">info</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-slate-800 text-sm">Run a prediction to see recommendations</div>
+                                <div class="text-xs text-slate-500">The backend generates actionable maintenance guidance from the prediction result.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prediction History -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-5 sm:mt-6" id="historySection">
+            <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex justify-between items-center">
+                <h3 class="text-white font-bold flex items-center gap-2 text-sm sm:text-base">
+                    <span class="material-symbols-outlined text-teal-300 text-base">history</span>
+                    Recent Predictions
+                </h3>
+                <button onclick="loadHistory()" class="text-white/80 hover:text-white" title="Refresh history" aria-label="Refresh history">
+                    <span class="material-symbols-outlined text-sm">refresh</span>
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="w-full">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Machine</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">RUL (hrs)</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Confidence</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Model</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Status</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTable">
+                        <tr><td colspan="6" class="text-center py-6 text-slate-500 text-xs sm:text-sm">Loading predictions...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+// ============================================================
+// SYNAPSEPM PREDICTIONS — Production v4.0.0
+//
+// Key changes:
+//   1. Dataset upload no longer asks for a machine or type —
+//      the backend auto-selects the best compatible trained model.
+//   2. Prediction results show all real metrics returned by the
+//      backend: RUL, confidence, risk, model ID, family, processing
+//      time, uncertainty bounds, provenance, recommendations.
+//   3. Hidden '__dataset__' machine is filtered out everywhere.
+//   4. WebSocket is idempotent — prediction_created dedupes by id.
+//   5. Dropdown arrows no longer collide with text.
+//   6. Real-time sync to dashboard, admin, DB via WS.
+// ============================================================
+
+const API_BASE = '/api/v1';
+const REQUEST_TIMEOUT_MS = 30000;
+const REFRESH_STORAGE_KEYS = ['synapse_refresh', 'refresh_token', 'synapse_refresh_token'];
+const AUTH_STORAGE_KEYS = [
+    'synapse_token', 'synapse_user', 'synapse_refresh', 'synapse_tenant',
+    'synapse_admin_token', 'synapse_admin_user', 'synapse_mfa', 'synapse_sessions',
+    'token', 'auth_token', 'access_token', 'refresh_token', 'user', 'organization'
+];
+const DATASET_HIDDEN_NAME = '__dataset__';
+
+const $ = id => document.getElementById(id);
+
+// ------------------------------------------------------------
+// AUTH HELPERS
+// ------------------------------------------------------------
+function readFirst(keys) {
+    for (const k of keys) { try { const v = localStorage.getItem(k); if (v) return v; } catch (e) {} }
+    return null;
+}
+function getToken() {
+    return localStorage.getItem('synapse_token')
+        || localStorage.getItem('synapse_admin_token')
+        || localStorage.getItem('token')
+        || localStorage.getItem('auth_token')
+        || localStorage.getItem('access_token')
+        || null;
+}
+function getRefreshToken() { return readFirst(REFRESH_STORAGE_KEYS); }
+function getUser() {
+    try {
+        const raw = localStorage.getItem('synapse_user')
+            || localStorage.getItem('synapse_admin_user')
+            || localStorage.getItem('user');
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+}
+function decodeJwt(token) {
+    if (!token || typeof token !== 'string') return null;
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) return null;
+        const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+        return JSON.parse(atob(padded));
+    } catch (e) { return null; }
+}
+function isTokenValid(token) {
+    const p = decodeJwt(token);
+    if (!p || typeof p.exp !== 'number') return false;
+    return p.exp > Math.floor(Date.now() / 1000) + 10;
+}
+
+const Auth = {
+    get token() { return getToken(); },
+    get user() { return getUser(); },
+    get isAuthenticated() {
+        const t = getToken();
+        if (!t || !isTokenValid(t)) return false;
+        return !!getUser();
+    },
+    clearStorage() {
+        AUTH_STORAGE_KEYS.forEach(k => { try { localStorage.removeItem(k); } catch (e) {} });
+    },
+    logout() {
+        this.clearStorage();
+        try { sessionStorage.setItem('justLoggedOut', 'true'); } catch (e) {}
+        try { if (wsConnection) wsConnection.close(1000, 'logout'); } catch (e) {}
+        if (!/login\.html/i.test(window.location.pathname)) {
+            window.location.replace('login.html');
+        }
+    },
+};
+
+// ------------------------------------------------------------
+// TOAST + BANNER
+// ------------------------------------------------------------
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    const d = document.createElement('div');
+    d.textContent = String(text);
+    return d.innerHTML;
+}
+function showToast(message, type = 'info', duration = 4500) {
+    const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#00b4aa' };
+    const icons = { success: 'check_circle', error: 'error', warning: 'warning', info: 'info' };
+    const toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.style.borderLeftColor = colors[type] || colors.info;
+    toast.innerHTML = `<span class="material-symbols-outlined text-sm" style="color:${colors[type]}">${icons[type]}</span><span class="text-sm">${escapeHtml(message)}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity .3s';
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+function showPageBanner(message, kind = 'error', timeoutMs = 0) {
+    const host = $('pageBannerHost');
+    if (!host) { if (message) showToast(message, kind, 6000); return; }
+    host.innerHTML = '';
+    if (!message) return;
+    const icons = { error: 'error', warning: 'warning', info: 'info' };
+    const banner = document.createElement('div');
+    banner.className = 'page-banner ' + kind;
+    banner.innerHTML = `
+        <span class="material-symbols-outlined text-base">${icons[kind] || 'info'}</span>
+        <span style="flex:1">${escapeHtml(message)}</span>
+        <span class="material-symbols-outlined banner-close text-base" onclick="this.parentElement.remove()">close</span>
+    `;
+    host.appendChild(banner);
+    if (timeoutMs > 0) setTimeout(() => { try { banner.remove(); } catch (e) {} }, timeoutMs);
+}
+
+// ------------------------------------------------------------
+// API CLIENT — single-flight refresh, 401 retry once
+// ------------------------------------------------------------
+let refreshPromise = null;
+async function performRefresh() {
+    if (refreshPromise) return refreshPromise;
+    const rt = getRefreshToken();
+    if (!rt) return false;
+    refreshPromise = (async () => {
+        try {
+            const resp = await fetch(API_BASE + '/auth/refresh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ refresh_token: rt }),
+                credentials: 'same-origin',
+            });
+            if (!resp.ok) return false;
+            const data = await resp.json().catch(() => null);
+            if (!data || !data.success || !data.access_token) return false;
+            try {
+                localStorage.setItem('synapse_token', data.access_token);
+                localStorage.setItem('token', data.access_token);
+                localStorage.setItem('auth_token', data.access_token);
+                localStorage.setItem('access_token', data.access_token);
+                if (data.refresh_token) {
+                    localStorage.setItem('synapse_refresh', data.refresh_token);
+                    localStorage.setItem('refresh_token', data.refresh_token);
+                }
+            } catch (e) {}
+            return true;
+        } catch (e) {
+            return false;
+        } finally {
+            refreshPromise = null;
+        }
+    })();
+    return refreshPromise;
+}
+
+const API = {
+    async request(endpoint, options = {}, _retried = false) {
+        const token = getToken();
+        const headers = { 'Accept': 'application/json', ...(options.headers || {}) };
+        const isForm = (typeof FormData !== 'undefined') && (options.body instanceof FormData);
+        if (!isForm && options.body !== undefined && options.body !== null && !headers['Content-Type']) {
+            headers['Content-Type'] = 'application/json';
+        }
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+        let response;
+        try {
+            response = await fetch(API_BASE + endpoint, {
+                ...options,
+                headers,
+                credentials: 'same-origin',
+                signal: controller.signal,
+            });
+        } catch (err) {
+            clearTimeout(timer);
+            if (err && err.name === 'AbortError') {
+                const e = new Error('Request timed out. Model may still be running — check history shortly.');
+                e.status = 0;
+                throw e;
+            }
+            const e = new Error('Network error: cannot reach backend.');
+            e.status = 0;
+            throw e;
+        }
+        clearTimeout(timer);
+
+        if (response.status === 401 && !_retried) {
+            const ok = await performRefresh();
+            if (ok) return this.request(endpoint, options, true);
+            Auth.logout();
+            const e = new Error('Session expired. Please log in again.');
+            e.status = 401;
+            throw e;
+        }
+
+        const ctype = response.headers.get('content-type') || '';
+        let data = null;
+        if (ctype.includes('application/json')) {
+            try { data = await response.json(); } catch (e) { data = null; }
+        } else {
+            try {
+                const text = await response.text();
+                try { data = JSON.parse(text); } catch (e) { data = { raw: text }; }
+            } catch (e) { data = null; }
+        }
+
+        if (!response.ok) {
+            const msg = (data && (data.error || data.message || data.detail)) || ('HTTP ' + response.status);
+            const err = new Error(msg); err.status = response.status; err.data = data;
+            throw err;
+        }
+        return data;
+    },
+
+    // ---- Machines
+    getMachines() { return this.request('/machines?per_page=100'); },
+    getSensorData(machineId, limit = 20) {
+        return this.request('/machines/' + encodeURIComponent(machineId) + '/sensor-data?limit=' + limit);
+    },
+    predictDebug(machineId) {
+        return this.request('/machines/' + encodeURIComponent(machineId) + '/predict-debug', { method: 'POST' });
+    },
+
+    // ---- Prediction — machine-based
+    predictMachine(machineId, model, horizon) {
+        const payload = { machine_id: machineId, machineId, horizon: horizon || 30 };
+        if (model && model !== 'auto') {
+            payload.model_type = model;
+            payload.model = model;
+        }
+        return this.request('/predictions/run', {
+            method: 'POST',
+            body: JSON.stringify(payload),
+        });
+    },
+
+    // ---- Prediction — dataset-based (NO machine_id, NO machine_type)
+    // The backend's MLEngine.identify_family() picks the best compatible model.
+    predictDataset(filename, model, horizon, datasetHint) {
+        const payload = {
+            filename,
+            horizon: horizon || 30,
+        };
+        if (model && model !== 'auto') {
+            payload.model_type = model;
+        }
+        if (datasetHint) payload.dataset_hint = datasetHint;
+        return this.request('/predictions/predict-dataset', {
+            method: 'POST',
+            body: JSON.stringify(payload),
+        });
+    },
+
+    getHistory(page = 1, perPage = 20) {
+        return this.request(`/predictions/history?page=${page}&per_page=${perPage}`);
+    },
+    getStats() { return this.request('/predictions/stats'); },
+    getAlerts() { return this.request('/alerts?status=active&per_page=50'); },
+
+    // ---- Upload
+    uploadDataset(file) {
+        const fd = new FormData();
+        fd.append('file', file);
+        return this.request('/datasets/upload', { method: 'POST', body: fd });
+    },
+};
+
+// ------------------------------------------------------------
+// STATE
+// ------------------------------------------------------------
+let selectedMachine = null;
+let machines = [];
+let chart = null;
+let history = [];
+let wsConnection = null;
+let wsReconnectTimer = null;
+let isPredicting = false;
+let uploadedDataset = null;
+let refreshInterval = null;
+let sensorInterval = null;
+const seenPredictionIds = new Set();
+
+// ------------------------------------------------------------
+// DOM REFS
+// ------------------------------------------------------------
+const DOM = {
+    mainSidebar: $('mainSidebar'),
+    sidebarToggle: $('sidebarToggle'),
+    mobileMenuToggle: $('mobileMenuToggle'),
+    sidebarOverlay: $('sidebarOverlay'),
+    userAvatar: $('userAvatar'),
+    userAvatarText: $('userAvatarText'),
+    userName: $('userName'),
+    userEmail: $('userEmail'),
+    userPlan: $('userPlan'),
+    profileMenu: $('profileMenu'),
+    profileMenuAvatar: $('profileMenuAvatar'),
+    profileMenuName: $('profileMenuName'),
+    profileMenuEmail: $('profileMenuEmail'),
+    profileMenuUsername: $('profileMenuUsername'),
+    profileMenuEmailDetail: $('profileMenuEmailDetail'),
+    profileMenuPlan: $('profileMenuPlan'),
+    profileMenuRole: $('profileMenuRole'),
+    profileMenuOrg: $('profileMenuOrg'),
+    profileRoleRow: $('profileRoleRow'),
+    profileOrgRow: $('profileOrgRow'),
+    profileLogoutBtn: $('profileLogoutBtn'),
+    profileSettingsBtn: $('profileSettingsBtn'),
+    sidebarAlertsBadge: $('sidebarAlertsBadge'),
+};
+
+// ------------------------------------------------------------
+// SIDEBAR
+// ------------------------------------------------------------
+let sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+const sidebar = DOM.mainSidebar;
+function isDesktop() { return window.innerWidth >= 1024; }
+
+function updateSidebarUI() {
+    if (!sidebar) return;
+    if (isDesktop()) {
+        sidebar.classList.toggle('collapsed', sidebarCollapsed);
+        document.body.classList.toggle('sidebar-is-collapsed', sidebarCollapsed);
+        DOM.sidebarToggle?.setAttribute('aria-expanded', String(!sidebarCollapsed));
+    } else {
+        sidebar.classList.remove('collapsed');
+        document.body.classList.remove('sidebar-is-collapsed');
+    }
+}
+function toggleSidebar() {
+    if (!isDesktop()) return openMobileSidebar();
+    sidebarCollapsed = !sidebarCollapsed;
+    localStorage.setItem('sidebar_collapsed', String(sidebarCollapsed));
+    closeProfileMenu();
+    updateSidebarUI();
+}
+function openMobileSidebar() {
+    if (!sidebar || isDesktop()) return;
+    sidebar.classList.add('mobile-open');
+    DOM.sidebarOverlay?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeMobileSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('mobile-open');
+    DOM.sidebarOverlay?.classList.remove('active');
+    document.body.style.overflow = '';
+}
+function setProfileMenuOpen(open) {
+    if (!DOM.profileMenu || !DOM.userAvatar) return;
+    DOM.profileMenu.classList.toggle('open', open);
+    DOM.profileMenu.setAttribute('aria-hidden', String(!open));
+    DOM.userAvatar.setAttribute('aria-expanded', String(open));
+}
+function closeProfileMenu() { setProfileMenuOpen(false); }
+function toggleProfileMenu() { setProfileMenuOpen(!DOM.profileMenu?.classList.contains('open')); }
+
+// ------------------------------------------------------------
+// USER UI
+// ------------------------------------------------------------
+function updateUserUI() {
+    const user = getUser();
+    if (!user) return;
+    const name = user.display_name || user.full_name || user.name || user.username
+        || (user.email || '').split('@')[0] || 'User';
+    const email = user.email || '';
+    const plan = user.plan || 'Free';
+    const role = user.role || '';
+    const org = user.organization_name || (user.organization && user.organization.name) || user.organization || '';
+    const initials = name.split(/\s+/).filter(Boolean).map(n => n[0]).join('').slice(0,2).toUpperCase() || 'U';
+
+    DOM.userName.textContent = name;
+    DOM.userEmail.textContent = email;
+    DOM.userPlan.textContent = plan + ' Plan';
+    DOM.userAvatarText.textContent = initials;
+    DOM.profileMenuName.textContent = name;
+    DOM.profileMenuEmail.textContent = email;
+    DOM.profileMenuUsername.textContent = user.username || name;
+    DOM.profileMenuEmailDetail.textContent = email;
+    DOM.profileMenuPlan.textContent = plan + ' Plan';
+    DOM.profileRoleRow.hidden = !role;
+    DOM.profileMenuRole.textContent = role;
+    DOM.profileOrgRow.hidden = !org;
+    DOM.profileMenuOrg.textContent = org;
+
+    if (user.avatar_url) {
+        const url = String(user.avatar_url).replace(/'/g, '%27');
+        DOM.userAvatar.style.backgroundImage = `url('${url}')`;
+        DOM.userAvatar.style.backgroundSize = 'cover';
+        DOM.userAvatar.style.backgroundPosition = 'center';
+        DOM.userAvatarText.style.display = 'none';
+        DOM.profileMenuAvatar.style.backgroundImage = `url('${url}')`;
+        DOM.profileMenuAvatar.style.backgroundSize = 'cover';
+        DOM.profileMenuAvatar.style.backgroundPosition = 'center';
+        DOM.profileMenuAvatar.textContent = '';
+    } else {
+        DOM.userAvatar.style.backgroundImage = '';
+        DOM.userAvatarText.style.display = '';
+        DOM.profileMenuAvatar.style.backgroundImage = '';
+        DOM.profileMenuAvatar.textContent = initials;
+    }
+}
+
+// Cross-tab + same-tab user sync
+window.addEventListener('storage', (e) => {
+    if (e.key === 'synapse_user' || e.key === 'user') {
+        try { const u = JSON.parse(e.newValue || 'null'); if (u) updateUserUI(); } catch {}
+    }
+});
+document.addEventListener('synapse:user-updated', () => updateUserUI());
+
+// ------------------------------------------------------------
+// LOAD MACHINES — filter dataset-only hidden machine
+// ------------------------------------------------------------
+async function loadMachines() {
+    if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+    try {
+        const data = await API.getMachines();
+        const all = data.items || data.machines || [];
+        machines = all.filter(m => (m.name || '') !== DATASET_HIDDEN_NAME);
+        renderMachines();
+        if (machines.length > 0 && !selectedMachine) selectMachine(machines[0].id);
+        if (selectedMachine) {
+            const still = machines.some(m => m.id === selectedMachine);
+            if (!still) { selectedMachine = null; updateAssetCard(); }
+        }
+        loadAlertsBadge();
+    } catch (error) {
+        if (error && error.status === 401) return;
+        if (machines.length === 0) {
+            $('machinesList').innerHTML = `
+                <div class="text-center py-6">
+                    <span class="material-symbols-outlined text-3xl text-red-400">error</span>
+                    <p class="text-xs text-red-600 mt-2">${escapeHtml(error.message || 'Failed to load machines')}</p>
+                    <button onclick="loadMachines()" class="mt-2 text-xs text-teal-600 underline">Retry</button>
+                </div>`;
+        } else {
+            showPageBanner('Could not refresh machines: ' + (error.message || 'unknown error'), 'warning', 8000);
+        }
+    }
+}
+
+async function loadAlertsBadge() {
+    try {
+        const data = await API.getAlerts();
+        const alerts = data.items || data.alerts || [];
+        const active = alerts.filter(a => (a.status || '').toLowerCase() === 'active').length;
+        if (DOM.sidebarAlertsBadge) DOM.sidebarAlertsBadge.textContent = active;
+    } catch {}
+}
+
+function renderMachines() {
+    const c = $('machinesList');
+    if (machines.length === 0) {
+        c.innerHTML = `
+            <div class="text-center py-6">
+                <span class="material-symbols-outlined text-3xl text-slate-300">precision_manufacturing</span>
+                <p class="text-xs text-slate-500 mt-2">No machines connected</p>
+                <a href="machines.html" class="text-teal-600 text-xs font-semibold mt-2 inline-block">Add a machine →</a>
+            </div>`;
+        return;
+    }
+    const statusClass = s => s === 'online' ? 'status-online'
+                          : s === 'warning' ? 'status-warning'
+                          : s === 'critical' ? 'status-critical'
+                          : 'status-offline';
+    c.innerHTML = machines.map(m => {
+        const health = (m.health === null || m.health === undefined) ? '—' : Number(m.health) + '%';
+        return `
+        <div class="machine-item p-2.5 rounded-xl border-2 ${selectedMachine === m.id ? 'selected border-teal-500' : 'border-slate-200 hover:border-teal-300'}"
+             onclick="selectMachine('${escapeHtml(m.id)}')">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-white text-base">precision_manufacturing</span>
+                </div>
+                <div class="min-w-0 flex-1">
+                    <p class="font-bold text-slate-800 text-sm truncate">${escapeHtml(m.name)}</p>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded-full ${statusClass((m.status || 'offline').toLowerCase())}">
+                        ${(m.status || 'offline').toUpperCase()}
+                    </span>
+                </div>
+            </div>
+            <p class="text-[10px] text-slate-500 truncate mt-1.5">
+                ${escapeHtml(m.location || 'No location')} • Health: ${health}
+            </p>
+        </div>`;
+    }).join('');
+}
+
+// ------------------------------------------------------------
+// SELECT MACHINE
+// ------------------------------------------------------------
+function selectMachine(machineId) {
+    selectedMachine = machineId;
+    renderMachines();
+    updateAssetCard();
+    loadSensorChart(machineId);
+    $('predictionResults').style.display = 'none';
+}
+
+function updateAssetCard() {
+    const m = machines.find(x => x.id === selectedMachine);
+    if (!m) {
+        $('selectedMachineName').textContent = '--';
+        $('selectedMachineId').textContent = 'Select a machine or upload a dataset';
+        $('failureProbability').textContent = '—';
+        $('rulValue').textContent = '—';
+        $('confidenceValue').textContent = '—';
+        $('confidenceFill').style.width = '0%';
+        $('healthBadge').textContent = '---';
+        return;
+    }
+    $('selectedMachineName').textContent = m.name;
+    $('selectedMachineId').textContent = 'ID: ' + String(m.id || '').slice(-8);
+    const status = (m.status || 'offline').toLowerCase();
+    const badge = $('healthBadge');
+    badge.textContent = status.toUpperCase();
+    badge.className = 'px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-white/20 text-white';
+    if (status === 'critical') badge.className = 'px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-red-500/40 text-white';
+    else if (status === 'warning') badge.className = 'px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-amber-500/40 text-white';
+    else if (status === 'online') badge.className = 'px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-green-500/40 text-white';
+}
+
+// ------------------------------------------------------------
+// SENSOR CHART
+// ------------------------------------------------------------
+function initChart() {
+    const el = $('sensorChart');
+    if (!el) return;
+    chart = new Chart(el.getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [
+                { label: 'Temperature (°C)', data: [], borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.05)', fill: true, tension: 0.3, pointRadius: 2 },
+                { label: 'Vibration (mm/s)', data: [], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.05)', fill: true, tension: 0.3, pointRadius: 2 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: true,
+            plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#e2e8f0' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+async function loadSensorChart(machineId) {
+    if (!machineId || !chart) return;
+    try {
+        const data = await API.getSensorData(machineId, 20);
+        const pts = data.sensor_data || data.items || [];
+        const emptyNote = $('chartEmptyNote');
+        if (pts.length === 0) {
+            chart.data.labels = [];
+            chart.data.datasets[0].data = [];
+            chart.data.datasets[1].data = [];
+            chart.update();
+            if (emptyNote) emptyNote.style.display = 'block';
+            return;
+        }
+        if (emptyNote) emptyNote.style.display = 'none';
+        const ordered = pts.slice().reverse();
+        chart.data.labels = ordered.map((p, i) => {
+            const d = new Date(p.timestamp || p.created_at);
+            return isNaN(d.getTime()) ? `#${i+1}` : d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        });
+        chart.data.datasets[0].data = ordered.map(p => p.temperature != null ? Number(p.temperature) : null);
+        chart.data.datasets[1].data = ordered.map(p => p.vibration != null ? Number(p.vibration) : null);
+        chart.update();
+    } catch (e) {
+        // Silent
+    }
+}
+
+// ------------------------------------------------------------
+// UPLOAD DATASET (no machine/type selection required)
+// ------------------------------------------------------------
+const dropZone = $('dropZone');
+const fileInput = $('fileInput');
+
+dropZone?.addEventListener('click', () => fileInput.click());
+dropZone?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+});
+dropZone?.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone?.addEventListener('dragleave', e => { e.preventDefault(); dropZone.classList.remove('dragover'); });
+dropZone?.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+});
+fileInput?.addEventListener('change', function () {
+    if (this.files.length > 0) handleFile(this.files[0]);
+});
+
+function isAllowedDataset(file) {
+    const name = (file.name || '').toLowerCase();
+    return ['.csv','.xlsx','.xls','.json','.txt','.dat'].some(ext => name.endsWith(ext));
+}
+
+async function handleFile(file) {
+    if (!isAllowedDataset(file)) {
+        showToast('Please upload a CSV, Excel, JSON, or TXT file', 'error');
+        return;
+    }
+    if (file.size > 100 * 1024 * 1024) {
+        showToast('File too large. Max 100 MB.', 'error');
+        return;
+    }
+    if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+
+    uploadedDataset = null;
+    dropZone.classList.add('uploading');
+    $('uploadStatus').classList.remove('hidden');
+    $('uploadStatus').innerHTML = `
+        <div class="flex items-center gap-2 p-2 rounded-lg bg-blue-50 text-blue-700 text-xs">
+            <span class="material-symbols-outlined text-sm animate-spin">refresh</span>
+            <span>Uploading ${escapeHtml(file.name)}...</span>
+        </div>`;
+    $('predictFromDatasetBtn').disabled = true;
+    $('uploadedFileChip').classList.add('hidden');
+
+    try {
+        const res = await API.uploadDataset(file);
+        if (!res || !res.success) {
+            throw new Error((res && (res.error || res.message)) || 'Upload failed');
+        }
+        uploadedDataset = {
+            filename: res.filename,
+            original_filename: res.original_filename,
+            size_bytes: res.size_bytes,
+        };
+        const kb = (Number(res.size_bytes || 0) / 1024).toFixed(1);
+        // Show chip
+        $('uploadedFileChip').classList.remove('hidden');
+        $('uploadedFileChip').innerHTML = `
+            <div class="file-chip">
+                <span class="material-symbols-outlined">description</span>
+                <span class="chip-name" title="${escapeHtml(res.original_filename || 'dataset')}">${escapeHtml(res.original_filename || 'dataset')}</span>
+                <span class="chip-size">${kb} KB</span>
+                <button type="button" class="chip-remove" onclick="clearUploadedDataset()" aria-label="Remove file">
+                    <span class="material-symbols-outlined" style="font-size:16px;">close</span>
+                </button>
+            </div>`;
+        // Status line
+        $('uploadStatus').innerHTML = `
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-green-50 text-green-700 text-xs">
+                <span class="material-symbols-outlined text-sm">check_circle</span>
+                <span>Dataset ready. Click "Run Prediction on Dataset" below.</span>
+            </div>`;
+        $('predictFromDatasetBtn').disabled = false;
+        showToast('Dataset uploaded — ready to predict', 'success');
+    } catch (error) {
+        uploadedDataset = null;
+        $('uploadStatus').innerHTML = `
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-red-50 text-red-700 text-xs">
+                <span class="material-symbols-outlined text-sm">error</span>
+                <span>Upload failed: ${escapeHtml(error.message || 'unknown error')}</span>
+            </div>`;
+        $('predictFromDatasetBtn').disabled = true;
+        $('uploadedFileChip').classList.add('hidden');
+        showToast('Upload failed: ' + (error.message || 'unknown error'), 'error', 6000);
+    } finally {
+        dropZone.classList.remove('uploading');
+    }
+}
+
+function clearUploadedDataset() {
+    uploadedDataset = null;
+    fileInput.value = '';
+    $('uploadedFileChip').classList.add('hidden');
+    $('uploadStatus').classList.add('hidden');
+    $('predictFromDatasetBtn').disabled = true;
+    $('predictionResults').style.display = 'none';
+}
+
+// ------------------------------------------------------------
+// PREDICTION RESULT RENDERING — full real backend data
+// ------------------------------------------------------------
+function normalizePredictionResponse(res) {
+    if (!res) return {};
+    const p = res.prediction || res || {};
+    const intel = res.intelligence || {};
+    return {
+        rul_hours: p.rul_hours ?? p.rul ?? intel.rul_hours ?? null,
+        confidence: p.confidence ?? intel.confidence ?? null,
+        failure_probability: intel.failure_probability ?? p.failure_probability ?? null,
+        status: p.status || intel.status || 'prediction_available',
+        risk_level: p.risk_level || intel.risk_level || null,
+        model_type: p.model_type || intel.model_type || 'unknown',
+        model_version: p.model_version || intel.model_version || null,
+        model_id: p.model_id || intel.model_id || null,
+        dataset_family: intel.dataset_family || p.dataset_family || null,
+        processing_time_ms: p.processing_time_ms ?? intel.processing_time_ms ?? null,
+        uncertainty_lower: intel.uncertainty_lower ?? p.uncertainty_lower ?? null,
+        uncertainty_upper: intel.uncertainty_upper ?? p.uncertainty_upper ?? null,
+        uncertainty_source: intel.uncertainty_source ?? p.uncertainty_source ?? null,
+        sensor_quality: intel.sensor_quality ?? p.sensor_quality ?? null,
+        prediction_trust: intel.prediction_trust ?? p.prediction_trust ?? null,
+        ood_flags: intel.ood_flags || p.ood_flags || [],
+        feature_provenance: intel.feature_provenance || p.feature_provenance || null,
+        recommendations: p.recommendations || intel.recommendations || [],
+        fallback: !!intel.fallback,
+        fallback_reason: intel.fallback_reason || p.fallback_reason || null,
+        horizon: intel.horizon || p.horizon || 30,
+        raw: p,
+    };
+}
+
+function renderPredictionUnavailable(message, statusCode) {
+    const resultsDiv = $('predictionResults');
+    const resultsContent = $('resultsContent');
+    resultsDiv.style.display = 'block';
+    const is422 = statusCode === 422;
+    const title = is422 ? 'Prediction unavailable' : 'Prediction failed';
+    const subtitle = is422
+        ? 'The backend could not produce a prediction with the currently loaded production model(s).'
+        : 'The backend returned an error. See details below.';
+    resultsContent.innerHTML = `
+        <div class="no-prediction-panel">
+            <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined">error</span>
+                <div class="flex-1">
+                    <p class="font-bold text-base">${escapeHtml(title)}</p>
+                    <p class="text-sm mt-1">${escapeHtml(subtitle)}</p>
+                    <p class="text-xs mt-2 font-mono break-words" style="background: rgba(153,27,27,.06); padding: 8px; border-radius: 8px;">${escapeHtml(message)}</p>
+                </div>
+            </div>
+        </div>`;
+    $('recommendationsList').innerHTML = `
+        <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-xl border border-amber-200">
+            <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
+                <span class="material-symbols-outlined text-amber-600">info</span>
+            </div>
+            <div>
+                <div class="font-semibold text-amber-900 text-sm">No recommendation available</div>
+                <div class="text-xs text-amber-700">Recommendations require a successful prediction.</div>
+            </div>
+        </div>`;
+    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function displayPredictionResults(result) {
+    const resultsDiv = $('predictionResults');
+    const resultsContent = $('resultsContent');
+    resultsDiv.style.display = 'block';
+
+    const rulHours = result.rul_hours != null ? Number(result.rul_hours) : null;
+    const rulDays = rulHours != null ? rulHours / 24 : null;
+    const confidence = result.confidence != null ? Number(result.confidence) : null;
+    const status = result.status || 'prediction_available';
+
+    // Hero metrics
+    $('rulValue').textContent = rulHours != null ? rulHours.toFixed(1) : '—';
+    $('rulUnit').textContent = rulHours != null ? 'HRS' : '—';
+    const failureProb = result.failure_probability != null
+        ? Number(result.failure_probability)
+        : (confidence != null ? Math.max(0, Math.min(100, 100 - confidence)) : null);
+    $('failureProbability').textContent = failureProb != null ? failureProb.toFixed(0) + '%' : '—';
+    $('confidenceValue').textContent = confidence != null ? confidence.toFixed(1) + '%' : '—';
+    $('confidenceFill').style.width = confidence != null ? Math.min(confidence, 100) + '%' : '0%';
+
+    // Recommendations
+    const recs = Array.isArray(result.recommendations) ? result.recommendations : [];
+    const recDiv = $('recommendationsList');
+    if (recs.length > 0) {
+        recDiv.innerHTML = recs.map(rec => {
+            const text = typeof rec === 'string' ? rec : (rec.text || rec.message || '');
+            const priority = (typeof rec === 'object' && rec.priority ? String(rec.priority).toLowerCase() : 'info');
+            const theme = priority === 'high' ? { bg: '#fef2f2', border: '#fecaca', icon: '#dc2626', text: '#7f1d1d', ic: 'priority_high' }
+                       : priority === 'medium' ? { bg: '#fffbeb', border: '#fde68a', icon: '#d97706', text: '#78350f', ic: 'warning' }
+                       : { bg: '#ecfdf5', border: '#a7f3d0', icon: '#10b981', text: '#065f46', ic: 'check_circle' };
+            return `
+                <div class="flex items-center gap-3 p-3 rounded-xl mb-2" style="background:${theme.bg};border:1px solid ${theme.border};">
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:${theme.bg};">
+                        <span class="material-symbols-outlined" style="color:${theme.icon};">${theme.ic}</span>
+                    </div>
+                    <p class="font-semibold text-sm" style="color:${theme.text};">${escapeHtml(text)}</p>
+                </div>`;
+        }).join('');
+    } else {
+        let msg = '✅ Equipment operating within normal parameters.';
+        let theme = { bg: '#ecfdf5', border: '#a7f3d0', icon: '#10b981', text: '#065f46', ic: 'check_circle' };
+        if (rulHours != null && rulHours < 24) {
+            msg = '🚨 URGENT: Schedule maintenance immediately — RUL below 24 hours.';
+            theme = { bg: '#fef2f2', border: '#fecaca', icon: '#dc2626', text: '#7f1d1d', ic: 'priority_high' };
+        } else if (rulHours != null && rulHours < 72) {
+            msg = '⚠️ Plan maintenance within 2–3 days — RUL below 72 hours.';
+            theme = { bg: '#fffbeb', border: '#fde68a', icon: '#d97706', text: '#78350f', ic: 'warning' };
+        } else if (rulHours != null && rulHours < 168) {
+            msg = '📅 Schedule routine inspection within the next week.';
+            theme = { bg: '#eff6ff', border: '#bfdbfe', icon: '#2563eb', text: '#1e3a8a', ic: 'event' };
+        }
+        recDiv.innerHTML = `
+            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:${theme.bg};border:1px solid ${theme.border};">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:${theme.bg};">
+                    <span class="material-symbols-outlined" style="color:${theme.icon};">${theme.ic}</span>
+                </div>
+                <p class="font-semibold text-sm" style="color:${theme.text};">${msg}</p>
+            </div>`;
+    }
+
+    // Detail grid with all real metrics
+    const details = [];
+    if (result.model_id) details.push({ label: 'Model ID', value: result.model_id });
+    if (result.model_type && result.model_type !== result.model_id) details.push({ label: 'Model type', value: result.model_type });
+    if (result.model_version) details.push({ label: 'Version', value: 'v' + result.model_version });
+    if (result.dataset_family) details.push({ label: 'Dataset family', value: result.dataset_family });
+    if (result.risk_level) details.push({ label: 'Risk level', value: result.risk_level });
+    if (result.processing_time_ms != null) details.push({ label: 'Processing time', value: Number(result.processing_time_ms).toFixed(0) + ' ms' });
+    if (result.sensor_quality != null) details.push({ label: 'Sensor quality', value: (Number(result.sensor_quality) * 100).toFixed(0) + '%' });
+    if (result.prediction_trust) details.push({ label: 'Trust', value: result.prediction_trust });
+
+    const uncertaintyBlock = (result.uncertainty_lower != null && result.uncertainty_upper != null) ? `
+        <div class="bg-slate-50 rounded-xl p-3 sm:p-4 mt-3">
+            <p class="text-[10px] sm:text-xs text-slate-500 mb-1">Uncertainty bounds (95%)</p>
+            <p class="text-sm font-bold text-slate-800">${Number(result.uncertainty_lower).toFixed(1)}h — ${Number(result.uncertainty_upper).toFixed(1)}h</p>
+            ${result.uncertainty_source ? `<p class="text-[10px] text-slate-400 mt-1">Source: ${escapeHtml(result.uncertainty_source)}</p>` : ''}
+        </div>` : '';
+
+    const oodBlock = (result.ood_flags && result.ood_flags.length > 0) ? `
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mt-3">
+            <p class="text-[10px] text-amber-700 font-semibold mb-1">Out-of-distribution flags</p>
+            <ul class="text-xs text-amber-800 list-disc pl-4">${result.ood_flags.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul>
+        </div>` : '';
+
+    const fallbackBlock = result.fallback ? `
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mt-3">
+            <p class="text-xs font-semibold text-amber-800">⚠ Diagnostic estimate</p>
+            <p class="text-xs text-amber-700 mt-1">${escapeHtml(result.fallback_reason || 'No compatible trained model was used.')}</p>
+        </div>` : '';
+
+    const statusTheme = status === 'critical' ? { bg: '#fef2f2', text: '#7f1d1d' }
+                      : status === 'warning' ? { bg: '#fffbeb', text: '#78350f' }
+                      : result.fallback ? { bg: '#fffbeb', text: '#78350f' }
+                      : { bg: '#ecfdf5', text: '#065f46' };
+    const statusLabel = status === 'critical' ? '🚨 Immediate action required'
+                      : status === 'warning' ? '⚠️ Monitor closely'
+                      : result.fallback ? '⚠️ Diagnostic estimate — no validated trained model'
+                      : '✅ Trained-model prediction';
+
+    resultsContent.innerHTML = `
+        <div class="grid grid-cols-2 gap-3 sm:gap-4">
+            <div class="bg-slate-50 rounded-xl p-3 sm:p-4 text-center">
+                <span class="material-symbols-outlined text-teal-600 text-lg sm:text-2xl">schedule</span>
+                <p class="text-lg sm:text-2xl font-bold text-slate-800 mt-1">${rulHours != null ? rulHours.toFixed(1) + 'h' : '—'}</p>
+                <p class="text-[10px] sm:text-xs text-slate-500">Remaining Useful Life</p>
+                ${rulDays != null ? `<p class="text-[10px] text-slate-400 mt-0.5">≈ ${rulDays.toFixed(1)} days</p>` : ''}
+            </div>
+            <div class="bg-slate-50 rounded-xl p-3 sm:p-4 text-center">
+                <span class="material-symbols-outlined text-teal-600 text-lg sm:text-2xl">verified</span>
+                <p class="text-lg sm:text-2xl font-bold text-slate-800 mt-1">${confidence != null ? confidence.toFixed(1) + '%' : '—'}</p>
+                <p class="text-[10px] sm:text-xs text-slate-500">Confidence Score</p>
+            </div>
+        </div>
+
+        ${details.length > 0 ? `
+            <div class="grid grid-cols-2 gap-2 mt-3">
+                ${details.map(d => `
+                    <div class="bg-slate-50 rounded-lg p-2">
+                        <p class="text-[10px] text-slate-400">${escapeHtml(d.label)}</p>
+                        <p class="text-xs font-semibold text-slate-800 truncate">${escapeHtml(String(d.value))}</p>
+                    </div>`).join('')}
+            </div>` : ''}
+
+        ${uncertaintyBlock}
+        ${oodBlock}
+        ${fallbackBlock}
+
+        <div class="mt-3 p-3 rounded-xl" style="background:${statusTheme.bg};">
+            <p class="font-semibold text-xs sm:text-sm flex items-center gap-2" style="color:${statusTheme.text};">
+                <span class="material-symbols-outlined text-base">info</span>
+                Overall Assessment: ${statusLabel}
+            </p>
+        </div>
+
+        <div class="mt-2 text-[10px] text-slate-400 break-words">
+            ${result.fallback ? '<span class="font-semibold text-amber-600">⚠ diagnostic estimate</span>' : '<span class="font-semibold text-green-600">✓ trained model</span>'}
+            • Horizon: ${Number(result.horizon || 30)} days
+        </div>
+    `;
+
+    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ------------------------------------------------------------
+// DIAGNOSIS ON FAILURE
+// ------------------------------------------------------------
+async function showDiagnosisOnFailure(machineId, fallbackMsg) {
+    try {
+        const res = await API.predictDebug(machineId);
+        const d = res.diagnosis || {};
+        const top = (d.family_ranking || [])[0];
+        const attempts = d.per_model_attempts || [];
+        let detail = `Incoming columns: ${(d.incoming_columns || []).join(', ')}`;
+        if (top) detail += `\nClosest family: ${top.family} (score ${Number(top.score).toFixed(2)})`;
+        const firstFail = attempts.find(a => a.status && a.status !== 'COMPATIBLE');
+        if (firstFail) detail += `\nModel: ${firstFail.model_id || '?'}\nReason: ${firstFail.reason || firstFail.status}`;
+        renderPredictionUnavailable(detail, 422);
+    } catch (e) {
+        renderPredictionUnavailable(fallbackMsg, 422);
+    }
+}
+
+// ------------------------------------------------------------
+// RUN PREDICTION ON SELECTED MACHINE
+// ------------------------------------------------------------
+async function runPrediction() {
+    if (isPredicting) return;
+    if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+    if (!selectedMachine) { showToast('Please select a machine first', 'warning'); return; }
+    const m = machines.find(x => x.id === selectedMachine);
+    if (!m) { showToast('Machine not found', 'error'); return; }
+
+    const model = $('aiModel').value;
+    const horizon = parseInt($('predictionHorizon').value) || 30;
+
+    const btn = $('runPredictionMainBtn');
+    const original = btn.innerHTML;
+    isPredicting = true;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Running prediction...';
+
+    try {
+        const res = await API.predictMachine(selectedMachine, model, horizon);
+        const u = normalizePredictionResponse(res);
+        displayPredictionResults(u);
+        await loadHistory();
+        await loadStats();
+        showToast(`✅ Prediction complete${u.rul_hours != null ? ' (RUL ' + Number(u.rul_hours).toFixed(1) + 'h)' : ''}`, 'success', 5000);
+        if (res.alert_created) {
+            setTimeout(() => showToast(`⚠️ Alert: ${res.alert_created.title}`, 'warning', 6000), 1200);
+            loadAlertsBadge();
+        }
+        setTimeout(loadMachines, 800);
+    } catch (error) {
+        const msg = error.message || 'unknown error';
+        if (error.status === 422) {
+            await showDiagnosisOnFailure(selectedMachine, msg);
+            showToast('Prediction unavailable — see diagnostics below', 'warning', 8000);
+        } else if (error.status === 429) {
+            showToast('Quota reached — ' + msg, 'warning', 7000);
+        } else {
+            showToast('Prediction failed: ' + msg, 'error', 8000);
+        }
+    } finally {
+        isPredicting = false;
+        btn.disabled = false;
+        btn.innerHTML = original;
+    }
+}
+
+// ------------------------------------------------------------
+// RUN PREDICTION ON UPLOADED DATASET — no machine/type selection
+// ------------------------------------------------------------
+$('predictFromDatasetBtn').addEventListener('click', async function () {
+    if (!uploadedDataset) { showToast('Please upload a dataset first', 'warning'); return; }
+    if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+
+    const model = $('aiModel').value;
+    const horizon = parseInt($('predictionHorizon').value) || 30;
+
+    const btn = this;
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Running on dataset...';
+
+    try {
+        const res = await API.predictDataset(uploadedDataset.filename, model, horizon, null);
+        const u = normalizePredictionResponse(res);
+        displayPredictionResults(u);
+        await loadHistory();
+        await loadStats();
+        showToast(`✅ Dataset prediction complete — model: ${u.model_id || u.model_type}`, 'success', 5000);
+        if (res.alert_created) {
+            setTimeout(() => showToast(`⚠️ Alert: ${res.alert_created.title}`, 'warning', 6000), 1200);
+            loadAlertsBadge();
+        }
+        // Do NOT call loadMachines() here — dataset prediction shouldn't create a visible machine row.
+    } catch (error) {
+        const msg = error.message || 'unknown error';
+        if (error.status === 422) {
+            renderPredictionUnavailable(msg, 422);
+            showToast('Prediction unavailable — the backend could not match a compatible trained model', 'warning', 8000);
+        } else if (error.status === 429) {
+            showToast('Quota reached — ' + msg, 'warning', 7000);
+        } else {
+            renderPredictionUnavailable(msg, error.status || 0);
+            showToast('Prediction failed: ' + msg, 'error', 8000);
+        }
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = original;
+    }
+});
+
+// ------------------------------------------------------------
+// HISTORY
+// ------------------------------------------------------------
+async function loadHistory() {
+    if (!Auth.isAuthenticated) return;
+    try {
+        const data = await API.getHistory(1, 20);
+        history = data.items || data.predictions || [];
+        renderHistory();
+        history.forEach(p => {
+            const id = p.uuid || p.id;
+            if (id) seenPredictionIds.add(String(id));
+        });
+    } catch (error) {
+        if (error && error.status === 401) return;
+        history = [];
+        renderHistory(error);
+    }
+}
+
+function renderHistory(error) {
+    const tbody = $('historyTable');
+    if (error && error.message) {
+        tbody.innerHTML = `
+            <tr><td colspan="6" class="text-center py-6 text-red-600 text-xs sm:text-sm">
+                Could not load history: ${escapeHtml(error.message)}
+                <button onclick="loadHistory()" class="ml-2 underline text-teal-600">Retry</button>
+            </td></tr>`;
+        return;
+    }
+    if (!history || history.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-slate-500 text-xs sm:text-sm">No predictions yet. Run your first prediction above.</td></tr>';
+        return;
+    }
+    const statusClass = s => s === 'critical' ? 'status-critical'
+                          : s === 'warning' ? 'status-warning'
+                          : 'status-online';
+    tbody.innerHTML = history.slice(0, 10).map(p => {
+        const date = new Date(p.created_at || p.timestamp || Date.now());
+        const machineName = p.machine_name || p.machineName || 'Dataset';
+        const rulHours = p.rul_hours ?? p.rul ?? 0;
+        const status = p.status || 'unknown';
+        const model = p.model_type || p.modelUsed || '—';
+        return `
+            <tr class="border-b border-slate-100 hover:bg-slate-50">
+                <td class="px-3 py-2 sm:py-3 text-[10px] sm:text-xs font-medium text-slate-800 truncate">${escapeHtml(machineName)}</td>
+                <td class="px-3 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold">${Number(rulHours).toFixed(1)}</td>
+                <td class="px-3 py-2 sm:py-3 text-[10px] sm:text-xs">${p.confidence != null ? Number(p.confidence).toFixed(1) + '%' : '—'}</td>
+                <td class="px-3 py-2 sm:py-3 text-[10px] sm:text-xs text-slate-500 truncate">${escapeHtml(model)}</td>
+                <td class="px-3 py-2 sm:py-3"><span class="text-[9px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full ${statusClass(status)}">${escapeHtml(status)}</span></td>
+                <td class="px-3 py-2 sm:py-3 text-[10px] sm:text-xs text-slate-500">${date.toLocaleDateString()}</td>
+            </tr>`;
+    }).join('');
+}
+
+// ------------------------------------------------------------
+// STATS
+// ------------------------------------------------------------
+async function loadStats() {
+    try {
+        const data = await API.getStats();
+        const s = (data && data.stats) || data || {};
+        $('statTotal').textContent = s.total != null ? s.total : '—';
+        $('statAvgRul').textContent = s.avg_rul != null ? Number(s.avg_rul).toFixed(1) : '—';
+        const bd = s.status_breakdown || {};
+        $('statHealthy').textContent = bd.healthy || bd.normal || 0;
+        $('statCritical').textContent = bd.critical || 0;
+    } catch (e) {
+        ['statTotal','statAvgRul','statHealthy','statCritical'].forEach(id => { $(id).textContent = '—'; });
+    }
+}
+
+// ------------------------------------------------------------
+// WEBSOCKET — realtime + idempotent
+// ------------------------------------------------------------
+function connectWebSocket() {
+    const token = getToken();
+    if (!token || !isTokenValid(token)) return;
+    if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+
+    try {
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = `${proto}//${window.location.host}/ws?token=${encodeURIComponent(token)}`;
+        wsConnection = new WebSocket(url);
+
+        wsConnection.onopen = () => {
+            const el = $('wsStatus');
+            if (el) { el.textContent = '● LIVE'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 font-semibold'; }
+        };
+        wsConnection.onmessage = (event) => {
+            try { handleWsMessage(JSON.parse(event.data)); } catch (e) {}
+        };
+        wsConnection.onclose = (evt) => {
+            const el = $('wsStatus');
+            if (el) { el.textContent = '● SYNC'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold'; }
+            if (evt && evt.code === 1008) return;
+            if (isTokenValid(getToken())) {
+                clearTimeout(wsReconnectTimer);
+                wsReconnectTimer = setTimeout(connectWebSocket, 6000);
+            }
+        };
+        wsConnection.onerror = () => {};
+    } catch (e) {}
+}
+
+function handleWsMessage(data) {
+    if (!data || !data.type) return;
+    switch (data.type) {
+        case 'prediction_created': {
+            const p = data.prediction || {};
+            const id = p.uuid || p.id;
+            if (id && seenPredictionIds.has(String(id))) return;
+            if (id) seenPredictionIds.add(String(id));
+            loadHistory();
+            loadStats();
+            if (p.machine_id && p.machine_id === selectedMachine) loadSensorChart(selectedMachine);
+            if (p.machine_name) showToast(`📊 New prediction: ${p.machine_name}`, 'info', 3500);
+            break;
+        }
+        case 'alert_created':
+            loadAlertsBadge();
+            if (data.alert && ['critical','warning'].includes(data.alert.severity)) {
+                showToast(`⚠️ ${data.alert.title}`, 'warning', 6000);
+            }
+            break;
+        case 'machine_updated':
+        case 'machine_update':
+            if (data.machine && data.machine.id) {
+                if ((data.machine.name || '') === DATASET_HIDDEN_NAME) return;
+                const idx = machines.findIndex(m => m.id === data.machine.id);
+                if (idx !== -1) {
+                    machines[idx] = { ...machines[idx], ...data.machine };
+                    renderMachines();
+                    if (data.machine.id === selectedMachine) updateAssetCard();
+                } else {
+                    machines.unshift(data.machine);
+                    renderMachines();
+                }
+            }
+            break;
+        case 'machine_created':
+            loadMachines();
+            break;
+        case 'machine_deleted':
+            if (data.machine_id) {
+                machines = machines.filter(m => m.id !== data.machine_id);
+                renderMachines();
+                if (selectedMachine === data.machine_id) { selectedMachine = null; updateAssetCard(); }
+            }
+            break;
+        case 'user_updated':
+            if (data.user) {
+                try {
+                    const current = getUser();
+                    if (!current || current.id === data.user.id) {
+                        localStorage.setItem('synapse_user', JSON.stringify({ ...(current || {}), ...data.user }));
+                        localStorage.setItem('user', JSON.stringify({ ...(current || {}), ...data.user }));
+                        updateUserUI();
+                    }
+                } catch {}
+            }
+            break;
+        case 'ping':
+            try { wsConnection?.send(JSON.stringify({ type: 'pong' })); } catch (e) {}
+            break;
+    }
+}
+
+// ------------------------------------------------------------
+// WIRE UP
+// ------------------------------------------------------------
+DOM.sidebarToggle?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleSidebar(); });
+DOM.mobileMenuToggle?.addEventListener('click', openMobileSidebar);
+DOM.sidebarOverlay?.addEventListener('click', closeMobileSidebar);
+DOM.userAvatar?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleProfileMenu(); });
+DOM.profileLogoutBtn?.addEventListener('click', () => Auth.logout());
+DOM.profileSettingsBtn?.addEventListener('click', () => { closeProfileMenu(); window.location.href = 'settings.html'; });
+DOM.profileMenu?.addEventListener('click', e => e.stopPropagation());
+document.querySelectorAll('#mainSidebar .sidebar-link').forEach(link => {
+    link.addEventListener('click', () => {
+        if (!isDesktop()) closeMobileSidebar();
+        closeProfileMenu();
+    });
+});
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        closeProfileMenu();
+        if (!isDesktop() && sidebar.classList.contains('mobile-open')) closeMobileSidebar();
+    }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); runPrediction(); }
+});
+document.addEventListener('click', e => {
+    if (DOM.profileMenu?.classList.contains('open')
+        && !DOM.profileMenu.contains(e.target)
+        && !DOM.userAvatar?.contains(e.target)) closeProfileMenu();
+});
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        if (isDesktop()) closeMobileSidebar();
+        updateSidebarUI();
+    }, 80);
+});
+
+// ------------------------------------------------------------
+// INIT
+// ------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!Auth.isAuthenticated) {
+        const ok = await performRefresh();
+        if (!ok) { Auth.logout(); return; }
+    }
+
+    document.body.style.overflow = '';
+    updateUserUI();
+    updateSidebarUI();
+    initChart();
+
+    await Promise.allSettled([loadMachines(), loadHistory(), loadStats()]);
+    connectWebSocket();
+
+    $('runPredictionBtn')?.addEventListener('click', runPrediction);
+    $('runPredictionMainBtn')?.addEventListener('click', runPrediction);
+
+    refreshInterval = setInterval(() => {
+        if (!Auth.isAuthenticated) return;
+        if (document.visibilityState !== 'visible') return;
+        loadHistory();
+        loadStats();
+        loadAlertsBadge();
+    }, 30000);
+
+    sensorInterval = setInterval(() => {
+        if (!Auth.isAuthenticated) return;
+        if (document.visibilityState !== 'visible') return;
+        if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+        if (selectedMachine) loadSensorChart(selectedMachine);
+    }, 12000);
+});
+
+window.addEventListener('beforeunload', () => {
+    if (refreshInterval) clearInterval(refreshInterval);
+    if (sensorInterval) clearInterval(sensorInterval);
+    try { if (wsConnection) wsConnection.close(1000, 'unload'); } catch {}
+});
+
+// ------------------------------------------------------------
+// EXPOSE
+// ------------------------------------------------------------
+window.selectMachine = selectMachine;
+window.runPrediction = runPrediction;
+window.loadMachines = loadMachines;
+window.loadHistory = loadHistory;
+window.loadStats = loadStats;
+window.clearUploadedDataset = clearUploadedDataset;
+window.toggleSidebar = toggleSidebar;
+window.closeMobileSidebar = closeMobileSidebar;
+window.openMobileSidebar = openMobileSidebar;
+window.toggleProfileMenu = toggleProfileMenu;
+window.closeProfileMenu = closeProfileMenu;
+window.showToast = showToast;
+</script>
+</body>
+</html>

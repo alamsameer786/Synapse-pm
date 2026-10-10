@@ -1,0 +1,23 @@
+2026-08-01 20:58:57,383 | WARNING | Stripe not configured - use STRIPE_SECRET_KEY in .env
+2026-08-01 20:58:57,809 | ERROR | Scheduler error: (psycopg2.errors.UndefinedColumn) column subscriptions.organization_id does not exist
+LINE 1: SELECT subscriptions.id AS subscriptions_id, subscriptions.o...
+                                                     ^
+
+[SQL: SELECT subscriptions.id AS subscriptions_id, subscriptions.organization_id AS subscriptions_organization_id, subscriptions.user_id AS subscriptions_user_id, subscriptions.plan AS subscriptions_plan, subscriptions.status AS subscriptions_status, subscriptions.provider AS subscriptions_provider, subscriptions.provider_subscription_id AS subscriptions_provider_subscription_id, subscriptions.provider_subscription_encrypted AS subscriptions_provider_subscription_encrypted, subscriptions.amount AS subscriptions_amount, subscriptions.currency AS subscriptions_currency, subscriptions.start_date AS subscriptions_start_date, subscriptions.end_date AS subscriptions_end_date, subscriptions.auto_renew AS subscriptions_auto_renew, subscriptions.cancelled_at AS subscriptions_cancelled_at, subscriptions.created_at AS subscriptions_created_at 
+FROM subscriptions 
+WHERE subscriptions.end_date < %(end_date_1)s AND subscriptions.status = %(status_1)s]
+[parameters: {'end_date_1': datetime.datetime(2026, 8, 1, 15, 28, 57, 787249), 'status_1': 'active'}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-08-01 20:58:58,789 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.65.101:5000
+2026-08-01 20:58:58,790 | INFO | [33mPress CTRL+C to quit[0m
+2026-08-16 11:12:14,907 | WARNING | Python-dotenv could not parse statement starting at line 53
+2026-08-16 11:12:15,828 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.65.84:5000
+2026-08-16 11:12:15,829 | INFO | [33mPress CTRL+C to quit[0m
+2026-08-16 11:12:16,008 | INFO | 127.0.0.1 - - [16/Aug/2026 11:12:16] "[33mGET /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZmMxN2QyM2MtMjkyNy00YzM5LTg2ZmQtZWU5YzViNTU3YTI2IiwidXVpZCI6IjEzMTA1ZTdkLTI2ZTAtNGFlZS1iODA5LTA1YzJkZTM2MjZjYyIsImVtYWlsIjoieW94b3NvdzEyOUBub3ZlbHYuY29tIiwidXNlcm5hbWUiOiJ5b3hvc293MTI5Iiwicm9sZSI6Im9yZ19hZG1pbiIsIm9yZ19pZCI6ImZkZmE3N2MyLTI4YWQtNDk1MS1hOWExLTQ3ZTI1ODUyMGUwZiIsImV4cCI6MTc4NzM3NDE5NywiaWF0IjoxNzg2NzY5Mzk3LCJqdGkiOiIyMGY4NDc0OS00N2U5LTRiNjMtOThmZC0zMjlkMTZlMjNmOTgifQ.deZF36MbQeIEHlxRg8MFS4nmjNAgIL-GYa6zAPqh80I HTTP/1.1[0m" 404 -
+2026-08-16 11:12:19,781 | INFO | 127.0.0.1 - - [16/Aug/2026 11:12:19] "[33mGET /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZmMxN2QyM2MtMjkyNy00YzM5LTg2ZmQtZWU5YzViNTU3YTI2IiwidXVpZCI6IjEzMTA1ZTdkLTI2ZTAtNGFlZS1iODA5LTA1YzJkZTM2MjZjYyIsImVtYWlsIjoieW94b3NvdzEyOUBub3ZlbHYuY29tIiwidXNlcm5hbWUiOiJ5b3hvc293MTI5Iiwicm9sZSI6Im9yZ19hZG1pbiIsIm9yZ19pZCI6ImZkZmE3N2MyLTI4YWQtNDk1MS1hOWExLTQ3ZTI1ODUyMGUwZiIsImV4cCI6MTc4NzM3NDE5NywiaWF0IjoxNzg2NzY5Mzk3LCJqdGkiOiIyMGY4NDc0OS00N2U5LTRiNjMtOThmZC0zMjlkMTZlMjNmOTgifQ.deZF36MbQeIEHlxRg8MFS4nmjNAgIL-GYa6zAPqh80I HTTP/1.1[0m" 404 -

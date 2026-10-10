@@ -1,0 +1,39 @@
+2026-04-01 11:45:36,830 - __main__ - INFO - Auto-retrain not started
+2026-04-01 11:45:36,895 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 14:18:38,349 - __main__ - INFO - Auto-retrain not started
+2026-04-01 14:18:38,485 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 14:18:38,487 - __main__ - ERROR - Data load failed: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-04-01 15:05:04,240 - __main__ - ERROR - Error in auto-retrain loop: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-04-01 15:05:04,244 - __main__ - INFO - Auto-retrain service started
+2026-04-01 15:05:04,252 - __main__ - INFO - Auto-retrain service initialized
+2026-04-01 15:05:04,594 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 15:05:04,598 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 15:05:04,615 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 15:05:04,617 - __main__ - ERROR - Data load failed: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-04-01 22:13:31,553 - __main__ - ERROR - Error in auto-retrain loop: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-04-01 22:13:31,555 - __main__ - INFO - Auto-retrain service started
+2026-04-01 22:13:31,561 - __main__ - INFO - Auto-retrain service initialized
+2026-04-01 22:13:31,680 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 22:13:31,682 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 22:13:31,692 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 22:13:31,695 - __main__ - ERROR - Data load failed: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.

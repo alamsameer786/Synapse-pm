@@ -1,0 +1,51 @@
+{
+  "appId": "com.synapsepm.app",
+  "appName": "SynapsePM",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://app.synapsepm.com",
+    "cleartext": false,
+    "androidScheme": "https",
+    "iosScheme": "capacitor"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "launchAutoHide": true,
+      "backgroundColor": "#0f2b3d",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": true,
+      "androidSpinnerStyle": "large",
+      "iosSpinnerStyle": "large",
+      "spinnerColor": "#00b4aa"
+    },
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#0f2b3d",
+      "overlaysWebView": false
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  },
+  "android": {
+    "allowMixedContent": true,
+    "minSdkVersion": 21,
+    "targetSdkVersion": 34,
+    "buildOptions": {
+      "release": {
+        "keystore": "release.keystore",
+        "keystoreAlias": "synapsepm",
+        "keystorePassword": "${KEYSTORE_PASSWORD}",
+        "keyPassword": "${KEY_PASSWORD}"
+      }
+    }
+  },
+  "ios": {
+    "minVersion": "13.0",
+    "scheme": "SynapsePM",
+    "cordovaSwiftVersion": "5.0"
+  }
+}

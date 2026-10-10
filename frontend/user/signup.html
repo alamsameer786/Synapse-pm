@@ -1,0 +1,1149 @@
+﻿<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
+  <title>Sign Up | SynapsePM | Start Your Free Trial</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+  <meta name="description" content="Create your SynapsePM account and start predicting equipment failures with AI-powered predictive maintenance. Free 14-day trial." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
+    .font-headline { font-family: 'Manrope', sans-serif; }
+    .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+    .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+    .gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ============================================================
+       SYNAPSEPM CUSTOM LOGO — FIXED SIZING & ALIGNMENT
+       ============================================================ */
+    .synapsepm-logo {
+      font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 22px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      vertical-align: middle;
+    }
+    .synapsepm-logo > span:not(.logo-icon),
+    .synapsepm-logo strong {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+      height: 32px;
+    }
+    .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+    .synapsepm-logo strong {
+      background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .synapsepm-logo .logo-icon {
+      width: 32px; height: 32px;
+      min-width: 32px; min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: transparent !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .synapsepm-logo .logo-icon img {
+      width: 32px; height: 32px;
+      object-fit: contain; display: block;
+    }
+    .synapsepm-logo.logo-sm { font-size: 18px; gap: 0.4rem; }
+    .synapsepm-logo.logo-sm .logo-icon,
+    .synapsepm-logo.logo-sm .logo-icon img {
+      width: 26px; height: 26px; min-width: 26px; min-height: 26px;
+    }
+    .synapsepm-logo.logo-sm > span:not(.logo-icon),
+    .synapsepm-logo.logo-sm strong { height: 26px; }
+
+    .synapsepm-logo.logo-lg { font-size: 26px; gap: 0.65rem; }
+    .synapsepm-logo.logo-lg .logo-icon,
+    .synapsepm-logo.logo-lg .logo-icon img {
+      width: 38px; height: 38px; min-width: 38px; min-height: 38px;
+    }
+    .synapsepm-logo.logo-lg > span:not(.logo-icon),
+    .synapsepm-logo.logo-lg strong { height: 38px; }
+
+    /* White-text variant for dark brand side */
+    .synapsepm-logo.logo-on-dark > span:not(.logo-icon) { color: #ffffff; }
+
+    .signup-container { min-height: 100vh; display: flex; }
+    .signup-brand {
+      flex: 1;
+      background: url('assets/img/bg img.png') center center/cover no-repeat;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.5rem;
+    }
+    .signup-brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(15, 43, 61, 0.94) 0%, rgba(26, 74, 110, 0.92) 100%);
+      pointer-events: none;
+    }
+    .signup-brand .brand-content { position: relative; z-index: 10; }
+
+    /* Left panel feature list */
+    .feature-list { list-style: none; padding: 0; margin: 0; }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      color: rgba(255,255,255,0.9);
+    }
+    .feature-list li .material-symbols-outlined {
+      color: #00b4aa;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+    }
+    .feature-list li .feature-title {
+      font-weight: 600;
+      color: #ffffff;
+      font-size: 0.9375rem;
+      display: block;
+      margin-bottom: 0.125rem;
+    }
+    .feature-list li .feature-desc {
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.5;
+    }
+
+    .trust-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .trust-row .material-symbols-outlined { font-size: 1rem; color: #00b4aa; }
+
+    .signup-form-panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: white;
+      overflow-y: auto;
+    }
+    .signup-form-container { max-width: 460px; width: 100%; }
+
+    .form-input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      font-size: 0.9375rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .form-input:focus { outline: none; border-color: #00b4aa; box-shadow: 0 0 0 3px rgba(0, 180, 170, 0.1); background: #fff; }
+    .form-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
+    .form-input.success { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+
+    .form-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #475569;
+      margin-bottom: 0.5rem;
+    }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 3rem; }
+    .password-toggle {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #94a3b8;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+    .password-toggle:hover { color: #00b4aa; }
+    .password-toggle .material-symbols-outlined { font-size: 1.25rem; }
+
+    .alert {
+      padding: 0.875rem 1rem;
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      line-height: 1.4;
+    }
+    .alert.show { display: flex; }
+    .alert-error { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+    .alert-error::before { content: "error"; font-family: 'Material Symbols Outlined'; font-size: 1.25rem; flex-shrink: 0; }
+    .alert-success { background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; }
+    .alert-success::before { content: "check_circle"; font-family: 'Material Symbols Outlined'; font-size: 1.25rem; flex-shrink: 0; }
+    .alert-info { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; }
+    .alert-info::before { content: "info"; font-family: 'Material Symbols Outlined'; font-size: 1.25rem; flex-shrink: 0; }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 0.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Password strength */
+    .password-strength { margin-top: 0.5rem; }
+    .strength-bar { height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden; margin-bottom: 0.4rem; }
+    .strength-fill { height: 100%; width: 0%; transition: width 0.3s ease; }
+    .strength-weak { background: #ef4444; }
+    .strength-medium { background: #f59e0b; }
+    .strength-strong { background: #10b981; }
+
+    /* Requirement checklist */
+    .pwd-requirements {
+      margin-top: 0.6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 0.75rem;
+    }
+    .pwd-req {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      color: #94a3b8;
+      transition: color 0.2s ease;
+    }
+    .pwd-req.met { color: #10b981; }
+    .pwd-req .req-icon { font-size: 0.875rem; font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 20; }
+    .pwd-req.met .req-icon { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20; }
+
+    .trial-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(0, 180, 170, 0.1);
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #00b4aa;
+      margin-bottom: 1rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .social-btn {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      background: white;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #0f2b3d;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: inherit;
+    }
+    .social-btn:hover:not(:disabled) { background: #f8fafc; border-color: #00b4aa; transform: translateY(-1px); }
+    .social-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .social-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .input-error-text { font-size: 0.7rem; color: #ef4444; margin-top: 0.25rem; display: none; }
+    .input-error-text.show { display: block; }
+    .checkbox-wrapper { display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer; }
+    .checkbox-wrapper input[type="checkbox"] {
+      margin-top: 0.125rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 0.25rem;
+      border: 1px solid #d1d5db;
+      flex-shrink: 0;
+      accent-color: #00b4aa;
+    }
+    .checkbox-wrapper .checkbox-label { font-size: 0.75rem; color: #64748b; line-height: 1.5; }
+    .checkbox-wrapper .checkbox-label a { color: #00b4aa; text-decoration: none; font-weight: 600; }
+    .checkbox-wrapper .checkbox-label a:hover { text-decoration: underline; }
+
+    .verification-box {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .verification-box.show { display: block; }
+    .verification-box h4 { color: #0369a1; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .verification-box ol { color: #0c4a6e; font-size: 0.8rem; padding-left: 1.25rem; margin: 0.5rem 0; }
+    .verification-box ol li { margin-bottom: 0.25rem; }
+    .verification-box .resend-link { color: #00b4aa; font-weight: 600; cursor: pointer; text-decoration: underline; }
+    .verification-box .resend-link:hover { color: #00796b; }
+
+    @media (max-width: 900px) {
+      .signup-brand { display: none; }
+      .signup-form-panel { flex: none; width: 100%; padding: 1rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .signup-form-container { max-width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .signup-form-panel { padding: 0.75rem; }
+      .social-btn { font-size: 0.75rem; padding: 0.6rem; }
+      .social-btn svg { width: 16px; height: 16px; }
+      .pwd-requirements { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="signup-container">
+  <!-- ============ BRAND SIDE ============ -->
+  <div class="signup-brand">
+    <div class="brand-content">
+      <a href="index.html" class="flex items-center gap-2 mb-10" aria-label="SynapsePM home">
+        <div class="synapsepm-logo logo-lg logo-on-dark">
+          <span class="logo-icon">
+            <img src="assets/img/logo.png" alt="SynapsePM Logo" id="logoImg" onerror="this.style.display='none'">
+          </span>
+          <span>Synapse</span><strong>PM</strong>
+        </div>
+      </a>
+
+      <h2 class="font-headline text-2xl sm:text-3xl font-bold text-white mb-3 leading-tight">
+        Predict equipment failures<br>before they happen.
+      </h2>
+      <p class="text-white/70 text-sm mb-8 leading-relaxed max-w-sm">
+        SynapsePM runs trained machine learning models against your sensor data and returns Remaining Useful Life estimates — with full feature provenance and no fabricated predictions.
+      </p>
+
+      <ul class="feature-list">
+        <li>
+          <span class="material-symbols-outlined">neurology</span>
+          <div>
+            <span class="feature-title">7 ML model families</span>
+            <span class="feature-desc">LSTM, Transformer, XGBoost, Random Forest, Gradient Boosting, SVM, Neural Network</span>
+          </div>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">precision_manufacturing</span>
+          <div>
+            <span class="feature-title">Machine & sensor management</span>
+            <span class="feature-desc">Register equipment, generate per-device keys, ingest readings via REST or MQTT</span>
+          </div>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">notifications_active</span>
+          <div>
+            <span class="feature-title">Automatic alerts</span>
+            <span class="feature-desc">RUL-based alerts at 72h and 24h thresholds, plus sensor anomaly detection</span>
+          </div>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">assessment</span>
+          <div>
+            <span class="feature-title">Reports & audit trail</span>
+            <span class="feature-desc">Real maintenance reports as PDF/CSV/JSON, with a tamper-evident audit log</span>
+          </div>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">api</span>
+          <div>
+            <span class="feature-title">Full REST API + WebSocket</span>
+            <span class="feature-desc">Programmatic access to machines, predictions, alerts, and reports</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="brand-content">
+      <div class="trust-row">
+        <span class="material-symbols-outlined">password</span>
+        <span>Passwords hashed with Argon2id</span>
+      </div>
+      <div class="trust-row">
+        <span class="material-symbols-outlined">shield_lock</span>
+        <span>Per-organization tenant isolation on every query</span>
+      </div>
+      <div class="trust-row">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span>Tamper-evident hash-chained audit log</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FORM PANEL ============ -->
+  <div class="signup-form-panel">
+    <div class="signup-form-container">
+
+      <!-- Mobile Logo -->
+      <div class="text-center mb-6 block md:hidden">
+        <div class="flex items-center justify-center gap-2 mb-4">
+          <div class="synapsepm-logo logo-sm">
+            <span class="logo-icon">
+              <img src="assets/img/logo.png" alt="SynapsePM" id="mobileLogoImg" onerror="this.style.display='none'">
+            </span>
+            <span>Synapse</span><strong>PM</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <div class="text-center mb-6 sm:mb-8">
+        <div class="trial-badge">🚀 14-Day Free Trial</div>
+        <h1 class="text-xl sm:text-2xl font-bold text-primary mb-2 font-headline">Create Your Account</h1>
+        <p class="text-xs sm:text-sm text-slate-500">No credit card required. Cancel anytime.</p>
+      </div>
+
+      <!-- Alerts -->
+      <div id="errorAlert" class="alert alert-error"></div>
+      <div id="successAlert" class="alert alert-success"></div>
+      <div id="infoAlert" class="alert alert-info"></div>
+
+      <!-- Verification Box -->
+      <div id="verificationBox" class="verification-box">
+        <h4>📧 Please Verify Your Email</h4>
+        <p style="font-size: 0.85rem; color: #0369a1; margin-bottom: 0.5rem;">
+          We've sent a verification link to your email address.
+        </p>
+        <ol>
+          <li>Check your email inbox</li>
+          <li>Click the verification link</li>
+          <li>You'll be redirected to the dashboard</li>
+        </ol>
+        <p style="font-size: 0.8rem; color: #0c4a6e; margin-top: 0.5rem;">
+          Didn't receive the email? Check your spam folder or
+          <span class="resend-link" onclick="resendVerification()">click here to resend</span>
+        </p>
+      </div>
+
+      <!-- Signup Form -->
+      <form id="signupForm" novalidate>
+        <div class="form-row">
+          <div class="mb-3 sm:mb-4">
+            <label class="form-label" for="firstName">First Name</label>
+            <input type="text" id="firstName" class="form-input text-sm sm:text-base" placeholder="John" required autocomplete="given-name">
+            <div class="input-error-text" id="firstNameError">First name is required</div>
+          </div>
+          <div class="mb-3 sm:mb-4">
+            <label class="form-label" for="lastName">Last Name</label>
+            <input type="text" id="lastName" class="form-input text-sm sm:text-base" placeholder="Doe" required autocomplete="family-name">
+            <div class="input-error-text" id="lastNameError">Last name is required</div>
+          </div>
+        </div>
+
+        <div class="mb-3 sm:mb-4">
+          <label class="form-label" for="company">Company Name</label>
+          <input type="text" id="company" class="form-input text-sm sm:text-base" placeholder="Your Company" required autocomplete="organization">
+          <div class="input-error-text" id="companyError">Company name is required</div>
+        </div>
+
+        <div class="mb-3 sm:mb-4">
+          <label class="form-label" for="email">Work Email</label>
+          <input type="email" id="email" class="form-input text-sm sm:text-base" placeholder="name@company.com" required autocomplete="email">
+          <div class="input-error-text" id="emailError">Please enter a valid email address</div>
+        </div>
+
+        <div class="mb-3 sm:mb-4">
+          <label class="form-label" for="password">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="password" class="form-input text-sm sm:text-base" placeholder="Create a strong password" required autocomplete="new-password" minlength="8">
+            <button type="button" class="password-toggle" id="togglePassword" aria-label="Toggle password visibility">
+              <span class="material-symbols-outlined">visibility_off</span>
+            </button>
+          </div>
+          <div class="input-error-text" id="passwordError">Password does not meet the requirements below</div>
+
+          <!-- Password requirements checklist -->
+          <div class="pwd-requirements" id="pwdRequirements">
+            <div class="pwd-req" data-req="length">
+              <span class="material-symbols-outlined req-icon">circle</span>
+              <span>8+ characters</span>
+            </div>
+            <div class="pwd-req" data-req="upper">
+              <span class="material-symbols-outlined req-icon">circle</span>
+              <span>Uppercase letter</span>
+            </div>
+            <div class="pwd-req" data-req="lower">
+              <span class="material-symbols-outlined req-icon">circle</span>
+              <span>Lowercase letter</span>
+            </div>
+            <div class="pwd-req" data-req="digit">
+              <span class="material-symbols-outlined req-icon">circle</span>
+              <span>Number</span>
+            </div>
+            <div class="pwd-req" data-req="special">
+              <span class="material-symbols-outlined req-icon">circle</span>
+              <span>Special character</span>
+            </div>
+          </div>
+
+          <div class="password-strength" id="passwordStrength" style="display: none;">
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+            <span id="strengthText" class="text-[10px] sm:text-xs"></span>
+          </div>
+        </div>
+
+        <div class="mb-3 sm:mb-4">
+          <label class="form-label" for="confirmPassword">Confirm Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="confirmPassword" class="form-input text-sm sm:text-base" placeholder="Re-enter your password" required autocomplete="new-password">
+            <button type="button" class="password-toggle" id="toggleConfirmPassword" aria-label="Toggle confirm password visibility">
+              <span class="material-symbols-outlined">visibility_off</span>
+            </button>
+          </div>
+          <div class="input-error-text" id="confirmPasswordError">Passwords do not match</div>
+        </div>
+
+        <div class="mb-4 sm:mb-6">
+          <label class="checkbox-wrapper">
+            <input type="checkbox" id="terms" required>
+            <span class="checkbox-label">
+              I agree to the
+              <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>
+              and
+              <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+            </span>
+          </label>
+          <div class="input-error-text" id="termsError">You must agree to the Terms of Service</div>
+        </div>
+
+        <button type="submit" class="w-full gradient-cta text-white py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300" id="signupBtn">
+          <span id="btnText">Start Free Trial</span>
+        </button>
+      </form>
+
+      <!-- Social Signup -->
+      <div class="mt-6">
+        <div class="flex items-center gap-3 mb-4">
+          <hr class="flex-1 border-slate-200">
+          <span class="text-xs text-slate-400 font-medium">or continue with</span>
+          <hr class="flex-1 border-slate-200">
+        </div>
+        <div class="grid grid-cols-3 gap-2 sm:gap-3">
+          <button type="button" class="social-btn" id="googleSignup" data-provider="google" aria-label="Sign up with Google">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+            Google
+          </button>
+          <button type="button" class="social-btn" id="githubSignup" data-provider="github" aria-label="Sign up with GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#333" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026.797-.222 1.65-.333 2.5-.336.85.003 1.703.114 2.5.336 1.91-1.295 2.75-1.026 2.75-1.026.544 1.378.201 2.397.098 2.65.64.7 1.029 1.595 1.029 2.688 0 3.846-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            GitHub
+          </button>
+          <button type="button" class="social-btn" id="linkedinSignup" data-provider="linkedin" aria-label="Sign up with LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#0A66C2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
+            LinkedIn
+          </button>
+        </div>
+      </div>
+
+      <!-- Login Link -->
+      <p class="text-center text-xs sm:text-sm text-slate-500 mt-5 sm:mt-6">
+        Already have an account?
+        <a href="login.html" class="text-secondary font-bold hover:underline">Sign in →</a>
+      </p>
+      <div class="text-center mt-3 sm:mt-4">
+        <a href="index.html" class="text-[10px] sm:text-xs text-slate-400 hover:text-secondary transition-colors">← Return to main site</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    'use strict';
+
+    // ============================================================
+    // AUTH HELPERS — matches keys used everywhere else in the app
+    // ============================================================
+    const Auth = {
+      getToken() {
+        return localStorage.getItem('synapse_token')
+            || localStorage.getItem('token')
+            || localStorage.getItem('access_token')
+            || null;
+      },
+      getUser() {
+        try {
+          const u = localStorage.getItem('synapse_user') || localStorage.getItem('user');
+          return u ? JSON.parse(u) : null;
+        } catch { return null; }
+      },
+      isAuthenticated() {
+        const t = this.getToken();
+        if (!t) return false;
+        try {
+          const parts = t.split('.');
+          if (parts.length !== 3) return false;
+          const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+          const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+          const payload = JSON.parse(atob(padded));
+          if (!payload || typeof payload.exp !== 'number') return false;
+          return payload.exp > Math.floor(Date.now() / 1000) + 10;
+        } catch { return false; }
+      },
+      setSession(data) {
+        if (!data) return;
+        if (data.access_token) {
+          localStorage.setItem('synapse_token', data.access_token);
+          localStorage.setItem('token', data.access_token);
+          localStorage.setItem('access_token', data.access_token);
+        }
+        if (data.refresh_token) {
+          localStorage.setItem('synapse_refresh', data.refresh_token);
+          localStorage.setItem('refresh_token', data.refresh_token);
+        }
+        if (data.user) {
+          localStorage.setItem('synapse_user', JSON.stringify(data.user));
+          localStorage.setItem('user', JSON.stringify(data.user));
+        }
+        if (data.organization || data.tenant) {
+          const org = data.organization || data.tenant;
+          localStorage.setItem('synapse_tenant', JSON.stringify(org));
+        }
+      }
+    };
+
+    // If already authenticated with a valid token, go straight to dashboard
+    if (Auth.isAuthenticated() && Auth.getUser()) {
+      window.location.replace('dashboard.html');
+      return;
+    }
+
+    // ============================================================
+    // DOM
+    // ============================================================
+    const $ = (id) => document.getElementById(id);
+    const els = {
+      form: $('signupForm'),
+      submitBtn: $('signupBtn'),
+      btnText: $('btnText'),
+      errorAlert: $('errorAlert'),
+      successAlert: $('successAlert'),
+      infoAlert: $('infoAlert'),
+      verificationBox: $('verificationBox'),
+      firstName: $('firstName'),
+      lastName: $('lastName'),
+      company: $('company'),
+      email: $('email'),
+      password: $('password'),
+      confirmPassword: $('confirmPassword'),
+      terms: $('terms'),
+      togglePassword: $('togglePassword'),
+      toggleConfirmPassword: $('toggleConfirmPassword'),
+      strengthDiv: $('passwordStrength'),
+      strengthFill: $('strengthFill'),
+      strengthText: $('strengthText'),
+      pwdRequirements: $('pwdRequirements'),
+      firstNameError: $('firstNameError'),
+      lastNameError: $('lastNameError'),
+      companyError: $('companyError'),
+      emailError: $('emailError'),
+      passwordError: $('passwordError'),
+      confirmPasswordError: $('confirmPasswordError'),
+      termsError: $('termsError')
+    };
+
+    // ============================================================
+    // ALERTS
+    // ============================================================
+    function hideAlerts() {
+      ['errorAlert', 'successAlert', 'infoAlert'].forEach(id => {
+        const el = $(id);
+        if (el) { el.classList.remove('show'); el.textContent = ''; }
+      });
+      if (els.verificationBox) els.verificationBox.classList.remove('show');
+    }
+    function showError(msg) {
+      if (els.errorAlert) {
+        els.errorAlert.textContent = msg;
+        els.errorAlert.classList.add('show');
+        setTimeout(() => els.errorAlert.classList.remove('show'), 8000);
+      }
+    }
+    function showSuccess(msg) {
+      if (els.successAlert) {
+        els.successAlert.textContent = msg;
+        els.successAlert.classList.add('show');
+      }
+    }
+    function showInfo(msg) {
+      if (els.infoAlert) {
+        els.infoAlert.textContent = msg;
+        els.infoAlert.classList.add('show');
+      }
+    }
+    function showVerificationBox(email) {
+      if (els.verificationBox) {
+        els.verificationBox.classList.add('show');
+        if (email) sessionStorage.setItem('signupEmail', email);
+      }
+    }
+
+    // ============================================================
+    // RESEND VERIFICATION
+    // ============================================================
+    window.resendVerification = async function() {
+      const email = sessionStorage.getItem('signupEmail') || els.email.value;
+      if (!email) { showError('Please enter your email address.'); return; }
+      try {
+        showInfo('Sending verification email...');
+        const resp = await fetch('/api/v1/auth/resend-verification', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ email })
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (data.success) {
+          showSuccess('✅ Verification email resent. Please check your inbox.');
+          setTimeout(() => { const el = $('successAlert'); if (el) el.classList.remove('show'); }, 5000);
+        } else {
+          showError(data.error || data.message || 'Failed to resend verification.');
+        }
+      } catch (e) {
+        showError('Unable to resend verification. Please try again.');
+      }
+    };
+
+    // ============================================================
+    // PASSWORD VISIBILITY TOGGLE
+    // ============================================================
+    function setupToggle(toggleBtn, inputField) {
+      if (!toggleBtn || !inputField) return;
+      toggleBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const type = inputField.type === 'password' ? 'text' : 'password';
+        inputField.type = type;
+        const icon = this.querySelector('.material-symbols-outlined');
+        if (icon) icon.textContent = type === 'password' ? 'visibility_off' : 'visibility';
+      });
+    }
+    setupToggle(els.togglePassword, els.password);
+    setupToggle(els.toggleConfirmPassword, els.confirmPassword);
+
+    // ============================================================
+    // PASSWORD VALIDATION — matches backend constraints + stronger
+    // ============================================================
+    function getPasswordChecks(pwd) {
+      return {
+        length: pwd.length >= 8,
+        upper: /[A-Z]/.test(pwd),
+        lower: /[a-z]/.test(pwd),
+        digit: /[0-9]/.test(pwd),
+        special: /[^A-Za-z0-9]/.test(pwd)
+      };
+    }
+    function isPasswordStrong(pwd) {
+      const c = getPasswordChecks(pwd);
+      return c.length && c.upper && c.lower && c.digit && c.special;
+    }
+
+    function renderPasswordChecklist(pwd) {
+      const checks = getPasswordChecks(pwd);
+      els.pwdRequirements.querySelectorAll('.pwd-req').forEach(req => {
+        const key = req.dataset.req;
+        const met = checks[key];
+        req.classList.toggle('met', met);
+        const icon = req.querySelector('.req-icon');
+        if (icon) icon.textContent = met ? 'check_circle' : 'circle';
+      });
+    }
+
+    els.password.addEventListener('input', function() {
+      const pwd = this.value;
+      renderPasswordChecklist(pwd);
+
+      if (pwd.length === 0) {
+        els.strengthDiv.style.display = 'none';
+        this.classList.remove('error', 'success');
+        els.passwordError.classList.remove('show');
+        return;
+      }
+
+      els.strengthDiv.style.display = 'block';
+
+      let score = 0;
+      if (pwd.length >= 8) score++;
+      if (pwd.length >= 12) score++;
+      if (/[a-z]/.test(pwd)) score++;
+      if (/[A-Z]/.test(pwd)) score++;
+      if (/[0-9]/.test(pwd)) score++;
+      if (/[^a-zA-Z0-9]/.test(pwd)) score++;
+
+      const fill = els.strengthFill, text = els.strengthText;
+      fill.className = 'strength-fill';
+
+      if (score <= 2) {
+        fill.classList.add('strength-weak');
+        fill.style.width = '33%';
+        text.textContent = 'Weak password';
+        text.style.color = '#ef4444';
+      } else if (score <= 4) {
+        fill.classList.add('strength-medium');
+        fill.style.width = '66%';
+        text.textContent = 'Medium password';
+        text.style.color = '#f59e0b';
+      } else {
+        fill.classList.add('strength-strong');
+        fill.style.width = '100%';
+        text.textContent = 'Strong password';
+        text.style.color = '#10b981';
+      }
+
+      if (isPasswordStrong(pwd)) {
+        this.classList.remove('error');
+        this.classList.add('success');
+        els.passwordError.classList.remove('show');
+      } else {
+        this.classList.remove('success');
+        this.classList.add('error');
+        els.passwordError.classList.add('show');
+      }
+
+      // Recheck confirm password whenever password changes
+      if (els.confirmPassword.value) {
+        els.confirmPassword.dispatchEvent(new Event('input'));
+      }
+    });
+
+    // ============================================================
+    // CONFIRM PASSWORD
+    // ============================================================
+    els.confirmPassword.addEventListener('input', function() {
+      const pwd = els.password.value, confirm = this.value;
+      if (confirm.length === 0) {
+        this.classList.remove('error', 'success');
+        els.confirmPasswordError.classList.remove('show');
+        return;
+      }
+      if (confirm === pwd && pwd.length > 0) {
+        this.classList.remove('error');
+        this.classList.add('success');
+        els.confirmPasswordError.classList.remove('show');
+      } else {
+        this.classList.remove('success');
+        this.classList.add('error');
+        els.confirmPasswordError.classList.add('show');
+      }
+    });
+
+    // ============================================================
+    // EMAIL VALIDATION
+    // ============================================================
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+    els.email.addEventListener('blur', function() {
+      if (this.value && !validateEmail(this.value)) {
+        this.classList.add('error');
+        this.classList.remove('success');
+        els.emailError.classList.add('show');
+      } else if (this.value) {
+        this.classList.remove('error');
+        this.classList.add('success');
+        els.emailError.classList.remove('show');
+      }
+    });
+    els.email.addEventListener('input', function() {
+      if (this.value && validateEmail(this.value)) {
+        this.classList.remove('error');
+        this.classList.add('success');
+        els.emailError.classList.remove('show');
+      } else if (this.value) {
+        this.classList.remove('success');
+        this.classList.add('error');
+        els.emailError.classList.add('show');
+      } else {
+        this.classList.remove('error', 'success');
+        els.emailError.classList.remove('show');
+      }
+    });
+
+    // ============================================================
+    // FIELD VALIDATION HELPERS
+    // ============================================================
+    function validateField(input, errorEl, msg) {
+      if (input.value.trim().length === 0) {
+        input.classList.add('error');
+        input.classList.remove('success');
+        if (errorEl) { errorEl.textContent = msg || `${input.id} is required`; errorEl.classList.add('show'); }
+        return false;
+      }
+      input.classList.remove('error');
+      input.classList.add('success');
+      if (errorEl) errorEl.classList.remove('show');
+      return true;
+    }
+    els.firstName.addEventListener('blur', () => validateField(els.firstName, els.firstNameError, 'First name is required'));
+    els.lastName.addEventListener('blur', () => validateField(els.lastName, els.lastNameError, 'Last name is required'));
+    els.company.addEventListener('blur', () => validateField(els.company, els.companyError, 'Company name is required'));
+    els.firstName.addEventListener('input', function() {
+      if (this.value.trim().length > 0) { this.classList.remove('error'); this.classList.add('success'); els.firstNameError.classList.remove('show'); }
+    });
+    els.lastName.addEventListener('input', function() {
+      if (this.value.trim().length > 0) { this.classList.remove('error'); this.classList.add('success'); els.lastNameError.classList.remove('show'); }
+    });
+    els.company.addEventListener('input', function() {
+      if (this.value.trim().length > 0) { this.classList.remove('error'); this.classList.add('success'); els.companyError.classList.remove('show'); }
+    });
+    els.terms.addEventListener('change', function() {
+      if (this.checked) els.termsError.classList.remove('show');
+    });
+
+    // ============================================================
+    // FORM SUBMISSION — REAL backend registration
+    // ============================================================
+    els.form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      hideAlerts();
+
+      const validFirst = validateField(els.firstName, els.firstNameError, 'First name is required');
+      const validLast = validateField(els.lastName, els.lastNameError, 'Last name is required');
+      const validCompany = validateField(els.company, els.companyError, 'Company name is required');
+
+      let validEmail = true;
+      if (!els.email.value.trim() || !validateEmail(els.email.value)) {
+        els.email.classList.add('error');
+        els.email.classList.remove('success');
+        els.emailError.classList.add('show');
+        validEmail = false;
+      } else {
+        els.email.classList.remove('error');
+        els.email.classList.add('success');
+        els.emailError.classList.remove('show');
+      }
+
+      let validPwd = true;
+      if (!isPasswordStrong(els.password.value)) {
+        els.password.classList.add('error');
+        els.password.classList.remove('success');
+        els.passwordError.classList.add('show');
+        validPwd = false;
+      } else {
+        els.password.classList.remove('error');
+        els.password.classList.add('success');
+        els.passwordError.classList.remove('show');
+      }
+
+      let validConfirm = true;
+      if (els.confirmPassword.value !== els.password.value || els.confirmPassword.value.length === 0) {
+        els.confirmPassword.classList.add('error');
+        els.confirmPassword.classList.remove('success');
+        els.confirmPasswordError.classList.add('show');
+        validConfirm = false;
+      } else {
+        els.confirmPassword.classList.remove('error');
+        els.confirmPassword.classList.add('success');
+        els.confirmPasswordError.classList.remove('show');
+      }
+
+      let validTerms = true;
+      if (!els.terms.checked) {
+        els.termsError.classList.add('show');
+        validTerms = false;
+      } else {
+        els.termsError.classList.remove('show');
+      }
+
+      if (!validFirst || !validLast || !validCompany || !validEmail || !validPwd || !validConfirm || !validTerms) {
+        if (!validPwd) {
+          showError('Password must be at least 8 characters and include uppercase, lowercase, a number, and a special character.');
+        } else {
+          showError('Please fix all errors before continuing.');
+        }
+        return;
+      }
+
+      els.submitBtn.disabled = true;
+      els.btnText.innerHTML = '<span class="loading-spinner"></span> Creating account...';
+
+      try {
+        const payload = {
+          first_name: els.firstName.value.trim(),
+          last_name: els.lastName.value.trim(),
+          company: els.company.value.trim(),
+          email: els.email.value.trim().toLowerCase(),
+          password: els.password.value
+        };
+
+        const response = await fetch('/api/v1/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(payload)
+        });
+
+        let data = {};
+        try { data = await response.json(); } catch (_) {}
+
+        if (!response.ok) {
+          throw new Error(data.error || data.message || `Registration failed (${response.status})`);
+        }
+
+        if (!data.success) {
+          throw new Error(data.error || data.message || 'Registration failed.');
+        }
+
+        // Store tokens + user
+        if (data.access_token) Auth.setSession(data);
+
+        // If backend requires email verification, show the verification box
+        if (data.requires_verification === true) {
+          if (data.user && data.user.email) sessionStorage.setItem('signupEmail', data.user.email);
+          showSuccess('✅ Account created successfully!');
+          showVerificationBox(data.user?.email);
+          showInfo('📧 Please check your email for the verification link.');
+          els.submitBtn.disabled = false;
+          els.btnText.innerHTML = 'Start Free Trial';
+          return;
+        }
+
+        // Otherwise, go straight to the dashboard
+        sessionStorage.setItem('signupSuccess', 'true');
+        showSuccess('🎉 Account created! Redirecting to your dashboard...');
+        setTimeout(() => {
+          window.location.href = data.redirect || 'dashboard.html';
+        }, 1500);
+
+      } catch (err) {
+        console.error('Signup error:', err);
+        showError(err.message || 'Signup failed. Please try again.');
+        els.submitBtn.disabled = false;
+        els.btnText.innerHTML = 'Start Free Trial';
+      }
+    });
+
+    // ============================================================
+    // SOCIAL OAUTH — real backend redirect flow
+    // ============================================================
+    document.querySelectorAll('.social-btn').forEach(btn => {
+      btn.addEventListener('click', async function(e) {
+        e.preventDefault();
+        const provider = this.dataset.provider;
+        if (!provider) return;
+
+        const originalHtml = this.innerHTML;
+        this.innerHTML = '<span class="loading-spinner"></span> Redirecting...';
+        this.disabled = true;
+        hideAlerts();
+
+        try {
+          const resp = await fetch(`/api/v1/auth/${encodeURIComponent(provider)}`, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' },
+            credentials: 'same-origin'
+          });
+
+          let data = {};
+          try { data = await resp.json(); } catch (_) {}
+
+          if (!resp.ok || !data.success || !data.redirect_url) {
+            throw new Error(data.error || data.message || `Could not start ${provider} authentication. Please make sure it is configured on the server.`);
+          }
+
+          sessionStorage.setItem('oauth_provider', provider);
+          window.location.href = data.redirect_url;
+        } catch (err) {
+          console.error(`${provider} auth error:`, err);
+          showError(err.message || `${provider} signup failed. Please try again.`);
+          this.innerHTML = originalHtml;
+          this.disabled = false;
+        }
+      });
+    });
+
+    // ============================================================
+    // OAUTH CALLBACK HANDLER
+    // ============================================================
+    (function handleOAuthCallback() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const state = urlParams.get('state');
+      const provider = sessionStorage.getItem('oauth_provider');
+
+      if (code && provider) {
+        fetch(`/api/v1/auth/${encodeURIComponent(provider)}/callback`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ code, state })
+        })
+        .then(async response => {
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(data.error || data.message || 'Authentication failed');
+          return data;
+        })
+        .then(data => {
+          if (data.access_token) {
+            Auth.setSession(data);
+            sessionStorage.setItem('signupSuccess', 'true');
+            sessionStorage.removeItem('oauth_provider');
+            showSuccess(`✅ Signed up with ${provider}! Redirecting...`);
+            setTimeout(() => {
+              window.location.href = data.redirect || 'dashboard.html';
+            }, 1200);
+          } else {
+            showError('Authentication failed. Please try signing up again.');
+          }
+        })
+        .catch(err => {
+          console.error('OAuth callback error:', err);
+          showError(err.message || 'Authentication failed. Please try again.');
+        });
+
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+    })();
+
+    console.log('🚀 SynapsePM Signup — real registration, real OAuth, real password strength');
+  })();
+</script>
+</body>
+</html>

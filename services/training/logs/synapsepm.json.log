@@ -1,0 +1,47 @@
+{"timestamp": "2026-07-12 12:32:41,697", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 241, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-12 12:56:41,895", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 241, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-19 10:13:45,427", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 241, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-19 14:05:24,568", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-19 14:08:58,560", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-19 14:08:58,874", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database initialized"}
+{"timestamp": "2026-07-19 14:15:31,383", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-19 14:15:31,998", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database initialized"}
+{"timestamp": "2026-07-19 14:21:03,495", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-19 14:21:09,392", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database initialized: synapsepm"}
+{"timestamp": "2026-07-19 14:21:10,510", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables created"}
+{"timestamp": "2026-07-19 14:21:10,551", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables initialized"}
+{"timestamp": "2026-07-20 11:49:41,003", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-20 11:49:41,708", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database 'synapsepm' already exists."}
+{"timestamp": "2026-07-20 11:49:41,722", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database initialized: synapsepm"}
+{"timestamp": "2026-07-20 11:49:41,929", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables created"}
+{"timestamp": "2026-07-20 11:49:41,930", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables initialized"}
+{"timestamp": "2026-07-20 11:55:10,373", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-20 11:55:11,438", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database 'synapsepm' already exists."}
+{"timestamp": "2026-07-20 11:55:11,470", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database initialized: synapsepm"}
+{"timestamp": "2026-07-20 11:55:11,771", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables created"}
+{"timestamp": "2026-07-20 11:55:11,774", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables initialized"}
+{"timestamp": "2026-07-20 11:59:15,597", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-20 11:59:16,083", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database 'synapsepm' already exists."}
+{"timestamp": "2026-07-20 11:59:16,097", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database initialized: synapsepm"}
+{"timestamp": "2026-07-20 11:59:16,285", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables created"}
+{"timestamp": "2026-07-20 11:59:16,286", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables initialized"}
+{"timestamp": "2026-07-20 12:03:34,976", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-20 12:03:35,402", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database 'synapsepm' already exists."}
+{"timestamp": "2026-07-20 12:03:35,415", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database initialized: synapsepm"}
+{"timestamp": "2026-07-20 12:03:35,499", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables created"}
+{"timestamp": "2026-07-20 12:03:35,499", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables initialized"}
+{"timestamp": "2026-07-20 12:07:22,641", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-20 12:07:23,590", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database 'synapsepm' already exists."}
+{"timestamp": "2026-07-20 12:07:23,624", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database initialized: synapsepm"}
+{"timestamp": "2026-07-20 12:07:23,815", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables created"}
+{"timestamp": "2026-07-20 12:07:23,817", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables initialized"}
+{"timestamp": "2026-07-20 12:10:44,456", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-20 12:10:45,163", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database 'synapsepm' already exists."}
+{"timestamp": "2026-07-20 12:10:45,248", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database initialized: synapsepm"}
+{"timestamp": "2026-07-20 12:10:45,402", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables created"}
+{"timestamp": "2026-07-20 12:10:45,404", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 267, "message": "Database tables initialized"}
+{"timestamp": "2026-07-21 09:14:45,341", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 323, "message": "Configuration loaded: development"}
+{"timestamp": "2026-07-21 09:14:50,145", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 323, "message": "Database 'synapsepm' already exists."}
+{"timestamp": "2026-07-21 09:14:50,166", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 323, "message": "Database initialized: synapsepm"}
+{"timestamp": "2026-07-21 09:14:51,101", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 323, "message": "Database tables created"}
+{"timestamp": "2026-07-21 09:14:51,102", "level": "[32mINFO[0m", "module": "training", "function": "info", "line": 323, "message": "Database tables initialized"}

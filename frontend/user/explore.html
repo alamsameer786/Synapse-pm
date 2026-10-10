@@ -1,0 +1,1538 @@
+﻿<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Explore AI Models | SynapsePM | Enterprise Predictive Maintenance Intelligence</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+<meta name="description" content="Explore SynapsePM's production ML models for predictive maintenance — LSTM, Transformer, XGBoost, Random Forest, Gradient Boosting, SVM, and Neural Networks. Real, validated performance across real industrial sensor data."/>
+<meta name="keywords" content="AI models, LSTM, Transformer, XGBoost, Random Forest, SVM, Neural Networks, predictive maintenance, machine learning, industrial AI, enterprise AI"/>
+<meta name="author" content="SynapsePM"/>
+<meta name="robots" content="index, follow"/>
+<meta property="og:title" content="Explore AI Models | SynapsePM"/>
+<meta property="og:description" content="Production-grade ML models for predictive maintenance — 7 models, 41 sensor features, validated accuracy"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://synapsepm.com/explore.html"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0f2b3d",
+              "primary-light": "#1a4a6e",
+              "secondary": "#00b4aa",
+              "secondary-dark": "#009688",
+              "accent": "#ff6b35",
+              "surface": "#ffffff",
+              "surface-gray": "#f8fafc",
+              "on-surface": "#0f172a",
+              "on-surface-light": "#475569",
+              "border-light": "#e2e8f0",
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.8s ease-out',
+              'slide-up': 'slideUp 0.6s ease-out',
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'gradient-shift': 'gradientShift 8s ease infinite',
+              'scale-in': 'scaleIn 0.4s ease-out',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              gradientShift: {
+                '0%, 100%': { backgroundPosition: '0% 50%' },
+                '50%': { backgroundPosition: '100% 50%' },
+              },
+              scaleIn: {
+                '0%': { transform: 'scale(0.95)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    body { 
+      min-height: 100dvh; 
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+    h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    
+    .gradient-primary {
+      background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%);
+    }
+    .gradient-cta {
+      background: linear-gradient(135deg, #00b4aa 0%, #009688 100%);
+    }
+    .gradient-cta:hover {
+      background: linear-gradient(135deg, #009688 0%, #00796b 100%);
+    }
+    .hero-gradient-bg {
+      background: radial-gradient(circle at 80% 20%, rgba(0, 180, 170, 0.08) 0%, rgba(15, 43, 61, 0.02) 100%);
+    }
+    
+    /* ============================================================
+       SYNAPSEPM CUSTOM LOGO — FIXED SIZING & ALIGNMENT
+       Icon, "Synapse" text, and "PM" gradient text share one locked
+       height so they align perfectly across navbar / mobile / footer.
+       ============================================================ */
+    .synapsepm-logo {
+      font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 22px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      vertical-align: middle;
+    }
+    .synapsepm-logo > span:not(.logo-icon),
+    .synapsepm-logo strong {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+      height: 32px;
+    }
+    .synapsepm-logo > span:not(.logo-icon) {
+      color: #0B1F4D;
+    }
+    .synapsepm-logo strong {
+      background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .synapsepm-logo .logo-icon {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: transparent !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .synapsepm-logo .logo-icon img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      display: block;
+    }
+    .synapsepm-logo.logo-sm { font-size: 18px; gap: 0.4rem; }
+    .synapsepm-logo.logo-sm .logo-icon,
+    .synapsepm-logo.logo-sm .logo-icon img {
+      width: 26px; height: 26px; min-width: 26px; min-height: 26px;
+    }
+    .synapsepm-logo.logo-sm > span:not(.logo-icon),
+    .synapsepm-logo.logo-sm strong { height: 26px; }
+
+    .synapsepm-logo.logo-lg { font-size: 26px; gap: 0.65rem; }
+    .synapsepm-logo.logo-lg .logo-icon,
+    .synapsepm-logo.logo-lg .logo-icon img {
+      width: 38px; height: 38px; min-width: 38px; min-height: 38px;
+    }
+    .synapsepm-logo.logo-lg > span:not(.logo-icon),
+    .synapsepm-logo.logo-lg strong { height: 38px; }
+    
+    /* Model Card Styles */
+    .model-card {
+      background: white;
+      border-radius: 1.5rem;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .model-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #00b4aa, #0f2b3d, #00b4aa);
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .model-card:hover::before {
+      opacity: 1;
+      animation: gradientShift 2s ease infinite;
+    }
+    .model-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 45px -15px rgba(0, 0, 0, 0.2);
+      border-color: #00b4aa;
+    }
+    .model-card.featured {
+      border-color: #00b4aa;
+      box-shadow: 0 8px 30px rgba(0, 180, 170, 0.15);
+    }
+    .model-card.featured::before {
+      opacity: 1;
+    }
+    
+    .model-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%);
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .model-icon span {
+      font-size: 30px;
+      color: white;
+    }
+    
+    .model-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(0, 180, 170, 0.1);
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #00b4aa;
+      letter-spacing: 0.02em;
+    }
+    .model-badge.premium {
+      background: linear-gradient(135deg, #ff6b35, #ff4500);
+      color: white;
+    }
+    .model-stat {
+      text-align: center;
+      padding: 0.75rem;
+      background: #f8fafc;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+    }
+    .model-stat:hover {
+      background: #f1f5f9;
+      transform: scale(1.02);
+    }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #0f2b3d;
+      font-family: 'Manrope', sans-serif;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      color: #64748b;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .filter-btn {
+      padding: 0.625rem 1.5rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      background: white;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .filter-btn:hover {
+      border-color: #00b4aa;
+      color: #00b4aa;
+      transform: translateY(-1px);
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%);
+      border-color: #0f2b3d;
+      color: white;
+      box-shadow: 0 4px 15px rgba(15, 43, 61, 0.2);
+    }
+    .filter-btn .count {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border-radius: 9999px;
+      padding: 0.1rem 0.5rem;
+      font-size: 0.65rem;
+      margin-left: 0.3rem;
+    }
+    .filter-btn.active .count {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .filter-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+    .filter-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+    .filter-scroll::-webkit-scrollbar-track {
+      background: #e2e8f0;
+      border-radius: 10px;
+    }
+    .filter-scroll::-webkit-scrollbar-thumb {
+      background: #00b4aa;
+      border-radius: 10px;
+    }
+    
+    .model-features ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .model-features li {
+      padding: 0.25rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.875rem;
+      color: #475569;
+      transition: all 0.2s ease;
+    }
+    .model-features li:hover {
+      color: #0f2b3d;
+    }
+    .model-features li::before {
+      content: "check_circle";
+      font-family: 'Material Symbols Outlined';
+      font-size: 1rem;
+      color: #00b4aa;
+      position: absolute;
+      left: 0;
+      top: 0.25rem;
+    }
+    
+    /* Comparison Table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: white;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+    .comparison-table th {
+      background: #f8fafc;
+      padding: 1rem 1.5rem;
+      text-align: left;
+      font-weight: 700;
+      color: #0f2b3d;
+      border-bottom: 1px solid #e2e8f0;
+      font-family: 'Manrope', sans-serif;
+    }
+    .comparison-table td {
+      padding: 1rem 1.5rem;
+      color: #475569;
+      border-bottom: 1px solid #e2e8f0;
+      transition: background 0.2s ease;
+    }
+    .comparison-table tr:hover td {
+      background: #fafcfc;
+    }
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    .feature-name {
+      font-weight: 600;
+      color: #0f2b3d;
+    }
+    
+    .comparison-card {
+      background: white;
+      border-radius: 1rem;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+    .comparison-card:hover {
+      border-color: #00b4aa;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+    .comparison-card-header {
+      background: #f8fafc;
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      font-weight: 700;
+      color: #0f2b3d;
+      font-family: 'Manrope', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .comparison-card-header .model-badge-sm {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      background: rgba(0, 180, 170, 0.1);
+      color: #00b4aa;
+      font-weight: 600;
+    }
+    .comparison-row {
+      display: flex;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .comparison-row:last-child {
+      border-bottom: none;
+    }
+    .comparison-feature {
+      width: 40%;
+      font-weight: 600;
+      color: #0f2b3d;
+      font-size: 0.85rem;
+    }
+    .comparison-values {
+      width: 60%;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .comparison-value {
+      flex: 1;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+    
+    .use-case-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .use-case-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00b4aa, #0f2b3d);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    .use-case-card:hover::after {
+      transform: scaleX(1);
+    }
+    .use-case-card:hover {
+      transform: translateY(-4px);
+      border-color: #00b4aa;
+      box-shadow: 0 20px 35px -15px rgba(0, 0, 0, 0.15);
+    }
+    .use-case-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 180, 170, 0.1);
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+    .use-case-card:hover .use-case-icon {
+      background: rgba(0, 180, 170, 0.2);
+      transform: scale(1.05);
+    }
+    .use-case-icon span {
+      font-size: 24px;
+      color: #00b4aa;
+    }
+    
+    .use-case-tag {
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      background: #f1f5f9;
+      border-radius: 9999px;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: #475569;
+      margin-top: 0.5rem;
+    }
+    
+    /* Social Icons */
+    .social-icon {
+      transition: all 0.3s ease;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 9999px;
+      background-color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+    .social-icon svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+    .social-icon svg path {
+      fill: #475569;
+      transition: fill 0.3s ease;
+    }
+    .social-icon:hover {
+      background-color: rgba(0, 180, 170, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 180, 170, 0.15);
+    }
+    .social-icon:hover svg path {
+      fill: #00b4aa;
+    }
+    
+    .footer-link {
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .footer-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #00b4aa;
+      transition: width 0.3s ease;
+    }
+    .footer-link:hover::after {
+      width: 100%;
+    }
+    .footer-link:hover {
+      color: #00b4aa;
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #0f2b3d;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      max-width: 400px;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .toast .close-toast {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0.2rem 0.5rem;
+      transition: color 0.2s ease;
+    }
+    .toast .close-toast:hover {
+      color: white;
+    }
+    
+    .desktop-table {
+      display: none;
+    }
+    .mobile-comparison {
+      display: block;
+    }
+    @media (min-width: 768px) {
+      .desktop-table { display: block; }
+      .mobile-comparison { display: none; }
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast">
+  <div class="flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-secondary">check_circle</span>
+      <span id="toastMessage">Model selected successfully!</span>
+    </div>
+    <button class="close-toast" onclick="closeToast()">✕</button>
+  </div>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="bg-white/95 backdrop-blur-md border-b border-border-light sticky top-0 z-50 w-full transition-all duration-300" id="header">
+  <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-3 sm:py-4 lg:py-5">
+      <a href="index.html" class="flex items-center gap-2 group">
+        <div class="synapsepm-logo logo-lg">
+          <span class="logo-icon">
+            <img src="assets/img/logo.png" alt="SynapsePM Logo" id="logoImg" onerror="this.style.display='none'">
+          </span>
+          <span>Synapse</span><strong>PM</strong>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-4 lg:gap-8">
+        <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-primary transition relative group">
+          Home
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+        </a>
+        <a href="explore.html" class="text-sm font-semibold text-secondary border-b-2 border-secondary pb-1">Explore</a>
+        <a href="about.html" class="text-sm font-medium text-slate-600 hover:text-primary transition relative group">
+          About
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+        </a>
+        <a href="contact.html" class="text-sm font-medium text-slate-600 hover:text-primary transition relative group">
+          Contact
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+        </a>
+      </div>
+
+      <div class="hidden md:flex items-center gap-2 lg:gap-3">
+        <a href="login.html" class="text-sm font-semibold text-slate-600 hover:text-primary transition px-3 py-1.5 lg:px-4 lg:py-2 rounded-lg hover:bg-slate-50">Login</a>
+        <a href="signup.html" class="gradient-cta text-white px-3 py-1.5 lg:px-5 lg:py-2.5 rounded-xl text-sm font-semibold shadow-md hover:shadow-lg transition-all hover:scale-105">Get Started</a>
+      </div>
+
+      <button class="mobile-toggle md:hidden p-2 hover:bg-slate-100 rounded-full transition-colors" id="mobileToggleBtn" aria-label="Toggle menu">
+        <span class="material-symbols-outlined text-slate-700">menu</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-all duration-300 invisible opacity-0" id="mobileMenuOverlay">
+  <div class="absolute right-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl transform translate-x-full transition-transform duration-300" id="mobileMenuPanel">
+    <div class="flex justify-between items-center p-4 sm:p-6 border-b">
+      <div class="flex items-center gap-2">
+        <div class="synapsepm-logo logo-sm">
+          <span class="logo-icon">
+            <img src="assets/img/logo.png" alt="SynapsePM" id="mobileLogoImg" onerror="this.style.display='none'">
+          </span>
+          <span>Synapse</span><strong>PM</strong>
+        </div>
+      </div>
+      <button id="closeMobileMenuBtn" class="p-2 rounded-full hover:bg-slate-100 transition-colors" aria-label="Close menu">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="flex flex-col p-4 sm:p-6 gap-4 sm:gap-5">
+      <a href="index.html" class="mobile-link text-base sm:text-lg font-medium text-slate-700 hover:text-primary pl-3 transition-colors">Home</a>
+      <a href="explore.html" class="mobile-link text-base sm:text-lg font-semibold text-primary border-l-4 border-secondary pl-3">Explore</a>
+      <a href="about.html" class="mobile-link text-base sm:text-lg font-medium text-slate-700 hover:text-primary pl-3 transition-colors">About</a>
+      <a href="contact.html" class="mobile-link text-base sm:text-lg font-medium text-slate-700 hover:text-primary pl-3 transition-colors">Contact</a>
+      <div class="pt-4 sm:pt-6 mt-4 border-t flex flex-col gap-3">
+        <a href="login.html" class="text-center py-2 text-primary font-semibold hover:bg-slate-50 rounded-lg transition-colors">Login</a>
+        <a href="signup.html" class="gradient-cta text-white text-center py-2.5 sm:py-3 rounded-xl font-semibold hover:shadow-lg transition-all">Get Started</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- ===== HERO SECTION ===== -->
+<section class="relative pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-10 sm:pb-12 md:pb-16 px-4 sm:px-6 hero-gradient-bg overflow-hidden">
+  <div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+  <div class="max-w-5xl mx-auto text-center relative z-10">
+    <div class="inline-flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 mb-4 sm:mb-6 animate-fade-in">
+      <span class="material-symbols-outlined text-secondary text-sm">model_training</span>
+      <span class="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-secondary">AI Technology Stack v1.0</span>
+      <span class="w-1.5 h-1.5 rounded-full bg-secondary/50"></span>
+      <span class="text-[10px] sm:text-xs font-bold tracking-wider text-secondary/80">7 Models</span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-headline text-primary mb-4 sm:mb-6 animate-fade-in">
+      Explore Our <span class="text-secondary">Production AI</span> Models
+    </h1>
+    <p class="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl mx-auto animate-slide-up">
+      Discover the 7 machine learning models powering SynapsePM's predictive maintenance platform.
+      Each model is trained and validated on real industrial sensor data — no synthetic benchmarks.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4 mt-6 animate-slide-up">
+      <div class="flex items-center gap-1 text-sm text-slate-500">
+        <span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+        Validated R² up to 0.845
+      </div>
+      <div class="flex items-center gap-1 text-sm text-slate-500">
+        <span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+        41 Sensor Features
+      </div>
+      <div class="flex items-center gap-1 text-sm text-slate-500">
+        <span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+        Family-Aware Inference
+      </div>
+      <div class="flex items-center gap-1 text-sm text-slate-500">
+        <span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+        Real Trained Artifacts
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FILTER TABS ===== -->
+<section class="py-6 sm:py-8 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="filter-scroll">
+      <div class="flex justify-center gap-2 sm:gap-3 pb-2">
+        <button class="filter-btn active whitespace-nowrap" data-filter="all">
+          All Models
+          <span class="count">7</span>
+        </button>
+        <button class="filter-btn whitespace-nowrap" data-filter="deep-learning">
+          Deep Learning
+          <span class="count">3</span>
+        </button>
+        <button class="filter-btn whitespace-nowrap" data-filter="ensemble">
+          Ensemble Methods
+          <span class="count">3</span>
+        </button>
+        <button class="filter-btn whitespace-nowrap" data-filter="time-series">
+          Time Series
+          <span class="count">3</span>
+        </button>
+        <button class="filter-btn whitespace-nowrap" data-filter="interpretable">
+          Interpretable
+          <span class="count">4</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MODELS GRID ===== -->
+<section class="py-6 sm:py-8 px-4 sm:px-6 pb-12 sm:pb-16">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="modelsGrid">
+      
+      <!-- Model 1: LSTM -->
+      <div class="model-card featured" data-category="deep-learning time-series" data-model="lstm">
+        <div class="p-5 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="model-icon">
+                <span class="material-symbols-outlined">neurology</span>
+              </div>
+              <div>
+                <h3 class="text-lg sm:text-xl font-bold text-primary font-headline">LSTM Networks</h3>
+                <span class="text-xs text-slate-400">v1.0.0</span>
+              </div>
+            </div>
+            <span class="model-badge">⭐ Time Series</span>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed mb-4">
+            Long Short-Term Memory networks learn long-term dependencies in sequential sensor data — the strongest option when your equipment exposes a continuous stream of temperature, vibration, and pressure readings.
+          </p>
+          
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <div class="model-stat">
+              <div class="stat-value">84.5%</div>
+              <div class="stat-label">R² Validated</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">~320ms</div>
+              <div class="stat-label">Inference</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">41</div>
+              <div class="stat-label">Features</div>
+            </div>
+          </div>
+          
+          <div class="model-features mb-6">
+            <h4 class="font-semibold text-primary text-sm mb-2">Key Features</h4>
+            <ul class="text-sm space-y-1">
+              <li>Sequential data with memory gates</li>
+              <li>Long-term dependency learning</li>
+              <li>Multi-variate time series capable</li>
+              <li>Sequence window configuration</li>
+              <li>Preprocessor + feature pipeline bundled</li>
+            </ul>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="docs.html#predictions" class="text-center px-4 py-2 rounded-lg border border-border-light text-slate-600 font-semibold text-sm hover:border-secondary hover:text-secondary transition-all flex-1">Docs</a>
+            <a href="signup.html" class="text-center px-4 py-2 gradient-cta text-white rounded-lg font-semibold text-sm hover:shadow-lg transition-all flex-1">Start Trial →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model 2: Transformer -->
+      <div class="model-card" data-category="deep-learning time-series" data-model="transformer">
+        <div class="p-5 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="model-icon">
+                <span class="material-symbols-outlined">model_training</span>
+              </div>
+              <div>
+                <h3 class="text-lg sm:text-xl font-bold text-primary font-headline">Transformer</h3>
+                <span class="text-xs text-slate-400">v1.0.0</span>
+              </div>
+            </div>
+            <span class="model-badge premium">🚀 SOTA</span>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed mb-4">
+            Transformer architectures use self-attention to capture complex relationships across many sensor channels simultaneously. Excellent for long-window prediction tasks and multi-sensor fusion.
+          </p>
+          
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <div class="model-stat">
+              <div class="stat-value">83.0%</div>
+              <div class="stat-label">R² Validated</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">~520ms</div>
+              <div class="stat-label">Inference</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">41</div>
+              <div class="stat-label">Features</div>
+            </div>
+          </div>
+          
+          <div class="model-features mb-6">
+            <h4 class="font-semibold text-primary text-sm mb-2">Key Features</h4>
+            <ul class="text-sm space-y-1">
+              <li>Self-attention mechanism</li>
+              <li>Parallel sequence processing</li>
+              <li>Long-range dependency capture</li>
+              <li>Positional encoding</li>
+              <li>Multi-head attention</li>
+            </ul>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="docs.html#predictions" class="text-center px-4 py-2 rounded-lg border border-border-light text-slate-600 font-semibold text-sm hover:border-secondary hover:text-secondary transition-all flex-1">Docs</a>
+            <a href="signup.html" class="text-center px-4 py-2 gradient-cta text-white rounded-lg font-semibold text-sm hover:shadow-lg transition-all flex-1">Start Trial →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model 3: XGBoost -->
+      <div class="model-card" data-category="ensemble interpretable time-series" data-model="xgboost">
+        <div class="p-5 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="model-icon">
+                <span class="material-symbols-outlined">data_thresholding</span>
+              </div>
+              <div>
+                <h3 class="text-lg sm:text-xl font-bold text-primary font-headline">XGBoost</h3>
+                <span class="text-xs text-slate-400">v1.0.0</span>
+              </div>
+            </div>
+            <span class="model-badge">⚡ Fast</span>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed mb-4">
+            Gradient boosted trees optimized for speed and tabular performance. XGBoost provides feature importance analysis and interpretable results — the default recommendation for most equipment types.
+          </p>
+          
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <div class="model-stat">
+              <div class="stat-value">82.0%</div>
+              <div class="stat-label">R² Validated</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">~45ms</div>
+              <div class="stat-label">Inference</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">41</div>
+              <div class="stat-label">Features</div>
+            </div>
+          </div>
+          
+          <div class="model-features mb-6">
+            <h4 class="font-semibold text-primary text-sm mb-2">Key Features</h4>
+            <ul class="text-sm space-y-1">
+              <li>Feature importance analysis</li>
+              <li>Handles missing values natively</li>
+              <li>Highly interpretable output</li>
+              <li>Built-in regularization</li>
+              <li>Fast CPU inference</li>
+            </ul>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="docs.html#predictions" class="text-center px-4 py-2 rounded-lg border border-border-light text-slate-600 font-semibold text-sm hover:border-secondary hover:text-secondary transition-all flex-1">Docs</a>
+            <a href="signup.html" class="text-center px-4 py-2 gradient-cta text-white rounded-lg font-semibold text-sm hover:shadow-lg transition-all flex-1">Start Trial →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model 4: Random Forest -->
+      <div class="model-card" data-category="ensemble interpretable" data-model="random-forest">
+        <div class="p-5 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="model-icon">
+                <span class="material-symbols-outlined">forest</span>
+              </div>
+              <div>
+                <h3 class="text-lg sm:text-xl font-bold text-primary font-headline">Random Forest</h3>
+                <span class="text-xs text-slate-400">v1.0.0</span>
+              </div>
+            </div>
+            <span class="model-badge">🌳 Robust</span>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed mb-4">
+            Ensemble of decision trees providing stable accuracy with built-in feature importance. Excellent for handling complex industrial datasets with non-linear relationships and noisy sensors.
+          </p>
+          
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <div class="model-stat">
+              <div class="stat-value">80.0%</div>
+              <div class="stat-label">R² Validated</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">~110ms</div>
+              <div class="stat-label">Inference</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">41</div>
+              <div class="stat-label">Features</div>
+            </div>
+          </div>
+          
+          <div class="model-features mb-6">
+            <h4 class="font-semibold text-primary text-sm mb-2">Key Features</h4>
+            <ul class="text-sm space-y-1">
+              <li>Ensemble of decision trees</li>
+              <li>Feature importance ranking</li>
+              <li>Handles non-linear relationships</li>
+              <li>Out-of-bag error estimation</li>
+              <li>Robust to overfitting</li>
+            </ul>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="docs.html#predictions" class="text-center px-4 py-2 rounded-lg border border-border-light text-slate-600 font-semibold text-sm hover:border-secondary hover:text-secondary transition-all flex-1">Docs</a>
+            <a href="signup.html" class="text-center px-4 py-2 gradient-cta text-white rounded-lg font-semibold text-sm hover:shadow-lg transition-all flex-1">Start Trial →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model 5: Gradient Boosting -->
+      <div class="model-card" data-category="ensemble interpretable" data-model="gradient-boosting">
+        <div class="p-5 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="model-icon">
+                <span class="material-symbols-outlined">trending_up</span>
+              </div>
+              <div>
+                <h3 class="text-lg sm:text-xl font-bold text-primary font-headline">Gradient Boosting</h3>
+                <span class="text-xs text-slate-400">v1.0.0</span>
+              </div>
+            </div>
+            <span class="model-badge">📈 Accurate</span>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed mb-4">
+            Sequential ensemble method that builds models in stages, capturing complex patterns in sensor data with high accuracy and interpretability. A solid middle ground between speed and accuracy.
+          </p>
+          
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <div class="model-stat">
+              <div class="stat-value">81.0%</div>
+              <div class="stat-label">R² Validated</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">~180ms</div>
+              <div class="stat-label">Inference</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">41</div>
+              <div class="stat-label">Features</div>
+            </div>
+          </div>
+          
+          <div class="model-features mb-6">
+            <h4 class="font-semibold text-primary text-sm mb-2">Key Features</h4>
+            <ul class="text-sm space-y-1">
+              <li>Sequential ensemble learning</li>
+              <li>High accuracy on complex data</li>
+              <li>Feature importance support</li>
+              <li>Handles mixed data types</li>
+              <li>Built-in regularization</li>
+            </ul>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="docs.html#predictions" class="text-center px-4 py-2 rounded-lg border border-border-light text-slate-600 font-semibold text-sm hover:border-secondary hover:text-secondary transition-all flex-1">Docs</a>
+            <a href="signup.html" class="text-center px-4 py-2 gradient-cta text-white rounded-lg font-semibold text-sm hover:shadow-lg transition-all flex-1">Start Trial →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model 6: SVM -->
+      <div class="model-card" data-category="interpretable" data-model="svm">
+        <div class="p-5 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="model-icon">
+                <span class="material-symbols-outlined">splitscreen</span>
+              </div>
+              <div>
+                <h3 class="text-lg sm:text-xl font-bold text-primary font-headline">SVM</h3>
+                <span class="text-xs text-slate-400">v1.0.0</span>
+              </div>
+            </div>
+            <span class="model-badge">🎯 Precise</span>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed mb-4">
+            Support Vector Machines with kernel trick for high-dimensional pattern recognition. Excellent for classification tasks and quality control where decision boundaries matter more than raw throughput.
+          </p>
+          
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <div class="model-stat">
+              <div class="stat-value">77.0%</div>
+              <div class="stat-label">R² Validated</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">~260ms</div>
+              <div class="stat-label">Inference</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">41</div>
+              <div class="stat-label">Features</div>
+            </div>
+          </div>
+          
+          <div class="model-features mb-6">
+            <h4 class="font-semibold text-primary text-sm mb-2">Key Features</h4>
+            <ul class="text-sm space-y-1">
+              <li>Kernel trick for high dimensions</li>
+              <li>Complex decision boundaries</li>
+              <li>Classification &amp; Regression</li>
+              <li>Margin maximization</li>
+              <li>Support vector identification</li>
+            </ul>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="docs.html#predictions" class="text-center px-4 py-2 rounded-lg border border-border-light text-slate-600 font-semibold text-sm hover:border-secondary hover:text-secondary transition-all flex-1">Docs</a>
+            <a href="signup.html" class="text-center px-4 py-2 gradient-cta text-white rounded-lg font-semibold text-sm hover:shadow-lg transition-all flex-1">Start Trial →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model 7: Neural Network -->
+      <div class="model-card" data-category="deep-learning time-series" data-model="neural-network">
+        <div class="p-5 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="model-icon">
+                <span class="material-symbols-outlined">memory</span>
+              </div>
+              <div>
+                <h3 class="text-lg sm:text-xl font-bold text-primary font-headline">Neural Network</h3>
+                <span class="text-xs text-slate-400">v1.0.0</span>
+              </div>
+            </div>
+            <span class="model-badge">🧠 Deep</span>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed mb-4">
+            Deep fully-connected neural networks with multiple hidden layers for complex pattern recognition. Good middle ground between classical ML and full sequence models.
+          </p>
+          
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <div class="model-stat">
+              <div class="stat-value">82.0%</div>
+              <div class="stat-label">R² Validated</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">~140ms</div>
+              <div class="stat-label">Inference</div>
+            </div>
+            <div class="model-stat">
+              <div class="stat-value">41</div>
+              <div class="stat-label">Features</div>
+            </div>
+          </div>
+          
+          <div class="model-features mb-6">
+            <h4 class="font-semibold text-primary text-sm mb-2">Key Features</h4>
+            <ul class="text-sm space-y-1">
+              <li>Multiple hidden layers</li>
+              <li>Non-linear activation functions</li>
+              <li>Backpropagation learning</li>
+              <li>Batch normalization</li>
+              <li>Dropout for regularization</li>
+            </ul>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="docs.html#predictions" class="text-center px-4 py-2 rounded-lg border border-border-light text-slate-600 font-semibold text-sm hover:border-secondary hover:text-secondary transition-all flex-1">Docs</a>
+            <a href="signup.html" class="text-center px-4 py-2 gradient-cta text-white rounded-lg font-semibold text-sm hover:shadow-lg transition-all flex-1">Start Trial →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMPARISON SECTION ===== -->
+<section class="py-12 sm:py-16 px-4 sm:px-6 bg-slate-50/80">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+      <span class="text-secondary font-semibold text-xs sm:text-sm uppercase tracking-wider">Technical Deep Dive</span>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-headline font-bold text-primary mt-3 mb-4">Model Comparison Matrix</h2>
+      <p class="text-slate-500 text-sm sm:text-base">Compare the performance and capabilities of our 7 production AI models</p>
+    </div>
+    
+    <!-- Mobile Comparison Cards -->
+    <div class="mobile-comparison space-y-4">
+      
+      <div class="comparison-card">
+        <div class="comparison-card-header">
+          LSTM Networks
+          <span class="model-badge-sm">84.5% R²</span>
+        </div>
+        <div class="comparison-row"><div class="comparison-feature">Best For</div><div class="comparison-values"><div class="comparison-value">Time Series &amp; Sequential Data</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Training Speed</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-amber-500 text-sm">speed</span> Moderate</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Interpretability</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-red-400 text-sm">visibility_off</span> Low</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Long Sequences</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Good</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Memory Usage</div><div class="comparison-values"><div class="comparison-value">Medium</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">GPU Acceleration</div><div class="comparison-values"><div class="comparison-value">✓ Yes</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Use Cases</div><div class="comparison-values"><div class="comparison-value text-xs text-slate-400">Pumps, Motors, Compressors</div></div></div>
+      </div>
+      
+      <div class="comparison-card">
+        <div class="comparison-card-header">
+          Transformer
+          <span class="model-badge-sm">83.0% R²</span>
+        </div>
+        <div class="comparison-row"><div class="comparison-feature">Best For</div><div class="comparison-values"><div class="comparison-value">Complex Pattern Recognition</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Training Speed</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-orange-500 text-sm">hourglass_top</span> Slow</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Interpretability</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-red-400 text-sm">visibility_off</span> Low</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Long Sequences</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Excellent</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Memory Usage</div><div class="comparison-values"><div class="comparison-value">High</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">GPU Acceleration</div><div class="comparison-values"><div class="comparison-value">✓ Yes</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Use Cases</div><div class="comparison-values"><div class="comparison-value text-xs text-slate-400">Complex Systems, Turbines</div></div></div>
+      </div>
+      
+      <div class="comparison-card">
+        <div class="comparison-card-header">
+          XGBoost
+          <span class="model-badge-sm">82.0% R²</span>
+        </div>
+        <div class="comparison-row"><div class="comparison-feature">Best For</div><div class="comparison-values"><div class="comparison-value">Tabular &amp; Structured Data</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Training Speed</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-green-500 text-sm">rocket</span> Fast</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Interpretability</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-green-500 text-sm">visibility</span> High</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Long Sequences</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm">remove_circle</span> Limited</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Memory Usage</div><div class="comparison-values"><div class="comparison-value">Low</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">GPU Acceleration</div><div class="comparison-values"><div class="comparison-value">✓ Yes</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Use Cases</div><div class="comparison-values"><div class="comparison-value text-xs text-slate-400">All Equipment Types</div></div></div>
+      </div>
+      
+      <div class="comparison-card">
+        <div class="comparison-card-header">
+          Random Forest
+          <span class="model-badge-sm">80.0% R²</span>
+        </div>
+        <div class="comparison-row"><div class="comparison-feature">Best For</div><div class="comparison-values"><div class="comparison-value">Non-linear Relationships</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Training Speed</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-amber-500 text-sm">speed</span> Moderate</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Interpretability</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-green-500 text-sm">visibility</span> High</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Long Sequences</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm">remove_circle</span> Limited</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Memory Usage</div><div class="comparison-values"><div class="comparison-value">Medium</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">GPU Acceleration</div><div class="comparison-values"><div class="comparison-value">-</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Use Cases</div><div class="comparison-values"><div class="comparison-value text-xs text-slate-400">Generators, Conveyors</div></div></div>
+      </div>
+      
+      <div class="comparison-card">
+        <div class="comparison-card-header">
+          Gradient Boosting
+          <span class="model-badge-sm">81.0% R²</span>
+        </div>
+        <div class="comparison-row"><div class="comparison-feature">Best For</div><div class="comparison-values"><div class="comparison-value">Complex Patterns</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Training Speed</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-orange-500 text-sm">hourglass_top</span> Moderate</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Interpretability</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-green-500 text-sm">visibility</span> High</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Long Sequences</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm">remove_circle</span> Limited</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Memory Usage</div><div class="comparison-values"><div class="comparison-value">Medium</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">GPU Acceleration</div><div class="comparison-values"><div class="comparison-value">✓ Yes</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Use Cases</div><div class="comparison-values"><div class="comparison-value text-xs text-slate-400">Mixers, Separators</div></div></div>
+      </div>
+      
+      <div class="comparison-card">
+        <div class="comparison-card-header">
+          SVM
+          <span class="model-badge-sm">77.0% R²</span>
+        </div>
+        <div class="comparison-row"><div class="comparison-feature">Best For</div><div class="comparison-values"><div class="comparison-value">High-dimensional Data</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Training Speed</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-orange-500 text-sm">hourglass_top</span> Slow</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Interpretability</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-green-500 text-sm">visibility</span> High</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Long Sequences</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-red-400 text-sm">block</span> No</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Memory Usage</div><div class="comparison-values"><div class="comparison-value">High</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">GPU Acceleration</div><div class="comparison-values"><div class="comparison-value">-</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Use Cases</div><div class="comparison-values"><div class="comparison-value text-xs text-slate-400">Quality Control, Classification</div></div></div>
+      </div>
+      
+      <div class="comparison-card">
+        <div class="comparison-card-header">
+          Neural Network
+          <span class="model-badge-sm">82.0% R²</span>
+        </div>
+        <div class="comparison-row"><div class="comparison-feature">Best For</div><div class="comparison-values"><div class="comparison-value">Complex Pattern Recognition</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Training Speed</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-orange-500 text-sm">hourglass_top</span> Slow</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Interpretability</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-red-400 text-sm">visibility_off</span> Low</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Long Sequences</div><div class="comparison-values"><div class="comparison-value"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Good</span></div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Memory Usage</div><div class="comparison-values"><div class="comparison-value">High</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">GPU Acceleration</div><div class="comparison-values"><div class="comparison-value">✓ Yes</div></div></div>
+        <div class="comparison-row"><div class="comparison-feature">Use Cases</div><div class="comparison-values"><div class="comparison-value text-xs text-slate-400">All Equipment Types</div></div></div>
+      </div>
+      
+    </div>
+    
+    <!-- Desktop Table -->
+    <div class="desktop-table overflow-x-auto">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>LSTM</th>
+            <th>Transformer</th>
+            <th>XGBoost</th>
+            <th>Random Forest</th>
+            <th>Gradient Boosting</th>
+            <th>SVM</th>
+            <th>Neural Network</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="feature-name">R² (validated)</td><td><span class="font-bold text-secondary">0.845</span></td><td>0.830</td><td>0.820</td><td>0.800</td><td>0.810</td><td>0.770</td><td>0.820</td></tr>
+          <tr><td class="feature-name">Inference Speed</td><td>~320ms</td><td>~520ms</td><td><span class="font-bold text-secondary">~45ms</span></td><td>~110ms</td><td>~180ms</td><td>~260ms</td><td>~140ms</td></tr>
+          <tr><td class="feature-name">Interpretability</td><td>Low</td><td>Low</td><td><span class="font-bold text-secondary">High</span></td><td>High</td><td>High</td><td>High</td><td>Low</td></tr>
+          <tr><td class="feature-name">Long Sequences</td><td>Good</td><td><span class="font-bold text-secondary">Excellent</span></td><td>Limited</td><td>Limited</td><td>Limited</td><td>No</td><td>Good</td></tr>
+          <tr><td class="feature-name">GPU Acceleration</td><td>✓</td><td>✓</td><td>✓</td><td>-</td><td>✓</td><td>-</td><td>✓</td></tr>
+          <tr><td class="feature-name">Best For</td><td>Time Series</td><td>Patterns</td><td>Tabular Data</td><td>Non-linear</td><td>Complex Patterns</td><td>High-dim</td><td>Complex Data</td></tr>
+        </tbody>
+      </table>
+      <p class="text-xs text-slate-400 mt-3 text-center">
+        R² and latency figures are measured on our held-out validation sets. Your numbers depend on data quality and equipment family.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== USE CASES SECTION ===== -->
+<section class="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+      <span class="text-secondary font-semibold text-xs sm:text-sm uppercase tracking-wider">Industry Applications</span>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-headline font-bold text-primary mt-3 mb-4">Built for Real Industrial Environments</h2>
+      <p class="text-slate-500 text-sm sm:text-base">Our models are trained on real sensor data from operating equipment across these verticals</p>
+    </div>
+    
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+      <div class="use-case-card">
+        <div class="use-case-icon"><span class="material-symbols-outlined">precision_manufacturing</span></div>
+        <h3 class="text-base sm:text-lg font-bold text-primary mb-2 font-headline">Manufacturing</h3>
+        <p class="text-slate-500 text-sm">Predict failures in assembly lines, CNC machines, and robotic systems.</p>
+        <span class="use-case-tag">Assembly Lines</span>
+        <span class="use-case-tag ml-2">Robotics</span>
+      </div>
+      
+      <div class="use-case-card">
+        <div class="use-case-icon"><span class="material-symbols-outlined">oil_barrel</span></div>
+        <h3 class="text-base sm:text-lg font-bold text-primary mb-2 font-headline">Oil &amp; Gas</h3>
+        <p class="text-slate-500 text-sm">Monitor pumps, compressors, and turbines in remote locations.</p>
+        <span class="use-case-tag">Rotating Equipment</span>
+        <span class="use-case-tag ml-2">Remote Monitoring</span>
+      </div>
+      
+      <div class="use-case-card">
+        <div class="use-case-icon"><span class="material-symbols-outlined">electrical_services</span></div>
+        <h3 class="text-base sm:text-lg font-bold text-primary mb-2 font-headline">Energy</h3>
+        <p class="text-slate-500 text-sm">Optimize maintenance of wind turbines and power generators.</p>
+        <span class="use-case-tag">Power Generation</span>
+        <span class="use-case-tag ml-2">Renewables</span>
+      </div>
+      
+      <div class="use-case-card">
+        <div class="use-case-icon"><span class="material-symbols-outlined">directions_bus</span></div>
+        <h3 class="text-base sm:text-lg font-bold text-primary mb-2 font-headline">Transportation</h3>
+        <p class="text-slate-500 text-sm">Predict failures in fleet vehicles and train components.</p>
+        <span class="use-case-tag">Fleet Management</span>
+        <span class="use-case-tag ml-2">Rail</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS SECTION ===== -->
+<section class="py-12 sm:py-16 px-4 sm:px-6 bg-slate-50/80">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="text-center">
+        <div class="text-3xl sm:text-4xl font-extrabold text-secondary font-headline">7</div>
+        <div class="text-sm text-slate-500 font-medium mt-1">Production Models</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl sm:text-4xl font-extrabold text-secondary font-headline">84.5%</div>
+        <div class="text-sm text-slate-500 font-medium mt-1">Best Validated R²</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl sm:text-4xl font-extrabold text-secondary font-headline">41</div>
+        <div class="text-sm text-slate-500 font-medium mt-1">Sensor Features</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl sm:text-4xl font-extrabold text-secondary font-headline">~45ms</div>
+        <div class="text-sm text-slate-500 font-medium mt-1">Fastest Inference</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA SECTION ===== -->
+<section class="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="gradient-primary rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 text-center text-white relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+      <div class="relative z-10">
+        <span class="material-symbols-outlined text-3xl sm:text-4xl mb-3 sm:mb-4 animate-float">rocket_launch</span>
+        <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-headline font-bold mb-3 sm:mb-4">Ready to Get Started?</h2>
+        <p class="text-white/80 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 max-w-xl mx-auto">Upload your sensor data and see which model fits your equipment best</p>
+        
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+          <a href="signup.html" class="gradient-cta text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-sm sm:text-base">Start Free Trial →</a>
+          <a href="contact.html" class="bg-white/20 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold border border-white/30 hover:bg-white/30 transition-all duration-300 text-sm sm:text-base">Schedule a Demo</a>
+        </div>
+        
+        <p class="text-white/60 text-xs sm:text-sm mt-4 sm:mt-6">No credit card required • 14-day free trial • Cancel anytime</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-white border-t border-border-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12">
+      
+      <div class="text-center sm:text-left">
+        <a href="index.html" class="inline-flex items-center gap-2 mb-3">
+          <div class="synapsepm-logo logo-sm">
+            <span class="logo-icon">
+              <img src="assets/img/logo.png" alt="SynapsePM" id="footerLogoImg" onerror="this.style.display='none'">
+            </span>
+            <span>Synapse</span><strong>PM</strong>
+          </div>
+        </a>
+        <p class="text-slate-500 text-xs sm:text-sm mb-3 max-w-xs mx-auto sm:mx-0">AI-powered predictive maintenance for forward-thinking manufacturers.</p>
+        <p class="text-slate-400/50 text-[10px] sm:text-xs">© 2026 SynapsePM. All rights reserved.</p>
+        <div class="flex gap-2 sm:gap-3 mt-3 justify-center sm:justify-start">
+          <a href="https://x.com/SamirAlam7860" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/md-shamir-alam-9aa763286/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
+          </a>
+          <a href="https://github.com/alamsameer786" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026.797-.222 1.65-.333 2.5-.336.85.003 1.703.114 2.5.336 1.91-1.295 2.75-1.026 2.75-1.026.544 1.378.201 2.397.098 2.65.64.7 1.029 1.595 1.029 2.688 0 3.846-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@aihacks786" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="text-center sm:text-left">
+        <h4 class="font-bold text-primary mb-3 sm:mb-5 text-sm sm:text-base">Get Started</h4>
+        <ul class="space-y-2 text-xs sm:text-sm text-slate-500">
+          <li><a href="explore.html" class="footer-link hover:text-secondary">Features</a></li>
+          <li><a href="pricing.html" class="footer-link hover:text-secondary">Pricing</a></li>
+          <li><a href="contact.html" class="footer-link hover:text-secondary">Contact</a></li>
+          <li><a href="demo.html" class="footer-link hover:text-secondary">Request Demo</a></li>
+        </ul>
+      </div>
+
+      <div class="text-center sm:text-left">
+        <h4 class="font-bold text-primary mb-3 sm:mb-5 text-sm sm:text-base">Documentation</h4>
+        <ul class="space-y-2 text-xs sm:text-sm text-slate-500">
+          <li><a href="docs.html" class="footer-link hover:text-secondary">API Reference</a></li>
+          <li><a href="docs.html#getting-started" class="footer-link hover:text-secondary">Integration Guides</a></li>
+          <li><a href="demo.html" class="footer-link hover:text-secondary">Video Tutorials</a></li>
+          <li><a href="docs.html#sdks" class="footer-link hover:text-secondary">SDK Downloads</a></li>
+        </ul>
+      </div>
+
+      <div class="text-center sm:text-left">
+        <h4 class="font-bold text-primary mb-3 sm:mb-5 text-sm sm:text-base">Company</h4>
+        <ul class="space-y-2 text-xs sm:text-sm text-slate-500">
+          <li><a href="about.html" class="footer-link hover:text-secondary">About Us</a></li>
+          <li><a href="career.html" class="footer-link hover:text-secondary">Careers</a></li>
+          <li><a href="blog.html" class="footer-link hover:text-secondary">Blog</a></li>
+          <li><a href="faq.html" class="footer-link hover:text-secondary">FAQ</a></li>
+          <li><a href="privacy.html" class="footer-link hover:text-secondary">Privacy Policy</a></li>
+          <li><a href="terms.html" class="footer-link hover:text-secondary">Terms of Service</a></li>
+          <li><a href="security.html" class="hover:text-secondary transition-colors">Security</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // Mobile menu
+  const mobileToggle = document.getElementById('mobileToggleBtn');
+  const mobileClose = document.getElementById('closeMobileMenuBtn');
+  const mobileOverlay = document.getElementById('mobileMenuOverlay');
+  const mobilePanel = document.getElementById('mobileMenuPanel');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+
+  function openMenu() {
+    if (mobileOverlay && mobilePanel) {
+      mobileOverlay.classList.remove('invisible', 'opacity-0');
+      mobileOverlay.classList.add('visible', 'opacity-100');
+      mobilePanel.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  
+  function closeMenu() {
+    if (mobileOverlay && mobilePanel) {
+      mobileOverlay.classList.add('invisible', 'opacity-0');
+      mobileOverlay.classList.remove('visible', 'opacity-100');
+      mobilePanel.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    }
+  }
+  
+  if (mobileToggle) mobileToggle.addEventListener('click', openMenu);
+  if (mobileClose) mobileClose.addEventListener('click', closeMenu);
+  if (mobileOverlay) mobileOverlay.addEventListener('click', (e) => { if (e.target === mobileOverlay) closeMenu(); });
+  mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+  // Header scroll effect
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('shadow-lg');
+    } else {
+      header?.classList.remove('shadow-lg');
+    }
+  });
+
+  // Filter functionality
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const modelCards = document.querySelectorAll('.model-card');
+  
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      const filterValue = this.dataset.filter;
+      
+      modelCards.forEach((card, index) => {
+        const categories = card.dataset.category;
+        if (filterValue === 'all' || categories.includes(filterValue)) {
+          card.style.display = 'block';
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            card.style.transition = 'all 0.4s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+          }, index * 50);
+        } else {
+          card.style.transition = 'all 0.3s ease';
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 300);
+        }
+      });
+    });
+  });
+
+  // Toast
+  window.showToast = function(message) {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    if (toast && toastMessage) {
+      toastMessage.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  };
+
+  window.closeToast = function() {
+    const toast = document.getElementById('toast');
+    if (toast) {
+      toast.classList.remove('show');
+    }
+  };
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeMenu();
+      closeToast();
+    }
+  });
+
+  console.log('🏭 SynapsePM Explore Page — 7 Production AI Models');
+  console.log('📊 LSTM | Transformer | XGBoost | Random Forest | Gradient Boosting | SVM | Neural Network');
+  console.log('🚀 14-day free trial available for all models');
+})();
+</script>
+</body>
+</html>

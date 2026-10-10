@@ -1,0 +1,2208 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Reports | SynapsePM - AI Maintenance Reports</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+<meta name="robots" content="noindex, nofollow">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}
+    body{min-height:100vh;font-family:'Inter',sans-serif;background:#f8fafc}
+    h1,h2,h3,.font-headline{font-family:'Manrope',sans-serif}
+    .gradient-primary{background:linear-gradient(135deg,#0f2b3d 0%,#1a4a6e 100%)}
+    .gradient-cta{background:linear-gradient(135deg,#00b4aa 0%,#009688 100%)}
+    .gradient-cta:hover{background:linear-gradient(135deg,#009688 0%,#00796b 100%)}
+    .gradient-cta:disabled{opacity:.6;cursor:not-allowed}
+    
+    /* ============================================================
+       SYNAPSEPM CUSTOM LOGO — FIXED SIZE IN BOTH STATES
+       ============================================================ */
+    .synapsepm-logo {
+        font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        font-size: 22px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        vertical-align: middle;
+    }
+    .synapsepm-logo > span:not(.logo-icon),
+    .synapsepm-logo strong {
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+        height: 32px;
+    }
+    .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+    .synapsepm-logo strong {
+        background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .synapsepm-logo .logo-icon {
+        width: 32px; height: 32px;
+        min-width: 32px; min-height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+    .synapsepm-logo .logo-icon img {
+        width: 32px; height: 32px;
+        object-fit: contain; display: block;
+    }
+
+    :root{--sidebar-width:264px;--sidebar-collapsed-width:84px;--sidebar-border:#e2e8f0;--sidebar-bg:#fff;--sidebar-muted:#64748b;--sidebar-primary:#0f2b3d;--sidebar-accent:#00b4aa;--sidebar-hover:#f1f5f9}
+    
+    .sidebar{
+        width:var(--sidebar-width);
+        min-height:100dvh;
+        height:100dvh;
+        background:var(--sidebar-bg);
+        border-right:1px solid var(--sidebar-border);
+        position:fixed;
+        inset:0 auto 0 0;
+        z-index:100;
+        display:flex;
+        flex-direction:column;
+        overflow:visible;
+        transition:width .28s cubic-bezier(.4,0,.2,1),transform .28s cubic-bezier(.4,0,.2,1)
+    }
+    .sidebar.collapsed{width:var(--sidebar-collapsed-width)}
+    
+    .sidebar-header{flex-shrink:0;border-bottom:1px solid var(--sidebar-border);background:#fff}
+    .sidebar-brand{
+        min-height:76px;
+        padding:0 14px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        overflow:hidden;
+        transition:padding .28s cubic-bezier(.4,0,.2,1),min-height .28s cubic-bezier(.4,0,.2,1)
+    }
+    .sidebar-brand-inner{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        min-width:0;
+        transition:opacity .2s ease
+    }
+    
+    /* Hide only the text when collapsed, keep icon visible */
+    .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+    .sidebar.collapsed .synapsepm-logo strong {
+        display: none !important;
+    }
+    .sidebar.collapsed .sidebar-brand {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 0;
+        min-height: 76px;
+    }
+    .sidebar.collapsed .sidebar-brand-inner {
+        opacity: 1;
+        pointer-events: auto;
+        width: auto;
+        overflow: visible;
+        justify-content: center;
+        gap: 0;
+    }
+
+    /* Collapse toggle: SVG chevron that rotates */
+    .sidebar-toggle {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #dbe4ec;
+        border-radius: 10px;
+        background: #fff;
+        color: #475569;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 7px rgba(15,43,61,.06);
+        transition: background .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease;
+        flex-shrink: 0;
+        padding: 0;
+    }
+    .sidebar-toggle:hover {
+        background: #f8fafc;
+        color: var(--sidebar-accent);
+        border-color: rgba(0,180,170,.45);
+        box-shadow: 0 5px 14px rgba(15,43,61,.10);
+    }
+    .sidebar-toggle svg {
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+        transition: transform .3s cubic-bezier(.4,0,.2,1);
+    }
+    .sidebar.collapsed .sidebar-toggle svg {
+        transform: rotate(180deg);
+    }
+
+    /* Never hide the logo icon wrapper */
+    .sidebar.collapsed .synapsepm-logo { justify-content: center; }
+    .sidebar.collapsed .synapsepm-logo .logo-icon {
+        display: inline-flex !important;
+        opacity: 1 !important;
+        width: 32px !important;
+        min-width: 32px !important;
+        height: 32px !important;
+        min-height: 32px !important;
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+    .sidebar.collapsed .synapsepm-logo .logo-icon img {
+        display: block !important;
+        width: 32px !important;
+        height: 32px !important;
+        object-fit: contain !important;
+    }
+
+    .sidebar-nav{
+        flex:1;
+        min-height:0;
+        overflow-y:auto;
+        overflow-x:hidden;
+        padding:14px 10px;
+        scrollbar-width:thin;
+        scrollbar-color:#dbe4ec transparent
+    }
+    .sidebar-nav::-webkit-scrollbar{width:4px}
+    .sidebar-nav::-webkit-scrollbar-track{background:transparent}
+    .sidebar-nav::-webkit-scrollbar-thumb{background:#dbe4ec;border-radius:999px}
+    .sidebar-group-label{padding:7px 11px 6px}
+    .sidebar-group{display:flex;flex-direction:column;gap:3px}
+    .sidebar-link{
+        min-height:44px;
+        display:flex;
+        align-items:center;
+        gap:12px;
+        padding:9px 11px;
+        border-radius:11px;
+        color:var(--sidebar-muted);
+        font-weight:500;
+        font-size:.875rem;
+        line-height:1.2;
+        transition:background .18s ease,color .18s ease;
+        cursor:pointer;
+        text-decoration:none;
+        position:relative;
+        white-space:nowrap;
+        overflow:visible
+    }
+    .sidebar-link:hover{background:var(--sidebar-hover);color:var(--sidebar-primary)}
+    .sidebar-link.active{background:#00b4aa;color:#fff;box-shadow:0 5px 14px rgba(0,180,170,.22)}
+    .sidebar-link .material-symbols-outlined{
+        width:22px;
+        min-width:22px;
+        font-size:22px;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        color:#64748b;
+        transition:color .18s ease
+    }
+    .sidebar-link.active .material-symbols-outlined,
+    .sidebar-link:hover .material-symbols-outlined{color:inherit}
+    .sidebar-link .badge-count{
+        margin-left:auto;
+        min-width:22px;
+        height:22px;
+        padding:0 6px;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        background:#f1f5f9;
+        color:#64748b;
+        font-size:.65rem;
+        border-radius:999px;
+        font-weight:700;
+        transition:all .2s ease
+    }
+    .sidebar-link.active .badge-count{background:rgba(255,255,255,.22);color:#fff}
+    .sidebar-divider{margin:14px 4px;border-top:1px solid #edf2f7}
+    .sidebar-text{transition:opacity .2s ease}
+    .sidebar.collapsed .sidebar-text,
+    .sidebar.collapsed .sidebar-label,
+    .sidebar.collapsed .badge-count{
+        opacity:0;
+        pointer-events:none;
+        width:0;
+        overflow:hidden;
+        display:none !important
+    }
+    .sidebar.collapsed .sidebar-nav{padding-left:8px;padding-right:8px}
+    .sidebar.collapsed .sidebar-link{justify-content:center;gap:0;padding:9px 7px}
+    .sidebar.collapsed .sidebar-link .material-symbols-outlined{width:24px;min-width:24px;font-size:23px}
+    .sidebar.collapsed .sidebar-link::after{
+        content:attr(data-tooltip);
+        position:absolute;
+        left:calc(100% + 10px);
+        top:50%;
+        transform:translateY(-50%) translateX(-4px);
+        opacity:0;
+        pointer-events:none;
+        background:#0f2b3d;
+        color:#fff;
+        padding:7px 10px;
+        border-radius:8px;
+        font-size:12px;
+        font-weight:600;
+        white-space:nowrap;
+        box-shadow:0 8px 20px rgba(15,43,61,.18);
+        transition:opacity .15s ease,transform .15s ease;
+        z-index:250
+    }
+    .sidebar.collapsed .sidebar-link:hover::after{opacity:1;transform:translateY(-50%) translateX(0)}
+
+    .sidebar-user-area{
+        flex-shrink:0;
+        position:relative;
+        padding:10px;
+        border-top:1px solid var(--sidebar-border);
+        background:#fff
+    }
+    .user-card{
+        min-height:58px;
+        display:flex;
+        align-items:center;
+        gap:10px;
+        padding:8px;
+        background:#f8fafc;
+        border:1px solid #eef2f7;
+        border-radius:12px;
+        transition:all .28s cubic-bezier(.4,0,.2,1)
+    }
+    .sidebar.collapsed .user-card{
+        justify-content:center;
+        padding:8px 5px;
+        background:transparent;
+        border-color:transparent
+    }
+    .avatar-wrapper{flex-shrink:0;position:relative}
+    .user-card .avatar{
+        width:38px;
+        height:38px;
+        padding:0;
+        border:0;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-weight:700;
+        font-size:.8rem;
+        color:#fff;
+        background:linear-gradient(135deg,#00b4aa,#009688);
+        background-size:cover;
+        background-position:center;
+        cursor:pointer;
+        position:relative;
+        transition:box-shadow .2s ease
+    }
+    .user-card .avatar:hover{box-shadow:0 0 0 3px rgba(0,180,170,.15)}
+    .user-card .avatar-wrapper .status-dot{
+        position:absolute;
+        bottom:0;
+        right:0;
+        width:11px;
+        height:11px;
+        border-radius:50%;
+        border:2px solid #fff;
+        background:#10b981;
+        pointer-events:none
+    }
+    .user-card .user-details{flex:1;min-width:0;transition:opacity .2s ease}
+    .sidebar.collapsed .user-card .user-details{
+        opacity:0;
+        pointer-events:none;
+        width:0;
+        overflow:hidden;
+        display:none !important
+    }
+    .user-card .user-details .name{
+        font-weight:600;
+        font-size:.82rem;
+        color:#0f2b3d;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis
+    }
+    .user-card .user-details .email{
+        font-size:.68rem;
+        color:#94a3b8;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        margin-top:1px
+    }
+    .user-card .user-details .plan{
+        font-size:.58rem;
+        font-weight:700;
+        color:#00a79d;
+        background:rgba(0,180,170,.08);
+        padding:1px 7px;
+        border-radius:999px;
+        display:inline-block;
+        margin-top:2px
+    }
+
+    .profile-menu{
+    position:absolute;
+    left:10px;
+    right:10px;
+    bottom:calc(100% + 10px);
+    padding:14px;
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    box-shadow:0 18px 45px rgba(15,23,42,.16);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(8px);
+    pointer-events:none;
+    transition:opacity .18s ease,transform .18s ease,visibility .18s ease;
+    z-index:300;
+    min-width: 276px;
+}
+
+/* When sidebar is collapsed, expand menu to the right so content stays readable */
+.sidebar.collapsed .profile-menu {
+    left: calc(100% + 10px);
+    right: auto;
+    bottom: 12px;
+    width: 300px;
+    min-width: 300px;
+    transform: translateY(0) translateX(-8px);
+}
+
+.sidebar.collapsed .profile-menu.open {
+    transform: translateY(0) translateX(0);
+}
+    .profile-menu.open{
+        opacity:1;
+        visibility:visible;
+        transform:translateY(0);
+        pointer-events:auto
+    }
+    .profile-menu-header{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        padding-bottom:12px;
+        border-bottom:1px solid #edf2f7
+    }
+    .profile-menu-avatar{
+        width:42px;
+        height:42px;
+        flex:0 0 42px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:linear-gradient(135deg,#00b4aa,#009688);
+        color:#fff;
+        font-weight:800;
+        background-size:cover;
+        background-position:center
+    }
+    .profile-menu-name{font-weight:700;color:#0f2b3d;font-size:14px}
+    .profile-menu-email{color:#64748b;font-size:12px;margin-top:2px;word-break:break-word}
+    .profile-menu-details{padding:12px 0;display:grid;gap:8px}
+    .profile-detail-row{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        font-size:12px
+    }
+    .profile-detail-label{color:#94a3b8}
+    .profile-detail-value{
+        color:#334155;
+        font-weight:600;
+        text-align:right;
+        word-break:break-word
+    }
+    .profile-menu-actions{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        margin-top:8px;
+        padding-top:12px;
+        border-top:1px solid #edf2f7
+    }
+    .profile-action-btn{
+        width:100%;
+        min-height:40px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        border:1px solid #e2e8f0;
+        border-radius:10px;
+        background:#fff;
+        color:#475569;
+        font-size:13px;
+        font-weight:600;
+        cursor:pointer;
+        transition:all .18s ease;
+        padding:0 12px;
+        font-family:inherit
+    }
+    .profile-action-btn:hover{background:#f8fafc;border-color:#cbd5e1}
+    .profile-action-btn.danger{border-color:#fecaca;color:#dc2626}
+    .profile-action-btn.danger:hover{background:#fef2f2;border-color:#fca5a5}
+
+    #mainContent{
+        margin-left:var(--sidebar-width);
+        min-width:0;
+        transition:margin-left .28s cubic-bezier(.4,0,.2,1)
+    }
+    body.sidebar-is-collapsed #mainContent{margin-left:var(--sidebar-collapsed-width)}
+    .sidebar-overlay{display:none}
+
+    @media (max-width:1023px){
+        .sidebar{width:min(310px,90vw);transform:translateX(-102%);box-shadow:none}
+        .sidebar.mobile-open{transform:translateX(0);box-shadow:18px 0 50px rgba(15,23,42,.18)}
+        .sidebar.collapsed{width:min(310px,90vw)}
+        .sidebar-overlay{
+            position:fixed;
+            inset:0;
+            background:rgba(15,23,42,.42);
+            backdrop-filter:blur(3px);
+            z-index:90;
+            display:block;
+            opacity:0;
+            visibility:hidden;
+            pointer-events:none;
+            transition:opacity .25s ease,visibility .25s ease
+        }
+        .sidebar-overlay.active{opacity:1;visibility:visible;pointer-events:auto}
+        #mainContent,body.sidebar-is-collapsed #mainContent{margin-left:0}
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-label,
+        .sidebar.collapsed .badge-count{
+            display:block !important;
+            opacity:1 !important;
+            transform:none !important;
+            width:auto !important
+        }
+        .sidebar.collapsed .sidebar-link{justify-content:flex-start;gap:12px;padding:9px 11px}
+        .sidebar.collapsed .sidebar-link::after{display:none}
+        .sidebar.collapsed .user-card .user-details{
+            display:block !important;
+            opacity:1 !important;
+            transform:none !important;
+            width:auto !important
+        }
+        .sidebar.collapsed .sidebar-brand-inner{opacity:1 !important;pointer-events:auto !important;width:auto !important}
+        .sidebar.collapsed .sidebar-brand{justify-content:space-between}
+        .sidebar.collapsed .sidebar-toggle svg{transform:none}
+        /* On mobile, always use the original left/right anchored layout
+       (mobile sidebar is full-width so no need to expand right) */
+    .sidebar.collapsed .profile-menu {
+        left: 10px;
+        right: 10px;
+        bottom: calc(100% + 10px);
+        width: auto;
+        min-width: 0;
+        transform: translateY(8px);
+    }
+    .sidebar.collapsed .profile-menu.open {
+        transform: translateY(0);
+    }
+    }
+
+    @media (max-width:768px){
+        .sidebar{width:min(310px,90vw)}
+        .sidebar-brand{min-height:72px}
+        .sidebar-nav{padding-top:10px}
+        .sidebar-link{min-height:46px}
+        .profile-menu{width:auto}
+    }
+    @media (prefers-reduced-motion:reduce){
+        .sidebar,.sidebar-link,.sidebar-toggle,#mainContent,.sidebar-overlay,.profile-menu{transition:none !important}
+    }
+
+    /* ===== REPORT CARDS ===== */
+    .report-card{
+        transition:all .3s cubic-bezier(.4,0,.2,1);
+        background:#fff;
+        border-radius:1.25rem;
+        border:1px solid #e2e8f0;
+        overflow:hidden
+    }
+    .report-card:hover{
+        transform:translateY(-4px);
+        box-shadow:0 20px 25px -12px rgba(0,0,0,.12);
+        border-color:#00b4aa
+    }
+
+    /* ===== TOAST ===== */
+    .toast{
+        position:fixed;
+        bottom:1.5rem;
+        right:1.5rem;
+        background:#fff;
+        border-radius:.75rem;
+        padding:1rem 1.5rem;
+        box-shadow:0 10px 25px -5px rgba(0,0,0,.1);
+        display:flex;
+        align-items:center;
+        gap:.75rem;
+        z-index:1100;
+        animation:slideInRight .3s ease-out;
+        border-left:4px solid;
+        max-width:400px
+    }
+    .toast.success{border-left-color:#10b981}
+    .toast.error{border-left-color:#ef4444}
+    .toast.warning{border-left-color:#f59e0b}
+    .toast.info{border-left-color:#00b4aa}
+    @keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+    /* ===== LOADING ===== */
+    .loading-spinner{
+        display:inline-block;
+        width:1.25rem;
+        height:1.25rem;
+        border:2px solid rgba(255,255,255,.3);
+        border-top-color:#fff;
+        border-radius:50%;
+        animation:spin .8s linear infinite;
+        margin-right:.5rem
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ===== INFO PILLS ===== */
+    .info-pill{
+        display:inline-flex;
+        align-items:center;
+        gap:.25rem;
+        padding:.15rem .55rem;
+        border-radius:9999px;
+        background:#f1f5f9;
+        color:#475569;
+        font-size:.65rem;
+        font-weight:600
+    }
+    .info-pill.teal{background:rgba(0,180,170,.1);color:#0d9488}
+    .info-pill.blue{background:#eff6ff;color:#1d4ed8}
+    .info-pill.amber{background:#fffbeb;color:#b45309}
+    .info-pill.red{background:#fef2f2;color:#b91c1c}
+    .info-pill.green{background:#ecfdf5;color:#047857}
+
+    /* ===== SCOPE SUMMARY ===== */
+    .scope-summary{
+        background:linear-gradient(135deg,#f0fdfa,#ecfeff);
+        border:1px solid #99f6e4;
+        border-radius:.75rem;
+        padding:.75rem 1rem;
+        color:#0f766e;
+        font-size:.8rem
+    }
+
+    /* ===== CHIPS ===== */
+    .chip{display:inline-flex;align-items:center;gap:.25rem;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:600}
+    .chip-critical{background:#fee2e2;color:#991b1b}
+    .chip-high{background:#fed7aa;color:#9a3412}
+    .chip-medium{background:#fef3c7;color:#92400e}
+    .chip-low{background:#d1fae5;color:#065f46}
+
+    /* ===== MACHINE MULTI-SELECT ===== */
+    .machine-multi-select{
+        max-height:180px;
+        overflow-y:auto;
+        border:1px solid #e2e8f0;
+        border-radius:.75rem;
+        padding:.5rem;
+        background:#fff
+    }
+    .machine-multi-select label{
+        display:flex;
+        align-items:center;
+        gap:.5rem;
+        padding:.4rem .6rem;
+        border-radius:.5rem;
+        cursor:pointer;
+        font-size:.82rem
+    }
+    .machine-multi-select label:hover{background:#f8fafc}
+    .machine-multi-select input{accent-color:#00b4aa}
+
+    /* ===== PAGE BANNERS ===== */
+    .page-banner{
+        border-radius:12px;
+        padding:12px 16px;
+        margin-bottom:12px;
+        display:flex;
+        align-items:flex-start;
+        gap:10px;
+        font-size:13px;
+        line-height:1.4
+    }
+    .page-banner.error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+    .page-banner.warning{background:#fffbeb;color:#92400e;border:1px solid #fde68a}
+    .page-banner.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+    .page-banner .banner-close{margin-left:auto;cursor:pointer;opacity:.7}
+    .page-banner .banner-close:hover{opacity:1}
+
+    /* ===== REPORT PREVIEW MODAL ===== */
+    .report-modal{
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.5);
+        backdrop-filter:blur(4px);
+        z-index:2000;
+        align-items:center;
+        justify-content:center;
+        padding:1rem
+    }
+    .report-modal.active{display:flex;animation:fadeIn .2s ease}
+    .report-modal-content{
+        background:#fff;
+        border-radius:1.5rem;
+        max-width:900px;
+        width:100%;
+        max-height:90vh;
+        overflow:hidden;
+        display:flex;
+        flex-direction:column
+    }
+    @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+    .report-modal-header{
+        padding:1.25rem 1.5rem;
+        border-bottom:1px solid #e2e8f0;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:1rem;
+        flex-shrink:0
+    }
+    .report-modal-body{
+        flex:1;
+        overflow-y:auto;
+        padding:1.5rem
+    }
+    .report-modal-footer{
+        padding:1rem 1.5rem;
+        border-top:1px solid #e2e8f0;
+        display:flex;
+        gap:.75rem;
+        justify-content:flex-end;
+        flex-shrink:0
+    }
+    .report-content-pre{
+        background:#f8fafc;
+        border:1px solid #e2e8f0;
+        border-radius:.75rem;
+        padding:1.25rem;
+        white-space:pre-wrap;
+        font-family:'Courier New',monospace;
+        font-size:.78rem;
+        line-height:1.6;
+        color:#0f172a;
+        max-height:60vh;
+        overflow-y:auto
+    }
+
+    /* ===== DOWNLOAD HISTORY TABLE ===== */
+    .history-table{width:100%;border-collapse:collapse;font-size:.8rem}
+    .history-table th{
+        text-align:left;
+        padding:.75rem 1rem;
+        background:#f8fafc;
+        color:#64748b;
+        font-weight:600;
+        font-size:.7rem;
+        text-transform:uppercase;
+        letter-spacing:.05em;
+        border-bottom:1px solid #e2e8f0
+    }
+    .history-table td{
+        padding:.75rem 1rem;
+        border-bottom:1px solid #f1f5f9;
+        color:#334155
+    }
+    .history-table tr:hover td{background:#f8fafc}
+    .history-table tr:last-child td{border-bottom:none}
+</style>
+</head>
+<body>
+
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
+                <div class="synapsepm-logo">
+                    <span class="logo-icon">
+                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
+                    </span>
+                    <span>Synapse</span><strong>PM</strong>
+                </div>
+            </a>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle"
+                    title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                     aria-hidden="true">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <nav class="sidebar-nav">
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p>
+            </div>
+            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a href="machines.html" class="sidebar-link" data-tooltip="Machines">
+                <span class="material-symbols-outlined">precision_manufacturing</span>
+                <span class="sidebar-text">Machines</span>
+            </a>
+            <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions">
+                <span class="material-symbols-outlined">neurology</span>
+                <span class="sidebar-text">Predictions</span>
+            </a>
+            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts">
+                <span class="material-symbols-outlined">notifications_active</span>
+                <span class="sidebar-text">Alerts</span>
+                <span class="badge-count" id="sidebarAlertsBadge">0</span>
+            </a>
+            <a href="reports.html" class="sidebar-link active" data-tooltip="Reports" aria-current="page">
+                <span class="material-symbols-outlined">assessment</span>
+                <span class="sidebar-text">Reports</span>
+            </a>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p>
+            </div>
+            <a href="billing.html" class="sidebar-link" data-tooltip="Billing">
+                <span class="material-symbols-outlined">credit_card</span>
+                <span class="sidebar-text">Billing</span>
+            </a>
+        </div>
+    </nav>
+    <div class="sidebar-user-area">
+        <div class="user-card">
+            <div class="avatar-wrapper">
+                <button type="button" class="avatar" id="userAvatar" aria-label="Account">
+                    <span id="userAvatarText"></span>
+                </button>
+                <div class="status-dot"></div>
+            </div>
+            <div class="user-details">
+                <div class="name" id="userName"></div>
+                <div class="email" id="userEmail"></div>
+                <div class="plan" id="userPlan"></div>
+            </div>
+        </div>
+        <div class="profile-menu" id="profileMenu" role="dialog" aria-hidden="true">
+            <div class="profile-menu-header">
+                <div class="profile-menu-avatar" id="profileMenuAvatar"></div>
+                <div class="min-w-0">
+                    <div class="profile-menu-name" id="profileMenuName"></div>
+                    <div class="profile-menu-email" id="profileMenuEmail"></div>
+                </div>
+            </div>
+            <div class="profile-menu-details">
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Username</span>
+                    <span class="profile-detail-value" id="profileMenuUsername"></span>
+                </div>
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Email</span>
+                    <span class="profile-detail-value" id="profileMenuEmailDetail"></span>
+                </div>
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Plan</span>
+                    <span class="profile-detail-value" id="profileMenuPlan"></span>
+                </div>
+                <div class="profile-detail-row" id="profileRoleRow" hidden>
+                    <span class="profile-detail-label">Role</span>
+                    <span class="profile-detail-value" id="profileMenuRole"></span>
+                </div>
+                <div class="profile-detail-row" id="profileOrgRow" hidden>
+                    <span class="profile-detail-label">Organization</span>
+                    <span class="profile-detail-value" id="profileMenuOrg"></span>
+                </div>
+            </div>
+            <div class="profile-menu-actions">
+                <button type="button" class="profile-action-btn" id="profileSettingsBtn">
+                    <span class="material-symbols-outlined text-base">settings</span>Settings
+                </button>
+                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn">
+                    <span class="material-symbols-outlined text-base">logout</span>Sign out
+                </button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<main class="flex-1 min-w-0" id="mainContent">
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Reports</h1>
+        </div>
+        <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">●</span>
+            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="material-symbols-outlined text-teal-600 text-lg">assessment</span>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-teal-600">Analytics</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Reports & Analytics</h1>
+                    <p class="text-slate-500 text-sm mt-0.5">Real reports generated from your predictions, alerts, and sensor data</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="refreshAllData()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all flex items-center gap-2 text-sm">
+                        <span class="material-symbols-outlined text-base">refresh</span> Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Total Reports</span>
+                    <span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">description</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="statReports">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Machines</span>
+                    <span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">precision_manufacturing</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="statMachines">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Active Alerts</span>
+                    <span class="material-symbols-outlined text-red-500 text-base sm:text-lg">warning</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-red-500" id="statAlerts">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Downloads</span>
+                    <span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">download</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-teal-600" id="statDownloads">0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Build Custom Report -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div id="pageBannerHost"></div>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-teal-300 text-base sm:text-xl">build_circle</span>
+                    <h2 class="text-base sm:text-lg md:text-xl font-bold text-white font-headline">Build Custom Report</h2>
+                </div>
+            </div>
+            <div class="p-4 sm:p-6">
+                <form id="reportForm">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-5 mb-4 sm:mb-5">
+                        <div class="lg:col-span-1">
+                            <label class="block text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                                Which Machine(s)? <span class="text-red-500">*</span>
+                            </label>
+                            <div class="flex items-center gap-2 mb-2">
+                                <button type="button" onclick="selectAllMachines()" class="text-[10px] px-2 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">All</button>
+                                <button type="button" onclick="selectNoMachines()" class="text-[10px] px-2 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">None</button>
+                            </div>
+                            <div class="machine-multi-select" id="machinesChecklist">
+                                <p class="text-xs text-slate-400 p-2">Loading machines…</p>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-1">
+                            <label class="block text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Time Window <span class="text-red-500">*</span></label>
+                            <select class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm mb-3" id="dateRange" required>
+                                <option value="1">Today only</option>
+                                <option value="7">Last 7 days</option>
+                                <option value="30" selected>Last 30 days</option>
+                                <option value="90">Last 90 days</option>
+                                <option value="365">Last year</option>
+                                <option value="0">All time</option>
+                            </select>
+                            <label class="block text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Format <span class="text-red-500">*</span></label>
+                            <select class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" id="reportFormat" required>
+                                <option value="txt">📄 Text Document (.txt)</option>
+                                <option value="html">🌐 HTML Report (.html)</option>
+                                <option value="json">📊 JSON Data (.json)</option>
+                                <option value="pdf">📕 PDF Document (.pdf)</option>
+                            </select>
+                        </div>
+                        <div class="lg:col-span-1">
+                            <label class="block text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Report Title (optional)</label>
+                            <input type="text" id="reportTitle" placeholder="Auto-generated if blank" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm mb-3">
+                            <label class="flex items-center gap-2 text-xs sm:text-sm text-slate-600 cursor-pointer p-2 rounded-lg hover:bg-slate-50 transition">
+                                <input type="checkbox" id="includeRecommendations" checked class="w-4 h-4 rounded border-slate-300 accent-teal-500">
+                                <span>Include ML recommendations</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-xs sm:text-sm text-slate-600 cursor-pointer p-2 rounded-lg hover:bg-slate-50 transition">
+                                <input type="checkbox" id="includeCost" checked class="w-4 h-4 rounded border-slate-300 accent-teal-500">
+                                <span>Include cost analysis</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 sm:mb-5 scope-summary" id="scopeSummary">
+                        Select one or more machines to scope the report. The backend will pull ONLY real predictions, alerts, and sensor readings from your database.
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 sm:gap-3">
+                        <button type="submit" class="gradient-cta text-white px-4 sm:px-6 py-2 rounded-xl font-semibold text-sm sm:text-base flex items-center gap-2" id="generateReportBtn">
+                            <span class="material-symbols-outlined text-sm">file_download</span>
+                            Generate & Download
+                        </button>
+                        <button type="button" onclick="previewReport()" class="border border-slate-200 text-slate-600 px-4 sm:px-6 py-2 rounded-xl font-semibold text-sm sm:text-base hover:bg-slate-50 transition flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">visibility</span>
+                            Preview
+                        </button>
+                    </div>
+                    <p id="generateStatus" class="text-xs text-slate-500 mt-3 hidden"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Reports -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-teal-300 text-base sm:text-xl">history</span>
+                    <h2 class="text-base sm:text-lg md:text-xl font-bold text-white font-headline">Recent Reports</h2>
+                </div>
+                <button onclick="loadReports()" class="text-white/80 hover:text-white text-xs sm:text-sm flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                </button>
+            </div>
+            <div class="p-4 sm:p-6">
+                <div id="reportsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                    <div class="col-span-full text-center py-6 sm:py-8 text-slate-500 text-sm">
+                        <span class="material-symbols-outlined text-3xl block mx-auto mb-2 text-slate-300">description</span>
+                        Loading reports...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download History -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-teal-300 text-base sm:text-xl">download_done</span>
+                    <h2 class="text-base sm:text-lg md:text-xl font-bold text-white font-headline">Download History</h2>
+                </div>
+                <span class="text-white/70 text-xs sm:text-sm" id="downloadHistoryCount">0 downloads</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="history-table" id="downloadHistoryTable">
+                    <thead>
+                        <tr>
+                            <th>Report</th>
+                            <th>Machine(s)</th>
+                            <th>Format</th>
+                            <th>Size</th>
+                            <th>Downloaded</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="downloadHistoryBody">
+                        <tr>
+                            <td colspan="6" class="text-center py-8 text-slate-500">
+                                <span class="material-symbols-outlined text-3xl block mx-auto mb-2 text-slate-300">download</span>
+                                No downloads yet. Generate a report to see download history.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Report Preview Modal -->
+<div class="report-modal" id="reportModal">
+    <div class="report-modal-content">
+        <div class="report-modal-header">
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-teal-600">description</span>
+                </div>
+                <div class="min-w-0">
+                    <h3 class="font-bold text-slate-800 truncate" id="modalReportTitle">Report</h3>
+                    <p class="text-xs text-slate-500 truncate" id="modalReportMeta"></p>
+                </div>
+            </div>
+            <button onclick="closeReportModal()" class="p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                <span class="material-symbols-outlined text-slate-500">close</span>
+            </button>
+        </div>
+        <div class="report-modal-body">
+            <pre class="report-content-pre" id="modalReportContent">Loading...</pre>
+        </div>
+        <div class="report-modal-footer">
+            <button onclick="closeReportModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-sm font-semibold">Close</button>
+            <button onclick="downloadCurrentReport()" class="gradient-cta text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">download</span> Download
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// SynapsePM Reports — Production v33.0.0
+// Real data only, integrated with dashboard, DB, backend & admin
+// ============================================================
+
+const API_BASE = '/api/v1';
+const REQUEST_TIMEOUT_MS = 60000;
+const REFRESH_STORAGE_KEYS = ['synapse_refresh', 'refresh_token', 'synapse_refresh_token'];
+const AUTH_STORAGE_KEYS = [
+    'synapse_token', 'synapse_user', 'synapse_refresh', 'synapse_tenant',
+    'synapse_admin_token', 'synapse_admin_user', 'synapse_mfa', 'synapse_sessions',
+    'token', 'auth_token', 'access_token', 'refresh_token', 'user', 'organization'
+];
+
+const $ = id => document.getElementById(id);
+
+// ---------- TOKEN / AUTH ----------
+function readFirst(keys) {
+    for (const k of keys) {
+        try { const v = localStorage.getItem(k); if (v) return v; } catch (e) {}
+    }
+    return null;
+}
+function getToken() {
+    return localStorage.getItem('synapse_token')
+        || localStorage.getItem('synapse_admin_token')
+        || localStorage.getItem('token')
+        || localStorage.getItem('auth_token')
+        || localStorage.getItem('access_token')
+        || null;
+}
+function getRefreshToken() {
+    return readFirst(REFRESH_STORAGE_KEYS);
+}
+function getUser() {
+    try {
+        const raw = localStorage.getItem('synapse_user')
+            || localStorage.getItem('synapse_admin_user')
+            || localStorage.getItem('user');
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+}
+function decodeJwt(token) {
+    if (!token || typeof token !== 'string') return null;
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) return null;
+        const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+        return JSON.parse(atob(padded));
+    } catch (e) { return null; }
+}
+function isTokenValid(token) {
+    const payload = decodeJwt(token);
+    if (!payload || typeof payload.exp !== 'number') return false;
+    return payload.exp > Math.floor(Date.now() / 1000) + 10;
+}
+
+const Auth = {
+    get token() { return getToken(); },
+    get user() { return getUser(); },
+    get isAuthenticated() {
+        const t = getToken();
+        if (!t || !isTokenValid(t)) return false;
+        return !!getUser();
+    },
+    clearStorage() {
+        AUTH_STORAGE_KEYS.forEach(k => { try { localStorage.removeItem(k); } catch (e) {} });
+    },
+    logout() {
+        this.clearStorage();
+        try { sessionStorage.setItem('justLoggedOut', 'true'); } catch (e) {}
+        if (!/login\.html/i.test(window.location.pathname)) {
+            window.location.replace('login.html');
+        }
+    },
+};
+
+// ---------- TOAST / BANNER ----------
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    const div = document.createElement('div');
+    div.textContent = String(text);
+    return div.innerHTML;
+}
+function showToast(message, type = 'info', duration = 4500) {
+    const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#00b4aa' };
+    const icons = { success: 'check_circle', error: 'error', warning: 'warning', info: 'info' };
+    const toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.style.borderLeftColor = colors[type] || colors.info;
+    toast.innerHTML = `<span class="material-symbols-outlined text-sm" style="color:${colors[type]}">${icons[type] || 'info'}</span><span class="text-sm">${escapeHtml(message)}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity .3s';
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+function showPageBanner(message, kind = 'error', timeoutMs = 0) {
+    const host = $('pageBannerHost');
+    if (!host) { if (message) showToast(message, kind, 6000); return; }
+    host.innerHTML = '';
+    if (!message) return;
+    const icons = { error: 'error', warning: 'warning', info: 'info' };
+    const banner = document.createElement('div');
+    banner.className = 'page-banner ' + kind;
+    banner.innerHTML = `
+        <span class="material-symbols-outlined text-base">${icons[kind] || 'info'}</span>
+        <span style="flex:1">${escapeHtml(message)}</span>
+        <span class="material-symbols-outlined banner-close text-base" onclick="this.parentElement.remove()">close</span>
+    `;
+    host.appendChild(banner);
+    if (timeoutMs > 0) setTimeout(() => { try { banner.remove(); } catch (e) {} }, timeoutMs);
+}
+
+// ---------- API CLIENT (single-flight refresh) ----------
+let refreshPromise = null;
+
+async function performRefresh() {
+    if (refreshPromise) return refreshPromise;
+    const rt = getRefreshToken();
+    if (!rt) return false;
+
+    refreshPromise = (async () => {
+        try {
+            const resp = await fetch(API_BASE + '/auth/refresh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    refresh_token: rt,
+                    device_id: localStorage.getItem('synapse_device_id') || null,
+                }),
+                credentials: 'same-origin',
+            });
+            if (!resp.ok) return false;
+            const data = await resp.json().catch(() => null);
+            if (!data || !data.success || !data.access_token) return false;
+            try {
+                localStorage.setItem('synapse_token', data.access_token);
+                localStorage.setItem('token', data.access_token);
+                localStorage.setItem('auth_token', data.access_token);
+                localStorage.setItem('access_token', data.access_token);
+                if (data.refresh_token) {
+                    localStorage.setItem('synapse_refresh', data.refresh_token);
+                    localStorage.setItem('refresh_token', data.refresh_token);
+                }
+            } catch (e) {}
+            return true;
+        } catch (e) {
+            return false;
+        } finally {
+            refreshPromise = null;
+        }
+    })();
+
+    return refreshPromise;
+}
+
+const API = {
+    async request(endpoint, options = {}, _retried = false) {
+        const token = getToken();
+        const headers = {
+            'Accept': 'application/json',
+            ...(options.headers || {}),
+        };
+        const isForm = (typeof FormData !== 'undefined') && (options.body instanceof FormData);
+        if (!isForm && options.body !== undefined && options.body !== null && !headers['Content-Type']) {
+            headers['Content-Type'] = 'application/json';
+        }
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+        let response;
+        try {
+            response = await fetch(API_BASE + endpoint, {
+                ...options,
+                headers,
+                credentials: 'same-origin',
+                signal: controller.signal,
+            });
+        } catch (err) {
+            clearTimeout(timer);
+            if (err && err.name === 'AbortError') {
+                const e = new Error('Request timed out. The server may still be generating the report.');
+                e.status = 0;
+                throw e;
+            }
+            const e = new Error('Network error: cannot reach backend.');
+            e.status = 0;
+            throw e;
+        }
+        clearTimeout(timer);
+
+        if (response.status === 401 && !_retried) {
+            const ok = await performRefresh();
+            if (ok) return this.request(endpoint, options, true);
+            Auth.logout();
+            const e = new Error('Session expired. Please log in again.');
+            e.status = 401;
+            throw e;
+        }
+
+        const ctype = response.headers.get('content-type') || '';
+        let data = null;
+        if (ctype.includes('application/json')) {
+            try { data = await response.json(); } catch (e) { data = null; }
+        } else {
+            try {
+                const text = await response.text();
+                try { data = JSON.parse(text); } catch (e) { data = { raw: text }; }
+            } catch (e) { data = null; }
+        }
+
+        if (!response.ok) {
+            const msg = (data && (data.error || data.message || data.detail)) || ('HTTP ' + response.status);
+            const err = new Error(msg);
+            err.status = response.status;
+            err.data = data;
+            throw err;
+        }
+        return data;
+    },
+
+    getMachines() { return this.request('/machines?per_page=200'); },
+    getPredictions(page = 1, perPage = 200) { return this.request(`/predictions/history?page=${page}&per_page=${perPage}`); },
+    getAlerts(page = 1, perPage = 200) { return this.request(`/alerts?page=${page}&per_page=${perPage}`); },
+    getSensorData(machineId, limit = 60) { return this.request(`/machines/${machineId}/sensor-data?limit=${limit}`); },
+    getReports(page = 1, perPage = 50) { return this.request(`/reports?page=${page}&per_page=${perPage}`); },
+    getReport(id) { return this.request('/reports/' + encodeURIComponent(id)); },
+    createReport(payload) {
+        return this.request('/reports/generate', { method: 'POST', body: JSON.stringify(payload) });
+    },
+    getDownloadHistory(page = 1, perPage = 50) {
+        return this.request(`/reports/downloads?page=${page}&per_page=${perPage}`);
+    },
+
+    // SECURE download via fetch + blob (never puts token in URL)
+    async downloadReportBlob(id, _retried = false) {
+        let token = getToken();
+        if (!token) throw new Error('Not authenticated');
+        const res = await fetch(`${API_BASE}/reports/${encodeURIComponent(id)}/download`, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+
+        if (res.status === 401 && !_retried) {
+            const ok = await performRefresh();
+            if (ok) return this.downloadReportBlob(id, true);
+            Auth.logout();
+            throw new Error('Session expired. Please log in again.');
+        }
+        if (!res.ok) {
+            let err = {};
+            try { err = await res.json(); } catch (e) {}
+            throw new Error(err.error || err.message || `HTTP ${res.status}`);
+        }
+        const cd = res.headers.get('Content-Disposition') || '';
+        let filename = 'report.bin';
+        const m = cd.match(/filename\*?=(?:UTF-8''|")?([^\";]+)/i);
+        if (m && m[1]) {
+            try { filename = decodeURIComponent(m[1].replace(/["']/g, '')); } catch (e) {}
+        }
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+        return { filename, size: blob.size };
+    },
+
+    // Fetch report content as text (for the view modal)
+    async fetchReportText(id, _retried = false) {
+        let token = getToken();
+        if (!token) throw new Error('Not authenticated');
+        const res = await fetch(`${API_BASE}/reports/${encodeURIComponent(id)}/download`, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.status === 401 && !_retried) {
+            const ok = await performRefresh();
+            if (ok) return this.fetchReportText(id, true);
+            Auth.logout();
+            throw new Error('Session expired. Please log in again.');
+        }
+        if (!res.ok) {
+            let err = {};
+            try { err = await res.json(); } catch (e) {}
+            throw new Error(err.error || err.message || `HTTP ${res.status}`);
+        }
+        return res.text();
+    }
+};
+
+// ---------- STATE ----------
+let reports = [];
+let machines = [];
+let predictions = [];
+let alerts = [];
+let downloadHistory = [];
+let isGenerating = false;
+let wsConnection = null;
+let wsReconnectTimer = null;
+let refreshInterval = null;
+let machineSensorCache = {};
+let seenReportIds = new Set();
+let currentModalReportId = null;
+
+// ---------- LOAD ALL DATA ----------
+async function loadAllData() {
+    if (!Auth.isAuthenticated) {
+        window.location.replace('login.html');
+        return;
+    }
+    const results = await Promise.allSettled([
+        API.getMachines(),
+        API.getPredictions(1, 200),
+        API.getAlerts(1, 200),
+        API.getReports(1, 50),
+        API.getDownloadHistory(1, 50),
+    ]);
+    const [mRes, pRes, aRes, rRes, dRes] = results;
+    let anyFailed = false;
+    const failures = [];
+
+    if (mRes.status === 'fulfilled') {
+        machines = (mRes.value && (mRes.value.items || mRes.value.machines)) || [];
+    } else { anyFailed = true; failures.push('machines: ' + (mRes.reason && mRes.reason.message || 'failed')); }
+
+    if (pRes.status === 'fulfilled') {
+        predictions = (pRes.value && (pRes.value.items || pRes.value.predictions)) || [];
+    } else { anyFailed = true; failures.push('predictions: ' + (pRes.reason && pRes.reason.message || 'failed')); }
+
+    if (aRes.status === 'fulfilled') {
+        alerts = (aRes.value && (aRes.value.items || aRes.value.alerts)) || [];
+    } else { anyFailed = true; failures.push('alerts: ' + (aRes.reason && aRes.reason.message || 'failed')); }
+
+    if (rRes.status === 'fulfilled') {
+        reports = (rRes.value && (rRes.value.items || rRes.value.reports)) || [];
+        reports.forEach(r => { const id = r.uuid || r.id; if (id) seenReportIds.add(String(id)); });
+    } else { anyFailed = true; failures.push('reports: ' + (rRes.reason && rRes.reason.message || 'failed')); }
+
+    if (dRes.status === 'fulfilled') {
+        downloadHistory = (dRes.value && (dRes.value.items || dRes.value.downloads)) || [];
+    } else {
+        // Download history endpoint may not exist yet - use reports with download_count > 0
+        downloadHistory = reports.filter(r => (r.download_count || 0) > 0).map(r => ({
+            id: r.uuid || r.id,
+            report_name: r.name,
+            report_id: r.uuid || r.id,
+            machine_names: (r.parameters && r.parameters.machine_names) || 'All machines',
+            format: r.format,
+            file_size: r.file_size,
+            downloaded_at: r.created_at || r.updated_at,
+            download_count: r.download_count
+        }));
+    }
+
+    if (anyFailed && machines.length === 0 && reports.length === 0) {
+        showPageBanner('Could not load data — ' + failures.join('; '), 'error');
+    } else if (anyFailed) {
+        showPageBanner('Some data could not be loaded — ' + failures.join('; '), 'warning', 8000);
+    } else {
+        showPageBanner('');
+    }
+
+    updateStats();
+    renderMachineChecklist();
+    renderReports();
+    renderDownloadHistory();
+
+    // Load sensor data for up to 5 machines (independent)
+    for (const m of machines.slice(0, 5)) {
+        try {
+            const sd = await API.getSensorData(m.id, 20);
+            machineSensorCache[m.id] = sd.sensor_data || sd.items || [];
+        } catch (e) { /* ignore per-machine failure */ }
+    }
+    updateScopeSummary();
+}
+
+async function loadReports() {
+    try {
+        const data = await API.getReports(1, 50);
+        reports = data.items || data.reports || [];
+        reports.forEach(r => { const id = r.uuid || r.id; if (id) seenReportIds.add(String(id)); });
+        renderReports();
+        updateStats();
+    } catch (error) {
+        if (error && error.status === 401) return;
+        showPageBanner('Could not load reports: ' + (error.message || 'unknown error'), 'warning', 8000);
+        renderReports(error);
+    }
+}
+
+async function loadDownloadHistory() {
+    try {
+        const data = await API.getDownloadHistory(1, 50);
+        downloadHistory = data.items || data.downloads || [];
+        renderDownloadHistory();
+        updateStats();
+    } catch (error) {
+        // Fallback: derive from reports with download_count > 0
+        downloadHistory = reports.filter(r => (r.download_count || 0) > 0).map(r => ({
+            id: r.uuid || r.id,
+            report_name: r.name,
+            report_id: r.uuid || r.id,
+            machine_names: (r.parameters && r.parameters.machine_names) || 'All machines',
+            format: r.format,
+            file_size: r.file_size,
+            downloaded_at: r.created_at || r.updated_at,
+            download_count: r.download_count
+        }));
+        renderDownloadHistory();
+        updateStats();
+    }
+}
+
+// ---------- STATS ----------
+function updateStats() {
+    $('statReports').textContent = reports.length;
+    $('statMachines').textContent = machines.length;
+    const activeAlerts = alerts.filter(a => (a.status || '').toLowerCase() === 'active' || !a.resolved);
+    $('statAlerts').textContent = activeAlerts.length;
+    $('statDownloads').textContent = downloadHistory.reduce((sum, d) => sum + (d.download_count || 1), 0);
+    if ($('sidebarAlertsBadge')) $('sidebarAlertsBadge').textContent = activeAlerts.length;
+}
+
+// ---------- MACHINE CHECKLIST ----------
+function renderMachineChecklist() {
+    const box = $('machinesChecklist');
+    if (!box) return;
+    if (machines.length === 0) {
+        box.innerHTML = '<p class="text-xs text-slate-400 p-2">No machines available. Add a machine first.</p>';
+        return;
+    }
+    box.innerHTML = machines.map(m => {
+        const predCount = predictions.filter(p => (p.machine_id === m.id || p.machineId === m.id)).length;
+        const health = Number(m.health || 0);
+        const family = (m.machine_data && m.machine_data.dataset_family) || 'default';
+        return `<label>
+            <input type="checkbox" class="machine-cb" value="${escapeHtml(m.id)}" onchange="updateScopeSummary()">
+            <span class="flex-1 min-w-0">
+                <span class="block font-medium text-slate-700 truncate">${escapeHtml(m.name)}</span>
+                <span class="block text-[10px] text-slate-400">Health ${health}% • ${predCount} predictions • ${escapeHtml(family)}</span>
+            </span>
+        </label>`;
+    }).join('');
+}
+function getSelectedMachineIds() {
+    return Array.from(document.querySelectorAll('.machine-cb:checked')).map(cb => cb.value);
+}
+function selectAllMachines() { document.querySelectorAll('.machine-cb').forEach(cb => cb.checked = true); updateScopeSummary(); }
+function selectNoMachines() { document.querySelectorAll('.machine-cb').forEach(cb => cb.checked = false); updateScopeSummary(); }
+
+// ---------- SCOPE SUMMARY ----------
+function updateScopeSummary() {
+    const ids = getSelectedMachineIds();
+    const days = parseInt($('dateRange').value, 10);
+    const summary = $('scopeSummary');
+
+    if (ids.length === 0) {
+        summary.innerHTML = 'Select one or more machines to scope the report. The backend will pull ONLY real predictions, alerts, and sensor readings from your database.';
+        return;
+    }
+    const cutoff = days === 0 ? new Date(0) : new Date(Date.now() - days * 86400000);
+    const machineNames = ids.map(id => {
+        const m = machines.find(m => m.id === id);
+        return m ? m.name : 'Unknown';
+    }).join(', ');
+    const preds = predictions.filter(p => {
+        const match = ids.includes(p.machine_id || p.machineId);
+        const pd = new Date(p.created_at || p.timestamp || Date.now());
+        return match && (days === 0 || pd >= cutoff);
+    });
+    const alts = alerts.filter(a => {
+        const match = ids.includes(a.machine_id || a.machineId);
+        const ad = new Date(a.created_at || a.timestamp || Date.now());
+        return match && (days === 0 || ad >= cutoff);
+    });
+    summary.innerHTML = `
+        <strong>${ids.length} machine${ids.length === 1 ? '' : 's'}</strong>: ${escapeHtml(machineNames)}
+        <br>• ${preds.length} prediction${preds.length === 1 ? '' : 's'}
+        • ${alts.length} alert${alts.length === 1 ? '' : 's'}
+        • Time window: last ${days === 0 ? 'all time' : days + ' day' + (days === 1 ? '' : 's')}
+    `;
+}
+
+// ---------- RENDER REPORTS ----------
+function renderReports(error) {
+    const grid = $('reportsGrid');
+    if (!grid) return;
+
+    if (error && error.message) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-6 sm:py-8">
+                <span class="material-symbols-outlined text-3xl block mx-auto mb-2 text-red-400">error</span>
+                <p class="text-red-600 text-sm">Could not load reports: ${escapeHtml(error.message)}</p>
+                <button onclick="loadReports()" class="mt-3 text-xs text-teal-600 underline">Retry</button>
+            </div>`;
+        return;
+    }
+
+    if (reports.length === 0) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-6 sm:py-8">
+                <span class="material-symbols-outlined text-3xl block mx-auto mb-2 text-slate-300">description</span>
+                <p class="text-slate-500 text-sm">No reports generated yet.</p>
+                <p class="text-xs text-slate-400">Select machines above and generate your first report.</p>
+            </div>`;
+        return;
+    }
+
+    const typeIcon = (type) => ({
+        maintenance: 'assessment', machine_report: 'precision_manufacturing',
+        comprehensive: 'assessment', cost_analysis: 'payments'
+    })[type] || 'description';
+
+    grid.innerHTML = reports.slice(0, 9).map(report => {
+        const date = new Date(report.created_at || report.createdAt || Date.now());
+        const dateStr = isNaN(date.getTime()) ? '—' : date.toLocaleDateString();
+        const timeStr = isNaN(date.getTime()) ? '' : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const icon = typeIcon(report.type);
+        const params = report.parameters || {};
+        const machineNames = params.machine_names || params.machine_name || 'All machines';
+        const days = params.date_range;
+        const status = report.status || 'completed';
+        const badge = status === 'completed' ? 'Ready'
+                    : status === 'generating' ? 'Generating…'
+                    : status === 'failed' ? 'Failed'
+                    : status;
+        const statusColor = status === 'completed' ? 'green' : status === 'failed' ? 'red' : 'amber';
+        const fmt = (report.format || 'txt').toUpperCase();
+        const size = report.file_size ? (report.file_size / 1024).toFixed(1) + ' KB' : null;
+        const rid = report.uuid || report.id;
+        const downloadCount = report.download_count || 0;
+        return `
+            <div class="report-card">
+                <div class="p-3 sm:p-4">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-teal-50 flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-teal-600 text-base sm:text-xl">${icon}</span>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="font-bold text-slate-800 text-sm sm:text-base truncate">${escapeHtml(report.name || 'Untitled report')}</div>
+                                <div class="text-[10px] sm:text-xs text-slate-500 truncate">${escapeHtml(machineNames)} • ${dateStr} ${timeStr}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-3">
+                        <span class="info-pill">${fmt}</span>
+                        <span class="info-pill ${statusColor}">${escapeHtml(badge)}</span>
+                        ${days != null ? `<span class="info-pill blue">${days === 0 ? 'All time' : days + 'd'}</span>` : ''}
+                        ${size ? `<span class="info-pill">${size}</span>` : ''}
+                        ${downloadCount > 0 ? `<span class="info-pill teal">⬇ ${downloadCount}</span>` : ''}
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="downloadReportById('${escapeHtml(rid)}')" class="flex-1 text-center text-[10px] sm:text-xs gradient-cta text-white py-1.5 sm:py-2 rounded-lg transition font-semibold">Download</button>
+                        <button onclick="viewReportById('${escapeHtml(rid)}')" class="flex-1 text-center text-[10px] sm:text-xs border border-slate-200 hover:border-teal-500 text-slate-600 py-1.5 sm:py-2 rounded-lg transition">View</button>
+                    </div>
+                </div>
+            </div>`;
+    }).join('');
+}
+
+// ---------- RENDER DOWNLOAD HISTORY ----------
+function renderDownloadHistory() {
+    const tbody = $('downloadHistoryBody');
+    const countEl = $('downloadHistoryCount');
+    if (!tbody) return;
+
+    if (countEl) {
+        const total = downloadHistory.reduce((sum, d) => sum + (d.download_count || 1), 0);
+        countEl.textContent = `${total} download${total === 1 ? '' : 's'}`;
+    }
+
+    if (downloadHistory.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center py-8 text-slate-500">
+                    <span class="material-symbols-outlined text-3xl block mx-auto mb-2 text-slate-300">download</span>
+                    No downloads yet. Generate a report to see download history.
+                </td>
+            </tr>`;
+        return;
+    }
+
+    tbody.innerHTML = downloadHistory.map(d => {
+        const date = new Date(d.downloaded_at || d.created_at || Date.now());
+        const dateStr = isNaN(date.getTime()) ? '—' : date.toLocaleString();
+        const fmt = (d.format || 'txt').toUpperCase();
+        const size = d.file_size ? (d.file_size / 1024).toFixed(1) + ' KB' : '—';
+        const rid = d.report_id || d.id;
+        const count = d.download_count || 1;
+        return `
+            <tr>
+                <td class="font-medium">${escapeHtml(d.report_name || d.name || 'Report')}</td>
+                <td>${escapeHtml(d.machine_names || 'All machines')}</td>
+                <td><span class="info-pill">${fmt}</span></td>
+                <td>${size}</td>
+                <td>
+                    <div class="text-xs">${dateStr}</div>
+                    ${count > 1 ? `<div class="text-[10px] text-slate-400">${count} downloads</div>` : ''}
+                </td>
+                <td>
+                    <div class="flex gap-1">
+                        <button onclick="downloadReportById('${escapeHtml(rid)}')" class="p-1.5 rounded-lg hover:bg-teal-50 text-teal-600" title="Download again">
+                            <span class="material-symbols-outlined text-sm">download</span>
+                        </button>
+                        <button onclick="viewReportById('${escapeHtml(rid)}')" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500" title="View">
+                            <span class="material-symbols-outlined text-sm">visibility</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
+    }).join('');
+}
+
+// ---------- GENERATE REPORT ----------
+document.getElementById('reportForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (isGenerating) return;
+    if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+
+    const ids = getSelectedMachineIds();
+    if (ids.length === 0) { showToast('Please select at least one machine', 'warning'); return; }
+
+    const days = parseInt($('dateRange').value, 10);
+    const format = $('reportFormat').value;
+    const title = $('reportTitle').value.trim();
+    const includeRec = $('includeRecommendations').checked;
+    const includeCost = $('includeCost').checked;
+
+    // Only send machine_ids + ISO dates — these match backend
+    let dateFrom = null, dateTo = null;
+    if (days > 0) {
+        dateFrom = new Date(Date.now() - days * 86400000).toISOString();
+        dateTo = new Date().toISOString();
+    }
+
+    const machineNames = ids.map(id => machines.find(m => m.id === id)?.name || 'Unknown').join(', ');
+    const reportName = title || `Report — ${ids.length === 1 ? machineNames : ids.length + ' machines'} — ${days === 0 ? 'All time' : days + 'd'} — ${new Date().toLocaleDateString()}`;
+
+    const payload = {
+        name: reportName,
+        type: 'machine_report',
+        format: format,
+        scope: {
+            machine_ids: ids,
+            date_from: dateFrom,
+            date_to: dateTo
+        },
+        include_recommendations: includeRec,
+        include_cost: includeCost
+    };
+
+    const btn = $('generateReportBtn');
+    const statusEl = $('generateStatus');
+    const orig = btn.innerHTML;
+    isGenerating = true;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Generating report…';
+
+    // Elapsed-time counter (real, not fake percentage)
+    const startedAt = Date.now();
+    statusEl.classList.remove('hidden');
+    statusEl.textContent = 'Generating report… (0s)';
+    const ticker = setInterval(() => {
+        const s = Math.floor((Date.now() - startedAt) / 1000);
+        statusEl.textContent = `Generating report… (${s}s)`;
+    }, 1000);
+
+    try {
+        const res = await API.createReport(payload);
+        const saved = res.report || res;
+        if (!saved || !(saved.uuid || saved.id)) {
+            throw new Error('Server did not return a report');
+        }
+
+        // Unshift and re-render
+        reports.unshift(saved);
+        const savedId = saved.uuid || saved.id;
+        if (savedId) seenReportIds.add(String(savedId));
+        renderReports();
+        updateStats();
+
+        // Try to download the freshly generated report
+        try {
+            const result = await API.downloadReportBlob(savedId);
+            showToast(`✅ Report generated & downloaded: ${result.filename}`, 'success', 5000);
+            // Add to download history
+            downloadHistory.unshift({
+                id: savedId,
+                report_id: savedId,
+                report_name: saved.name,
+                machine_names: saved.parameters?.machine_names || machineNames,
+                format: saved.format || format,
+                file_size: result.size || saved.file_size,
+                downloaded_at: new Date().toISOString(),
+                download_count: 1
+            });
+            renderDownloadHistory();
+            updateStats();
+        } catch (dlErr) {
+            // Report is saved; download failed
+            if (res.preview) {
+                openReportModal(reportName, res.preview, savedId);
+                showToast('Report saved. Preview shown (download unavailable).', 'info', 5000);
+            } else {
+                showToast('Report saved — download it from the list below.', 'info', 5000);
+            }
+        }
+    } catch (error) {
+        // Real backend error, verbatim
+        showToast('Report generation failed: ' + (error.message || 'unknown error'), 'error', 7000);
+        showPageBanner('Report generation failed: ' + (error.message || 'unknown error'), 'error', 10000);
+    } finally {
+        clearInterval(ticker);
+        statusEl.classList.add('hidden');
+        statusEl.textContent = '';
+        isGenerating = false;
+        btn.disabled = false;
+        btn.innerHTML = orig;
+    }
+});
+
+// ---------- PREVIEW ----------
+async function previewReport() {
+    const ids = getSelectedMachineIds();
+    if (ids.length === 0) { showToast('Please select at least one machine first', 'warning'); return; }
+    if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+
+    const days = parseInt($('dateRange').value, 10);
+    const title = $('reportTitle').value.trim();
+
+    let dateFrom = null, dateTo = null;
+    if (days > 0) {
+        dateFrom = new Date(Date.now() - days * 86400000).toISOString();
+        dateTo = new Date().toISOString();
+    }
+    const machineNames = ids.map(id => machines.find(m => m.id === id)?.name || 'Unknown').join(', ');
+    const reportName = title || `Preview — ${ids.length === 1 ? machineNames : ids.length + ' machines'} — ${days === 0 ? 'All time' : days + 'd'}`;
+
+    const statusEl = $('generateStatus');
+    statusEl.classList.remove('hidden');
+    statusEl.textContent = 'Building preview…';
+
+    try {
+        const res = await API.createReport({
+            name: reportName + ' (preview)',
+            type: 'machine_report',
+            format: 'txt',
+            scope: { machine_ids: ids, date_from: dateFrom, date_to: dateTo },
+            include_recommendations: $('includeRecommendations').checked,
+            include_cost: $('includeCost').checked
+        });
+        const preview = res.preview || (res.report && res.report.preview) || '(No preview available)';
+        const savedId = res.report?.uuid || res.report?.id || null;
+        openReportModal(reportName, preview, savedId);
+    } catch (e) {
+        showToast('Preview failed: ' + (e.message || 'unknown error'), 'error', 7000);
+    } finally {
+        statusEl.classList.add('hidden');
+        statusEl.textContent = '';
+    }
+}
+
+// ---------- REPORT MODAL ----------
+function openReportModal(title, content, reportId) {
+    currentModalReportId = reportId;
+    $('modalReportTitle').textContent = title;
+    $('modalReportMeta').textContent = reportId ? `Report ID: ${reportId}` : '';
+    $('modalReportContent').textContent = content || 'No content available.';
+    $('reportModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeReportModal() {
+    $('reportModal').classList.remove('active');
+    document.body.style.overflow = '';
+    currentModalReportId = null;
+}
+
+function downloadCurrentReport() {
+    if (currentModalReportId) {
+        downloadReportById(currentModalReportId);
+    } else {
+        showToast('No report selected for download', 'warning');
+    }
+}
+
+// ---------- DOWNLOAD ----------
+async function downloadReportById(id) {
+    try {
+        showToast('Preparing download…', 'info', 1500);
+        const result = await API.downloadReportBlob(id);
+        showToast(`✅ Downloaded ${result.filename}`, 'success');
+        // Update download history
+        await loadDownloadHistory();
+        // Update the report's download count locally
+        const report = reports.find(r => (r.uuid || r.id) === id);
+        if (report) {
+            report.download_count = (report.download_count || 0) + 1;
+            renderReports();
+        }
+    } catch (error) {
+        showToast('Download failed: ' + (error.message || 'unknown error'), 'error', 7000);
+    }
+}
+
+// ---------- VIEW REPORT ----------
+async function viewReportById(id) {
+    try {
+        const data = await API.getReport(id);
+        const r = data.report || data;
+        const title = r.name || 'Report';
+        const fmt = (r.format || 'txt').toLowerCase();
+
+        if (fmt === 'pdf') {
+            downloadReportById(id);
+            return;
+        }
+
+        const text = await API.fetchReportText(id);
+        const meta = r.created_at ? new Date(r.created_at).toLocaleString() : '';
+        openReportModal(`${title}${meta ? ' — ' + meta : ''}`, text, id);
+    } catch (error) {
+        console.error('View report failed:', error);
+        showToast('Could not load report: ' + (error.message || 'unknown error'), 'error', 7000);
+    }
+}
+
+// ---------- USER UI ----------
+function updateUserUI() {
+    const user = getUser();
+    if (!user) return;
+    const name = user.display_name || user.full_name || user.name || user.username || (user.email || '').split('@')[0] || 'User';
+    const email = user.email || '';
+    const plan = user.plan || 'Free';
+    const role = user.role || '';
+    const org = user.organization_name || (user.organization && user.organization.name) || '';
+    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
+    $('userName').textContent = name;
+    $('userEmail').textContent = email;
+    $('userPlan').textContent = plan + ' Plan';
+    $('userAvatarText').textContent = initials;
+    $('profileMenuName').textContent = name;
+    $('profileMenuEmail').textContent = email;
+    $('profileMenuUsername').textContent = user.username || name;
+    $('profileMenuEmailDetail').textContent = email;
+    $('profileMenuPlan').textContent = plan + ' Plan';
+    $('profileRoleRow').hidden = !role;
+    $('profileMenuRole').textContent = role;
+    $('profileOrgRow').hidden = !org;
+    $('profileMenuOrg').textContent = org;
+    if (user.avatar_url) {
+        const url = String(user.avatar_url).replace(/'/g, '%27');
+        $('userAvatar').style.backgroundImage = `url('${url}')`;
+        $('userAvatar').style.backgroundSize = 'cover';
+        $('userAvatarText').style.display = 'none';
+        $('profileMenuAvatar').style.backgroundImage = `url('${url}')`;
+        $('profileMenuAvatar').style.backgroundSize = 'cover';
+        $('profileMenuAvatar').textContent = '';
+    }
+}
+
+// ---------- SIDEBAR ----------
+let sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+const sidebar = $('mainSidebar');
+function isDesktop() { return window.innerWidth >= 1024; }
+function updateSidebarUI() {
+    if (!sidebar) return;
+    if (isDesktop()) {
+        sidebar.classList.toggle('collapsed', sidebarCollapsed);
+        document.body.classList.toggle('sidebar-is-collapsed', sidebarCollapsed);
+        $('sidebarToggle')?.setAttribute('aria-expanded', String(!sidebarCollapsed));
+    } else {
+        sidebar.classList.remove('collapsed');
+        document.body.classList.remove('sidebar-is-collapsed');
+    }
+}
+function toggleSidebar() {
+    if (!isDesktop()) { openMobileSidebar(); return; }
+    sidebarCollapsed = !sidebarCollapsed;
+    localStorage.setItem('sidebar_collapsed', String(sidebarCollapsed));
+    closeProfileMenu();
+    updateSidebarUI();
+}
+function openMobileSidebar() {
+    if (!sidebar || isDesktop()) return;
+    sidebar.classList.add('mobile-open');
+    $('sidebarOverlay')?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeMobileSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('mobile-open');
+    $('sidebarOverlay')?.classList.remove('active');
+    document.body.style.overflow = '';
+}
+function setProfileMenuOpen(open) {
+    if (!$('profileMenu') || !$('userAvatar')) return;
+    $('profileMenu').classList.toggle('open', open);
+    $('profileMenu').setAttribute('aria-hidden', String(!open));
+    $('userAvatar').setAttribute('aria-expanded', String(open));
+}
+function closeProfileMenu() { setProfileMenuOpen(false); }
+function toggleProfileMenu() { setProfileMenuOpen(!$('profileMenu')?.classList.contains('open')); }
+
+// ---------- WEBSOCKET (real-time updates) ----------
+function connectWebSocket() {
+    const token = getToken();
+    if (!token || !isTokenValid(token)) return;
+    if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+    try {
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = `${proto}//${window.location.host}/ws?token=${encodeURIComponent(token)}`;
+        wsConnection = new WebSocket(url);
+        wsConnection.onopen = () => {
+            const el = $('wsStatus');
+            if (el) { el.textContent = '● LIVE'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700'; }
+        };
+        wsConnection.onmessage = (event) => {
+            try { handleWsMessage(JSON.parse(event.data)); } catch (e) {}
+        };
+        wsConnection.onclose = (evt) => {
+            const el = $('wsStatus');
+            if (el) { el.textContent = '●'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500'; }
+            if (evt && evt.code === 1008) return;
+            if (isTokenValid(getToken())) {
+                if (wsReconnectTimer) clearTimeout(wsReconnectTimer);
+                wsReconnectTimer = setTimeout(connectWebSocket, 5000);
+            }
+        };
+        wsConnection.onerror = () => {};
+    } catch (e) {}
+}
+
+function handleWsMessage(data) {
+    if (!data || !data.type) return;
+    switch (data.type) {
+        case 'auth_success': {
+            const el = $('modeBadge');
+            if (el) el.textContent = data.realtime ? 'Live' : 'Polling';
+            break;
+        }
+        case 'report_created': {
+            if (data.report) {
+                const id = data.report.uuid || data.report.id;
+                if (id && seenReportIds.has(String(id))) break;
+                if (id) seenReportIds.add(String(id));
+                reports.unshift(data.report);
+                renderReports();
+                updateStats();
+                showToast('📄 New report available: ' + (data.report.name || 'Report'), 'info', 4000);
+            } else {
+                loadReports();
+            }
+            break;
+        }
+        case 'report_downloaded': {
+            // Real-time download count update
+            if (data.report_id) {
+                const report = reports.find(r => (r.uuid || r.id) === data.report_id);
+                if (report) {
+                    report.download_count = (report.download_count || 0) + 1;
+                    renderReports();
+                }
+                loadDownloadHistory();
+            }
+            break;
+        }
+        case 'prediction_created':
+        case 'alert_created':
+        case 'machine_updated':
+        case 'machine_update':
+        case 'machine_created':
+        case 'machine_deleted':
+            loadAllData();
+            break;
+        case 'user_updated':
+            if (data.user) {
+                try {
+                    const current = getUser() || {};
+                    const merged = { ...current, ...data.user };
+                    localStorage.setItem('synapse_user', JSON.stringify(merged));
+                } catch {}
+                updateUserUI();
+            }
+            break;
+        case 'ping':
+            try { wsConnection?.send(JSON.stringify({ type: 'pong' })); } catch (e) {}
+            break;
+    }
+}
+
+// ---------- REFRESH ----------
+function refreshAllData() {
+    showToast('🔄 Refreshing…', 'info', 1200);
+    loadAllData();
+}
+
+// ---------- INIT ----------
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!Auth.isAuthenticated) {
+        const ok = await performRefresh();
+        if (!ok) { Auth.logout(); return; }
+    }
+
+    document.body.style.overflow = '';
+    updateUserUI();
+    loadAllData();
+    connectWebSocket();
+
+    $('dateRange').addEventListener('change', updateScopeSummary);
+
+    $('sidebarToggle')?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleSidebar(); });
+    $('mobileMenuToggle')?.addEventListener('click', openMobileSidebar);
+    $('sidebarOverlay')?.addEventListener('click', closeMobileSidebar);
+    $('userAvatar')?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleProfileMenu(); });
+    $('profileLogoutBtn')?.addEventListener('click', () => Auth.logout());
+    $('profileSettingsBtn')?.addEventListener('click', () => { closeProfileMenu(); window.location.href = 'settings.html'; });
+    $('profileMenu')?.addEventListener('click', e => e.stopPropagation());
+    document.addEventListener('click', e => {
+        if ($('profileMenu')?.classList.contains('open') && !$('profileMenu').contains(e.target) && !$('userAvatar')?.contains(e.target)) closeProfileMenu();
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            closeProfileMenu();
+            closeReportModal();
+            if (!isDesktop() && sidebar.classList.contains('mobile-open')) closeMobileSidebar();
+        }
+    });
+    document.querySelectorAll('#mainSidebar .sidebar-link').forEach(link => {
+        link.addEventListener('click', () => { if (!isDesktop()) closeMobileSidebar(); closeProfileMenu(); });
+    });
+    updateSidebarUI();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            if (isDesktop()) closeMobileSidebar();
+            updateSidebarUI();
+        }, 80);
+    });
+
+    // Real-time sync: listen for user updates from other tabs
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'synapse_user' || e.key === 'user') {
+            try {
+                const u = JSON.parse(e.newValue || 'null');
+                if (u) updateUserUI();
+            } catch {}
+        }
+    });
+
+    // Fallback polling only when WS isn't open
+    refreshInterval = setInterval(() => {
+        if (!Auth.isAuthenticated) return;
+        if (document.visibilityState !== 'visible') return;
+        if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+        loadAllData();
+    }, 60000);
+});
+
+// ---------- EXPOSE ----------
+window.previewReport = previewReport;
+window.viewReportById = viewReportById;
+window.downloadReportById = downloadReportById;
+window.refreshAllData = refreshAllData;
+window.loadReports = loadReports;
+window.loadDownloadHistory = loadDownloadHistory;
+window.selectAllMachines = selectAllMachines;
+window.selectNoMachines = selectNoMachines;
+window.updateScopeSummary = updateScopeSummary;
+window.toggleSidebar = toggleSidebar;
+window.closeMobileSidebar = closeMobileSidebar;
+window.openMobileSidebar = openMobileSidebar;
+window.closeReportModal = closeReportModal;
+window.downloadCurrentReport = downloadCurrentReport;
+</script>
+</body>
+</html>

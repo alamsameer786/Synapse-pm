@@ -1,0 +1,3082 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Machines | SynapsePM - Industrial AI Platform</title>
+<meta name="robots" content="noindex, nofollow">
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+<style>
+    * { box-sizing: border-box; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
+    h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+
+    .gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
+    .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+    .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+    .gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ============================================================
+       SYNAPSEPM LOGO — same height in both sidebar states
+       ============================================================ */
+    .synapsepm-logo {
+        font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        font-size: 22px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        vertical-align: middle;
+    }
+    .synapsepm-logo > span:not(.logo-icon),
+    .synapsepm-logo strong {
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+        height: 32px;
+    }
+    .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+    .synapsepm-logo strong {
+        background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .synapsepm-logo .logo-icon {
+        width: 32px; height: 32px;
+        min-width: 32px; min-height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+    .synapsepm-logo .logo-icon img {
+        width: 32px; height: 32px;
+        object-fit: contain; display: block;
+    }
+
+    /* ============================================================
+       SIDEBAR
+       ============================================================ */
+    :root {
+        --sidebar-width: 264px;
+        --sidebar-collapsed-width: 84px;
+        --sidebar-border: #e2e8f0;
+        --sidebar-bg: #ffffff;
+        --sidebar-muted: #64748b;
+        --sidebar-primary: #0f2b3d;
+        --sidebar-accent: #00b4aa;
+        --sidebar-hover: #f1f5f9;
+    }
+    .sidebar {
+        width: var(--sidebar-width);
+        min-height: 100dvh; height: 100dvh;
+        background: var(--sidebar-bg);
+        border-right: 1px solid var(--sidebar-border);
+        position: fixed; inset: 0 auto 0 0; z-index: 100;
+        display: flex; flex-direction: column; overflow: visible;
+        transition: width .28s cubic-bezier(.4,0,.2,1),
+                    transform .28s cubic-bezier(.4,0,.2,1);
+    }
+    .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+    .sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #fff; }
+    .sidebar-brand {
+        min-height: 76px; padding: 0 14px;
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 10px; overflow: hidden;
+    }
+    .sidebar-brand-inner {
+        display: flex; align-items: center; gap: 10px;
+        min-width: 0; transition: opacity .2s ease;
+    }
+    .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+    .sidebar.collapsed .synapsepm-logo strong { display: none !important; }
+    .sidebar.collapsed .sidebar-brand {
+        flex-direction: column; justify-content: center;
+        align-items: center; gap: 6px; padding: 10px 0; min-height: 76px;
+    }
+    .sidebar.collapsed .sidebar-brand-inner {
+        opacity: 1; pointer-events: auto; width: auto;
+        overflow: visible; justify-content: center; gap: 0;
+    }
+    .sidebar.collapsed .synapsepm-logo { justify-content: center; }
+    .sidebar.collapsed .synapsepm-logo .logo-icon {
+        display: inline-flex !important; opacity: 1 !important;
+        width: 32px !important; min-width: 32px !important;
+        height: 32px !important; min-height: 32px !important;
+    }
+    .sidebar.collapsed .synapsepm-logo .logo-icon img {
+        display: block !important; width: 32px !important;
+        height: 32px !important; object-fit: contain !important;
+    }
+    .sidebar-toggle {
+        width: 36px; height: 36px;
+        border: 1px solid #dbe4ec; border-radius: 10px;
+        background: #fff; color: #475569;
+        display: inline-flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: 0 2px 7px rgba(15,43,61,.06);
+        transition: background .2s, border-color .2s, color .2s, box-shadow .2s;
+        flex-shrink: 0; padding: 0;
+    }
+    .sidebar-toggle:hover {
+        background: #f8fafc; color: var(--sidebar-accent);
+        border-color: rgba(0,180,170,.45);
+        box-shadow: 0 5px 14px rgba(15,43,61,.10);
+    }
+    .sidebar-toggle svg {
+        width: 18px; height: 18px; stroke: currentColor;
+        transition: transform .3s cubic-bezier(.4,0,.2,1);
+    }
+    .sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
+    .sidebar-nav {
+        flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+        padding: 14px 10px; scrollbar-width: thin;
+        scrollbar-color: #dbe4ec transparent;
+    }
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
+    .sidebar-group-label { padding: 7px 11px 6px; }
+    .sidebar-group { display: flex; flex-direction: column; gap: 3px; }
+    .sidebar-link {
+        min-height: 44px; display: flex; align-items: center; gap: 12px;
+        padding: 9px 11px; border-radius: 11px;
+        color: var(--sidebar-muted); font-weight: 500; font-size: .875rem;
+        line-height: 1.2; cursor: pointer; text-decoration: none;
+        position: relative; white-space: nowrap; overflow: visible;
+        transition: background .18s ease, color .18s ease;
+    }
+    .sidebar-link:hover { background: var(--sidebar-hover); color: var(--sidebar-primary); }
+    .sidebar-link.active { background: #00b4aa; color: #fff; box-shadow: 0 5px 14px rgba(0,180,170,.22); }
+    .sidebar-link .material-symbols-outlined {
+        width: 22px; min-width: 22px; font-size: 22px;
+        display: inline-flex; align-items: center; justify-content: center;
+        color: #64748b; transition: color .18s ease;
+    }
+    .sidebar-link.active .material-symbols-outlined,
+    .sidebar-link:hover .material-symbols-outlined { color: inherit; }
+    .sidebar-link .badge-count {
+        margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px;
+        display: inline-flex; align-items: center; justify-content: center;
+        background: #f1f5f9; color: #64748b;
+        font-size: .65rem; border-radius: 999px; font-weight: 700;
+        transition: all .2s ease;
+    }
+    .sidebar-link.active .badge-count { background: rgba(255,255,255,.22); color: #fff; }
+    .sidebar-divider { margin: 14px 4px; border-top: 1px solid #edf2f7; }
+    .sidebar-text { transition: opacity .2s ease; }
+    .sidebar.collapsed .sidebar-text,
+    .sidebar.collapsed .sidebar-label,
+    .sidebar.collapsed .badge-count {
+        opacity: 0; pointer-events: none;
+        width: 0; overflow: hidden; display: none !important;
+    }
+    .sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
+    .sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
+    .sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
+    .sidebar.collapsed .sidebar-link::after {
+        content: attr(data-tooltip);
+        position: absolute; left: calc(100% + 10px); top: 50%;
+        transform: translateY(-50%) translateX(-4px);
+        opacity: 0; pointer-events: none;
+        background: #0f2b3d; color: #fff;
+        padding: 7px 10px; border-radius: 8px;
+        font-size: 12px; font-weight: 600; white-space: nowrap;
+        box-shadow: 0 8px 20px rgba(15,43,61,.18);
+        transition: opacity .15s, transform .15s; z-index: 250;
+    }
+    .sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+    /* User area */
+    .sidebar-user-area { flex-shrink: 0; position: relative; padding: 10px; border-top: 1px solid var(--sidebar-border); background: #fff; }
+    .user-card {
+        min-height: 58px; display: flex; align-items: center; gap: 10px;
+        padding: 8px; background: #f8fafc;
+        border: 1px solid #eef2f7; border-radius: 12px;
+        transition: all .28s cubic-bezier(.4,0,.2,1);
+    }
+    .sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
+    .avatar-wrapper { flex-shrink: 0; position: relative; }
+    .user-card .avatar {
+        width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: .8rem; color: #fff;
+        background: linear-gradient(135deg, #00b4aa, #009688);
+        background-size: cover; background-position: center;
+        cursor: pointer; position: relative;
+        transition: box-shadow .2s ease;
+    }
+    .user-card .avatar:hover { box-shadow: 0 0 0 3px rgba(0,180,170,.15); }
+    .user-card .avatar-wrapper .status-dot {
+        position: absolute; bottom: 0; right: 0;
+        width: 11px; height: 11px; border-radius: 50%;
+        border: 2px solid #fff; background: #10b981;
+    }
+    .user-card .user-details { flex: 1; min-width: 0; transition: opacity .2s ease; }
+    .sidebar.collapsed .user-card .user-details { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
+    .user-card .user-details .name { font-weight: 600; font-size: .82rem; color: #0f2b3d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-card .user-details .email { font-size: .68rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .user-card .user-details .plan { font-size: .58rem; font-weight: 700; color: #00a79d; background: rgba(0,180,170,.08); padding: 1px 7px; border-radius: 999px; display: inline-block; margin-top: 2px; }
+
+    /* Profile menu */
+    .profile-menu{
+    position:absolute;
+    left:10px;
+    right:10px;
+    bottom:calc(100% + 10px);
+    padding:14px;
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    box-shadow:0 18px 45px rgba(15,23,42,.16);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(8px);
+    pointer-events:none;
+    transition:opacity .18s ease,transform .18s ease,visibility .18s ease;
+    z-index:300;
+    min-width: 276px;
+}
+
+/* When sidebar is collapsed, expand menu to the right so content stays readable */
+.sidebar.collapsed .profile-menu {
+    left: calc(100% + 10px);
+    right: auto;
+    bottom: 12px;
+    width: 300px;
+    min-width: 300px;
+    transform: translateY(0) translateX(-8px);
+}
+
+.sidebar.collapsed .profile-menu.open {
+    transform: translateY(0) translateX(0);
+}
+    .profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+    .profile-menu-header { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #edf2f7; }
+    .profile-menu-avatar { width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00b4aa, #009688); color: #fff; font-weight: 800; background-size: cover; background-position: center; }
+    .profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
+    .profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
+    .profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
+    .profile-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
+    .profile-detail-label { color: #94a3b8; }
+    .profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
+    .profile-menu-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7; }
+    .profile-action-btn {
+        width: 100%; min-height: 40px;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        border: 1px solid #e2e8f0; border-radius: 10px; background: #fff;
+        color: #475569; font-size: 13px; font-weight: 600;
+        cursor: pointer; transition: all .18s ease; padding: 0 12px;
+        font-family: inherit;
+    }
+    .profile-action-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .profile-action-btn.danger { border-color: #fecaca; color: #dc2626; }
+    .profile-action-btn.danger:hover { background: #fef2f2; border-color: #fca5a5; }
+
+    /* Main layout */
+    #mainContent { margin-left: var(--sidebar-width); min-width: 0; transition: margin-left .28s cubic-bezier(.4,0,.2,1); }
+    body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-width); }
+    .sidebar-overlay { display: none; }
+    @media (max-width: 1023px) {
+        .sidebar { width: min(310px, 90vw); transform: translateX(-102%); box-shadow: none; }
+        .sidebar.mobile-open { transform: translateX(0); box-shadow: 18px 0 50px rgba(15,23,42,.18); }
+        .sidebar.collapsed { width: min(310px, 90vw); }
+        .sidebar-overlay {
+            position: fixed; inset: 0;
+            background: rgba(15,23,42,.42); backdrop-filter: blur(3px);
+            z-index: 90; display: block;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transition: opacity .25s ease, visibility .25s ease;
+        }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+        #mainContent, body.sidebar-is-collapsed #mainContent { margin-left: 0; }
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-label,
+        .sidebar.collapsed .badge-count { display: block !important; opacity: 1 !important; transform: none !important; width: auto !important; }
+        .sidebar.collapsed .sidebar-link { justify-content: flex-start; gap: 12px; padding: 9px 11px; }
+        .sidebar.collapsed .sidebar-link::after { display: none; }
+        .sidebar.collapsed .user-card .user-details { display: block !important; opacity: 1 !important; width: auto !important; }
+        .sidebar.collapsed .sidebar-brand-inner { opacity: 1 !important; pointer-events: auto !important; width: auto !important; }
+        .sidebar.collapsed .sidebar-brand { justify-content: space-between; flex-direction: row; padding: 0 14px; }
+        .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+        .sidebar.collapsed .synapsepm-logo strong { display: inline-flex !important; }
+        .sidebar.collapsed .sidebar-toggle svg { transform: none; }
+        @media (max-width: 1023px) {
+    /* ...existing rules... */
+
+    /* On mobile, always use the original left/right anchored layout
+       (mobile sidebar is full-width so no need to expand right) */
+    .sidebar.collapsed .profile-menu {
+        left: 10px;
+        right: 10px;
+        bottom: calc(100% + 10px);
+        width: auto;
+        min-width: 0;
+        transform: translateY(8px);
+    }
+    .sidebar.collapsed .profile-menu.open {
+        transform: translateY(0);
+    }
+}
+    }
+
+    /* ============================================================
+       FIXED: native <select> arrow overlapping text
+       ============================================================ */
+    .select-with-icon {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+    .select-with-icon select {
+        width: 100%;
+        padding: 0.5rem 2.5rem 0.5rem 0.75rem; /* increased right padding from 2.25 to 2.5 */
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        background: #fff;
+        color: #0f172a;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: none;
+        cursor: pointer;
+        font-family: inherit;
+        transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .select-with-icon select:focus {
+        border-color: #00b4aa;
+        box-shadow: 0 0 0 3px rgba(0,180,170,.12);
+    }
+    .select-with-icon .select-arrow {
+        position: absolute;
+        top: 50%;
+        right: 0.55rem;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #94a3b8;
+        font-size: 20px;
+        line-height: 1;
+    }
+    @media (min-width: 640px) {
+        .select-with-icon.w-auto-sm { width: auto; min-width: 160px; }
+    }
+
+    /* Machine cards */
+    .machine-card {
+        transition: box-shadow .3s cubic-bezier(.4,0,.2,1), transform .3s cubic-bezier(.4,0,.2,1), border-color .3s ease;
+        animation: fadeInUp .5s ease-out;
+        background: #fff; border-radius: 1.25rem;
+        border: 1px solid #e2e8f0; overflow: hidden;
+    }
+    .machine-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -12px rgba(0,0,0,.12); border-color: #00b4aa; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .status-online { background: #10b98120; color: #10b981; border: 1px solid #10b98140; }
+    .status-warning { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
+    .status-critical { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+    .status-offline { background: #6b728020; color: #6b7280; border: 1px solid #6b728040; }
+    .status-connecting { background: #3b82f620; color: #3b82f6; border: 1px solid #3b82f640; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    .progress-bar { background: #e2e8f0; border-radius: 9999px; overflow: hidden; height: 6px; }
+    .progress-fill { background: linear-gradient(90deg, #00b4aa, #009688); height: 100%; border-radius: 9999px; transition: width .8s ease; }
+
+    /* Modal */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+    .modal.active { display: flex; animation: fadeIn .2s ease-out; }
+    .modal-content { background: #fff; border-radius: 1.5rem; max-width: 100%; width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
+
+    /* Toast */
+    .toast {
+        position: fixed; bottom: 1.5rem; right: 1.5rem;
+        background: #fff; border-radius: .75rem;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,.1);
+        display: flex; align-items: center; gap: .75rem;
+        z-index: 1100; animation: slideInRight .3s ease-out;
+        border-left: 4px solid; max-width: 420px;
+    }
+    .toast.success { border-left-color: #10b981; }
+    .toast.error { border-left-color: #ef4444; }
+    .toast.warning { border-left-color: #f59e0b; }
+    .toast.info { border-left-color: #00b4aa; }
+    @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    .connection-option { transition: all .2s; cursor: pointer; border: 1px solid transparent; }
+    .connection-option:hover { background: #f0fdfa; border-color: #00b4aa; }
+    .connection-option.selected { border-color: #00b4aa; background: #f0fdfa; }
+    .loading-spinner { display: inline-block; width: 1.25rem; height: 1.25rem; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; margin-right: .5rem; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .conn-step { display: flex; align-items: center; gap: .75rem; padding: .5rem 0; font-size: .85rem; color: #94a3b8; transition: color .3s ease; }
+    .conn-step.done { color: #10b981; }
+    .conn-step.active { color: #00b4aa; font-weight: 600; }
+    .conn-step.error { color: #ef4444; }
+    .conn-step .step-icon { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; flex-shrink: 0; font-size: .9rem; }
+    .conn-step.done .step-icon { background: #10b981; color: #fff; }
+    .conn-step.active .step-icon { background: #00b4aa; color: #fff; animation: pulse 1s infinite; }
+    .conn-step.error .step-icon { background: #ef4444; color: #fff; }
+
+    .code-block { background: #0f172a; color: #67e8f9; font-family: 'Monaco', 'Consolas', monospace; font-size: 11px; padding: 12px; border-radius: 12px; word-break: break-all; line-height: 1.5; max-height: 200px; overflow: auto; }
+    .dt-tab { padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all .2s; color: #64748b; }
+    .dt-tab:hover { background: #f1f5f9; }
+    .dt-tab.active { background: #00b4aa; color: #fff; }
+    .dt-panel { display: none; }
+    .dt-panel.active { display: block; }
+
+    .page-banner { border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.4; }
+    .page-banner.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .page-banner.warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+    .page-banner.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+    .page-banner .banner-close { margin-left: auto; cursor: pointer; opacity: .7; }
+    .page-banner .banner-close:hover { opacity: 1; }
+
+    /* Live prediction toggle */
+    .live-pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 3px 10px; border-radius: 999px;
+        font-size: 10px; font-weight: 700;
+        background: #ecfdf5; color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+    .live-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; animation: pulse 1.4s infinite; }
+
+    @media (max-width: 768px) {
+        .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: .75rem !important; }
+        .toolbar { flex-direction: column; align-items: stretch; }
+        .modal-content { max-width: 95%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .sidebar, .sidebar-link, .sidebar-toggle, #mainContent, .sidebar-overlay, .profile-menu, .machine-card { transition: none !important; animation: none !important; }
+    }
+</style>
+</head>
+<body>
+
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
+                <div class="synapsepm-logo">
+                    <span class="logo-icon">
+                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
+                    </span>
+                    <span>Synapse</span><strong>PM</strong>
+                </div>
+            </a>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle"
+                    title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Application">
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p>
+            </div>
+            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard" aria-label="Dashboard">
+                <span class="material-symbols-outlined" aria-hidden="true">dashboard</span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a href="machines.html" class="sidebar-link active" data-tooltip="Machines" aria-label="Machines" aria-current="page">
+                <span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span>
+                <span class="sidebar-text">Machines</span>
+            </a>
+            <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions" aria-label="Predictions">
+                <span class="material-symbols-outlined" aria-hidden="true">neurology</span>
+                <span class="sidebar-text">Predictions</span>
+            </a>
+            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts" aria-label="Alerts">
+                <span class="material-symbols-outlined" aria-hidden="true">notifications_active</span>
+                <span class="sidebar-text">Alerts</span>
+                <span class="badge-count" id="sidebarAlertsBadge" aria-label="Active alerts">0</span>
+            </a>
+            <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports">
+                <span class="material-symbols-outlined" aria-hidden="true">assessment</span>
+                <span class="sidebar-text">Reports</span>
+            </a>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p>
+            </div>
+            <a href="billing.html" class="sidebar-link" data-tooltip="Billing" aria-label="Billing">
+                <span class="material-symbols-outlined" aria-hidden="true">credit_card</span>
+                <span class="sidebar-text">Billing</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="sidebar-user-area">
+        <div class="user-card">
+            <div class="avatar-wrapper">
+                <button type="button" class="avatar" id="userAvatar"
+                        aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu">
+                    <span id="userAvatarText"></span>
+                </button>
+                <div class="status-dot" aria-hidden="true"></div>
+            </div>
+            <div class="user-details">
+                <div class="name" id="userName"></div>
+                <div class="email" id="userEmail"></div>
+                <div class="plan" id="userPlan"></div>
+            </div>
+        </div>
+
+        <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
+            <div class="profile-menu-header">
+                <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
+                <div class="min-w-0">
+                    <div class="profile-menu-name" id="profileMenuName"></div>
+                    <div class="profile-menu-email" id="profileMenuEmail"></div>
+                </div>
+            </div>
+            <div class="profile-menu-details">
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Username</span>
+                    <span class="profile-detail-value" id="profileMenuUsername"></span>
+                </div>
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Email</span>
+                    <span class="profile-detail-value" id="profileMenuEmailDetail"></span>
+                </div>
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Plan</span>
+                    <span class="profile-detail-value" id="profileMenuPlan"></span>
+                </div>
+                <div class="profile-detail-row" id="profileRoleRow" hidden>
+                    <span class="profile-detail-label">Role</span>
+                    <span class="profile-detail-value" id="profileMenuRole"></span>
+                </div>
+                <div class="profile-detail-row" id="profileOrgRow" hidden>
+                    <span class="profile-detail-label">Organization</span>
+                    <span class="profile-detail-value" id="profileMenuOrg"></span>
+                </div>
+            </div>
+            <div class="profile-menu-actions">
+                <button type="button" class="profile-action-btn" id="profileSettingsBtn">
+                    <span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>
+                    Settings
+                </button>
+                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn">
+                    <span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>
+                    Sign out
+                </button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="flex-1 min-w-0" id="mainContent">
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Machines</h1>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
+            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
+        </div>
+    </header>
+
+    <div class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="material-symbols-outlined text-teal-600 text-lg">precision_manufacturing</span>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-teal-600">Equipment Fleet</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Machines & Equipment</h1>
+                    <p class="text-slate-500 text-sm mt-0.5">Monitor, manage, and predict maintenance for your industrial assets</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="openTestModal()" class="border border-slate-200 text-slate-700 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-semibold hover:bg-slate-50 transition text-sm sm:text-base whitespace-nowrap flex items-center gap-2">
+                        <span class="material-symbols-outlined text-base sm:text-lg">science</span>
+                        Simulate
+                    </button>
+                    <button id="addMachineBtn" class="gradient-cta text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center gap-2 text-sm sm:text-base whitespace-nowrap">
+                        <span class="material-symbols-outlined text-base sm:text-lg">add</span> Connect Machine
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Total Machines</span>
+                    <span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">precision_manufacturing</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="totalMachines">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Online</span>
+                    <span class="material-symbols-outlined text-green-600 text-base sm:text-lg">check_circle</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-green-600" id="onlineMachines">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Warning</span>
+                    <span class="material-symbols-outlined text-amber-500 text-base sm:text-lg">warning</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-amber-500" id="warningMachines">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] sm:text-xs text-slate-500">Critical</span>
+                    <span class="material-symbols-outlined text-red-600 text-base sm:text-lg">error</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-red-600" id="criticalMachines">0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-between">
+            <div class="flex flex-wrap gap-2 sm:gap-3 flex-1">
+                <div class="relative flex-1 min-w-[180px]">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-base">search</span>
+                    <input type="text" id="searchInput" placeholder="Search machines by name, location..."
+                           class="w-full pl-9 sm:pl-10 pr-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm">
+                </div>
+
+                <!-- FIXED: severity select arrow padding -->
+                <div class="select-with-icon w-auto-sm">
+                    <select id="statusFilter" aria-label="Filter by status">
+                        <option value="">All Status</option>
+                        <option value="online">Online</option>
+                        <option value="warning">Warning</option>
+                        <option value="critical">Critical</option>
+                        <option value="offline">Offline</option>
+                    </select>
+                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                </div>
+
+                <!-- FIXED: type select arrow padding -->
+                <div class="select-with-icon w-auto-sm">
+                    <select id="typeFilter" aria-label="Filter by type">
+                        <option value="">All Types</option>
+                        <option value="turbine">Turbine</option>
+                        <option value="pump">Pump</option>
+                        <option value="compressor">Compressor</option>
+                        <option value="motor">Motor</option>
+                        <option value="generator">Generator</option>
+                        <option value="ct">CT Scanner</option>
+                        <option value="mri">MRI Scanner</option>
+                        <option value="xray">X-Ray Machine</option>
+                        <option value="ultrasound">Ultrasound</option>
+                        <option value="ventilator">Ventilator</option>
+                        <option value="ecg">ECG Machine</option>
+                        <option value="laptop">Laptop/Computer</option>
+                        <option value="server">Server</option>
+                        <option value="network">Network Device</option>
+                    </select>
+                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button id="refreshBtn" class="px-3 sm:px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-sm" aria-label="Refresh">
+                    <span class="material-symbols-outlined text-base">refresh</span> Refresh
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Machines Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div id="pageBannerHost"></div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" id="machinesGrid">
+            <div class="col-span-full text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-teal-500 border-t-transparent"></div>
+                <p class="text-slate-500 mt-3 text-sm">Loading machines...</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- ===== ADD MACHINE MODAL ===== -->
+<div class="modal" id="addMachineModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Connect New Machine</h3>
+            <button id="closeModalBtn" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <form id="addMachineForm">
+                <div class="mb-4">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="machineName">Machine Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="machineName" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., Siemens CT Scanner" required autocomplete="off">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="machineType">Machine Type <span class="text-red-500">*</span></label>
+                    <div class="select-with-icon">
+                        <select id="machineType" required>
+                            <option value="">Select type...</option>
+                            <option value="turbine">⚡ Industrial Turbine</option>
+                            <option value="pump">💧 Centrifugal Pump</option>
+                            <option value="compressor">🔧 Air Compressor</option>
+                            <option value="motor">⚙️ Electric Motor</option>
+                            <option value="generator">🔌 Generator</option>
+                            <option value="ct">🏥 CT Scanner</option>
+                            <option value="mri">🏥 MRI Scanner</option>
+                            <option value="xray">🏥 X-Ray Machine</option>
+                            <option value="ultrasound">🏥 Ultrasound</option>
+                            <option value="ventilator">🏥 Ventilator</option>
+                            <option value="ecg">🏥 ECG Machine</option>
+                            <option value="laptop">💻 Laptop/Computer</option>
+                            <option value="server">🖥️ Server</option>
+                            <option value="network">🌐 Network Device</option>
+                        </select>
+                        <span class="material-symbols-outlined select-arrow">expand_more</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="machineLocation">Location <span class="text-red-500">*</span></label>
+                    <input type="text" id="machineLocation" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., Building A, Floor 2, Station 3" required autocomplete="off">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="connectionType">Connection Method</label>
+                    <div class="select-with-icon">
+                        <select id="connectionType">
+                            <option value="manual">🔧 Manual Entry</option>
+                            <option value="simulated">🧪 Simulated (Test Data)</option>
+                            <option value="mqtt">📡 MQTT (IoT Gateway)</option>
+                            <option value="opcua">🏭 OPC UA (Industrial PLC)</option>
+                            <option value="modbus">🔌 Modbus TCP</option>
+                            <option value="api">🌐 REST API (Device Key)</option>
+                            <option value="websocket">⚡ WebSocket (Real-time)</option>
+                        </select>
+                        <span class="material-symbols-outlined select-arrow">expand_more</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-1" id="connectionHint">
+                        Manual: enter readings via device key. Simulated: auto-generates test data.
+                    </p>
+                </div>
+
+                <div id="connectionConfig" class="mb-4" style="display:none;">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="connectionEndpoint">
+                        Connection Endpoint <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="connectionEndpoint" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., opc.tcp://192.168.1.100:4840" autocomplete="off">
+                    <p class="text-[10px] text-slate-400 mt-1" id="connectionExamples"></p>
+                </div>
+
+                <div id="addMachineError" class="hidden mb-4 page-banner error"></div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" id="cancelModalBtn" class="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition text-sm">Cancel</button>
+                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition text-sm" id="addMachineSubmit">
+                        Connect Machine
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MACHINE DETAIL MODAL ===== -->
+<div class="modal" id="machineDetailModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-2xl w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white" id="detailMachineName">Machine Details</h3>
+            <button id="closeDetailModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="px-4 sm:px-6 pt-4">
+            <div class="flex gap-1 border-b border-slate-200 pb-1 overflow-x-auto">
+                <div class="dt-tab active" data-dt="info" onclick="showDetailTab('info')">Info</div>
+                <div class="dt-tab" data-dt="device-keys" onclick="showDetailTab('device-keys')">Device Keys</div>
+                <div class="dt-tab" data-dt="sensor-data" onclick="showDetailTab('sensor-data')">Sensor Data</div>
+                <div class="dt-tab" data-dt="connection" onclick="showDetailTab('connection')">Connection</div>
+            </div>
+        </div>
+        <div class="p-4 sm:p-6">
+            <div id="dtPanel-info" class="dt-panel active"></div>
+            <div id="dtPanel-device-keys" class="dt-panel"></div>
+            <div id="dtPanel-sensor-data" class="dt-panel"></div>
+            <div id="dtPanel-connection" class="dt-panel"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== LIVE PREDICTION MODAL ===== -->
+<div class="modal" id="livePredictionModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Live Prediction</h3>
+            <button id="closeLiveModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <p class="text-xs text-slate-500 mb-3" id="liveMachineLabel">Machine</p>
+            <p class="text-sm text-slate-600 mb-5">Runs a real prediction against your trained models on the interval you choose. Results appear live on the machine card, activity history, and admin dashboard.</p>
+
+            <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Interval</label>
+            <div class="grid grid-cols-3 gap-2 mb-5" id="liveIntervalGrid">
+                <button type="button" data-interval="1" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">1 min</button>
+                <button type="button" data-interval="5" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">5 min</button>
+                <button type="button" data-interval="15" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">15 min</button>
+                <button type="button" data-interval="30" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">30 min</button>
+                <button type="button" data-interval="60" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">60 min</button>
+                <button type="button" data-interval="0" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-red-400 hover:bg-red-50 transition text-red-600">Stop</button>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-3 mb-4 text-xs text-slate-600 leading-relaxed">
+                <strong class="text-slate-800">Note:</strong> Live predictions run only while this tab is open. Each run counts against your plan quota and creates an alert row on the backend when RUL drops below 72h.
+            </div>
+
+            <div id="liveStatusBox" class="hidden mb-4"></div>
+
+            <button type="button" id="liveStartBtn" class="w-full gradient-cta text-white px-4 py-3 rounded-xl font-semibold text-sm">
+                Start Live Prediction
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== CONNECTION PROGRESS MODAL ===== -->
+<div class="modal" id="connectingModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-sm w-full">
+        <div class="p-6 text-center">
+            <div class="w-16 h-16 mx-auto bg-teal-50 rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-teal-600 text-3xl animate-spin" id="connectSpinner">refresh</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-1" id="connectTitle">Connecting...</h3>
+            <p class="text-xs text-slate-500 mb-4" id="connectSubtitle">Establishing connection to machine</p>
+            <div class="text-left bg-slate-50 rounded-xl p-4">
+                <div class="conn-step" id="step1">
+                    <div class="step-icon"><span class="material-symbols-outlined text-xs" id="step1icon">radio_button_unchecked</span></div>
+                    <span>Creating machine record</span>
+                </div>
+                <div class="conn-step" id="step2">
+                    <div class="step-icon"><span class="material-symbols-outlined text-xs" id="step2icon">radio_button_unchecked</span></div>
+                    <span>Verifying endpoint reachability</span>
+                </div>
+                <div class="conn-step" id="step3">
+                    <div class="step-icon"><span class="material-symbols-outlined text-xs" id="step3icon">radio_button_unchecked</span></div>
+                    <span>Opening data stream</span>
+                </div>
+                <div class="conn-step" id="step4">
+                    <div class="step-icon"><span class="material-symbols-outlined text-xs" id="step4icon">radio_button_unchecked</span></div>
+                    <span>Fetching initial metrics</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== PREDICTION RESULT MODAL ===== -->
+<div class="modal" id="predictionModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">AI Prediction Result</h3>
+            <button id="closePredictionModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <div class="text-center">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span class="material-symbols-outlined text-teal-600 text-3xl sm:text-4xl">neurology</span>
+                </div>
+                <h4 id="predictionMachineName" class="text-base sm:text-lg font-bold text-slate-800 mb-3">Machine Name</h4>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-4 mb-3 text-center">
+                <p class="text-xs text-slate-500 mb-1">Remaining Useful Life (RUL)</p>
+                <p class="text-3xl font-bold text-slate-800" id="predictionRul">--</p>
+                <p class="text-xs text-slate-400 mt-1">hours of operation remaining</p>
+            </div>
+
+            <div class="mb-3">
+                <div class="flex justify-between text-xs mb-1">
+                    <span class="text-slate-600">Model confidence</span>
+                    <span class="font-semibold" id="predictionConfidence">--</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="predictionBar" style="width: 0%"></div></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <div class="bg-slate-50 rounded-xl p-3">
+                    <p class="text-[10px] text-slate-400">Risk level</p>
+                    <p class="text-sm font-bold text-slate-800 capitalize" id="predictionRisk">—</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-3">
+                    <p class="text-[10px] text-slate-400">Model used</p>
+                    <p class="text-sm font-bold text-slate-800 truncate" id="predictionModel">—</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-3">
+                    <p class="text-[10px] text-slate-400">Dataset family</p>
+                    <p class="text-sm font-bold text-slate-800 truncate" id="predictionFamily">—</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-3">
+                    <p class="text-[10px] text-slate-400">Processing time</p>
+                    <p class="text-sm font-bold text-slate-800" id="predictionProcessing">—</p>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 rounded-xl p-3 mb-3 text-left">
+                <p class="text-xs text-amber-700 font-semibold mb-1">Recommended action</p>
+                <p id="predictionRecommendation" class="text-xs sm:text-sm text-amber-800">—</p>
+            </div>
+
+            <div id="predictionFallbackNote" class="hidden mb-3">
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-left">
+                    <p class="text-xs text-slate-600">
+                        <strong>Note:</strong> Heuristic estimate — no trained ML model was compatible with this machine's data.
+                        <span id="predictionFallbackReason"></span>
+                    </p>
+                </div>
+            </div>
+
+            <button id="closePredictionBtn" class="w-full gradient-cta text-white px-4 py-2.5 rounded-xl font-semibold text-sm">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== TEST / SIMULATE MODAL ===== -->
+<div class="modal" id="testModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Simulate / Test Machine</h3>
+            <button id="closeTestModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <p class="text-slate-600 text-sm mb-4">Choose a mode to generate real data on the backend for testing.</p>
+            <div class="space-y-3">
+                <div class="bg-slate-50 rounded-xl p-3 connection-option" onclick="selectTestOption('simulated', event)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-teal-600">science</span>
+                            <div>
+                                <p class="font-semibold text-slate-800 text-sm">Simulated Industrial Machine</p>
+                                <p class="text-xs text-slate-400">Real sensor values emitted by the backend</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-300">chevron_right</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-3 connection-option" onclick="selectTestOption('medical', event)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-teal-600">local_hospital</span>
+                            <div>
+                                <p class="font-semibold text-slate-800 text-sm">Simulated Medical Device</p>
+                                <p class="text-xs text-slate-400">CT/MRI/X-Ray test profile</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-300">chevron_right</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-3 connection-option" onclick="selectTestOption('it', event)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-teal-600">computer</span>
+                            <div>
+                                <p class="font-semibold text-slate-800 text-sm">Simulated IT Device</p>
+                                <p class="text-xs text-slate-400">Server/Laptop test profile</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-300">chevron_right</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="testConfig" class="mt-4 hidden">
+                <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1">Machine Name</label>
+                <input type="text" id="testName" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., Test Turbine A1">
+
+                <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1 mt-3">Location</label>
+                <input type="text" id="testLocation" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., Test Lab">
+
+                <button type="button" onclick="runSimulatedConnection()" class="mt-4 w-full gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm" id="simSubmitBtn">
+                    Create & Simulate
+                </button>
+            </div>
+
+            <button id="closeTestBtn" class="mt-3 w-full border border-slate-200 text-slate-600 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-slate-50 transition">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MANUAL READING MODAL (NEW) ===== -->
+<div class="modal" id="manualReadingModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Enter Manual Reading</h3>
+            <button id="closeManualReadingModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <p class="text-xs text-slate-500 mb-4" id="manualMachineLabel">Machine</p>
+            <form id="manualReadingForm">
+                <div class="mb-3">
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Temperature (°C)</label>
+                    <input type="number" step="0.1" id="manualTemperature" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., 72.5">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Vibration (mm/s)</label>
+                    <input type="number" step="0.01" id="manualVibration" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., 2.34">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Pressure (bar)</label>
+                    <input type="number" step="0.1" id="manualPressure" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., 1.2">
+                </div>
+                <div id="manualReadingError" class="hidden mb-3 page-banner error text-xs"></div>
+                <div class="flex gap-3">
+                    <button type="button" id="cancelManualReadingBtn" class="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition text-sm">Cancel</button>
+                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition text-sm">Submit Reading</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// SYNAPSEPM MACHINES — Production v4.1.0
+//
+// Fixes in this version:
+//   1. No fake temp/vib/pressure on Manual machines — shows "—"
+//      until real sensor data arrives.
+//   2. Duplicate machines bug — removed all manual machines.unshift()
+//      calls; UI only reflects the backend response.
+//   3. Dataset-family dropdown removed from add form (backend
+//      auto-selects at prediction time via MLEngine.identify_family).
+//   4. Live Prediction toggle — per-machine interval selector,
+//      persisted in localStorage, runs real predictions on a timer.
+//   5. WS handler is idempotent — dedupes by id before insert.
+//   6. Hidden '__dataset__' machine filtered out of the UI.
+//   7. Dropdown arrow padding increased (2.5rem right padding).
+//   8. Manual entry now opens a dedicated modal to input real
+//      readings — no fake values are allotted.
+// ============================================================
+
+const API_BASE = '/api/v1';
+const REQUEST_TIMEOUT_MS = 25000;
+const REFRESH_STORAGE_KEYS = ['synapse_refresh', 'refresh_token', 'synapse_refresh_token'];
+const AUTH_STORAGE_KEYS = [
+    'synapse_token', 'synapse_user', 'synapse_refresh', 'synapse_tenant',
+    'synapse_admin_token', 'synapse_admin_user', 'synapse_mfa', 'synapse_sessions',
+    'token', 'auth_token', 'access_token', 'refresh_token', 'user', 'organization'
+];
+const DATASET_HIDDEN_NAME = '__dataset__';
+const LIVE_KEY = 'synapsepm_live_predictions';
+
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ------------------------------------------------------------
+// AUTH
+// ------------------------------------------------------------
+function readFirst(keys) {
+    for (const k of keys) { try { const v = localStorage.getItem(k); if (v) return v; } catch (e) {} }
+    return null;
+}
+function getToken() {
+    return localStorage.getItem('synapse_token')
+        || localStorage.getItem('synapse_admin_token')
+        || localStorage.getItem('token')
+        || localStorage.getItem('auth_token')
+        || localStorage.getItem('access_token')
+        || null;
+}
+function getRefreshToken() { return readFirst(REFRESH_STORAGE_KEYS); }
+function getUser() {
+    try {
+        const raw = localStorage.getItem('synapse_user')
+            || localStorage.getItem('synapse_admin_user')
+            || localStorage.getItem('user');
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+}
+function decodeJwt(token) {
+    if (!token || typeof token !== 'string') return null;
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) return null;
+        const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+        return JSON.parse(atob(padded));
+    } catch (e) { return null; }
+}
+function isTokenValid(token) {
+    const p = decodeJwt(token);
+    if (!p || typeof p.exp !== 'number') return false;
+    return p.exp > Math.floor(Date.now() / 1000) + 10;
+}
+
+const Auth = {
+    get token() { return getToken(); },
+    get user() { return getUser(); },
+    get isAuthenticated() {
+        const t = getToken();
+        if (!t || !isTokenValid(t)) return false;
+        return !!getUser();
+    },
+    clearStorage() {
+        AUTH_STORAGE_KEYS.forEach(k => { try { localStorage.removeItem(k); } catch (e) {} });
+    },
+    logout() {
+        this.clearStorage();
+        try { sessionStorage.setItem('justLoggedOut', 'true'); } catch (e) {}
+        stopAllLivePredictions();
+        try { if (wsConnection) wsConnection.close(1000, 'logout'); } catch (e) {}
+        if (!/login\.html/i.test(window.location.pathname)) {
+            window.location.replace('login.html');
+        }
+    },
+};
+
+// ------------------------------------------------------------
+// TOAST + BANNER
+// ------------------------------------------------------------
+function escapeHtml(t) {
+    if (t === null || t === undefined) return '';
+    const d = document.createElement('div');
+    d.textContent = String(t);
+    return d.innerHTML;
+}
+function showToast(message, type = 'info', duration = 4000) {
+    const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#00b4aa' };
+    const icons = { success: 'check_circle', error: 'error', warning: 'warning', info: 'info' };
+    const el = document.createElement('div');
+    el.className = 'toast ' + type;
+    el.style.borderLeftColor = colors[type] || colors.info;
+    el.innerHTML = `<span class="material-symbols-outlined text-sm" style="color:${colors[type]}">${icons[type]}</span><span class="text-sm">${escapeHtml(message)}</span>`;
+    document.body.appendChild(el);
+    setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = 'opacity .3s';
+        setTimeout(() => el.remove(), 300);
+    }, duration);
+}
+function showPageBanner(message, kind = 'error', timeoutMs = 0) {
+    const host = $('pageBannerHost');
+    if (!host) { if (message) showToast(message, kind, 6000); return; }
+    host.innerHTML = '';
+    if (!message) return;
+    const icons = { error: 'error', warning: 'warning', info: 'info' };
+    const banner = document.createElement('div');
+    banner.className = 'page-banner ' + kind;
+    banner.innerHTML = `
+        <span class="material-symbols-outlined text-base">${icons[kind] || 'info'}</span>
+        <span style="flex:1">${escapeHtml(message)}</span>
+        <span class="material-symbols-outlined banner-close text-base" onclick="this.parentElement.remove()">close</span>
+    `;
+    host.appendChild(banner);
+    if (timeoutMs > 0) setTimeout(() => { try { banner.remove(); } catch (e) {} }, timeoutMs);
+}
+
+// ------------------------------------------------------------
+// API CLIENT (single-flight refresh)
+// ------------------------------------------------------------
+let refreshPromise = null;
+async function performRefresh() {
+    if (refreshPromise) return refreshPromise;
+    const rt = getRefreshToken();
+    if (!rt) return false;
+    refreshPromise = (async () => {
+        try {
+            const resp = await fetch(API_BASE + '/auth/refresh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ refresh_token: rt }),
+                credentials: 'same-origin',
+            });
+            if (!resp.ok) return false;
+            const data = await resp.json().catch(() => null);
+            if (!data || !data.success || !data.access_token) return false;
+            try {
+                localStorage.setItem('synapse_token', data.access_token);
+                localStorage.setItem('token', data.access_token);
+                localStorage.setItem('auth_token', data.access_token);
+                localStorage.setItem('access_token', data.access_token);
+                if (data.refresh_token) {
+                    localStorage.setItem('synapse_refresh', data.refresh_token);
+                    localStorage.setItem('refresh_token', data.refresh_token);
+                }
+            } catch (e) {}
+            return true;
+        } catch (e) {
+            return false;
+        } finally {
+            refreshPromise = null;
+        }
+    })();
+    return refreshPromise;
+}
+
+const API = {
+    async request(endpoint, options = {}, _retried = false) {
+        const token = getToken();
+        const headers = { 'Accept': 'application/json', ...(options.headers || {}) };
+        const isForm = (typeof FormData !== 'undefined') && (options.body instanceof FormData);
+        if (!isForm && options.body !== undefined && options.body !== null && !headers['Content-Type']) {
+            headers['Content-Type'] = 'application/json';
+        }
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+        let response;
+        try {
+            response = await fetch(API_BASE + endpoint, {
+                ...options,
+                headers,
+                credentials: 'same-origin',
+                signal: controller.signal,
+            });
+        } catch (err) {
+            clearTimeout(timer);
+            if (err && err.name === 'AbortError') {
+                const e = new Error('Request timed out.'); e.status = 0; throw e;
+            }
+            const e = new Error('Network error: cannot reach backend.'); e.status = 0; throw e;
+        }
+        clearTimeout(timer);
+
+        if (response.status === 401 && !_retried) {
+            const ok = await performRefresh();
+            if (ok) return this.request(endpoint, options, true);
+            Auth.logout();
+            const e = new Error('Session expired.'); e.status = 401; throw e;
+        }
+
+        const ctype = response.headers.get('content-type') || '';
+        let data = null;
+        if (ctype.includes('application/json')) {
+            try { data = await response.json(); } catch (e) { data = null; }
+        } else {
+            try {
+                const text = await response.text();
+                try { data = JSON.parse(text); } catch (e) { data = { raw: text }; }
+            } catch (e) { data = null; }
+        }
+
+        if (!response.ok) {
+            const msg = (data && (data.error || data.message || data.detail)) || ('HTTP ' + response.status);
+            const err = new Error(msg); err.status = response.status; err.data = data;
+            throw err;
+        }
+        return data;
+    },
+
+    getMachines() { return this.request('/machines?per_page=200'); },
+    getMachine(id) { return this.request('/machines/' + encodeURIComponent(id)); },
+    createMachine(data) {
+        return this.request('/machines', { method: 'POST', body: JSON.stringify(data) });
+    },
+    updateMachine(id, data) {
+        return this.request('/machines/' + encodeURIComponent(id), { method: 'PUT', body: JSON.stringify(data) });
+    },
+    deleteMachine(id) {
+        return this.request('/machines/' + encodeURIComponent(id), { method: 'DELETE' });
+    },
+    connectMachine(id, payload) {
+        return this.request('/machines/' + encodeURIComponent(id) + '/connect', {
+            method: 'POST', body: JSON.stringify(payload || { connection: 'manual' }),
+        });
+    },
+    simulateMachine(id) {
+        return this.request('/machines/' + encodeURIComponent(id) + '/simulate', { method: 'POST' });
+    },
+    updateStatus(id, status) {
+        return this.request('/machines/' + encodeURIComponent(id) + '/status', {
+            method: 'PATCH', body: JSON.stringify({ status }),
+        });
+    },
+    getSensorData(id, limit = 100) {
+        return this.request('/machines/' + encodeURIComponent(id) + '/sensor-data?limit=' + limit);
+    },
+    predict(id, payload) {
+        return this.request('/machines/' + encodeURIComponent(id) + '/predict', {
+            method: 'POST', body: JSON.stringify(payload || {}),
+        });
+    },
+    predictDebug(id) {
+        return this.request('/machines/' + encodeURIComponent(id) + '/predict-debug', { method: 'POST' });
+    },
+    getAlerts() { return this.request('/alerts?status=active'); },
+
+    createDeviceKey(machineId, payload = {}) {
+        return this.request('/machines/' + encodeURIComponent(machineId) + '/api-keys', {
+            method: 'POST', body: JSON.stringify(payload),
+        });
+    },
+    listDeviceKeys(machineId) {
+        return this.request('/machines/' + encodeURIComponent(machineId) + '/api-keys');
+    },
+    revokeDeviceKey(machineId, keyId) {
+        return this.request('/machines/' + encodeURIComponent(machineId) + '/api-keys/' + encodeURIComponent(keyId), {
+            method: 'DELETE',
+        });
+    },
+    // NEW: submit manual sensor reading
+    submitManualReading(machineId, payload) {
+        return this.request('/machines/' + encodeURIComponent(machineId) + '/sensor-data', {
+            method: 'POST', body: JSON.stringify(payload),
+        });
+    },
+};
+
+// ------------------------------------------------------------
+// STATE
+// ------------------------------------------------------------
+let machines = [];
+let filteredMachines = [];
+let refreshInterval = null;
+let wsConnection = null;
+let wsReconnectTimer = null;
+let testProfile = null;
+let currentDetailMachineId = null;
+let loadInFlight = false;
+let loadFailureCount = 0;
+
+// Live prediction state: { machineId: { timer, intervalMin, lastRun } }
+const livePredictions = {};
+
+// Manual reading modal target
+let manualReadingMachineId = null;
+
+// ------------------------------------------------------------
+// LIVE PREDICTION STORAGE
+// ------------------------------------------------------------
+function loadLiveFromStorage() {
+    try {
+        const raw = localStorage.getItem(LIVE_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        return (parsed && typeof parsed === 'object') ? parsed : {};
+    } catch { return {}; }
+}
+function saveLiveToStorage() {
+    const out = {};
+    Object.keys(livePredictions).forEach(id => {
+        out[id] = { intervalMin: livePredictions[id].intervalMin, startedAt: livePredictions[id].startedAt };
+    });
+    try { localStorage.setItem(LIVE_KEY, JSON.stringify(out)); } catch {}
+}
+function restoreLiveFromStorage() {
+    const saved = loadLiveFromStorage();
+    Object.keys(saved).forEach(machineId => {
+        const conf = saved[machineId];
+        if (conf && conf.intervalMin > 0) {
+            startLiveFor(machineId, conf.intervalMin, /*silent*/ true);
+        }
+    });
+}
+
+// ------------------------------------------------------------
+// USER UI
+// ------------------------------------------------------------
+const DOM = {
+    mainSidebar: $('mainSidebar'),
+    sidebarToggle: $('sidebarToggle'),
+    mobileMenuToggle: $('mobileMenuToggle'),
+    sidebarOverlay: $('sidebarOverlay'),
+    userAvatar: $('userAvatar'),
+    userAvatarText: $('userAvatarText'),
+    userName: $('userName'),
+    userEmail: $('userEmail'),
+    userPlan: $('userPlan'),
+    profileMenu: $('profileMenu'),
+    profileMenuAvatar: $('profileMenuAvatar'),
+    profileMenuName: $('profileMenuName'),
+    profileMenuEmail: $('profileMenuEmail'),
+    profileMenuUsername: $('profileMenuUsername'),
+    profileMenuEmailDetail: $('profileMenuEmailDetail'),
+    profileMenuPlan: $('profileMenuPlan'),
+    profileMenuRole: $('profileMenuRole'),
+    profileMenuOrg: $('profileMenuOrg'),
+    profileRoleRow: $('profileRoleRow'),
+    profileOrgRow: $('profileOrgRow'),
+    profileLogoutBtn: $('profileLogoutBtn'),
+    profileSettingsBtn: $('profileSettingsBtn'),
+    sidebarAlertsBadge: $('sidebarAlertsBadge'),
+};
+
+function updateUserUI() {
+    const user = getUser();
+    if (!user) return;
+    const name = user.display_name || user.full_name || user.name || user.username
+        || (user.email || '').split('@')[0] || 'User';
+    const email = user.email || '';
+    const plan = user.plan || 'Free';
+    const role = user.role || '';
+    const org = user.organization_name || (user.organization && user.organization.name) || user.organization || '';
+    const initials = name.split(/\s+/).filter(Boolean).map(n => n[0]).join('').slice(0,2).toUpperCase() || 'U';
+
+    DOM.userName.textContent = name;
+    DOM.userEmail.textContent = email;
+    DOM.userPlan.textContent = plan + ' Plan';
+    DOM.userAvatarText.textContent = initials;
+    DOM.profileMenuName.textContent = name;
+    DOM.profileMenuEmail.textContent = email;
+    DOM.profileMenuUsername.textContent = user.username || name;
+    DOM.profileMenuEmailDetail.textContent = email;
+    DOM.profileMenuPlan.textContent = plan + ' Plan';
+    DOM.profileRoleRow.hidden = !role;
+    DOM.profileMenuRole.textContent = role;
+    DOM.profileOrgRow.hidden = !org;
+    DOM.profileMenuOrg.textContent = org;
+
+    if (user.avatar_url) {
+        const url = String(user.avatar_url).replace(/'/g, '%27');
+        DOM.userAvatar.style.backgroundImage = `url('${url}')`;
+        DOM.userAvatar.style.backgroundSize = 'cover';
+        DOM.userAvatar.style.backgroundPosition = 'center';
+        DOM.userAvatarText.style.display = 'none';
+        DOM.profileMenuAvatar.style.backgroundImage = `url('${url}')`;
+        DOM.profileMenuAvatar.style.backgroundSize = 'cover';
+        DOM.profileMenuAvatar.style.backgroundPosition = 'center';
+        DOM.profileMenuAvatar.textContent = '';
+    } else {
+        DOM.userAvatar.style.backgroundImage = '';
+        DOM.userAvatarText.style.display = '';
+        DOM.profileMenuAvatar.style.backgroundImage = '';
+        DOM.profileMenuAvatar.textContent = initials;
+    }
+}
+
+// Real-time cross-tab user sync
+window.addEventListener('storage', (e) => {
+    if (e.key === 'synapse_user' || e.key === 'user') {
+        try { const u = JSON.parse(e.newValue || 'null'); if (u) updateUserUI(); } catch {}
+    }
+});
+document.addEventListener('synapse:user-updated', () => updateUserUI());
+
+// ------------------------------------------------------------
+// SIDEBAR
+// ------------------------------------------------------------
+let sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+const sidebar = DOM.mainSidebar;
+function isDesktop() { return window.innerWidth >= 1024; }
+
+function updateSidebarUI() {
+    if (!sidebar) return;
+    if (isDesktop()) {
+        sidebar.classList.toggle('collapsed', sidebarCollapsed);
+        document.body.classList.toggle('sidebar-is-collapsed', sidebarCollapsed);
+        DOM.sidebarToggle?.setAttribute('aria-expanded', String(!sidebarCollapsed));
+    } else {
+        sidebar.classList.remove('collapsed');
+        document.body.classList.remove('sidebar-is-collapsed');
+    }
+}
+function toggleSidebar() {
+    if (!isDesktop()) return openMobileSidebar();
+    sidebarCollapsed = !sidebarCollapsed;
+    localStorage.setItem('sidebar_collapsed', String(sidebarCollapsed));
+    closeProfileMenu();
+    updateSidebarUI();
+}
+function openMobileSidebar() {
+    if (!sidebar || isDesktop()) return;
+    sidebar.classList.add('mobile-open');
+    DOM.sidebarOverlay?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeMobileSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('mobile-open');
+    DOM.sidebarOverlay?.classList.remove('active');
+    if (!document.querySelector('.modal.active')) document.body.style.overflow = '';
+}
+function setProfileMenuOpen(open) {
+    if (!DOM.profileMenu || !DOM.userAvatar) return;
+    DOM.profileMenu.classList.toggle('open', open);
+    DOM.profileMenu.setAttribute('aria-hidden', String(!open));
+    DOM.userAvatar.setAttribute('aria-expanded', String(open));
+}
+function closeProfileMenu() { setProfileMenuOpen(false); }
+function toggleProfileMenu() { setProfileMenuOpen(!DOM.profileMenu?.classList.contains('open')); }
+
+// ------------------------------------------------------------
+// MACHINE LOADING — filters dataset hidden machine
+// ------------------------------------------------------------
+async function loadMachines(showLoader = true) {
+    if (loadInFlight) return;
+    if (!Auth.isAuthenticated) {
+        const ok = await performRefresh();
+        if (!ok) { Auth.logout(); return; }
+    }
+    const grid = $('machinesGrid');
+    loadInFlight = true;
+    const firstLoad = machines.length === 0;
+    if (showLoader && firstLoad) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-teal-500 border-t-transparent"></div>
+                <p class="text-slate-500 mt-3 text-sm">Loading machines...</p>
+            </div>`;
+    }
+    try {
+        const data = await API.getMachines();
+        const all = data.items || data.machines || [];
+        // Hide the internal dataset-only hidden machine
+        machines = all.filter(m => (m.name || '') !== DATASET_HIDDEN_NAME);
+        loadFailureCount = 0;
+        showPageBanner('');
+        applyFiltersAndRender();
+        updateStats();
+        loadAlertsBadge();
+    } catch (error) {
+        if (error && error.status === 401) return;
+        loadFailureCount++;
+        const friendly = error && error.message ? error.message : 'Unknown error';
+        if (machines.length > 0) {
+            showPageBanner(`Couldn't refresh (${friendly}). Showing last known data.`,
+                loadFailureCount >= 3 ? 'error' : 'warning', 8000);
+        } else {
+            grid.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <div class="w-16 h-16 mx-auto bg-red-50 rounded-full flex items-center justify-center mb-3">
+                        <span class="material-symbols-outlined text-red-500 text-3xl">error</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-1">Could Not Load Machines</h3>
+                    <p class="text-slate-500 text-sm mb-4">${escapeHtml(friendly)}</p>
+                    <button onclick="loadMachines(true)" class="gradient-cta text-white px-5 py-2 rounded-xl font-semibold text-sm">Retry</button>
+                </div>`;
+            showPageBanner('Backend error: ' + friendly, 'error');
+        }
+    } finally {
+        loadInFlight = false;
+    }
+}
+
+async function loadAlertsBadge() {
+    try {
+        const data = await API.getAlerts();
+        const alerts = data.items || data.alerts || [];
+        const active = alerts.filter(a => (a.status || '').toLowerCase() === 'active').length;
+        if (DOM.sidebarAlertsBadge) DOM.sidebarAlertsBadge.textContent = active;
+    } catch {}
+}
+
+function updateStats() {
+    $('totalMachines').textContent = machines.length;
+    $('onlineMachines').textContent = machines.filter(m => m.status === 'online').length;
+    $('warningMachines').textContent = machines.filter(m => m.status === 'warning').length;
+    $('criticalMachines').textContent = machines.filter(m => m.status === 'critical').length;
+}
+
+// ------------------------------------------------------------
+// FILTER + RENDER
+// ------------------------------------------------------------
+function applyFiltersAndRender() {
+    const searchTerm = ($('searchInput').value || '').toLowerCase().trim();
+    const status = $('statusFilter').value;
+    const type = $('typeFilter').value;
+    filteredMachines = machines.filter(m => {
+        const matchesSearch = !searchTerm
+            || (m.name || '').toLowerCase().includes(searchTerm)
+            || (m.location || '').toLowerCase().includes(searchTerm);
+        const matchesStatus = !status || m.status === status;
+        const matchesType = !type || m.machine_type === type || m.type === type;
+        return matchesSearch && matchesStatus && matchesType;
+    });
+    renderMachines();
+}
+
+function renderMachines() {
+    const grid = $('machinesGrid');
+    if (filteredMachines.length === 0) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-8 sm:py-12">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span class="material-symbols-outlined text-slate-400 text-2xl">precision_manufacturing</span>
+                </div>
+                <h3 class="text-base sm:text-xl font-semibold text-slate-800 mb-2">
+                    ${machines.length === 0 ? 'No Machines Connected' : 'No Machines Match Filters'}
+                </h3>
+                <p class="text-slate-500 text-sm mb-4">
+                    ${machines.length === 0
+                        ? 'Connect your first machine via MQTT, OPC UA, Modbus, REST, or a simulated profile.'
+                        : 'Try adjusting your filters.'}
+                </p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    ${machines.length === 0 ? `
+                        <button onclick="$('addMachineBtn').click()" class="gradient-cta text-white px-5 py-2 rounded-xl font-semibold text-sm">Connect Machine</button>
+                        <button onclick="openTestModal()" class="border border-slate-200 text-slate-700 px-5 py-2 rounded-xl font-semibold text-sm hover:bg-slate-50">Simulate Instead</button>
+                    ` : `
+                        <button onclick="clearFilters()" class="border border-slate-200 text-slate-700 px-5 py-2 rounded-xl font-semibold text-sm hover:bg-slate-50">Clear Filters</button>
+                    `}
+                </div>
+            </div>`;
+        return;
+    }
+
+    const statusClass = s => {
+        if (s === 'online') return 'status-online';
+        if (s === 'warning') return 'status-warning';
+        if (s === 'critical') return 'status-critical';
+        if (s === 'connecting') return 'status-connecting';
+        return 'status-offline';
+    };
+    const healthColor = h => h >= 70 ? 'text-green-600' : h >= 40 ? 'text-amber-500' : 'text-red-600';
+    const timeAgo = ts => {
+        if (!ts) return '—';
+        const d = new Date(ts); if (isNaN(d.getTime())) return '—';
+        const s = Math.floor((Date.now() - d.getTime()) / 1000);
+        if (s < 60) return 'just now';
+        if (s < 3600) return Math.floor(s / 60) + 'm ago';
+        if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+        return Math.floor(s / 86400) + 'd ago';
+    };
+    const typeIcon = t => ({
+        turbine: 'bolt', pump: 'water_drop', compressor: 'compress',
+        motor: 'settings_input_component', generator: 'electrical_services',
+        ct: 'monitor_heart', mri: 'radiology', xray: 'medical_information',
+        ultrasound: 'pregnant_woman', ventilator: 'pulmonology', ecg: 'cardiology',
+        laptop: 'laptop', server: 'dns', network: 'router'
+    })[t] || 'precision_manufacturing';
+
+    // Real values only — no fake fallbacks
+    const fmt = (v, digits, suffix) => {
+        if (v === null || v === undefined) return '—';
+        const n = Number(v);
+        if (isNaN(n)) return '—';
+        return n.toFixed(digits) + suffix;
+    };
+
+    grid.innerHTML = filteredMachines.map(m => {
+        const status = (m.status || 'offline').toLowerCase();
+        const md = m.machine_data || {};
+        const conn = (md.connection || m.connection_method || 'manual').toLowerCase();
+        const isSim = conn === 'simulated' || md.simulated === true;
+        const isManual = conn === 'manual';
+
+        const healthNum = (m.health === null || m.health === undefined) ? null : Number(m.health);
+        const temp = (m.temperature === null || m.temperature === undefined) ? null : Number(m.temperature);
+        const vib = (m.vibration === null || m.vibration === undefined) ? null : Number(m.vibration);
+        const pres = (m.pressure === null || m.pressure === undefined) ? null : Number(m.pressure);
+
+        // Manual machines with no readings yet → show "—" cleanly
+        const isLive = livePredictions[m.id] && livePredictions[m.id].intervalMin > 0;
+
+        const connLabel = {
+            mqtt: 'MQTT', opcua: 'OPC UA', modbus: 'Modbus',
+            api: 'REST', websocket: 'WS', simulated: 'SIM', manual: 'Manual'
+        }[conn] || conn.toUpperCase();
+
+        return `
+        <div class="machine-card group" data-id="${escapeHtml(m.id)}">
+            <div class="p-4 sm:p-5">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 gradient-primary rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-white text-base sm:text-xl">${typeIcon(m.machine_type || m.type)}</span>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-1 flex-wrap">
+                                <h3 class="font-bold text-slate-800 text-sm sm:text-base truncate">${escapeHtml(m.name)}</h3>
+                                ${isSim ? '<span class="text-[8px] px-1.5 py-0.5 bg-teal-50 text-teal-700 rounded font-bold">SIM</span>' : ''}
+                                ${isLive ? '<span class="live-pill"><span class="dot"></span>LIVE</span>' : ''}
+                            </div>
+                            <p class="text-[10px] sm:text-xs text-slate-400 truncate">
+                                ${escapeHtml(m.location || 'Location not set')} · <span class="font-semibold">${escapeHtml(connLabel)}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <span class="px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold ${statusClass(status)} flex-shrink-0">${status.toUpperCase()}</span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-3 sm:mb-4">
+                    <div class="text-center">
+                        <p class="text-[10px] sm:text-xs text-slate-400">Temp</p>
+                        <p class="text-sm sm:text-lg font-bold text-slate-800">${fmt(temp, 1, '°C')}</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-[10px] sm:text-xs text-slate-400">Vibration</p>
+                        <p class="text-sm sm:text-lg font-bold text-slate-800">${fmt(vib, 2, '')}</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-[10px] sm:text-xs text-slate-400">Pressure</p>
+                        <p class="text-sm sm:text-lg font-bold text-slate-800">${fmt(pres, 1, '')}</p>
+                    </div>
+                </div>
+
+                <div class="mb-3 sm:mb-4">
+                    <div class="flex justify-between text-[10px] sm:text-xs mb-1">
+                        <span class="text-slate-500">Health Score</span>
+                        <span class="font-semibold ${healthNum === null ? 'text-slate-400' : healthColor(healthNum)}">
+                            ${healthNum === null ? '—' : healthNum + '%'}
+                        </span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: ${healthNum === null ? 0 : Math.max(0, Math.min(100, healthNum))}%"></div></div>
+                </div>
+
+                <div class="flex items-center justify-between pt-2 sm:pt-3 border-t border-slate-100 flex-wrap gap-2">
+                    <div class="flex items-center gap-1 text-[10px] sm:text-xs text-slate-400">
+                        <span class="material-symbols-outlined text-xs">schedule</span>
+                        <span>${timeAgo(m.last_activity_at)}</span>
+                    </div>
+                    <div class="flex gap-1 items-center flex-wrap">
+                        <button onclick="event.stopPropagation(); openMachineDetail('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 transition" title="Details">
+                            <span class="material-symbols-outlined text-sm">info</span>
+                        </button>
+                        <button onclick="event.stopPropagation(); openDeviceKeyModal('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-teal-600 transition" title="Device keys">
+                            <span class="material-symbols-outlined text-sm">vpn_key</span>
+                        </button>
+                        ${isManual ? `
+                        <button onclick="event.stopPropagation(); openManualReadingModal('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-teal-600 transition" title="Enter manual reading">
+                            <span class="material-symbols-outlined text-sm">edit_note</span>
+                        </button>
+                        ` : `
+                        <button onclick="event.stopPropagation(); simulateMachineNow('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-teal-600 transition" title="Simulate reading">
+                            <span class="material-symbols-outlined text-sm">bolt</span>
+                        </button>
+                        `}
+                        <button onclick="event.stopPropagation(); toggleMachineStatus('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 transition" title="Toggle status">
+                            <span class="material-symbols-outlined text-sm">power_settings_new</span>
+                        </button>
+                        <button onclick="event.stopPropagation(); openLiveModal('${escapeHtml(m.id)}')" class="px-2 py-1 rounded-lg text-[10px] font-semibold ${isLive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'} transition flex items-center gap-1" title="Live prediction">
+                            <span class="material-symbols-outlined text-xs">sensors</span> Live
+                        </button>
+                        <button onclick="event.stopPropagation(); runPrediction('${escapeHtml(m.id)}')" class="px-2 py-1 rounded-lg text-[10px] font-semibold bg-teal-50 text-teal-700 hover:bg-teal-100 transition flex items-center gap-1" title="Predict once">
+                            <span class="material-symbols-outlined text-xs">neurology</span> Predict
+                        </button>
+                        <button onclick="event.stopPropagation(); deleteMachine('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-red-500 transition" title="Remove">
+                            <span class="material-symbols-outlined text-sm">delete</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function clearFilters() {
+    $('searchInput').value = '';
+    $('statusFilter').value = '';
+    $('typeFilter').value = '';
+    applyFiltersAndRender();
+}
+
+// ------------------------------------------------------------
+// MACHINE DETAIL
+// ------------------------------------------------------------
+function showDetailTab(name) {
+    document.querySelectorAll('.dt-tab').forEach(t => t.classList.toggle('active', t.dataset.dt === name));
+    document.querySelectorAll('.dt-panel').forEach(p => p.classList.remove('active'));
+    const panel = $('dtPanel-' + name);
+    if (panel) panel.classList.add('active');
+    if (name === 'device-keys' && currentDetailMachineId) loadDeviceKeysIntoPanel(currentDetailMachineId);
+    if (name === 'sensor-data' && currentDetailMachineId) loadSensorIntoPanel(currentDetailMachineId);
+    if (name === 'connection' && currentDetailMachineId) loadConnectionIntoPanel(currentDetailMachineId);
+}
+
+async function openMachineDetail(id) {
+    const m = machines.find(x => x.id === id);
+    if (!m) { showToast('Machine not found', 'error'); return; }
+    currentDetailMachineId = id;
+    $('detailMachineName').textContent = m.name;
+    $('machineDetailModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    showDetailTab('info');
+    renderInfoPanel(m);
+    try {
+        const data = await API.getMachine(id);
+        const fresh = data.machine || data;
+        const idx = machines.findIndex(x => x.id === id);
+        if (idx !== -1) machines[idx] = fresh;
+        $('detailMachineName').textContent = fresh.name;
+        renderInfoPanel(fresh);
+    } catch (e) {
+        showToast('Could not refresh: ' + (e.message || 'unknown error'), 'warning', 5000);
+    }
+}
+
+function closeDetailModal() {
+    $('machineDetailModal').classList.remove('active');
+    document.body.style.overflow = '';
+    currentDetailMachineId = null;
+}
+
+function renderInfoPanel(m) {
+    const md = m.machine_data || {};
+    const isSim = (md.connection === 'simulated') || md.simulated === true;
+    const conn = (md.connection || m.connection_method || 'manual').toUpperCase();
+    const isManual = (md.connection || m.connection_method || 'manual').toLowerCase() === 'manual';
+    const isLive = livePredictions[m.id] && livePredictions[m.id].intervalMin > 0;
+    const target = $('dtPanel-info');
+    const healthNum = (m.health === null || m.health === undefined) ? null : Number(m.health);
+    const fmtN = (v, d) => (v === null || v === undefined || isNaN(Number(v))) ? '—' : Number(v).toFixed(d);
+
+    target.innerHTML = `
+        <div class="space-y-4">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${m.status === 'online' ? 'status-online' : m.status === 'warning' ? 'status-warning' : m.status === 'critical' ? 'status-critical' : 'status-offline'}">
+                        ${(m.status || 'unknown').toUpperCase()}
+                    </span>
+                    ${isLive ? '<span class="live-pill"><span class="dot"></span>LIVE</span>' : ''}
+                </div>
+                <div class="flex items-center gap-2">
+                    ${isSim ? '<span class="text-xs px-2 py-0.5 bg-teal-50 text-teal-700 rounded font-bold">SIMULATED</span>' : ''}
+                    <span class="text-xs px-2 py-0.5 bg-slate-100 text-slate-600 rounded font-bold">${escapeHtml(conn)}</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div><p class="text-xs text-slate-400">Type</p><p class="font-semibold text-slate-800 capitalize">${escapeHtml(m.machine_type || m.type || 'N/A')}</p></div>
+                <div><p class="text-xs text-slate-400">Location</p><p class="font-semibold text-slate-800">${escapeHtml(m.location || 'N/A')}</p></div>
+                <div><p class="text-xs text-slate-400">Health</p><p class="font-semibold ${healthNum === null ? 'text-slate-400' : (healthNum >= 70 ? 'text-green-600' : healthNum >= 40 ? 'text-amber-500' : 'text-red-600')}">${healthNum === null ? '—' : healthNum + '%'}</p></div>
+                <div><p class="text-xs text-slate-400">Last activity</p><p class="font-semibold text-slate-800">${m.last_activity_at ? new Date(m.last_activity_at).toLocaleString() : '—'}</p></div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+                <div class="bg-slate-50 rounded-xl p-3 text-center">
+                    <p class="text-[10px] text-slate-400">Temperature</p>
+                    <p class="text-lg font-bold text-slate-800">${fmtN(m.temperature, 1)}${m.temperature != null ? '°C' : ''}</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-3 text-center">
+                    <p class="text-[10px] text-slate-400">Vibration</p>
+                    <p class="text-lg font-bold text-slate-800">${fmtN(m.vibration, 2)}</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-3 text-center">
+                    <p class="text-[10px] text-slate-400">Pressure</p>
+                    <p class="text-lg font-bold text-slate-800">${fmtN(m.pressure, 1)}</p>
+                </div>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="runPrediction('${escapeHtml(m.id)}')" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm">Run Prediction</button>
+                <button onclick="openLiveModal('${escapeHtml(m.id)}')" class="flex-1 border border-teal-500 text-teal-600 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-teal-50">${isLive ? 'Manage Live' : 'Start Live'}</button>
+            </div>
+            ${isManual ? `
+            <button onclick="openManualReadingModal('${escapeHtml(m.id)}')" class="w-full border border-teal-500 text-teal-600 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-teal-50">Enter Manual Reading</button>
+            ` : `
+            <button onclick="simulateMachineNow('${escapeHtml(m.id)}')" class="w-full border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-slate-50">Simulate Reading</button>
+            `}
+        </div>
+    `;
+}
+
+async function loadDeviceKeysIntoPanel(machineId) {
+    const panel = $('dtPanel-device-keys');
+    panel.innerHTML = `<div class="text-center py-6"><div class="inline-block animate-spin rounded-full h-6 w-6 border-4 border-teal-500 border-t-transparent"></div></div>`;
+    try {
+        const data = await API.listDeviceKeys(machineId);
+        const keys = data.keys || data.items || [];
+        panel.innerHTML = `
+            <div class="space-y-4">
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
+                    <p class="text-xs font-semibold text-amber-800">Device keys let hardware (MQTT/REST) authenticate without user login. The key is shown once and never again.</p>
+                </div>
+                <button onclick="createDeviceKeyInline('${escapeHtml(machineId)}')" class="w-full gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-base">add_key</span> Generate New Device Key
+                </button>
+                <div class="space-y-2">
+                    ${keys.length === 0 ? '<p class="text-xs text-slate-400 text-center py-4">No device keys yet.</p>' : keys.map(k => `
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                            <div class="min-w-0">
+                                <p class="text-sm font-semibold text-slate-800 truncate">${escapeHtml(k.name)}</p>
+                                <p class="text-[10px] text-slate-400 font-mono">${escapeHtml(k.key_prefix)}… • Used ${Number(k.usage_count || 0)}×</p>
+                            </div>
+                            <button onclick="revokeDeviceKeyInline('${escapeHtml(machineId)}', '${escapeHtml(k.id)}')" class="p-1.5 rounded-lg text-slate-400 hover:text-red-500 transition" title="Revoke">
+                                <span class="material-symbols-outlined text-base">delete</span>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+    } catch (error) {
+        panel.innerHTML = `<div class="text-center py-6">
+            <p class="text-red-500 text-sm">Failed to load keys: ${escapeHtml(error.message || 'unknown error')}</p>
+            <button onclick="loadDeviceKeysIntoPanel('${escapeHtml(machineId)}')" class="mt-2 text-xs text-teal-600 underline">Retry</button>
+        </div>`;
+    }
+}
+
+async function createDeviceKeyInline(machineId) {
+    try {
+        const data = await API.createDeviceKey(machineId, { name: 'Device key ' + new Date().toLocaleString() });
+        showDeviceKeyModal(data);
+        loadDeviceKeysIntoPanel(machineId);
+    } catch (e) {
+        showToast('Failed to create key: ' + (e.message || 'unknown error'), 'error');
+    }
+}
+
+async function revokeDeviceKeyInline(machineId, keyId) {
+    if (!confirm('Revoke this device key? The device will stop sending data immediately.')) return;
+    try {
+        await API.revokeDeviceKey(machineId, keyId);
+        showToast('Device key revoked', 'success');
+        loadDeviceKeysIntoPanel(machineId);
+    } catch (e) {
+        showToast('Failed to revoke: ' + (e.message || 'unknown error'), 'error');
+    }
+}
+
+async function loadSensorIntoPanel(machineId) {
+    const panel = $('dtPanel-sensor-data');
+    panel.innerHTML = `<div class="text-center py-6"><div class="inline-block animate-spin rounded-full h-6 w-6 border-4 border-teal-500 border-t-transparent"></div></div>`;
+    try {
+        const data = await API.getSensorData(machineId, 50);
+        const rows = data.sensor_data || data.items || [];
+        if (rows.length === 0) {
+            panel.innerHTML = `
+                <div class="text-center py-6">
+                    <span class="material-symbols-outlined text-3xl text-slate-300">sensors_off</span>
+                    <p class="text-slate-500 text-sm mt-2">No sensor readings yet.</p>
+                    <p class="text-xs text-slate-400 mt-1">Use the device key to POST readings, or enter a manual reading.</p>
+                </div>`;
+            return;
+        }
+        panel.innerHTML = `
+            <div class="text-xs text-slate-500 mb-3">Latest ${rows.length} readings</div>
+            <div class="overflow-x-auto -mx-2">
+                <table class="w-full text-xs">
+                    <thead class="text-slate-500 text-left border-b border-slate-200">
+                        <tr><th class="p-2">Time</th><th class="p-2">Temp</th><th class="p-2">Vib</th><th class="p-2">Pres</th><th class="p-2">Source</th></tr>
+                    </thead>
+                    <tbody>
+                        ${rows.slice(0, 30).map(r => `
+                            <tr class="border-b border-slate-100">
+                                <td class="p-2 text-slate-500">${r.timestamp ? new Date(r.timestamp).toLocaleTimeString() : '—'}</td>
+                                <td class="p-2 font-mono">${r.temperature != null ? Number(r.temperature).toFixed(1) : '—'}</td>
+                                <td class="p-2 font-mono">${r.vibration != null ? Number(r.vibration).toFixed(2) : '—'}</td>
+                                <td class="p-2 font-mono">${r.pressure != null ? Number(r.pressure).toFixed(1) : '—'}</td>
+                                <td class="p-2 text-slate-400">${escapeHtml(r.source || '—')}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>`;
+    } catch (error) {
+        panel.innerHTML = `<div class="text-center py-6">
+            <p class="text-red-500 text-sm">Failed: ${escapeHtml(error.message || 'unknown error')}</p>
+            <button onclick="loadSensorIntoPanel('${escapeHtml(machineId)}')" class="mt-2 text-xs text-teal-600 underline">Retry</button>
+        </div>`;
+    }
+}
+
+function loadConnectionIntoPanel(machineId) {
+    const m = machines.find(x => x.id === machineId);
+    if (!m) return;
+    const md = m.machine_data || {};
+    const panel = $('dtPanel-connection');
+    panel.innerHTML = `
+        <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+                <div><p class="text-xs text-slate-400">Method</p><p class="font-semibold text-slate-800 uppercase">${escapeHtml(md.connection || 'manual')}</p></div>
+                <div><p class="text-xs text-slate-400">Simulated</p><p class="font-semibold ${md.simulated ? 'text-amber-600' : 'text-green-600'}">${md.simulated ? 'Yes' : 'No'}</p></div>
+            </div>
+            ${md.endpoint ? `<div><p class="text-xs text-slate-400">Endpoint</p><p class="font-mono text-xs text-slate-700 break-all">${escapeHtml(md.endpoint)}</p></div>` : ''}
+            ${md.verified_at ? `<div><p class="text-xs text-slate-400">Last verified</p><p class="text-sm text-slate-700">${new Date(md.verified_at).toLocaleString()}</p></div>` : ''}
+            ${md.last_verification ? `
+                <div class="bg-slate-50 rounded-xl p-3">
+                    <p class="text-xs font-semibold text-slate-600 mb-2">Last Verification Result</p>
+                    <div class="text-xs text-slate-600 space-y-1">
+                        <p><strong>Status:</strong> ${md.last_verification.ok ? '✅ Reachable' : '❌ Failed'}</p>
+                        <p><strong>Message:</strong> ${escapeHtml(md.last_verification.message || '')}</p>
+                        ${md.last_verification.latency_ms ? `<p><strong>Latency:</strong> ${md.last_verification.latency_ms}ms</p>` : ''}
+                    </div>
+                </div>
+            ` : ''}
+            <div class="border-t border-slate-200 pt-4">
+                <p class="text-xs font-semibold text-slate-600 mb-2">Re-verify Connection</p>
+                <button onclick="reverifyConnection('${escapeHtml(machineId)}')" class="w-full border border-teal-500 text-teal-600 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-teal-50 transition flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-base">verified</span> Verify Now
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+async function reverifyConnection(machineId) {
+    const m = machines.find(x => x.id === machineId);
+    if (!m) return;
+    const md = m.machine_data || {};
+    try {
+        const res = await API.connectMachine(machineId, {
+            connection: md.connection || 'manual',
+            endpoint: md.endpoint || ''
+        });
+        if (res.verification && !res.verification.ok) {
+            showToast('❌ ' + (res.verification.message || 'verification failed'), 'error', 8000);
+        } else if (res.verification) {
+            showToast('✅ ' + (res.verification.message || 'verified'), 'success', 5000);
+        }
+        const idx = machines.findIndex(x => x.id === machineId);
+        if (idx !== -1 && res.machine) machines[idx] = res.machine;
+        loadConnectionIntoPanel(machineId);
+    } catch (e) {
+        showToast('Connection failed: ' + (e.message || 'unknown error'), 'error', 8000);
+    }
+}
+
+// ------------------------------------------------------------
+// DEVICE KEY MODAL (never logs the key)
+// ------------------------------------------------------------
+function showDeviceKeyModal(data) {
+    const key = data.key || '';
+    const usage = data.usage || {};
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.innerHTML = `
+        <div class="modal-content max-w-lg w-full">
+            <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+                <h3 class="text-lg sm:text-xl font-bold text-white">Device Key Created</h3>
+                <button class="text-white/80 hover:text-white text-2xl leading-none" data-close-key-modal aria-label="Close">&times;</button>
+            </div>
+            <div class="p-5">
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4">
+                    <p class="text-xs font-semibold text-amber-800">⚠️ Copy this key now — it will not be shown again.</p>
+                </div>
+                <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">API Key</label>
+                <div class="flex items-center gap-2 mb-4">
+                    <input type="text" readonly value="${escapeHtml(key)}" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono" onclick="this.select()">
+                    <button data-copy-key class="px-3 py-2 rounded-xl gradient-cta text-white text-xs font-semibold">Copy</button>
+                </div>
+                ${usage.curl ? `
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">REST API — Test with curl</label>
+                    <pre class="code-block mb-3">${escapeHtml(usage.curl)}</pre>
+                ` : ''}
+                ${usage.mqtt_topic ? `
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">MQTT Topic</label>
+                    <div class="flex items-center gap-2 mb-3">
+                        <input type="text" readonly value="${escapeHtml(usage.mqtt_topic)}" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono" onclick="this.select()">
+                        <button data-copy-topic class="px-3 py-2 rounded-xl gradient-cta text-white text-xs font-semibold">Copy</button>
+                    </div>
+                ` : ''}
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+
+    modal.querySelector('[data-copy-key]')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(key).then(
+            () => showToast('Copied!', 'success'),
+            () => showToast('Copy failed', 'error')
+        );
+    });
+    if (usage.mqtt_topic) {
+        modal.querySelector('[data-copy-topic]')?.addEventListener('click', () => {
+            navigator.clipboard.writeText(usage.mqtt_topic).then(
+                () => showToast('Copied!', 'success'),
+                () => showToast('Copy failed', 'error')
+            );
+        });
+    }
+    const close = () => {
+        modal.remove();
+        if (!document.querySelector('.modal.active')) document.body.style.overflow = '';
+    };
+    modal.querySelector('[data-close-key-modal]')?.addEventListener('click', close);
+    modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+}
+
+async function openDeviceKeyModal(machineId) {
+    if (!Auth.isAuthenticated) return Auth.logout();
+    const m = machines.find(x => x.id === machineId);
+    if (!m) { showToast('Machine not found', 'error'); return; }
+    if (!confirm(`Generate a new device key for "${m.name}"?`)) return;
+    try {
+        const data = await API.createDeviceKey(machineId, { name: m.name + ' — ' + new Date().toLocaleDateString() });
+        showDeviceKeyModal(data);
+    } catch (e) {
+        showToast('Failed: ' + (e.message || 'unknown error'), 'error');
+    }
+}
+
+// ------------------------------------------------------------
+// TOGGLE STATUS
+// ------------------------------------------------------------
+async function toggleMachineStatus(id) {
+    const m = machines.find(x => x.id === id);
+    if (!m) { showToast('Machine not found', 'error'); return; }
+    const md = m.machine_data || {};
+    const newStatus = m.status === 'online' ? 'offline' : 'online';
+    try {
+        let updated;
+        if (newStatus === 'online') {
+            const res = await API.connectMachine(id, {
+                connection: md.connection || 'manual',
+                endpoint: md.endpoint || ''
+            });
+            updated = res.machine || res;
+            const v = res.verification;
+            if (v && v.ok === false) showToast('⚠️ ' + (v.message || 'verification failed'), 'warning', 7000);
+            else if (v) showToast('✅ ' + (v.message || 'verified'), 'success', 4000);
+        } else {
+            const res = await API.updateStatus(id, 'offline');
+            updated = res.machine || res;
+            showToast(`${m.name} is now offline`, 'info');
+        }
+        const idx = machines.findIndex(x => x.id === id);
+        if (idx !== -1 && updated) machines[idx] = { ...machines[idx], ...updated };
+        applyFiltersAndRender();
+        updateStats();
+    } catch (e) {
+        showToast('Failed: ' + (e.message || 'unknown error'), 'error', 7000);
+    }
+}
+
+// ------------------------------------------------------------
+// SIMULATE READING (only for non-manual)
+// ------------------------------------------------------------
+async function simulateMachineNow(id) {
+    const m = machines.find(x => x.id === id);
+    if (!m) { showToast('Machine not found', 'error'); return; }
+    const md = m.machine_data || {};
+    const isManual = (md.connection || m.connection_method || 'manual').toLowerCase() === 'manual';
+    if (isManual) {
+        openManualReadingModal(id);
+        return;
+    }
+    try {
+        const res = await API.simulateMachine(id);
+        // Idempotent update — dedupe by id
+        if (res.machine && res.machine.id) {
+            const idx = machines.findIndex(x => x.id === res.machine.id);
+            if (idx !== -1) machines[idx] = { ...machines[idx], ...res.machine };
+            else machines.unshift(res.machine);
+            applyFiltersAndRender();
+            updateStats();
+        }
+        const s = res.sensor_data;
+        if (s) {
+            showToast(
+                `📊 New reading — Temp ${s.temperature != null ? Number(s.temperature).toFixed(1) : '—'}°C, ` +
+                `Vib ${s.vibration != null ? Number(s.vibration).toFixed(1) : '—'}mm/s`,
+                'success', 4000
+            );
+        } else {
+            showToast('✅ Simulated reading recorded', 'success');
+        }
+    } catch (e) {
+        showToast('Simulation failed: ' + (e.message || 'unknown error'), 'error', 7000);
+    }
+}
+
+// ------------------------------------------------------------
+// MANUAL READING (NEW)
+// ------------------------------------------------------------
+function openManualReadingModal(machineId) {
+    const m = machines.find(x => x.id === machineId);
+    if (!m) { showToast('Machine not found', 'error'); return; }
+    manualReadingMachineId = machineId;
+    $('manualMachineLabel').textContent = `Machine: ${m.name}`;
+    $('manualTemperature').value = '';
+    $('manualVibration').value = '';
+    $('manualPressure').value = '';
+    $('manualReadingError').classList.add('hidden');
+    $('manualReadingError').textContent = '';
+    $('manualReadingModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeManualReadingModal() {
+    $('manualReadingModal').classList.remove('active');
+    document.body.style.overflow = '';
+    manualReadingMachineId = null;
+}
+
+async function submitManualReading(e) {
+    e.preventDefault();
+    if (!manualReadingMachineId) return;
+    const temp = $('manualTemperature').value.trim();
+    const vib = $('manualVibration').value.trim();
+    const pres = $('manualPressure').value.trim();
+    const errEl = $('manualReadingError');
+
+    // Require at least one reading
+    if (temp === '' && vib === '' && pres === '') {
+        errEl.textContent = 'Please enter at least one reading.';
+        errEl.classList.remove('hidden');
+        return;
+    }
+
+    const payload = {};
+    if (temp !== '') {
+        const n = Number(temp);
+        if (isNaN(n)) { errEl.textContent = 'Temperature must be a number.'; errEl.classList.remove('hidden'); return; }
+        payload.temperature = n;
+    }
+    if (vib !== '') {
+        const n = Number(vib);
+        if (isNaN(n)) { errEl.textContent = 'Vibration must be a number.'; errEl.classList.remove('hidden'); return; }
+        payload.vibration = n;
+    }
+    if (pres !== '') {
+        const n = Number(pres);
+        if (isNaN(n)) { errEl.textContent = 'Pressure must be a number.'; errEl.classList.remove('hidden'); return; }
+        payload.pressure = n;
+    }
+
+    errEl.classList.add('hidden');
+
+    try {
+        await API.submitManualReading(manualReadingMachineId, {
+            ...payload,
+            source: 'manual',
+            timestamp: new Date().toISOString()
+        });
+        showToast('✅ Manual reading submitted', 'success');
+        closeManualReadingModal();
+        // Refresh machine data
+        await loadMachines(false);
+    } catch (error) {
+        errEl.textContent = error.message || 'Failed to submit reading.';
+        errEl.classList.remove('hidden');
+        showToast('Failed to submit reading', 'error');
+    }
+}
+
+// ------------------------------------------------------------
+// DELETE
+// ------------------------------------------------------------
+async function deleteMachine(id) {
+    const m = machines.find(x => x.id === id);
+    if (!m) { showToast('Machine not found', 'error'); return; }
+    if (!confirm(`Remove "${m.name}"? This cannot be undone.`)) return;
+    try {
+        await API.deleteMachine(id);
+        machines = machines.filter(x => x.id !== id);
+        stopLiveFor(id);
+        applyFiltersAndRender();
+        updateStats();
+        showToast(`Removed ${m.name}`, 'info');
+    } catch (e) {
+        showToast('Failed to remove: ' + (e.message || 'unknown error'), 'error', 7000);
+    }
+}
+
+// ------------------------------------------------------------
+// PREDICTION (single run)
+// ------------------------------------------------------------
+async function runPrediction(machineId, options = {}) {
+    if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+    const m = machines.find(x => x.id === machineId);
+    if (!m) { showToast('Machine not found', 'error'); return; }
+
+    const silent = options.silent === true;
+    if (!silent) showToast(`🧠 Running prediction for ${m.name}...`, 'info', 2500);
+
+    try {
+        const data = await API.predict(machineId, { model: 'auto', horizon: 30 });
+        const prediction = data.prediction || data;
+        const intelligence = data.intelligence || {};
+
+        const rul = prediction.rul_hours ?? prediction.rul ?? intelligence.rul_hours ?? null;
+        const confidence = prediction.confidence ?? intelligence.confidence ?? null;
+        const recommendations = prediction.recommendations || intelligence.recommendations || [];
+        const riskLevel = prediction.risk_level ?? intelligence.risk_level ?? null;
+        const modelType = prediction.model_type ?? intelligence.model_type ?? null;
+        const family = intelligence.dataset_family ?? null;
+        const processingMs = prediction.processing_time_ms ?? null;
+
+        if (!silent) {
+            $('predictionMachineName').textContent = m.name;
+            $('predictionRul').textContent = rul != null ? Number(rul).toFixed(1) + 'h' : '—';
+            $('predictionConfidence').textContent = confidence != null ? Number(confidence).toFixed(1) + '%' : '—';
+            $('predictionBar').style.width = confidence != null ? Math.min(Number(confidence), 100) + '%' : '0%';
+            $('predictionRisk').textContent = riskLevel || '—';
+            $('predictionModel').textContent = modelType || '—';
+            $('predictionFamily').textContent = family || '—';
+            $('predictionProcessing').textContent = processingMs != null ? Number(processingMs).toFixed(0) + ' ms' : '—';
+
+            let rec = null;
+            if (recommendations.length > 0) {
+                rec = typeof recommendations[0] === 'string' ? recommendations[0] : (recommendations[0].text || null);
+            }
+            if (!rec && rul != null) {
+                if (rul < 24) rec = 'URGENT: Schedule immediate maintenance. RUL below 24 hours.';
+                else if (rul < 72) rec = 'Plan maintenance within 2-3 days. RUL below 72 hours.';
+                else if (rul < 168) rec = 'Schedule routine inspection within the week.';
+                else rec = 'Continue normal operation.';
+            }
+            $('predictionRecommendation').textContent = rec || '—';
+
+            if (intelligence.fallback) {
+                $('predictionFallbackNote').classList.remove('hidden');
+                $('predictionFallbackReason').textContent = intelligence.fallback_reason ? `Reason: ${intelligence.fallback_reason}` : '';
+            } else {
+                $('predictionFallbackNote').classList.add('hidden');
+            }
+
+            $('predictionModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Toast on success
+        if (silent) {
+            if (rul != null) {
+                showToast(`🔄 ${m.name}: RUL ${Number(rul).toFixed(1)}h (${confidence != null ? Number(confidence).toFixed(1) + '%' : '—'})`, 'info', 3000);
+            }
+        } else {
+            if (data.alert_created) {
+                setTimeout(() => showToast(`⚠️ Alert: ${data.alert_created.title}`, 'warning', 6000), 1000);
+            }
+            showToast('✅ Prediction complete', 'success');
+        }
+
+        // Update card
+        if (prediction && prediction.machine_id) {
+            const idx = machines.findIndex(x => x.id === prediction.machine_id);
+            if (idx !== -1) machines[idx].last_activity_at = new Date().toISOString();
+            applyFiltersAndRender();
+        }
+
+        // Also update the live record
+        if (livePredictions[machineId]) {
+            livePredictions[machineId].lastRun = Date.now();
+            updateLiveStatusBox(machineId);
+        }
+
+        return data;
+    } catch (e) {
+        const msg = e.message || 'unknown error';
+        if (e.status === 422) {
+            try {
+                const d = await API.predictDebug(machineId);
+                const diag = d.diagnosis || {};
+                const top = (diag.family_ranking || [])[0];
+                const attempt = (diag.per_model_attempts || [])[0];
+                const detail = top
+                    ? `Closest family: ${top.family} (${Number(top.score).toFixed(2)})${attempt?.reason ? ' — ' + attempt.reason : ''}`
+                    : msg;
+                if (!silent) showToast('Prediction unavailable: ' + detail, 'warning', 10000);
+            } catch (_) {
+                if (!silent) showToast('Prediction unavailable: ' + msg, 'warning', 8000);
+            }
+        } else if (e.status === 429) {
+            if (!silent) showToast('Quota reached: ' + msg, 'warning', 8000);
+            // Stop live predictions on quota
+            if (livePredictions[machineId]) {
+                stopLiveFor(machineId);
+                showToast(`Live prediction stopped for ${m.name} — ${msg}`, 'warning', 7000);
+            }
+        } else {
+            if (!silent) showToast('Prediction failed: ' + msg, 'error', 8000);
+        }
+        throw e;
+    }
+}
+
+// ------------------------------------------------------------
+// LIVE PREDICTION
+// ------------------------------------------------------------
+function startLiveFor(machineId, intervalMin, silent = false) {
+    if (!machineId || !Number.isFinite(Number(intervalMin)) || Number(intervalMin) <= 0) return;
+    const previous = livePredictions[machineId];
+    if (previous?.timer) clearInterval(previous.timer);
+    if (previous?.firstTimer) clearTimeout(previous.firstTimer);
+    if (previous?.statusTimer) clearInterval(previous.statusTimer);
+
+    const ms = Number(intervalMin) * 60 * 1000;
+    const now = Date.now();
+    livePredictions[machineId] = {
+        intervalMin: Number(intervalMin),
+        startedAt: now,
+        nextRunAt: now + ms,
+        lastRun: previous?.lastRun || null,
+        timer: null,
+        firstTimer: null,
+        statusTimer: null,
+        consecutiveFailures: 0,
+        running: false,
+    };
+    const live = livePredictions[machineId];
+
+    // Wait for the selected interval before the first model inference. Later
+    // predictions use the same interval. The backend still performs inference.
+    const executeScheduledPrediction = async () => {
+        const current = livePredictions[machineId];
+        if (!current || current.running) return;
+        if (!Auth.isAuthenticated) { stopLiveFor(machineId); return; }
+        current.running = true;
+        updateLiveStatusBox(machineId);
+        try {
+            await runPrediction(machineId, { silent: true });
+            current.consecutiveFailures = 0;
+            current.lastRun = Date.now();
+        } catch (e) {
+            current.consecutiveFailures = (current.consecutiveFailures || 0) + 1;
+            if (current.consecutiveFailures >= 3) {
+                stopLiveFor(machineId);
+                showToast('Live prediction stopped after 3 consecutive failures. Check the machine connection, sensor history, model compatibility, or quota.', 'warning', 8000);
+                return;
+            }
+            if (e?.status === 429) {
+                stopLiveFor(machineId);
+                showToast('Live prediction stopped because the prediction quota was reached.', 'warning', 7000);
+                return;
+            }
+        } finally {
+            const latest = livePredictions[machineId];
+            if (latest) {
+                latest.running = false;
+                latest.nextRunAt = Date.now() + ms;
+                updateLiveStatusBox(machineId);
+                saveLiveToStorage();
+            }
+        }
+    };
+
+    live.firstTimer = setTimeout(() => {
+        executeScheduledPrediction();
+        live.timer = setInterval(executeScheduledPrediction, ms);
+    }, ms);
+    // A lightweight UI-only countdown; it does not call the prediction API.
+    live.statusTimer = setInterval(() => updateLiveStatusBox(machineId), 1000);
+    saveLiveToStorage();
+    applyFiltersAndRender();
+    updateLiveStatusBox(machineId);
+    if (!silent) showToast(`Prediction scheduled for ${machines.find(m => m.id === machineId)?.name || 'machine'}. The first trained-model prediction will run in ${intervalMin} minute(s). Keep this page open for scheduled runs.`, 'success', 7000);
+}
+
+function stopLiveFor(machineId) {
+    const live = livePredictions[machineId];
+    if (live?.timer) clearInterval(live.timer);
+    if (live?.firstTimer) clearTimeout(live.firstTimer);
+    if (live?.statusTimer) clearInterval(live.statusTimer);
+    delete livePredictions[machineId];
+    saveLiveToStorage();
+    applyFiltersAndRender();
+}
+
+function stopAllLivePredictions() {
+    Object.keys(livePredictions).forEach(id => {
+        const live = livePredictions[id];
+        if (live.timer) clearInterval(live.timer);
+        if (live.firstTimer) clearTimeout(live.firstTimer);
+        if (live.statusTimer) clearInterval(live.statusTimer);
+    });
+    Object.keys(livePredictions).forEach(id => delete livePredictions[id]);
+    try { localStorage.removeItem(LIVE_KEY); } catch {}
+}
+
+// ------------------------------------------------------------
+// LIVE MODAL
+// ------------------------------------------------------------
+function openLiveModal(machineId) {
+    const m = machines.find(x => x.id === machineId);
+    if (!m) { showToast('Machine not found', 'error'); return; }
+    $('liveMachineLabel').textContent = `Machine: ${m.name}`;
+    const current = livePredictions[machineId]?.intervalMin || 0;
+    document.querySelectorAll('#liveIntervalGrid .live-interval-btn').forEach(btn => {
+        const iv = parseInt(btn.dataset.interval, 10);
+        btn.classList.toggle('border-teal-500', iv === current && iv > 0);
+        btn.classList.toggle('bg-teal-50', iv === current && iv > 0);
+    });
+    $('liveStartBtn').textContent = current > 0 ? 'Update Interval' : 'Start Live Prediction';
+    $('liveStartBtn').dataset.machineId = machineId;
+    $('liveStatusBox').classList.add('hidden');
+    updateLiveStatusBox(machineId);
+    $('livePredictionModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function updateLiveStatusBox(machineId) {
+    const box = $('liveStatusBox');
+    const live = livePredictions[machineId];
+    if (!box) return;
+    if (!live || !live.intervalMin) {
+        box.classList.add('hidden');
+        return;
+    }
+    box.classList.remove('hidden');
+    const remainingMs = Math.max(0, (live.nextRunAt || (live.startedAt + live.intervalMin * 60000)) - Date.now());
+    const remainingSeconds = Math.ceil(remainingMs / 1000);
+    const remainingLabel = `${Math.floor(remainingSeconds / 60)}m ${String(remainingSeconds % 60).padStart(2, '0')}s`;
+    const statusTitle = live.running ? 'Trained-model prediction in progress' : 'Prediction scheduled';
+    const statusDetail = live.running
+        ? 'The backend is processing the latest available sensor history.'
+        : `First/next prediction in ${remainingLabel}. Interval: ${live.intervalMin} minute(s).`;
+    box.innerHTML = `
+        <div class="bg-green-50 border border-green-200 rounded-xl p-3">
+            <p class="text-xs font-semibold text-green-800 mb-1">${statusTitle}</p>
+            <p class="text-xs text-green-700">${statusDetail}</p>
+            <p class="text-xs text-green-700 mt-1">Last completed run: ${live.lastRun ? new Date(live.lastRun).toLocaleString() : 'No prediction yet'}</p>
+        </div>`;
+}
+
+let selectedLiveInterval = 0;
+
+document.addEventListener('DOMContentLoaded', () => {
+    // wire interval buttons (they exist after DOM ready)
+    document.querySelectorAll('.live-interval-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const iv = parseInt(btn.dataset.interval, 10);
+            selectedLiveInterval = iv;
+            document.querySelectorAll('.live-interval-btn').forEach(b => {
+                b.classList.remove('border-teal-500', 'bg-teal-50', 'border-red-400', 'bg-red-50');
+            });
+            if (iv === 0) btn.classList.add('border-red-400', 'bg-red-50');
+            else btn.classList.add('border-teal-500', 'bg-teal-50');
+            $('liveStartBtn').textContent = iv === 0 ? 'Stop Live Prediction' : 'Start Live Prediction';
+        });
+    });
+
+    $('liveStartBtn')?.addEventListener('click', () => {
+        const machineId = $('liveStartBtn').dataset.machineId;
+        if (!machineId) return;
+        if (selectedLiveInterval === 0) {
+            stopLiveFor(machineId);
+            showToast('Live prediction stopped', 'info');
+            $('livePredictionModal').classList.remove('active');
+            document.body.style.overflow = '';
+            return;
+        }
+        if (!selectedLiveInterval) {
+            showToast('Choose an interval first.', 'warning');
+            return;
+        }
+        startLiveFor(machineId, selectedLiveInterval, false);
+        $('livePredictionModal').classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    $('closeLiveModal')?.addEventListener('click', () => {
+        $('livePredictionModal').classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    // Wire manual reading modal
+    $('closeManualReadingModal')?.addEventListener('click', closeManualReadingModal);
+    $('cancelManualReadingBtn')?.addEventListener('click', closeManualReadingModal);
+    $('manualReadingForm')?.addEventListener('submit', submitManualReading);
+});
+
+// ------------------------------------------------------------
+// ADD MACHINE — no dataset family dropdown, no fake fields
+// ------------------------------------------------------------
+function setAddError(message) {
+    const el = $('addMachineError');
+    if (!el) return;
+    if (!message) { el.classList.add('hidden'); el.textContent = ''; return; }
+    el.classList.remove('hidden');
+    el.textContent = message;
+}
+
+async function addMachine() {
+    if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+    setAddError('');
+
+    const name = $('machineName').value.trim();
+    const type = $('machineType').value;
+    const location = $('machineLocation').value.trim();
+    const connection = $('connectionType').value;
+    const endpoint = $('connectionEndpoint').value.trim();
+
+    if (!name || !type || !location) {
+        setAddError('Please fill in Machine Name, Type, and Location.');
+        showToast('Please fill in all required fields', 'error');
+        return;
+    }
+    const needsEndpoint = ['mqtt', 'opcua', 'modbus', 'api', 'websocket'].includes(connection);
+    if (needsEndpoint && !endpoint) {
+        setAddError(`Endpoint is required for ${connection.toUpperCase()} connections.`);
+        showToast(`Endpoint is required for ${connection.toUpperCase()}`, 'error', 6000);
+        return;
+    }
+
+    const submitBtn = $('addMachineSubmit');
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<span class="loading-spinner"></span> Connecting...'; }
+
+    $('addMachineModal').classList.remove('active');
+    openConnectingModal(name);
+
+    try {
+        advanceConnectStep(1, 'active');
+        const payload = {
+            name, machine_type: type, type, location,
+            connection_method: connection, connection,
+            machine_data: {
+                connection,
+                endpoint: endpoint || null,
+                simulated: connection === 'simulated'
+            }
+        };
+        const createRes = await API.createMachine(payload);
+        const created = createRes.machine || createRes;
+        const machineId = created.id;
+        if (!machineId) throw new Error('Backend did not return a machine id.');
+        advanceConnectStep(1, 'done');
+
+        advanceConnectStep(2, 'active');
+        let connectRes = null;
+        try {
+            connectRes = await API.connectMachine(machineId, { connection, endpoint });
+            const v = connectRes && connectRes.verification;
+            if (v && v.ok === false) {
+                advanceConnectStep(2, 'error');
+                closeConnectingModal();
+                showPageBanner(`Machine created but connection failed: ${v.message || 'unknown reason'}`, 'warning', 12000);
+                // Refresh so the machine appears
+                await loadMachines(false);
+                return;
+            } else {
+                advanceConnectStep(2, 'done');
+            }
+        } catch (connectErr) {
+            advanceConnectStep(2, 'error');
+            closeConnectingModal();
+            showPageBanner(`Machine created but connection failed: ${connectErr.message || 'unknown reason'}`, 'warning', 12000);
+            await loadMachines(false);
+            return;
+        }
+
+        advanceConnectStep(3, 'active');
+        if (connection === 'simulated') {
+            for (let i = 0; i < 5; i++) {
+                try { await API.simulateMachine(machineId); } catch { break; }
+            }
+        } else if (connection === 'manual') {
+            // For manual, do not simulate. Open the manual reading modal immediately.
+            // The machine is created, and the user will be prompted to enter readings.
+            // We'll close the connecting modal, refresh the list, and open the modal.
+            advanceConnectStep(3, 'done');
+            advanceConnectStep(4, 'done');
+            const v = (connectRes && connectRes.verification) || {};
+            $('connectTitle').textContent = 'Connected!';
+            $('connectSubtitle').textContent = v.message || `${name} is ready for manual readings`;
+            $('connectSpinner').classList.remove('animate-spin');
+            $('connectSpinner').textContent = 'check_circle';
+            $('connectSpinner').style.color = '#10b981';
+            await sleep(600);
+            closeConnectingModal();
+            $('addMachineForm').reset();
+            $('connectionConfig').style.display = 'none';
+            await loadMachines(false);
+            showToast(`✅ ${name} connected. Please enter initial readings.`, 'success', 5000);
+            // Open manual reading modal for this machine
+            openManualReadingModal(machineId);
+            return;
+        }
+        advanceConnectStep(3, 'done');
+
+        advanceConnectStep(4, 'active');
+        advanceConnectStep(4, 'done');
+
+        const v = (connectRes && connectRes.verification) || {};
+        $('connectTitle').textContent = 'Connected!';
+        $('connectSubtitle').textContent = v.message || `${name} is now ${connection}`;
+        $('connectSpinner').classList.remove('animate-spin');
+        $('connectSpinner').textContent = 'check_circle';
+        $('connectSpinner').style.color = '#10b981';
+        await sleep(600);
+        closeConnectingModal();
+
+        $('addMachineForm').reset();
+        $('connectionConfig').style.display = 'none';
+
+        // Refresh from backend — no manual push
+        await loadMachines(false);
+        showToast(`✅ ${name} connected`, 'success', 5000);
+    } catch (error) {
+        closeConnectingModal();
+        const msg = error.message || 'unknown error';
+        setAddError(msg);
+        showToast('Failed to connect: ' + msg, 'error', 8000);
+    } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Connect Machine'; }
+    }
+}
+
+// ------------------------------------------------------------
+// CONNECTING MODAL
+// ------------------------------------------------------------
+function openConnectingModal(name) {
+    $('connectTitle').textContent = 'Connecting...';
+    $('connectSubtitle').textContent = `Establishing link to ${name}`;
+    $('connectSpinner').classList.add('animate-spin');
+    $('connectSpinner').textContent = 'refresh';
+    $('connectSpinner').style.color = '';
+    ['step1','step2','step3','step4'].forEach(id => {
+        const el = $(id); if (el) el.classList.remove('done', 'active', 'error');
+        const icon = $(id + 'icon'); if (icon) icon.textContent = 'radio_button_unchecked';
+    });
+    $('connectingModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function advanceConnectStep(num, state) {
+    const el = $('step' + num); if (!el) return;
+    el.classList.remove('done', 'active', 'error');
+    el.classList.add(state);
+    const icon = $('step' + num + 'icon'); if (!icon) return;
+    if (state === 'done') icon.textContent = 'check';
+    else if (state === 'active') icon.textContent = 'sync';
+    else if (state === 'error') icon.textContent = 'close';
+}
+function closeConnectingModal() {
+    $('connectingModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// ------------------------------------------------------------
+// SIMULATE MODAL
+// ------------------------------------------------------------
+function openTestModal() {
+    $('testModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    $('testConfig').classList.add('hidden');
+    testProfile = null;
+}
+function closeTestModal() {
+    $('testModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+function selectTestOption(option, ev) {
+    document.querySelectorAll('.connection-option').forEach(el => el.classList.remove('selected'));
+    if (ev && ev.currentTarget) ev.currentTarget.classList.add('selected');
+    const names = { simulated: 'Industrial Turbine GT-42', medical: 'Siemens CT Scanner', it: 'Dell PowerEdge Server' };
+    const types = { simulated: 'turbine', medical: 'ct', it: 'server' };
+    const locations = { simulated: 'Test Lab - Bay 1', medical: 'Test Radiology Suite', it: 'Data Center - Rack A1' };
+    testProfile = { name: names[option], type: types[option], location: locations[option] };
+    $('testName').value = testProfile.name;
+    $('testLocation').value = testProfile.location;
+    $('testConfig').classList.remove('hidden');
+}
+async function runSimulatedConnection() {
+    if (!testProfile) { showToast('Please select a device type', 'error'); return; }
+    if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+
+    const name = $('testName').value.trim() || testProfile.name;
+    const location = $('testLocation').value.trim() || testProfile.location;
+
+    const btn = $('simSubmitBtn');
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Creating...';
+
+    closeTestModal();
+
+    try {
+        const createRes = await API.createMachine({
+            name, machine_type: testProfile.type, type: testProfile.type, location,
+            connection_method: 'simulated', connection: 'simulated',
+            machine_data: { connection: 'simulated', simulated: true }
+        });
+        const machineId = (createRes.machine || createRes).id;
+        if (!machineId) throw new Error('Backend did not return a machine id.');
+
+        try { await API.connectMachine(machineId, { connection: 'simulated', endpoint: '' }); } catch {}
+
+        for (let i = 0; i < 20; i++) {
+            try { await API.simulateMachine(machineId); } catch { break; }
+        }
+
+        await loadMachines(false);
+        showToast(`✅ ${name} simulated and online`, 'success', 5000);
+    } catch (error) {
+        showToast('Failed: ' + (error.message || 'unknown error'), 'error', 6000);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = orig;
+    }
+}
+
+// ------------------------------------------------------------
+// WEBSOCKET (idempotent — dedupe by id)
+// ------------------------------------------------------------
+function connectWebSocket() {
+    const token = getToken();
+    if (!token || !isTokenValid(token)) return;
+    if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+    try {
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = `${proto}//${window.location.host}/ws?token=${encodeURIComponent(token)}`;
+        wsConnection = new WebSocket(url);
+
+        wsConnection.onopen = () => {
+            const el = $('wsStatus');
+            if (el) { el.textContent = '● LIVE'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 font-semibold'; }
+        };
+        wsConnection.onmessage = (event) => {
+            try { handleWsMessage(JSON.parse(event.data)); } catch {}
+        };
+        wsConnection.onclose = (evt) => {
+            const el = $('wsStatus');
+            if (el) { el.textContent = '● SYNC'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold'; }
+            if (evt && evt.code === 1008) return;
+            if (isTokenValid(getToken())) {
+                clearTimeout(wsReconnectTimer);
+                wsReconnectTimer = setTimeout(connectWebSocket, 6000);
+            }
+        };
+        wsConnection.onerror = () => {};
+    } catch {}
+}
+
+function handleWsMessage(data) {
+    if (!data || !data.type) return;
+    switch (data.type) {
+        case 'auth_success':
+            $('modeBadge').textContent = data.realtime ? 'Live' : 'Polling';
+            break;
+        case 'machine_created':
+        case 'machine_updated':
+        case 'machine_update': {
+            const m = data.machine;
+            if (!m || !m.id) return;
+            if ((m.name || '') === DATASET_HIDDEN_NAME) return;
+            const idx = machines.findIndex(x => x.id === m.id);
+            if (idx !== -1) machines[idx] = { ...machines[idx], ...m };
+            else machines.unshift(m);
+            applyFiltersAndRender();
+            updateStats();
+            break;
+        }
+        case 'machine_deleted':
+            if (data.machine_id) {
+                machines = machines.filter(x => x.id !== data.machine_id);
+                stopLiveFor(data.machine_id);
+                applyFiltersAndRender();
+                updateStats();
+            }
+            break;
+        case 'sensor_update':
+            if (data.machine && data.machine.id) {
+                const idx = machines.findIndex(x => x.id === data.machine.id);
+                if (idx !== -1) {
+                    machines[idx] = { ...machines[idx], ...data.machine };
+                    if (data.sensor_data) {
+                        if (data.sensor_data.temperature != null) machines[idx].temperature = data.sensor_data.temperature;
+                        if (data.sensor_data.vibration != null) machines[idx].vibration = data.sensor_data.vibration;
+                        if (data.sensor_data.pressure != null) machines[idx].pressure = data.sensor_data.pressure;
+                    }
+                    applyFiltersAndRender();
+                    updateStats();
+                }
+            }
+            break;
+        case 'prediction_created':
+            if (data.prediction && data.prediction.machine_id) {
+                const m = machines.find(x => x.id === data.prediction.machine_id);
+                if (m) {
+                    m.last_activity_at = new Date().toISOString();
+                    applyFiltersAndRender();
+                }
+            }
+            break;
+        case 'alert_created':
+            loadAlertsBadge();
+            break;
+        case 'ping':
+            try { wsConnection?.send(JSON.stringify({ type: 'pong' })); } catch {}
+            break;
+    }
+}
+
+// ------------------------------------------------------------
+// AUTO REFRESH FALLBACK
+// ------------------------------------------------------------
+function startAutoRefresh() {
+    if (refreshInterval) clearInterval(refreshInterval);
+    refreshInterval = setInterval(() => {
+        if (!Auth.isAuthenticated) return;
+        if (document.visibilityState !== 'visible') return;
+        if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+        loadMachines(false);
+    }, 30000);
+}
+
+// ------------------------------------------------------------
+// INIT
+// ------------------------------------------------------------
+function bootstrapPage() {
+    document.body.style.overflow = '';
+    updateUserUI();
+    loadMachines(true);
+    loadAlertsBadge();
+    connectWebSocket();
+    startAutoRefresh();
+    updateSidebarUI();
+    restoreLiveFromStorage();
+
+    $('connectionType').addEventListener('change', function () {
+        const v = this.value;
+        const config = $('connectionConfig');
+        const hint = $('connectionHint');
+        const needsEndpoint = ['mqtt', 'opcua', 'modbus', 'api', 'websocket'].includes(v);
+        if (needsEndpoint) {
+            config.style.display = 'block';
+            const examples = {
+                mqtt: 'MQTT Broker — example: <code>mqtt://broker.example.com:1883</code>',
+                opcua: 'OPC UA Server — example: <code>opc.tcp://192.168.1.100:4840</code>',
+                modbus: 'Modbus TCP — example: <code>192.168.1.100:502</code>',
+                api: 'REST endpoint — example: <code>https://device.example.com</code>',
+                websocket: 'WS endpoint — example: <code>wss://device.example.com/stream</code>',
+            };
+            hint.innerHTML = examples[v] || 'Endpoint required.';
+        } else if (v === 'simulated') {
+            config.style.display = 'none';
+            hint.innerHTML = 'Simulated mode — backend generates realistic sensor data on demand.';
+        } else {
+            config.style.display = 'none';
+            hint.innerHTML = 'Manual entry — no endpoint required. Use the device key to POST readings, or enter them manually.';
+        }
+    });
+
+    $('addMachineBtn').addEventListener('click', () => {
+        setAddError('');
+        $('addMachineModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+    $('closeModalBtn').addEventListener('click', () => {
+        $('addMachineModal').classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    $('cancelModalBtn').addEventListener('click', () => {
+        $('addMachineModal').classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    $('addMachineForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        addMachine();
+    });
+
+    $('closeDetailModal').addEventListener('click', closeDetailModal);
+    $('closePredictionModal').addEventListener('click', () => {
+        $('predictionModal').classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    $('closePredictionBtn').addEventListener('click', () => {
+        $('predictionModal').classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    $('closeTestModal').addEventListener('click', closeTestModal);
+    $('closeTestBtn').addEventListener('click', closeTestModal);
+
+    $('searchInput').addEventListener('input', applyFiltersAndRender);
+    $('statusFilter').addEventListener('change', applyFiltersAndRender);
+    $('typeFilter').addEventListener('change', applyFiltersAndRender);
+    $('refreshBtn').addEventListener('click', () => {
+        showToast('🔄 Refreshing...', 'info', 1200);
+        loadMachines(false);
+    });
+
+    DOM.sidebarToggle?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleSidebar(); });
+    DOM.mobileMenuToggle?.addEventListener('click', openMobileSidebar);
+    DOM.sidebarOverlay?.addEventListener('click', closeMobileSidebar);
+    DOM.userAvatar?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleProfileMenu(); });
+    DOM.profileLogoutBtn?.addEventListener('click', () => Auth.logout());
+    DOM.profileSettingsBtn?.addEventListener('click', () => { closeProfileMenu(); window.location.href = 'settings.html'; });
+    DOM.profileMenu?.addEventListener('click', e => e.stopPropagation());
+    document.querySelectorAll('#mainSidebar .sidebar-link').forEach(link => {
+        link.addEventListener('click', () => { if (!isDesktop()) closeMobileSidebar(); closeProfileMenu(); });
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            closeProfileMenu();
+            if (!isDesktop() && sidebar.classList.contains('mobile-open')) closeMobileSidebar();
+            document.querySelectorAll('.modal.active').forEach(m => {
+                if (m.id !== 'connectingModal') m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    document.addEventListener('click', e => {
+        if (DOM.profileMenu?.classList.contains('open')
+            && !DOM.profileMenu.contains(e.target)
+            && !DOM.userAvatar?.contains(e.target)) {
+            closeProfileMenu();
+        }
+    });
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', function (e) {
+            if (e.target === this && this.id !== 'connectingModal') {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            if (isDesktop()) closeMobileSidebar();
+            updateSidebarUI();
+        }, 80);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!Auth.isAuthenticated) {
+        const ok = await performRefresh();
+        if (!ok) { Auth.logout(); return; }
+    }
+    bootstrapPage();
+});
+
+// Stop live predictions on unload (they persist via localStorage and resume on next load)
+window.addEventListener('beforeunload', () => {
+    Object.keys(livePredictions).forEach(id => {
+        const live = livePredictions[id];
+        if (live.timer) clearInterval(live.timer);
+        if (live.firstTimer) clearTimeout(live.firstTimer);
+        if (live.statusTimer) clearInterval(live.statusTimer);
+    });
+});
+
+// ------------------------------------------------------------
+// EXPOSE
+// ------------------------------------------------------------
+window.loadMachines = loadMachines;
+window.openMachineDetail = openMachineDetail;
+window.closeDetailModal = closeDetailModal;
+window.showDetailTab = showDetailTab;
+window.toggleMachineStatus = toggleMachineStatus;
+window.simulateMachineNow = simulateMachineNow;
+window.deleteMachine = deleteMachine;
+window.runPrediction = runPrediction;
+window.openLiveModal = openLiveModal;
+window.openTestModal = openTestModal;
+window.closeTestModal = closeTestModal;
+window.selectTestOption = selectTestOption;
+window.runSimulatedConnection = runSimulatedConnection;
+window.clearFilters = clearFilters;
+window.openDeviceKeyModal = openDeviceKeyModal;
+window.createDeviceKeyInline = createDeviceKeyInline;
+window.revokeDeviceKeyInline = revokeDeviceKeyInline;
+window.reverifyConnection = reverifyConnection;
+window.toggleSidebar = toggleSidebar;
+window.closeMobileSidebar = closeMobileSidebar;
+window.openMobileSidebar = openMobileSidebar;
+window.toggleProfileMenu = toggleProfileMenu;
+window.closeProfileMenu = closeProfileMenu;
+window.showToast = showToast;
+window.openManualReadingModal = openManualReadingModal;
+window.closeManualReadingModal = closeManualReadingModal;
+window.submitManualReading = submitManualReading;
+</script>
+</body>
+</html>

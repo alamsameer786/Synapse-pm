@@ -1,0 +1,2078 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Billing | SynapsePM - Global AI Platform</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+<meta name="robots" content="noindex, nofollow">
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+<style>
+    * { box-sizing: border-box; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; min-height: 100vh; }
+    h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    .gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
+    .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+    .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+    .gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ============================================================
+       SYNAPSEPM LOGO — same height in both sidebar states
+       ============================================================ */
+    .synapsepm-logo {
+        font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        font-size: 22px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        vertical-align: middle;
+    }
+    .synapsepm-logo > span:not(.logo-icon),
+    .synapsepm-logo strong {
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+        height: 32px;
+    }
+    .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+    .synapsepm-logo strong {
+        background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .synapsepm-logo .logo-icon {
+        width: 32px; height: 32px;
+        min-width: 32px; min-height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+    .synapsepm-logo .logo-icon img {
+        width: 32px; height: 32px;
+        object-fit: contain; display: block;
+    }
+
+    /* ============================================================
+       SIDEBAR — logo stays visible on collapse
+       ============================================================ */
+    :root {
+        --sidebar-width: 264px;
+        --sidebar-collapsed-width: 84px;
+        --sidebar-border: #e2e8f0;
+        --sidebar-bg: #ffffff;
+        --sidebar-muted: #64748b;
+        --sidebar-primary: #0f2b3d;
+        --sidebar-accent: #00b4aa;
+        --sidebar-hover: #f1f5f9;
+    }
+    .sidebar {
+        width: var(--sidebar-width);
+        min-height: 100dvh; height: 100dvh;
+        background: var(--sidebar-bg);
+        border-right: 1px solid var(--sidebar-border);
+        position: fixed; inset: 0 auto 0 0; z-index: 100;
+        display: flex; flex-direction: column; overflow: visible;
+        transition: width 0.28s cubic-bezier(0.4,0,0.2,1),
+                    transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+    .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+    .sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #ffffff; }
+    .sidebar-brand {
+        min-height: 76px; padding: 0 14px;
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 10px; overflow: hidden;
+        transition: padding 0.28s cubic-bezier(0.4,0,0.2,1),
+                    min-height 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+    .sidebar-brand-inner {
+        display: flex; align-items: center; gap: 10px;
+        min-width: 0; transition: opacity 0.2s ease;
+    }
+    .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+    .sidebar.collapsed .synapsepm-logo strong { display: none !important; }
+    .sidebar.collapsed .sidebar-brand {
+        flex-direction: column; justify-content: center;
+        align-items: center; gap: 6px; padding: 10px 0; min-height: 76px;
+    }
+    .sidebar.collapsed .sidebar-brand-inner {
+        opacity: 1; pointer-events: auto; width: auto;
+        overflow: visible; justify-content: center; gap: 0;
+    }
+    .sidebar.collapsed .synapsepm-logo { justify-content: center; }
+    .sidebar.collapsed .synapsepm-logo .logo-icon {
+        display: inline-flex !important; opacity: 1 !important;
+        width: 32px !important; min-width: 32px !important;
+        height: 32px !important; min-height: 32px !important;
+    }
+    .sidebar.collapsed .synapsepm-logo .logo-icon img {
+        display: block !important; width: 32px !important;
+        height: 32px !important; object-fit: contain !important;
+    }
+    .sidebar-toggle {
+        width: 36px; height: 36px;
+        border: 1px solid #dbe4ec; border-radius: 10px;
+        background: #ffffff; color: #475569;
+        display: inline-flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: 0 2px 7px rgba(15,43,61,0.06);
+        transition: background .2s, border-color .2s, color .2s, box-shadow .2s;
+        flex-shrink: 0; padding: 0;
+    }
+    .sidebar-toggle:hover {
+        background: #f8fafc; color: var(--sidebar-accent);
+        border-color: rgba(0,180,170,0.45);
+        box-shadow: 0 5px 14px rgba(15,43,61,0.10);
+    }
+    .sidebar-toggle svg {
+        width: 18px; height: 18px; stroke: currentColor;
+        transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
+    .sidebar-nav {
+        flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+        padding: 14px 10px; scrollbar-width: thin;
+        scrollbar-color: #dbe4ec transparent;
+    }
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
+    .sidebar-group-label { padding: 7px 11px 6px; }
+    .sidebar-group { display: flex; flex-direction: column; gap: 3px; }
+    .sidebar-link {
+        min-height: 44px; display: flex; align-items: center; gap: 12px;
+        padding: 9px 11px; border-radius: 11px;
+        color: var(--sidebar-muted); font-weight: 500; font-size: 0.875rem;
+        line-height: 1.2;
+        transition: background .18s ease, color .18s ease;
+        cursor: pointer; text-decoration: none;
+        position: relative; white-space: nowrap; overflow: visible;
+    }
+    .sidebar-link:hover { background: var(--sidebar-hover); color: var(--sidebar-primary); }
+    .sidebar-link.active { background: #00b4aa; color: #ffffff; box-shadow: 0 5px 14px rgba(0,180,170,0.22); }
+    .sidebar-link .material-symbols-outlined {
+        width: 22px; min-width: 22px; font-size: 22px;
+        display: inline-flex; align-items: center; justify-content: center;
+        color: #64748b; transition: color .18s ease;
+    }
+    .sidebar-link.active .material-symbols-outlined,
+    .sidebar-link:hover .material-symbols-outlined { color: inherit; }
+    .sidebar-link .badge-count {
+        margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px;
+        display: inline-flex; align-items: center; justify-content: center;
+        background: #f1f5f9; color: #64748b;
+        font-size: 0.65rem; border-radius: 999px; font-weight: 700;
+        transition: all .2s ease;
+    }
+    .sidebar-link.active .badge-count { background: rgba(255,255,255,0.22); color: #fff; }
+    .sidebar-divider { margin: 14px 4px; border-top: 1px solid #edf2f7; }
+    .sidebar-text { transition: opacity 0.2s ease; }
+    .sidebar.collapsed .sidebar-text,
+    .sidebar.collapsed .sidebar-label,
+    .sidebar.collapsed .badge-count {
+        opacity: 0; pointer-events: none;
+        width: 0; overflow: hidden; display: none !important;
+    }
+    .sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
+    .sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
+    .sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
+    .sidebar.collapsed .sidebar-link::after {
+        content: attr(data-tooltip);
+        position: absolute; left: calc(100% + 10px); top: 50%;
+        transform: translateY(-50%) translateX(-4px);
+        opacity: 0; pointer-events: none;
+        background: #0f2b3d; color: #fff;
+        padding: 7px 10px; border-radius: 8px;
+        font-size: 12px; font-weight: 600; white-space: nowrap;
+        box-shadow: 0 8px 20px rgba(15,43,61,0.18);
+        transition: opacity .15s, transform .15s; z-index: 250;
+    }
+    .sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+    /* User area + profile menu */
+    .sidebar-user-area { flex-shrink: 0; position: relative; padding: 10px; border-top: 1px solid var(--sidebar-border); background: #ffffff; }
+    .user-card {
+        min-height: 58px; display: flex; align-items: center; gap: 10px;
+        padding: 8px; background: #f8fafc;
+        border: 1px solid #eef2f7; border-radius: 12px;
+        transition: all 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+    .sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
+    .avatar-wrapper { flex-shrink: 0; position: relative; }
+    .user-card .avatar {
+        width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 0.8rem; color: #fff;
+        background: linear-gradient(135deg, #00b4aa, #009688);
+        background-size: cover; background-position: center;
+        cursor: pointer; position: relative;
+        transition: box-shadow 0.2s ease;
+    }
+    .user-card .avatar:hover { box-shadow: 0 0 0 3px rgba(0,180,170,.15); }
+    .user-card .avatar-wrapper .status-dot {
+        position: absolute; bottom: 0; right: 0;
+        width: 11px; height: 11px; border-radius: 50%;
+        border: 2px solid white; background: #10b981;
+    }
+    .user-card .user-details { flex: 1; min-width: 0; transition: opacity 0.2s ease; }
+    .sidebar.collapsed .user-card .user-details { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
+    .user-card .user-details .name { font-weight: 600; font-size: 0.82rem; color: #0f2b3d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-card .user-details .email { font-size: 0.68rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .user-card .user-details .plan { font-size: 0.58rem; font-weight: 700; color: #00a79d; background: rgba(0,180,170,.08); padding: 1px 7px; border-radius: 999px; display: inline-block; margin-top: 2px; }
+    .profile-menu{
+    position:absolute;
+    left:10px;
+    right:10px;
+    bottom:calc(100% + 10px);
+    padding:14px;
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    box-shadow:0 18px 45px rgba(15,23,42,.16);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(8px);
+    pointer-events:none;
+    transition:opacity .18s ease,transform .18s ease,visibility .18s ease;
+    z-index:300;
+    min-width: 276px;
+}
+
+/* When sidebar is collapsed, expand menu to the right so content stays readable */
+.sidebar.collapsed .profile-menu {
+    left: calc(100% + 10px);
+    right: auto;
+    bottom: 12px;
+    width: 300px;
+    min-width: 300px;
+    transform: translateY(0) translateX(-8px);
+}
+
+.sidebar.collapsed .profile-menu.open {
+    transform: translateY(0) translateX(0);
+}
+    .profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+    .profile-menu-header { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #edf2f7; }
+    .profile-menu-avatar { width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00b4aa, #009688); color: #fff; font-weight: 800; background-size: cover; background-position: center; }
+    .profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
+    .profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
+    .profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
+    .profile-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
+    .profile-detail-label { color: #94a3b8; }
+    .profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
+    .profile-menu-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7; }
+    .profile-action-btn {
+        width: 100%; min-height: 40px;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        border: 1px solid #e2e8f0; border-radius: 10px; background: #fff;
+        color: #475569; font-size: 13px; font-weight: 600;
+        cursor: pointer; transition: all .18s ease; padding: 0 12px;
+        font-family: inherit;
+    }
+    .profile-action-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .profile-action-btn.danger { border-color: #fecaca; color: #dc2626; }
+    .profile-action-btn.danger:hover { background: #fef2f2; border-color: #fca5a5; }
+
+    /* Main layout */
+    #mainContent { margin-left: var(--sidebar-width); min-width: 0; transition: margin-left .28s cubic-bezier(.4,0,.2,1); }
+    body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-width); }
+    .sidebar-overlay { display: none; }
+    @media (max-width: 1023px) {
+        .sidebar { width: min(310px, 90vw); transform: translateX(-102%); box-shadow: none; }
+        .sidebar.mobile-open { transform: translateX(0); box-shadow: 18px 0 50px rgba(15,23,42,.18); }
+        .sidebar.collapsed { width: min(310px, 90vw); }
+        .sidebar-overlay {
+            position: fixed; inset: 0;
+            background: rgba(15,23,42,.42); backdrop-filter: blur(3px);
+            z-index: 90; display: block;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transition: opacity .25s ease, visibility .25s ease;
+        }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+        #mainContent, body.sidebar-is-collapsed #mainContent { margin-left: 0; }
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-label,
+        .sidebar.collapsed .badge-count { display: block !important; opacity: 1 !important; transform: none !important; width: auto !important; }
+        .sidebar.collapsed .sidebar-link { justify-content: flex-start; gap: 12px; padding: 9px 11px; }
+        .sidebar.collapsed .sidebar-link::after { display: none; }
+        .sidebar.collapsed .user-card .user-details { display: block !important; opacity: 1 !important; width: auto !important; }
+        .sidebar.collapsed .sidebar-brand-inner { opacity: 1 !important; pointer-events: auto !important; width: auto !important; }
+        .sidebar.collapsed .sidebar-brand { justify-content: space-between; flex-direction: row; padding: 0 14px; }
+        .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+        .sidebar.collapsed .synapsepm-logo strong { display: inline-flex !important; }
+        .sidebar.collapsed .sidebar-toggle svg { transform: none; }
+        @media (max-width: 1023px) {
+    /* ...existing rules... */
+
+    /* On mobile, always use the original left/right anchored layout
+       (mobile sidebar is full-width so no need to expand right) */
+    .sidebar.collapsed .profile-menu {
+        left: 10px;
+        right: 10px;
+        bottom: calc(100% + 10px);
+        width: auto;
+        min-width: 0;
+        transform: translateY(8px);
+    }
+    .sidebar.collapsed .profile-menu.open {
+        transform: translateY(0);
+    }
+}
+    }
+
+    /* Billing UI */
+    .billing-card { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+    .billing-card:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.08); }
+    .toggle-switch { position: relative; display: inline-block; width: 52px; height: 28px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: 0.3s; border-radius: 34px; }
+    .toggle-slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%; }
+    input:checked + .toggle-slider { background-color: #00b4aa; }
+    input:checked + .toggle-slider:before { transform: translateX(24px); }
+    .tab-btn { transition: all 0.2s ease; cursor: pointer; border: none; background: transparent; font-weight: 500; }
+    .tab-btn.active { background: #00b4aa; color: white; box-shadow: 0 2px 12px rgba(0,180,170,0.3); }
+    .tab-btn:hover:not(.active) { background: #f1f5f9; }
+    .tab-content { display: none; animation: fadeIn 0.3s ease; }
+    .tab-content.active { display: block; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+    .modal.active { display: flex; animation: fadeIn 0.2s ease; }
+    .modal-content { background: white; border-radius: 1.5rem; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: white; border-radius: 0.75rem; padding: 1rem 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 0.75rem; z-index: 1100; animation: slideInRight 0.3s ease-out; border-left: 4px solid; max-width: 420px; }
+    .toast.success { border-left-color: #10b981; }
+    .toast.error { border-left-color: #ef4444; }
+    .toast.warning { border-left-color: #f59e0b; }
+    .toast.info { border-left-color: #00b4aa; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .plan-card { border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem; transition: all 0.3s; cursor: pointer; background: white; position: relative; display: flex; flex-direction: column; }
+    .plan-card:hover { border-color: #00b4aa; transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.08); }
+    .plan-card.popular { border-color: #00b4aa; background: #f0fdfa; }
+    .plan-card.popular::before { content: '★ Most Popular'; position: absolute; top: -10px; right: 20px; background: #00b4aa; color: white; padding: 2px 14px; border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; }
+    .plan-card .plan-price { font-size: 2rem; font-weight: 700; color: #0f2b3d; }
+    .plan-card .plan-period { font-size: 0.875rem; color: #64748b; }
+    .plan-card .plan-feature { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.875rem; color: #475569; padding: 0.2rem 0; }
+    .plan-card .plan-feature .check { color: #00b4aa; font-size: 1.125rem; flex-shrink: 0; margin-top: 1px; }
+    .plan-card .activate-btn { width: 100%; margin-top: auto; padding: 0.6rem 1rem; border-radius: 0.75rem; font-weight: 600; transition: all 0.2s; border: 2px solid #00b4aa; color: #00b4aa; background: transparent; cursor: pointer; font-family: inherit; }
+    .plan-card .activate-btn:hover:not(:disabled) { background: #00b4aa; color: white; }
+    .plan-card.popular .activate-btn { background: #00b4aa; color: white; }
+    .plan-card.popular .activate-btn:hover:not(:disabled) { background: #009688; }
+    .plan-card .activate-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .progress-bar { background: #e2e8f0; border-radius: 9999px; overflow: hidden; height: 4px; }
+    .progress-fill { background: linear-gradient(90deg, #00b4aa, #009688); height: 100%; border-radius: 9999px; transition: width 0.8s ease; }
+    .loading-spinner { display: inline-block; width: 1.25rem; height: 1.25rem; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 0.5rem; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .form-input { transition: all 0.2s ease; font-family: inherit; }
+    .form-input:focus { border-color: #00b4aa; box-shadow: 0 0 0 3px rgba(0,180,170,0.1); outline: none; }
+    .skel { background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @media (max-width: 640px) { .plan-card .plan-price { font-size: 1.5rem; } .plan-card { padding: 1rem; } }
+
+    .page-banner { border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.4; }
+    .page-banner.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .page-banner.warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+    .page-banner.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+    .page-banner.success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .page-banner .banner-close { margin-left: auto; cursor: pointer; opacity: .7; }
+    .page-banner .banner-close:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
+                <div class="synapsepm-logo">
+                    <span class="logo-icon">
+                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
+                    </span>
+                    <span>Synapse</span><strong>PM</strong>
+                </div>
+            </a>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle"
+                    title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Application">
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p>
+            </div>
+            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard" aria-label="Dashboard">
+                <span class="material-symbols-outlined" aria-hidden="true">dashboard</span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a href="machines.html" class="sidebar-link" data-tooltip="Machines" aria-label="Machines">
+                <span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span>
+                <span class="sidebar-text">Machines</span>
+            </a>
+            <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions" aria-label="Predictions">
+                <span class="material-symbols-outlined" aria-hidden="true">neurology</span>
+                <span class="sidebar-text">Predictions</span>
+            </a>
+            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts" aria-label="Alerts">
+                <span class="material-symbols-outlined" aria-hidden="true">notifications_active</span>
+                <span class="sidebar-text">Alerts</span>
+                <span class="badge-count" id="sidebarAlertsBadge" aria-label="Unread active alerts">0</span>
+            </a>
+            <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports">
+                <span class="material-symbols-outlined" aria-hidden="true">assessment</span>
+                <span class="sidebar-text">Reports</span>
+            </a>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p>
+            </div>
+            <a href="billing.html" class="sidebar-link active" data-tooltip="Billing" aria-label="Billing" aria-current="page">
+                <span class="material-symbols-outlined" aria-hidden="true">credit_card</span>
+                <span class="sidebar-text">Billing</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="sidebar-user-area">
+        <div class="user-card">
+            <div class="avatar-wrapper">
+                <button type="button" class="avatar" id="userAvatar"
+                        aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu">
+                    <span id="userAvatarText" class="avatar-initial"></span>
+                </button>
+                <div class="status-dot" id="userStatusDot" aria-hidden="true"></div>
+            </div>
+            <div class="user-details">
+                <div class="name" id="userName"></div>
+                <div class="email" id="userEmail"></div>
+                <div class="plan" id="userPlan"></div>
+            </div>
+        </div>
+
+        <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
+            <div class="profile-menu-header">
+                <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
+                <div class="min-w-0">
+                    <div class="profile-menu-name" id="profileMenuName"></div>
+                    <div class="profile-menu-email" id="profileMenuEmail"></div>
+                </div>
+            </div>
+            <div class="profile-menu-details">
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Username</span>
+                    <span class="profile-detail-value" id="profileMenuUsername"></span>
+                </div>
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Email</span>
+                    <span class="profile-detail-value" id="profileMenuEmailDetail"></span>
+                </div>
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Plan</span>
+                    <span class="profile-detail-value" id="profileMenuPlan"></span>
+                </div>
+                <div class="profile-detail-row" id="profileRoleRow" hidden>
+                    <span class="profile-detail-label">Role</span>
+                    <span class="profile-detail-value" id="profileMenuRole"></span>
+                </div>
+                <div class="profile-detail-row" id="profileOrgRow" hidden>
+                    <span class="profile-detail-label">Organization</span>
+                    <span class="profile-detail-value" id="profileMenuOrg"></span>
+                </div>
+            </div>
+            <div class="profile-menu-actions">
+                <button type="button" class="profile-action-btn" id="profileSettingsBtn">
+                    <span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>
+                    Settings
+                </button>
+                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn">
+                    <span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>
+                    Sign out
+                </button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="flex-1 min-w-0" id="mainContent">
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Billing</h1>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
+            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- Page banners (injected dynamically) -->
+        <div id="pageBannerHost"></div>
+
+        <!-- Gateway missing banner -->
+        <div id="gatewayMissingBanner" class="mb-4 hidden">
+            <div class="rounded-xl border p-4 bg-amber-50 border-amber-200 flex items-start gap-3">
+                <span class="material-symbols-outlined text-amber-600 flex-shrink-0">warning</span>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-semibold text-amber-900">Payment gateway not configured</p>
+                    <p class="text-xs mt-1 text-amber-800" id="gatewayMissingReason">Contact us to enable payments.</p>
+                </div>
+                <a href="mailto:synapsepm121@gmail.com?subject=Payment%20Gateway%20Inquiry" class="text-amber-700 text-xs font-semibold whitespace-nowrap hover:underline">Contact →</a>
+            </div>
+        </div>
+
+        <!-- Payment return banner -->
+        <div id="paymentReturnBanner" class="mb-4 hidden">
+            <div class="rounded-xl border p-3 sm:p-4 flex items-start gap-3" id="paymentReturnInner">
+                <span class="material-symbols-outlined text-base flex-shrink-0" id="paymentReturnIcon">info</span>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-semibold" id="paymentReturnTitle">Payment status</p>
+                    <p class="text-xs mt-0.5" id="paymentReturnMessage"></p>
+                </div>
+                <button onclick="dismissPaymentBanner()" class="text-slate-400 hover:text-slate-600 flex-shrink-0" aria-label="Dismiss">
+                    <span class="material-symbols-outlined text-base">close</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Billing & Subscriptions</h1>
+                <p class="text-slate-500 text-sm mt-1">Manage your plan, view invoices, and update billing</p>
+            </div>
+            <div class="flex items-center gap-2 bg-white rounded-full px-3 py-1.5 sm:px-4 sm:py-2 border border-slate-200 shadow-sm">
+                <span class="material-symbols-outlined text-teal-600 text-base">credit_card</span>
+                <span class="text-xs sm:text-sm font-medium text-slate-800" id="userEmailDisplay">—</span>
+            </div>
+        </div>
+
+        <!-- Billing cycle toggle -->
+        <div class="flex justify-center mb-6 sm:mb-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-1.5 inline-flex items-center gap-3">
+                <span class="text-sm font-semibold px-2 sm:px-3 py-1.5 text-slate-800" id="monthlyLabel">Monthly</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="billingCycleToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="text-sm font-semibold px-2 sm:px-3 py-1.5 text-slate-400" id="yearlyLabel">
+                    Yearly <span class="text-teal-600 text-xs ml-1 hidden sm:inline">Save 20%</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="mb-5 pb-2 overflow-x-auto">
+            <div class="flex gap-2 min-w-max">
+                <button class="tab-btn active px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-tab="overview">Overview</button>
+                <button class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-tab="plans">Plans</button>
+                <button class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-tab="invoices">Invoices</button>
+                <button class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-tab="usage">Usage</button>
+            </div>
+        </div>
+
+        <!-- ===== OVERVIEW ===== -->
+        <div id="overview" class="tab-content active">
+            <div id="emptyPlanState" class="bg-white rounded-2xl border border-slate-200 p-8 sm:p-12 text-center mb-6 hidden">
+                <div class="w-16 h-16 mx-auto bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-3xl text-slate-400">credit_card_off</span>
+                </div>
+                <h3 class="text-lg sm:text-xl font-semibold text-slate-800 mb-2">No Active Subscription</h3>
+                <p class="text-slate-500 text-sm mb-4">Choose a plan to unlock full predictive maintenance capabilities.</p>
+                <button onclick="switchTab('plans')" class="gradient-cta text-white px-6 py-2.5 rounded-xl font-semibold">View Plans</button>
+            </div>
+
+            <div id="overviewSkeleton" class="bg-white rounded-2xl border border-slate-200 p-6 mb-6 hidden">
+                <div class="skel h-6 w-48 mb-4"></div>
+                <div class="skel h-4 w-full mb-2"></div>
+                <div class="skel h-4 w-2/3"></div>
+            </div>
+
+            <div id="activePlanContent" class="hidden">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-6 billing-card">
+                    <div class="gradient-primary px-5 sm:px-6 py-4 sm:py-5">
+                        <div class="flex flex-wrap justify-between items-center gap-3">
+                            <div>
+                                <p class="text-white/70 text-xs uppercase tracking-wider">Current Plan</p>
+                                <h3 class="text-xl sm:text-2xl font-bold text-white" id="activePlanName">—</h3>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-white/20 text-white text-sm font-semibold" id="planStatus">—</span>
+                        </div>
+                    </div>
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-wrap justify-between items-start gap-3">
+                            <div>
+                                <p class="text-2xl sm:text-3xl font-bold text-slate-800" id="activePlanAmount">—</p>
+                                <p class="text-slate-500 text-sm" id="activePlanPeriod">/month</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-slate-500" id="nextInvoiceLabel">Next Invoice</p>
+                                <p class="text-sm font-semibold text-slate-800" id="nextInvoiceDate">—</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-slate-200">
+                            <h4 class="font-semibold text-slate-800 text-sm mb-2">Plan Features</h4>
+                            <ul id="planFeaturesList" class="space-y-1 text-sm text-slate-600"></ul>
+                        </div>
+                        <div class="flex flex-wrap gap-3 mt-4 pt-4 border-t border-slate-200">
+                            <button onclick="switchTab('plans')" class="text-teal-600 text-sm font-semibold hover:underline">Change Plan</button>
+                            <button onclick="cancelSubscription()" class="text-red-600 hover:text-red-800 text-sm font-semibold">Cancel Subscription</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-800">Payment Methods</h3>
+                        <button onclick="loadPaymentMethods()" class="text-xs text-slate-500 hover:text-teal-600 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                        </button>
+                    </div>
+                    <div id="paymentMethodsList" class="space-y-2">
+                        <p class="text-sm text-slate-400">Loading…</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+                <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 billing-card">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-teal-600">precision_manufacturing</span>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Machines</span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-bold text-slate-800" id="statMachines">—</div>
+                    <div class="text-xs text-slate-500 mt-1" id="machinesLimitText">Limit: —</div>
+                    <div class="progress-bar mt-2 h-1.5"><div class="progress-fill" id="machinesProgressBar" style="width: 0%;"></div></div>
+                </div>
+                <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 billing-card">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-teal-600">bar_chart</span>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Predictions</span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-bold text-slate-800" id="statPredictions">—</div>
+                    <div class="text-xs text-slate-500 mt-1" id="predictionsLimitText">—</div>
+                </div>
+                <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 billing-card">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-teal-600">notifications_active</span>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Active Alerts</span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-bold text-slate-800" id="statAlerts">—</div>
+                    <div class="text-xs text-slate-500 mt-1">
+                        Critical: <span id="statCriticalAlerts" class="text-red-500 font-semibold">—</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PLANS ===== -->
+        <div id="plans" class="tab-content">
+            <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6">
+                <div class="flex justify-between items-start mb-4 flex-wrap gap-3">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg">Choose Your Plan</h3>
+                        <p class="text-slate-500 text-sm">Secure worldwide payments</p>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs text-slate-500">
+                        <span class="material-symbols-outlined text-teal-600 text-sm">lock</span>
+                        <span id="securePaymentLabel">Checking gateway…</span>
+                    </div>
+                </div>
+
+                <div id="plansGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <div class="col-span-full text-center py-8">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-teal-500 border-t-transparent"></div>
+                        <p class="text-slate-500 mt-3 text-sm">Loading plans…</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-200">
+                    <p class="text-xs text-slate-400 text-center mb-3">Secure payments powered by</p>
+                    <div id="paymentPartners" class="flex flex-wrap items-center justify-center gap-6">
+                        <span class="text-sm font-bold text-slate-600">Loading…</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 text-center mt-3">All major credit cards, PayPal, Apple Pay &amp; Google Pay accepted</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== INVOICES ===== -->
+        <div id="invoices" class="tab-content">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="px-5 sm:px-6 py-4 border-b border-slate-200 flex justify-between items-center flex-wrap gap-2">
+                    <h3 class="font-bold text-slate-800">Invoice History</h3>
+                    <button onclick="loadInvoices()" class="text-xs text-slate-500 hover:text-teal-600 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                    </button>
+                </div>
+                <div id="invoicesLoading" class="text-center py-10 sm:py-12 hidden">
+                    <div class="inline-block animate-spin rounded-full h-6 w-6 border-4 border-teal-500 border-t-transparent"></div>
+                    <p class="text-slate-500 text-sm mt-2">Loading invoices…</p>
+                </div>
+                <div id="emptyInvoicesState" class="text-center py-10 sm:py-12 hidden">
+                    <span class="material-symbols-outlined text-4xl text-slate-300">receipt</span>
+                    <p class="text-slate-500 text-sm mt-2">No invoices available yet.</p>
+                    <p class="text-xs text-slate-400 mt-1">Invoices appear here after each successful payment.</p>
+                </div>
+                <div id="invoicesErrorState" class="text-center py-10 sm:py-12 hidden">
+                    <span class="material-symbols-outlined text-4xl text-red-400">error</span>
+                    <p class="text-red-600 text-sm mt-2" id="invoicesErrorMsg">Could not load invoices.</p>
+                    <button onclick="loadInvoices()" class="mt-3 text-xs text-teal-600 underline">Retry</button>
+                </div>
+                <div id="invoicesTableContainer" style="display: none;">
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[600px]">
+                            <thead class="bg-slate-50 text-left text-xs font-semibold text-slate-500">
+                                <tr>
+                                    <th class="px-4 sm:px-6 py-3">Description</th>
+                                    <th class="px-4 sm:px-6 py-3">Date</th>
+                                    <th class="px-4 sm:px-6 py-3">Amount</th>
+                                    <th class="px-4 sm:px-6 py-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoicesList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== USAGE ===== -->
+        <div id="usage" class="tab-content">
+            <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6">
+                <h3 class="font-bold text-slate-800 mb-4">Usage Summary</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <div class="text-xs text-slate-500 mb-1">Machines</div>
+                        <div class="text-xl font-bold text-slate-800" id="usageMachines">—</div>
+                        <div class="text-xs text-slate-400 mt-1" id="usageMachinesLimit">—</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <div class="text-xs text-slate-500 mb-1">Predictions (total)</div>
+                        <div class="text-xl font-bold text-slate-800" id="usagePredictions">—</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <div class="text-xs text-slate-500 mb-1">Storage used</div>
+                        <div class="text-xl font-bold text-slate-800" id="usageStorage">—</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- ===== ENTERPRISE MODAL ===== -->
+<div id="enterpriseModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content p-5 sm:p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg sm:text-xl font-bold text-slate-800">Enterprise Plan Request</h3>
+            <button onclick="closeEnterpriseModal()" class="text-slate-400 hover:text-slate-600 text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <p class="text-sm text-slate-500 mb-4">Fill in your details and our team will contact you within 24 hours.</p>
+        <form id="enterpriseForm" onsubmit="submitEnterpriseRequest(event)">
+            <div class="mb-3">
+                <label class="block text-xs font-semibold text-slate-500 uppercase mb-1" for="enterpriseName">Full Name *</label>
+                <input type="text" id="enterpriseName" class="form-input w-full p-3 border border-slate-200 rounded-xl text-sm" placeholder="John Doe" required autocomplete="name">
+            </div>
+            <div class="mb-3">
+                <label class="block text-xs font-semibold text-slate-500 uppercase mb-1" for="enterpriseEmail">Email Address *</label>
+                <input type="email" id="enterpriseEmail" class="form-input w-full p-3 border border-slate-200 rounded-xl text-sm" placeholder="john@company.com" required autocomplete="email">
+            </div>
+            <div class="mb-3">
+                <label class="block text-xs font-semibold text-slate-500 uppercase mb-1" for="enterpriseCompany">Company / Organization *</label>
+                <input type="text" id="enterpriseCompany" class="form-input w-full p-3 border border-slate-200 rounded-xl text-sm" placeholder="Acme Corp" required autocomplete="organization">
+            </div>
+            <div class="mb-3">
+                <label class="block text-xs font-semibold text-slate-500 uppercase mb-1" for="enterprisePhone">Phone Number</label>
+                <input type="tel" id="enterprisePhone" class="form-input w-full p-3 border border-slate-200 rounded-xl text-sm" placeholder="+1 (555) 000-0000" autocomplete="tel">
+            </div>
+            <div class="mb-3">
+                <label class="block text-xs font-semibold text-slate-500 uppercase mb-1" for="enterpriseMachines">Number of Machines</label>
+                <select id="enterpriseMachines" class="form-input w-full p-3 border border-slate-200 rounded-xl text-sm bg-white">
+                    <option value="100-500">100 – 500 machines</option>
+                    <option value="500-1000">500 – 1,000 machines</option>
+                    <option value="1000-5000">1,000 – 5,000 machines</option>
+                    <option value="5000+">5,000+ machines</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-xs font-semibold text-slate-500 uppercase mb-1" for="enterpriseRequirements">Additional Requirements</label>
+                <textarea id="enterpriseRequirements" rows="3" class="form-input w-full p-3 border border-slate-200 rounded-xl text-sm" placeholder="Tell us about your specific needs..."></textarea>
+            </div>
+            <button type="submit" class="w-full gradient-cta text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2" id="enterpriseSubmitBtn">
+                <span class="material-symbols-outlined text-base">send</span>
+                Submit Request
+            </button>
+        </form>
+    </div>
+</div>
+<script>
+// ============================================================
+// SynapsePM Billing — Production v3.0.0
+//
+// Real backend endpoints used:
+//   GET  /api/v1/payments/plans               → plans + gateways + status
+//   GET  /api/v1/payments/paddle-config       → paddle client token + env
+//   GET  /api/v1/billing/subscription         → current plan + trial + limits
+//   GET  /api/v1/billing/invoices             → payment history
+//   GET  /api/v1/billing/stats                → machine/alert/prediction counts
+//   GET  /api/v1/billing/usage                → storage/API usage
+//   GET  /api/v1/billing/payment-methods      → saved methods (via Paddle)
+//   POST /api/v1/billing/create-checkout      → creates Payment row → Paddle URL
+//   GET  /api/v1/payments/verify/<uuid>       → verify payment after redirect
+//   POST /api/v1/payments/cancel              → cancel subscription
+//   POST /api/v1/billing/enterprise-request   → saves EnterpriseRequest row
+//
+// WebSocket events picked up in real time:
+//   billing_updated, payment_created, user_updated, alert_created
+// ============================================================
+
+const API_BASE = '/api/v1';
+const REQUEST_TIMEOUT_MS = 30000;
+const REFRESH_STORAGE_KEYS = ['synapse_refresh', 'refresh_token', 'synapse_refresh_token'];
+const AUTH_STORAGE_KEYS = [
+    'synapse_token', 'synapse_user', 'synapse_refresh', 'synapse_tenant',
+    'synapse_admin_token', 'synapse_admin_user', 'synapse_mfa', 'synapse_sessions',
+    'token', 'auth_token', 'access_token', 'refresh_token', 'user', 'organization'
+];
+
+const $ = id => document.getElementById(id);
+
+// ------------------------------------------------------------
+// TOKEN / USER
+// ------------------------------------------------------------
+function readFirst(keys) {
+    for (const k of keys) {
+        try { const v = localStorage.getItem(k); if (v) return v; } catch (e) {}
+    }
+    return null;
+}
+function getToken() {
+    return localStorage.getItem('synapse_token')
+        || localStorage.getItem('synapse_admin_token')
+        || localStorage.getItem('token')
+        || localStorage.getItem('auth_token')
+        || localStorage.getItem('access_token')
+        || null;
+}
+function getRefreshToken() { return readFirst(REFRESH_STORAGE_KEYS); }
+function getUser() {
+    try {
+        const raw = localStorage.getItem('synapse_user')
+            || localStorage.getItem('synapse_admin_user')
+            || localStorage.getItem('user');
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+}
+function decodeJwt(token) {
+    if (!token || typeof token !== 'string') return null;
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) return null;
+        const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+        return JSON.parse(atob(padded));
+    } catch (e) { return null; }
+}
+function isTokenValid(token) {
+    const payload = decodeJwt(token);
+    if (!payload || typeof payload.exp !== 'number') return false;
+    return payload.exp > Math.floor(Date.now() / 1000) + 10;
+}
+
+const Auth = {
+    get token() { return getToken(); },
+    get user() { return getUser(); },
+    get isAuthenticated() {
+        const t = getToken();
+        if (!t || !isTokenValid(t)) return false;
+        return !!getUser();
+    },
+    clearStorage() {
+        AUTH_STORAGE_KEYS.forEach(k => { try { localStorage.removeItem(k); } catch (e) {} });
+    },
+    logout() {
+        this.clearStorage();
+        try { sessionStorage.setItem('justLoggedOut', 'true'); } catch (e) {}
+        try { if (wsConnection) wsConnection.close(1000, 'logout'); } catch (e) {}
+        if (!/login\.html/i.test(window.location.pathname)) {
+            window.location.replace('login.html');
+        }
+    },
+};
+
+// ------------------------------------------------------------
+// TOAST + BANNER
+// ------------------------------------------------------------
+function escapeHtml(t) {
+    if (t === null || t === undefined) return '';
+    const d = document.createElement('div');
+    d.textContent = String(t);
+    return d.innerHTML;
+}
+function showToast(msg, type = 'info', duration = 4500) {
+    const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#00b4aa' };
+    const icons = { success: 'check_circle', error: 'error', warning: 'warning', info: 'info' };
+    const t = document.createElement('div');
+    t.className = 'toast ' + type;
+    t.style.borderLeftColor = colors[type] || colors.info;
+    t.innerHTML = `<span class="material-symbols-outlined text-sm" style="color:${colors[type]}">${icons[type]}</span><span class="text-sm">${escapeHtml(msg)}</span>`;
+    document.body.appendChild(t);
+    setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transition = 'opacity .3s';
+        setTimeout(() => t.remove(), 300);
+    }, duration);
+}
+function showPageBanner(message, kind = 'error', timeoutMs = 0) {
+    const host = $('pageBannerHost');
+    if (!host) { if (message) showToast(message, kind, 6000); return; }
+    host.innerHTML = '';
+    if (!message) return;
+    const icons = { error: 'error', warning: 'warning', info: 'info', success: 'check_circle' };
+    const banner = document.createElement('div');
+    banner.className = 'page-banner ' + kind;
+    banner.innerHTML = `
+        <span class="material-symbols-outlined text-base">${icons[kind] || 'info'}</span>
+        <span style="flex:1">${escapeHtml(message)}</span>
+        <span class="material-symbols-outlined banner-close text-base" onclick="this.parentElement.remove()">close</span>
+    `;
+    host.appendChild(banner);
+    if (timeoutMs > 0) setTimeout(() => { try { banner.remove(); } catch (e) {} }, timeoutMs);
+}
+
+// ------------------------------------------------------------
+// API CLIENT (single-flight refresh)
+// ------------------------------------------------------------
+let refreshPromise = null;
+
+async function performRefresh() {
+    if (refreshPromise) return refreshPromise;
+    const rt = getRefreshToken();
+    if (!rt) return false;
+
+    refreshPromise = (async () => {
+        try {
+            const resp = await fetch(API_BASE + '/auth/refresh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    refresh_token: rt,
+                    device_id: localStorage.getItem('synapse_device_id') || null,
+                }),
+                credentials: 'same-origin',
+            });
+            if (!resp.ok) return false;
+            const data = await resp.json().catch(() => null);
+            if (!data || !data.success || !data.access_token) return false;
+            try {
+                localStorage.setItem('synapse_token', data.access_token);
+                localStorage.setItem('token', data.access_token);
+                localStorage.setItem('auth_token', data.access_token);
+                localStorage.setItem('access_token', data.access_token);
+                if (data.refresh_token) {
+                    localStorage.setItem('synapse_refresh', data.refresh_token);
+                    localStorage.setItem('refresh_token', data.refresh_token);
+                }
+            } catch (e) {}
+            return true;
+        } catch (e) {
+            return false;
+        } finally {
+            refreshPromise = null;
+        }
+    })();
+
+    return refreshPromise;
+}
+
+const API = {
+    async request(endpoint, options = {}, _retried = false) {
+        const token = getToken();
+        const headers = { 'Accept': 'application/json', ...(options.headers || {}) };
+        const isForm = (typeof FormData !== 'undefined') && (options.body instanceof FormData);
+        if (!isForm && options.body !== undefined && options.body !== null && !headers['Content-Type']) {
+            headers['Content-Type'] = 'application/json';
+        }
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+        let response;
+        try {
+            response = await fetch(API_BASE + endpoint, {
+                ...options,
+                headers,
+                credentials: 'same-origin',
+                signal: controller.signal,
+            });
+        } catch (err) {
+            clearTimeout(timer);
+            if (err && err.name === 'AbortError') {
+                const e = new Error('Request timed out.'); e.status = 0; throw e;
+            }
+            const e = new Error('Network error: cannot reach backend.'); e.status = 0; throw e;
+        }
+        clearTimeout(timer);
+
+        if (response.status === 401 && !_retried) {
+            const ok = await performRefresh();
+            if (ok) return this.request(endpoint, options, true);
+            Auth.logout();
+            const e = new Error('Session expired. Please log in again.');
+            e.status = 401; throw e;
+        }
+
+        const ctype = response.headers.get('content-type') || '';
+        let data = null;
+        if (ctype.includes('application/json')) {
+            try { data = await response.json(); } catch (e) { data = null; }
+        } else {
+            try {
+                const text = await response.text();
+                try { data = JSON.parse(text); } catch (e) { data = { raw: text }; }
+            } catch (e) { data = null; }
+        }
+
+        if (!response.ok) {
+            const msg = (data && (data.error || data.message || data.detail)) || ('HTTP ' + response.status);
+            const err = new Error(msg);
+            err.status = response.status;
+            err.data = data;
+            throw err;
+        }
+        return data;
+    },
+
+    // Plans + gateway status
+    getPlans() { return this.request('/payments/plans'); },
+    getPaddleConfig() { return this.request('/payments/paddle-config'); },
+
+    // Subscription + usage + stats + invoices + methods
+    getSubscription() { return this.request('/billing/subscription'); },
+    getInvoices() { return this.request('/billing/invoices'); },
+    getStats() { return this.request('/billing/stats'); },
+    getUsage() { return this.request('/billing/usage'); },
+    getPaymentMethods() { return this.request('/billing/payment-methods'); },
+
+    // Checkout + verify
+    createCheckout(payload) {
+        return this.request('/billing/create-checkout', {
+            method: 'POST',
+            body: JSON.stringify(payload),
+        });
+    },
+    verifyPayment(paymentUuid) {
+        return this.request('/payments/verify/' + encodeURIComponent(paymentUuid));
+    },
+
+    // Cancel + enterprise
+    cancelSubscription() {
+        return this.request('/payments/cancel', { method: 'POST', body: JSON.stringify({}) });
+    },
+    submitEnterpriseRequest(payload) {
+        return this.request('/billing/enterprise-request', {
+            method: 'POST',
+            body: JSON.stringify(payload),
+        });
+    },
+};
+
+// ------------------------------------------------------------
+// STATE
+// ------------------------------------------------------------
+let plans = [];
+let gateways = [];
+let gatewayStatus = [];
+let paymentEnabled = false;
+let paddleConfig = null;
+let billingCycle = 'monthly';
+let activeSubscription = null;
+let wsConnection = null;
+let wsReconnectTimer = null;
+let refreshInterval = null;
+let isInitialLoad = true;
+
+// ------------------------------------------------------------
+// SIDEBAR + PROFILE
+// ------------------------------------------------------------
+let sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+const sidebar = $('mainSidebar');
+function isDesktop() { return window.innerWidth >= 1024; }
+
+function updateSidebarUI() {
+    if (!sidebar) return;
+    if (isDesktop()) {
+        sidebar.classList.toggle('collapsed', sidebarCollapsed);
+        document.body.classList.toggle('sidebar-is-collapsed', sidebarCollapsed);
+        $('sidebarToggle')?.setAttribute('aria-expanded', String(!sidebarCollapsed));
+    } else {
+        sidebar.classList.remove('collapsed');
+        document.body.classList.remove('sidebar-is-collapsed');
+    }
+}
+function toggleSidebar() {
+    if (!isDesktop()) { openMobileSidebar(); return; }
+    sidebarCollapsed = !sidebarCollapsed;
+    localStorage.setItem('sidebar_collapsed', String(sidebarCollapsed));
+    closeProfileMenu();
+    updateSidebarUI();
+}
+function openMobileSidebar() {
+    if (!sidebar || isDesktop()) return;
+    sidebar.classList.add('mobile-open');
+    $('sidebarOverlay')?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeMobileSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('mobile-open');
+    $('sidebarOverlay')?.classList.remove('active');
+    document.body.style.overflow = '';
+}
+function setProfileMenuOpen(open) {
+    const pm = $('profileMenu'), av = $('userAvatar');
+    if (!pm || !av) return;
+    pm.classList.toggle('open', open);
+    pm.setAttribute('aria-hidden', String(!open));
+    av.setAttribute('aria-expanded', String(open));
+}
+function closeProfileMenu() { setProfileMenuOpen(false); }
+function toggleProfileMenu() { setProfileMenuOpen(!$('profileMenu')?.classList.contains('open')); }
+
+// ------------------------------------------------------------
+// USER UI (with real-time cross-tab sync)
+// ------------------------------------------------------------
+function updateUserUI() {
+    const user = getUser();
+    if (!user) { $('userEmailDisplay').textContent = '—'; return; }
+    const name = user.display_name || user.full_name || user.name || user.username || (user.email || '').split('@')[0] || 'User';
+    const email = user.email || '';
+    const plan = user.plan || 'Free';
+    const role = user.role || '';
+    const org = user.organization_name || (user.organization && user.organization.name) || user.organization || '';
+    const initials = name.split(/\s+/).filter(Boolean).map(n => n[0]).join('').slice(0,2).toUpperCase() || 'U';
+
+    $('userName').textContent = name;
+    $('userEmail').textContent = email;
+    $('userPlan').textContent = plan + ' Plan';
+    $('userAvatarText').textContent = initials;
+    $('profileMenuName').textContent = name;
+    $('profileMenuEmail').textContent = email;
+    $('profileMenuUsername').textContent = user.username || name;
+    $('profileMenuEmailDetail').textContent = email;
+    $('profileMenuPlan').textContent = plan + ' Plan';
+    $('profileRoleRow').hidden = !role;
+    $('profileMenuRole').textContent = role;
+    $('profileOrgRow').hidden = !org;
+    $('profileMenuOrg').textContent = org;
+    $('userEmailDisplay').textContent = email || '—';
+
+    if (user.avatar_url) {
+        const url = String(user.avatar_url).replace(/'/g, '%27');
+        $('userAvatar').style.backgroundImage = `url('${url}')`;
+        $('userAvatar').style.backgroundSize = 'cover';
+        $('userAvatar').style.backgroundPosition = 'center';
+        $('userAvatarText').style.display = 'none';
+        $('profileMenuAvatar').style.backgroundImage = `url('${url}')`;
+        $('profileMenuAvatar').style.backgroundSize = 'cover';
+        $('profileMenuAvatar').style.backgroundPosition = 'center';
+        $('profileMenuAvatar').textContent = '';
+    } else {
+        $('userAvatar').style.backgroundImage = '';
+        $('userAvatarText').style.display = '';
+        $('userAvatarText').textContent = initials;
+        $('profileMenuAvatar').style.backgroundImage = '';
+        $('profileMenuAvatar').textContent = initials;
+    }
+}
+
+// Real-time user sync from settings page (any tab)
+window.addEventListener('storage', (e) => {
+    if (e.key === 'synapse_user' || e.key === 'user') {
+        try {
+            const u = JSON.parse(e.newValue || 'null');
+            if (u) updateUserUI();
+        } catch {}
+    }
+});
+window.addEventListener('synapse:user-updated', (e) => {
+    if (e.detail) updateUserUI();
+});
+document.addEventListener('synapse:user-updated', (e) => {
+    if (e.detail) updateUserUI();
+});
+
+// ------------------------------------------------------------
+// PLANS + GATEWAYS
+// ------------------------------------------------------------
+async function bootstrapPlans() {
+    try {
+        const [plansData, paddleData] = await Promise.allSettled([
+            API.getPlans(),
+            API.getPaddleConfig(),
+        ]);
+
+        if (plansData.status === 'fulfilled') {
+            const d = plansData.value || {};
+            plans = d.plans || [];
+            gateways = d.gateways || [];
+            gatewayStatus = d.gateway_status || [];
+        }
+
+        if (paddleData.status === 'fulfilled') {
+            paddleConfig = paddleData.value || {};
+        }
+
+        let paddleEnabled = false;
+        if (paddleConfig && typeof paddleConfig.enabled === 'boolean') {
+            paddleEnabled = paddleConfig.enabled;
+        } else {
+            paddleEnabled = gatewayStatus.some(g => g.name === 'paddle' && g.enabled);
+        }
+
+        const paddleInGateways = gateways.includes('paddle');
+        paymentEnabled = paddleEnabled && paddleInGateways;
+
+        if (!paymentEnabled) {
+            const reasons = gatewayStatus
+                .filter(g => !g.enabled && g.reason)
+                .map(g => `${g.name}: ${g.reason}`)
+                .join(' • ');
+            $('gatewayMissingBanner').classList.remove('hidden');
+            $('gatewayMissingReason').textContent = reasons
+                || 'Contact synapsepm121@gmail.com to enable payments.';
+        } else {
+            $('gatewayMissingBanner').classList.add('hidden');
+        }
+
+        renderPlans();
+        renderPaymentPartners();
+        $('securePaymentLabel').textContent = paymentEnabled
+            ? 'Secure payments via Paddle'
+            : 'Gateway not configured';
+    } catch (error) {
+        if (error && error.status === 401) return;
+        $('plansGrid').innerHTML = `
+            <div class="col-span-full text-center py-8 rounded-xl bg-red-50 border border-red-200">
+                <span class="material-symbols-outlined text-3xl text-red-400">cloud_off</span>
+                <p class="text-red-700 text-sm mt-2">Cannot load plans from server.</p>
+                <p class="text-red-600 text-xs mt-1">${escapeHtml(error.message || 'Unknown error')}</p>
+                <button onclick="bootstrapPlans()" class="mt-3 px-4 py-2 rounded-lg border border-red-300 text-red-700 text-xs font-semibold hover:bg-red-100">Retry</button>
+            </div>`;
+        $('securePaymentLabel').textContent = 'Gateway unavailable';
+        $('paymentPartners').innerHTML = `<span class="text-sm font-bold text-red-500">Gateway unavailable</span>`;
+    }
+}
+
+function getPlanPriceNumeric(plan) {
+    if (plan.price === null || plan.price === undefined) return null;
+    const cents = Number(plan.price);
+    if (isNaN(cents)) return null;
+    const base = cents / 100;
+    return billingCycle === 'yearly' ? Math.round(base * 0.8) : base;
+}
+function getPlanPriceDisplay(plan) {
+    if (plan.is_custom || plan.price === null) return 'Custom';
+    const amt = getPlanPriceNumeric(plan);
+    if (amt === null) return plan.price_display || '—';
+    return '$' + amt;
+}
+function getPlanPeriodDisplay() {
+    return billingCycle === 'monthly' ? '/month' : '/mo · billed yearly';
+}
+function getPlanDesc(planId) {
+    return ({
+        starter: 'For growing teams',
+        professional: 'For industrial enterprises',
+        business: 'For large operations',
+        enterprise: 'For global organizations'
+    })[planId] || '';
+}
+
+function renderPlans() {
+    const grid = $('plansGrid');
+    const visible = plans.filter(p => p.id !== 'free');
+    if (!visible.length) {
+        grid.innerHTML = '<div class="col-span-full text-center py-8 text-slate-500 text-sm">No paid plans available.</div>';
+        return;
+    }
+    const popularId = visible.find(p => p.id === 'professional')
+        ? 'professional'
+        : (visible[1] && visible[1].id);
+
+    grid.innerHTML = visible.map(plan => {
+        const isEnterprise = plan.is_custom || plan.id === 'enterprise';
+        const features = Array.isArray(plan.features) ? plan.features : [];
+        const isPopular = plan.id === popularId;
+
+        let btnHtml;
+        if (isEnterprise) {
+            btnHtml = `<button type="button" onclick="openEnterpriseModal()" class="activate-btn" style="border-color:#0f2b3d;color:#0f2b3d;">Contact Sales</button>`;
+        } else if (!paymentEnabled) {
+            btnHtml = `<button type="button" disabled class="activate-btn" title="Payment gateway not configured">Unavailable</button>`;
+        } else {
+            btnHtml = `<button type="button" onclick="selectPlan('${escapeHtml(plan.id)}')" class="activate-btn" data-plan-btn="${escapeHtml(plan.id)}">Pay securely</button>`;
+        }
+
+        return `
+            <div class="plan-card ${isPopular ? 'popular' : ''}">
+                <h3 class="font-bold text-slate-800 text-lg">${escapeHtml(plan.name || plan.id)}</h3>
+                <p class="text-xs text-slate-500">${escapeHtml(getPlanDesc(plan.id))}</p>
+                <div class="plan-price mt-2" data-plan-price="${escapeHtml(plan.id)}">${escapeHtml(getPlanPriceDisplay(plan))}</div>
+                <div class="plan-period" data-plan-period="${escapeHtml(plan.id)}">${isEnterprise ? 'Contact sales' : escapeHtml(getPlanPeriodDisplay())}</div>
+                <ul class="mt-4 space-y-1 mb-4">
+                    ${features.map(f => `<li class="plan-feature"><span class="check">✓</span> <span>${escapeHtml(f)}</span></li>`).join('')}
+                </ul>
+                ${btnHtml}
+            </div>`;
+    }).join('');
+}
+
+function renderPaymentPartners() {
+    $('paymentPartners').innerHTML = paymentEnabled
+        ? `<span class="text-sm font-bold text-slate-600">💳 Paddle</span>
+           <span class="text-xs text-slate-400">Visa · Mastercard · AmEx · PayPal · Apple Pay · Google Pay</span>`
+        : `<span class="text-sm font-bold text-slate-400">No gateway configured</span>`;
+}
+
+// ------------------------------------------------------------
+// SUBSCRIPTION
+// ------------------------------------------------------------
+async function loadSubscription() {
+    if (isInitialLoad) $('overviewSkeleton').classList.remove('hidden');
+    try {
+        const data = await API.getSubscription();
+        activeSubscription = {
+            plan: String(data.plan || data.plan_id || 'free').toLowerCase(),
+            plan_name: data.plan_name || data.plan || 'Free',
+            amount: data.amount != null ? Number(data.amount) : null,
+            status: String(data.subscription_status || 'trialing').toLowerCase(),
+            current_period_end: data.current_period_end || data.trial_ends_at || null,
+            trial_ends_at: data.trial_ends_at || null,
+            is_trial_active: !!data.is_trial_active,
+            is_trial_expired: !!data.is_trial_expired,
+            available_plans: data.available_plans || null,
+        };
+        if ((!plans || plans.length === 0) && activeSubscription.available_plans) {
+            plans = Object.values(activeSubscription.available_plans).map(p => ({
+                id: p.id, name: p.name, price: p.price,
+                price_display: p.price_display, currency: p.currency,
+                features: p.features || [], is_custom: !!p.is_custom,
+            }));
+            renderPlans();
+        }
+        renderSubscription();
+    } catch (error) {
+        if (error && error.status === 401) return;
+        activeSubscription = null;
+        renderSubscription();
+        showPageBanner('Could not load subscription: ' + (error.message || 'unknown error'), 'warning', 8000);
+    } finally {
+        isInitialLoad = false;
+        $('overviewSkeleton').classList.add('hidden');
+    }
+}
+
+function renderSubscription() {
+    const hasSub = activeSubscription
+        && activeSubscription.plan
+        && activeSubscription.plan !== 'free'
+        && activeSubscription.status !== 'canceled'
+        && activeSubscription.status !== 'expired';
+
+    if (hasSub) {
+        $('emptyPlanState').classList.add('hidden');
+        $('activePlanContent').classList.remove('hidden');
+
+        $('activePlanName').textContent = activeSubscription.plan_name || activeSubscription.plan;
+
+        const plan = plans.find(p => p.id === activeSubscription.plan);
+        const amount = activeSubscription.amount != null
+            ? activeSubscription.amount
+            : (plan && plan.price ? plan.price / 100 : null);
+        $('activePlanAmount').textContent = amount != null ? '$' + amount : '—';
+        $('activePlanPeriod').textContent = billingCycle === 'monthly' ? '/month' : '/month (billed yearly)';
+
+        const statusMap = { active: 'Active', trialing: 'Trial', past_due: 'Past Due', canceled: 'Canceled', expired: 'Expired', paused: 'Paused', pending: 'Pending' };
+        const statusClassMap = { active: 'bg-green-500/30', trialing: 'bg-amber-500/30', past_due: 'bg-red-500/30', canceled: 'bg-red-500/30', expired: 'bg-red-500/30', paused: 'bg-indigo-500/30', pending: 'bg-amber-500/30' };
+        const status = activeSubscription.status || 'active';
+        $('planStatus').textContent = statusMap[status] || status;
+        $('planStatus').className = 'px-3 py-1 rounded-full text-white text-sm font-semibold ' + (statusClassMap[status] || 'bg-white/20');
+
+        if (activeSubscription.current_period_end) {
+            const d = new Date(activeSubscription.current_period_end);
+            if (!isNaN(d.getTime())) {
+                $('nextInvoiceLabel').textContent = activeSubscription.is_trial_active ? 'Trial ends' : 'Next Invoice';
+                $('nextInvoiceDate').textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            } else {
+                $('nextInvoiceDate').textContent = '—';
+            }
+        } else {
+            $('nextInvoiceDate').textContent = '—';
+        }
+
+        const features = plan && Array.isArray(plan.features) ? plan.features : [];
+        $('planFeaturesList').innerHTML = features.map(f =>
+            `<li class="flex items-start gap-2 text-sm"><span class="material-symbols-outlined text-teal-600 text-base" style="margin-top:2px">check_circle</span> <span>${escapeHtml(f)}</span></li>`
+        ).join('');
+    } else {
+        $('emptyPlanState').classList.remove('hidden');
+        $('activePlanContent').classList.add('hidden');
+    }
+}
+
+// ------------------------------------------------------------
+// INVOICES
+// ------------------------------------------------------------
+async function loadInvoices() {
+    $('emptyInvoicesState').classList.add('hidden');
+    $('invoicesErrorState').classList.add('hidden');
+    $('invoicesTableContainer').style.display = 'none';
+    $('invoicesLoading').classList.remove('hidden');
+
+    try {
+        const data = await API.getInvoices();
+        const invoices = data.invoices || data.items || data.data || [];
+        $('invoicesLoading').classList.add('hidden');
+        if (invoices.length === 0) {
+            $('emptyInvoicesState').classList.remove('hidden');
+            return;
+        }
+        $('invoicesTableContainer').style.display = 'block';
+        $('invoicesList').innerHTML = invoices.map(inv => {
+            const status = String(inv.status || '').toLowerCase();
+            const statusClass = (status === 'paid' || status === 'succeeded' || status === 'completed')
+                ? 'bg-green-100 text-green-700'
+                : status === 'pending' ? 'bg-amber-100 text-amber-700'
+                : 'bg-red-100 text-red-700';
+            const d = new Date(inv.date || inv.created_at || Date.now());
+            const dateStr = isNaN(d.getTime()) ? '—' : d.toLocaleDateString();
+            const amount = Number(inv.amount != null ? inv.amount : (inv.total || 0)).toFixed(2);
+            const desc = inv.description || inv.plan_name || 'Subscription payment';
+            return `
+                <tr class="border-b border-slate-200 hover:bg-slate-50">
+                    <td class="px-4 sm:px-6 py-3 text-sm">${escapeHtml(desc)}</td>
+                    <td class="px-4 sm:px-6 py-3 text-sm text-slate-500">${escapeHtml(dateStr)}</td>
+                    <td class="px-4 sm:px-6 py-3 text-sm font-semibold">$${amount}</td>
+                    <td class="px-4 sm:px-6 py-3">
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${escapeHtml(inv.status || 'unknown')}</span>
+                    </td>
+                </tr>`;
+        }).join('');
+    } catch (error) {
+        if (error && error.status === 401) return;
+        $('invoicesLoading').classList.add('hidden');
+        $('invoicesErrorState').classList.remove('hidden');
+        $('invoicesErrorMsg').textContent = 'Could not load invoices: ' + (error.message || 'unknown error');
+    }
+}
+
+// ------------------------------------------------------------
+// PAYMENT METHODS
+// ------------------------------------------------------------
+async function loadPaymentMethods() {
+    const host = $('paymentMethodsList');
+    if (!host) return;
+    host.innerHTML = '<p class="text-sm text-slate-400">Loading…</p>';
+    try {
+        const data = await API.getPaymentMethods();
+        const methods = data.methods || data.payment_methods || [];
+        if (!Array.isArray(methods) || methods.length === 0) {
+            host.innerHTML = `<p class="text-sm text-slate-500">No saved payment methods. All payments are processed by Paddle — no card data is stored on our servers.</p>`;
+            return;
+        }
+        host.innerHTML = methods.map(m => `
+            <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="material-symbols-outlined text-teal-600">credit_card</span>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-semibold text-slate-800 truncate">${escapeHtml(m.label || m.name || 'Payment method')}</p>
+                    ${m.via ? `<p class="text-xs text-slate-400">via ${escapeHtml(m.via)}</p>` : ''}
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        if (error && error.status === 401) return;
+        host.innerHTML = `<p class="text-sm text-red-600">Could not load payment methods: ${escapeHtml(error.message || 'unknown error')}</p>`;
+    }
+}
+
+// ------------------------------------------------------------
+// STATS + USAGE (real, from /billing/stats and /billing/usage)
+// ------------------------------------------------------------
+async function loadStats() {
+    try {
+        const data = await API.getStats();
+        const s = data.stats || data || {};
+        $('statMachines').textContent = s.machines != null ? s.machines : '—';
+        $('statPredictions').textContent = s.predictions != null ? s.predictions : '—';
+        $('statAlerts').textContent = (s.alerts != null ? s.alerts : (s.alert_count != null ? s.alert_count : '—'));
+        $('statCriticalAlerts').textContent = (s.criticalAlerts != null ? s.criticalAlerts : (s.critical_alert_count != null ? s.critical_alert_count : '—'));
+
+        const machinesLimit = s.machinesLimit != null ? s.machinesLimit : (s.machine_limit != null ? s.machine_limit : null);
+        const predictionsLimit = s.predictionsLimit != null ? s.predictionsLimit : (s.prediction_limit != null ? s.prediction_limit : null);
+
+        $('machinesLimitText').textContent = 'Limit: ' + (machinesLimit != null ? machinesLimit : '—');
+        $('predictionsLimitText').textContent = predictionsLimit != null ? 'of ' + predictionsLimit : '—';
+        $('usageMachines').textContent = s.machines != null ? s.machines : '—';
+        $('usageMachinesLimit').textContent = 'Limit: ' + (machinesLimit != null ? machinesLimit : '—');
+        $('usagePredictions').textContent = s.predictions != null ? s.predictions : '—';
+
+        const limitNum = Number(machinesLimit);
+        if (!isNaN(limitNum) && limitNum > 0 && s.machines != null) {
+            const pct = Math.min((Number(s.machines) / limitNum) * 100, 100);
+            $('machinesProgressBar').style.width = pct + '%';
+        } else {
+            $('machinesProgressBar').style.width = '0%';
+        }
+    } catch (error) {
+        if (error && error.status === 401) return;
+        // Leave previous values; do not overwrite with 0
+    }
+}
+
+async function loadUsage() {
+    try {
+        const data = await API.getUsage();
+        const u = data.usage || data || {};
+        const gb = u.storage_used_gb;
+        if (gb != null && !isNaN(Number(gb))) {
+            if (Number(gb) < 0.001) {
+                const kb = Math.round((u.storage_used_bytes || 0) / 1024);
+                $('usageStorage').textContent = kb + ' KB';
+            } else {
+                $('usageStorage').textContent = Number(gb).toFixed(2) + ' GB';
+            }
+        } else if (u.storage_used_bytes != null) {
+            const kb = Math.round(Number(u.storage_used_bytes) / 1024);
+            $('usageStorage').textContent = kb + ' KB';
+        } else {
+            $('usageStorage').textContent = '—';
+        }
+    } catch (error) {
+        if (error && error.status === 401) return;
+        $('usageStorage').textContent = '—';
+    }
+}
+
+// ------------------------------------------------------------
+// CHECKOUT (Paddle — real)
+// ------------------------------------------------------------
+function selectPlan(planId) {
+    if (!Auth.isAuthenticated) return Auth.logout();
+    if (!paymentEnabled) {
+        showToast('Payment gateway is not configured yet. Please contact us.', 'error', 6000);
+        return;
+    }
+    startPaddleCheckout(planId);
+}
+
+async function startPaddleCheckout(planId) {
+    const btn = document.querySelector(`[data-plan-btn="${planId}"]`);
+    const original = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Opening checkout…';
+    }
+    try {
+        const data = await API.createCheckout({
+            plan_id: planId,
+            plan: planId,
+            interval: billingCycle,
+            gateway: 'paddle',
+        });
+        if (data.checkout_url) {
+            showToast('Redirecting to Paddle checkout…', 'info', 2000);
+            window.location.href = data.checkout_url;
+            return;
+        }
+        const reason = data.detail || data.error || 'Server did not return a checkout URL.';
+        throw new Error(reason);
+    } catch (error) {
+        const msg = error.message || 'unknown error';
+        if (error.status === 503) {
+            showToast('Payment checkout is currently unavailable: ' + msg, 'warning', 8000);
+            showPageBanner('Payment checkout unavailable: ' + msg, 'warning', 10000);
+        } else {
+            showToast('Checkout failed: ' + msg, 'error', 8000);
+        }
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = original;
+        }
+    }
+}
+
+// ------------------------------------------------------------
+// CANCEL SUBSCRIPTION
+// ------------------------------------------------------------
+async function cancelSubscription() {
+    if (!Auth.isAuthenticated) return Auth.logout();
+    if (!confirm('Cancel your subscription? You will lose premium access at the end of your billing period.')) return;
+    try {
+        const res = await API.cancelSubscription();
+        if (!res || res.success === false) {
+            throw new Error((res && (res.error || res.message)) || 'Cancellation failed.');
+        }
+        showToast('Subscription canceled', 'success');
+        await loadSubscription();
+        await loadStats();
+    } catch (error) {
+        showToast('Failed to cancel: ' + (error.message || 'unknown error'), 'error', 7000);
+    }
+}
+
+// ------------------------------------------------------------
+// ENTERPRISE REQUEST (saved to DB via /billing/enterprise-request)
+// ------------------------------------------------------------
+function openEnterpriseModal() {
+    if (!Auth.isAuthenticated) return Auth.logout();
+    $('enterpriseModal').classList.add('active');
+    $('enterpriseModal').setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    const user = getUser();
+    if (user) {
+        $('enterpriseName').value = user.display_name || user.full_name || user.name || user.username || '';
+        $('enterpriseEmail').value = user.email || '';
+        $('enterpriseCompany').value = user.organization_name || (user.organization && user.organization.name) || user.organization || '';
+        $('enterprisePhone').value = user.phone || '';
+    }
+}
+function closeEnterpriseModal() {
+    $('enterpriseModal').classList.remove('active');
+    $('enterpriseModal').setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+async function submitEnterpriseRequest(event) {
+    event.preventDefault();
+    const btn = $('enterpriseSubmitBtn');
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Sending…';
+
+    const payload = {
+        full_name: $('enterpriseName').value.trim(),
+        email: $('enterpriseEmail').value.trim().toLowerCase(),
+        company: $('enterpriseCompany').value.trim(),
+        phone: $('enterprisePhone').value.trim(),
+        machines: $('enterpriseMachines').value,
+        requirements: $('enterpriseRequirements').value.trim(),
+    };
+
+    // Client-side validation
+    if (!payload.full_name || !payload.email || !payload.company) {
+        showToast('Name, email, and company are required.', 'error');
+        btn.disabled = false;
+        btn.innerHTML = original;
+        return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+        showToast('Please enter a valid email address.', 'error');
+        btn.disabled = false;
+        btn.innerHTML = original;
+        return;
+    }
+
+    try {
+        const res = await API.submitEnterpriseRequest(payload);
+        if (res && res.success === false) {
+            throw new Error(res.error || res.message || 'Submission failed');
+        }
+        showToast('Request submitted. Our team will contact you within 24 hours.', 'success', 6000);
+        closeEnterpriseModal();
+        $('enterpriseForm').reset();
+    } catch (error) {
+        showToast('Failed to submit request: ' + (error.message || 'unknown error'), 'error', 7000);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = original;
+    }
+}
+
+// ------------------------------------------------------------
+// TABS
+// ------------------------------------------------------------
+function switchTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+    if (btn) btn.classList.add('active');
+    const content = document.getElementById(tabName);
+    if (content) content.classList.add('active');
+    if (tabName === 'invoices') loadInvoices();
+    if (tabName === 'usage') loadUsage();
+}
+
+// ------------------------------------------------------------
+// BILLING CYCLE TOGGLE
+// ------------------------------------------------------------
+$('billingCycleToggle').addEventListener('change', function (e) {
+    billingCycle = e.target.checked ? 'yearly' : 'monthly';
+    $('monthlyLabel').classList.toggle('text-slate-400', billingCycle === 'yearly');
+    $('monthlyLabel').classList.toggle('text-slate-800', billingCycle === 'monthly');
+    $('yearlyLabel').classList.toggle('text-slate-400', billingCycle === 'monthly');
+    $('yearlyLabel').classList.toggle('text-slate-800', billingCycle === 'yearly');
+
+    document.querySelectorAll('[data-plan-price]').forEach(el => {
+        const id = el.getAttribute('data-plan-price');
+        const plan = plans.find(p => p.id === id);
+        if (plan) el.textContent = getPlanPriceDisplay(plan);
+    });
+    document.querySelectorAll('[data-plan-period]').forEach(el => {
+        const id = el.getAttribute('data-plan-period');
+        const plan = plans.find(p => p.id === id);
+        if (plan && !plan.is_custom) el.textContent = getPlanPeriodDisplay();
+    });
+    renderSubscription();
+});
+
+// ------------------------------------------------------------
+// PAYMENT RETURN (verify with backend)
+// ------------------------------------------------------------
+async function handlePaymentReturn() {
+    const params = new URLSearchParams(window.location.search);
+    const success = params.get('success');
+    const cancelled = params.get('cancelled');
+    const failed = params.get('failed');
+    const paymentId = params.get('payment_id');
+
+    if (!success && !cancelled && !failed && !paymentId) return;
+
+    const banner = $('paymentReturnBanner');
+    const inner = $('paymentReturnInner');
+    const icon = $('paymentReturnIcon');
+    const title = $('paymentReturnTitle');
+    const msg = $('paymentReturnMessage');
+
+    if (paymentId) {
+        inner.className = 'rounded-xl border p-3 sm:p-4 flex items-start gap-3 bg-blue-50 border-blue-200';
+        icon.textContent = 'sync';
+        icon.style.color = '#3b82f6';
+        title.textContent = 'Verifying payment…';
+        title.style.color = '#1e40af';
+        msg.textContent = 'Confirming with the payment gateway. Please wait.';
+        msg.style.color = '#1e40af';
+        banner.classList.remove('hidden');
+
+        try {
+            const data = await API.verifyPayment(paymentId);
+            const p = data.payment || data || {};
+            const status = String(p.status || '').toLowerCase();
+            if (status === 'completed' || status === 'succeeded' || status === 'paid') {
+                inner.className = 'rounded-xl border p-3 sm:p-4 flex items-start gap-3 bg-green-50 border-green-200';
+                icon.textContent = 'check_circle';
+                icon.style.color = '#10b981';
+                title.textContent = 'Payment completed';
+                title.style.color = '#065f46';
+                msg.textContent = 'Your subscription has been updated.';
+                msg.style.color = '#065f46';
+                await loadSubscription();
+                await loadInvoices();
+                await loadStats();
+            } else {
+                inner.className = 'rounded-xl border p-3 sm:p-4 flex items-start gap-3 bg-amber-50 border-amber-200';
+                icon.textContent = 'schedule';
+                icon.style.color = '#f59e0b';
+                title.textContent = 'Payment ' + (p.status || 'pending');
+                title.style.color = '#92400e';
+                msg.textContent = 'The gateway has not yet confirmed the payment. Refresh in a moment.';
+                msg.style.color = '#92400e';
+            }
+        } catch (err) {
+            inner.className = 'rounded-xl border p-3 sm:p-4 flex items-start gap-3 bg-red-50 border-red-200';
+            icon.textContent = 'error';
+            icon.style.color = '#ef4444';
+            title.textContent = 'Could not verify payment';
+            title.style.color = '#991b1b';
+            msg.textContent = err.message || 'Please check your invoices shortly.';
+            msg.style.color = '#991b1b';
+        }
+        return;
+    }
+
+    if (success === 'true') {
+        inner.className = 'rounded-xl border p-3 sm:p-4 flex items-start gap-3 bg-green-50 border-green-200';
+        icon.textContent = 'check_circle';
+        icon.style.color = '#10b981';
+        title.textContent = 'Payment completed';
+        title.style.color = '#065f46';
+        msg.textContent = 'Your subscription will update shortly. Refreshing…';
+        msg.style.color = '#065f46';
+        banner.classList.remove('hidden');
+        await loadSubscription();
+        await loadInvoices();
+        await loadStats();
+    } else if (cancelled === 'true' || failed === 'true') {
+        inner.className = 'rounded-xl border p-3 sm:p-4 flex items-start gap-3 bg-red-50 border-red-200';
+        icon.textContent = 'error';
+        icon.style.color = '#ef4444';
+        title.textContent = 'Payment not completed';
+        title.style.color = '#991b1b';
+        msg.textContent = 'No charges were made. You can try again from the Plans tab.';
+        msg.style.color = '#991b1b';
+        banner.classList.remove('hidden');
+    }
+}
+function dismissPaymentBanner() {
+    $('paymentReturnBanner').classList.add('hidden');
+    try {
+        const url = new URL(window.location.href);
+        ['success', 'cancelled', 'failed', 'payment_id'].forEach(k => url.searchParams.delete(k));
+        window.history.replaceState({}, '', url.pathname + (url.search || '') + url.hash);
+    } catch (e) {
+        window.history.replaceState({}, '', window.location.pathname + window.location.hash);
+    }
+}
+
+// ------------------------------------------------------------
+// WEBSOCKET — real-time billing + user updates
+// ------------------------------------------------------------
+function connectWebSocket() {
+    const token = getToken();
+    if (!token || !isTokenValid(token)) return;
+    if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+    try {
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = `${proto}//${window.location.host}/ws?token=${encodeURIComponent(token)}`;
+        wsConnection = new WebSocket(url);
+
+        wsConnection.onopen = () => {
+            const el = $('wsStatus');
+            if (el) { el.textContent = '● LIVE'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 font-semibold'; }
+            const badge = $('modeBadge');
+            if (badge) badge.textContent = 'Live · Realtime';
+        };
+
+        wsConnection.onmessage = (event) => {
+            let data;
+            try { data = JSON.parse(event.data); } catch (e) { return; }
+            if (!data || !data.type) return;
+
+            switch (data.type) {
+                case 'auth_success':
+                    break;
+                case 'billing_updated':
+                case 'payment_created':
+                    loadSubscription();
+                    loadInvoices();
+                    loadStats();
+                    showToast('Subscription updated', 'success', 4000);
+                    break;
+                case 'user_updated':
+                    // Real-time username / plan change from settings or admin
+                    if (data.user && data.user.id) {
+                        const current = getUser();
+                        if (!current || current.id === data.user.id) {
+                            try {
+                                const merged = { ...(current || {}), ...data.user };
+                                localStorage.setItem('synapse_user', JSON.stringify(merged));
+                                localStorage.setItem('user', JSON.stringify(merged));
+                            } catch (e) {}
+                            updateUserUI();
+                            // Plan may have changed — refresh subscription view
+                            loadSubscription();
+                        }
+                    }
+                    break;
+                case 'alert_created':
+                    // Update sidebar badge count
+                    if (data.alert) {
+                        const badge = $('sidebarAlertsBadge');
+                        if (badge) {
+                            const current = parseInt(badge.textContent || '0', 10) || 0;
+                            if (data.alert.severity === 'critical' || data.alert.severity === 'warning') {
+                                badge.textContent = String(current + 1);
+                            }
+                        }
+                    }
+                    break;
+                case 'alerts_marked_read':
+                    {
+                        const badge = $('sidebarAlertsBadge');
+                        if (badge) badge.textContent = '0';
+                    }
+                    break;
+                case 'ping':
+                    try { wsConnection.send(JSON.stringify({ type: 'pong' })); } catch (e) {}
+                    break;
+            }
+        };
+
+        wsConnection.onclose = (evt) => {
+            const el = $('wsStatus');
+            if (el) { el.textContent = '● SYNC'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold'; }
+            const badge = $('modeBadge');
+            if (badge) badge.textContent = 'Live · Sync';
+            if (evt && evt.code === 1008) return;
+            if (isTokenValid(getToken())) {
+                clearTimeout(wsReconnectTimer);
+                wsReconnectTimer = setTimeout(connectWebSocket, 5000);
+            }
+        };
+        wsConnection.onerror = () => {};
+    } catch (e) {}
+}
+
+// ------------------------------------------------------------
+// LOAD ALL
+// ------------------------------------------------------------
+async function loadAllData() {
+    if (!Auth.isAuthenticated) {
+        window.location.replace('login.html');
+        return;
+    }
+    await Promise.allSettled([
+        bootstrapPlans(),
+        loadSubscription(),
+        loadStats(),
+        loadUsage(),
+    ]);
+    loadPaymentMethods();
+}
+
+// ------------------------------------------------------------
+// INIT
+// ------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!Auth.isAuthenticated) {
+        const ok = await performRefresh();
+        if (!ok) { Auth.logout(); return; }
+    }
+    document.body.style.overflow = '';
+    updateUserUI();
+    updateSidebarUI();
+    await loadAllData();
+    handlePaymentReturn();
+    connectWebSocket();
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    // Sidebar
+    $('sidebarToggle')?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleSidebar(); });
+    $('mobileMenuToggle')?.addEventListener('click', openMobileSidebar);
+    $('sidebarOverlay')?.addEventListener('click', closeMobileSidebar);
+
+    // Profile menu
+    $('userAvatar')?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleProfileMenu(); });
+    $('profileLogoutBtn')?.addEventListener('click', () => Auth.logout());
+    $('profileSettingsBtn')?.addEventListener('click', () => { closeProfileMenu(); window.location.href = 'settings.html'; });
+    $('profileMenu')?.addEventListener('click', e => e.stopPropagation());
+
+    document.addEventListener('click', e => {
+        if ($('profileMenu')?.classList.contains('open') && !$('profileMenu').contains(e.target) && !$('userAvatar')?.contains(e.target)) closeProfileMenu();
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            closeProfileMenu();
+            if (!isDesktop() && sidebar.classList.contains('mobile-open')) closeMobileSidebar();
+            closeEnterpriseModal();
+        }
+    });
+
+    // Resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            if (isDesktop()) closeMobileSidebar();
+            updateSidebarUI();
+        }, 80);
+    });
+
+    // Fallback polling — only when WebSocket is not live
+    refreshInterval = setInterval(() => {
+        if (!Auth.isAuthenticated) return;
+        if (document.visibilityState !== 'visible') return;
+        if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+        loadSubscription();
+        loadStats();
+    }, 60000);
+});
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && Auth.isAuthenticated) {
+        if (!wsConnection) connectWebSocket();
+        loadSubscription();
+        loadStats();
+    }
+});
+
+// Enterprise modal click-outside to close
+$('enterpriseModal')?.addEventListener('click', e => {
+    if (e.target === $('enterpriseModal')) closeEnterpriseModal();
+});
+
+// ------------------------------------------------------------
+// EXPOSE
+// ------------------------------------------------------------
+window.selectPlan = selectPlan;
+window.cancelSubscription = cancelSubscription;
+window.switchTab = switchTab;
+window.openEnterpriseModal = openEnterpriseModal;
+window.closeEnterpriseModal = closeEnterpriseModal;
+window.submitEnterpriseRequest = submitEnterpriseRequest;
+window.dismissPaymentBanner = dismissPaymentBanner;
+window.bootstrapPlans = bootstrapPlans;
+window.loadInvoices = loadInvoices;
+window.loadPaymentMethods = loadPaymentMethods;
+window.toggleSidebar = toggleSidebar;
+window.closeMobileSidebar = closeMobileSidebar;
+window.openMobileSidebar = openMobileSidebar;
+window.toggleProfileMenu = toggleProfileMenu;
+window.closeProfileMenu = closeProfileMenu;
+window.handleLogout = Auth.logout.bind(Auth);
+</script>
+</body>
+</html>

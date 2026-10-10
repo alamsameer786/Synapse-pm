@@ -1,0 +1,687 @@
+﻿<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Privacy Policy | SynapsePM | AI Predictive Maintenance Platform</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+<meta name="description" content="Privacy Policy for SynapsePM - How we collect, use, and protect your industrial and personal data with security-hardened infrastructure."/>
+<meta name="keywords" content="privacy policy, data security, GDPR, data protection, industrial data privacy, AI predictive maintenance"/>
+<meta name="author" content="SynapsePM"/>
+<meta name="robots" content="index, follow"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0f2b3d",
+              "primary-light": "#1a4a6e",
+              "secondary": "#00b4aa",
+              "secondary-dark": "#009688",
+              "accent": "#ff6b35",
+              "surface": "#ffffff",
+              "surface-gray": "#f8fafc",
+              "on-surface": "#0f172a",
+              "on-surface-light": "#475569",
+              "border-light": "#e2e8f0",
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.8s ease-out',
+              'slide-up': 'slideUp 0.6s ease-out',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+            }
+          }
+        }
+      }
+    </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    body { 
+      min-height: 100dvh; 
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+    h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    
+    .gradient-primary {
+      background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%);
+    }
+    .gradient-cta {
+      background: linear-gradient(135deg, #00b4aa 0%, #009688 100%);
+    }
+    .gradient-cta:hover {
+      background: linear-gradient(135deg, #009688 0%, #00796b 100%);
+    }
+    .hero-gradient-bg {
+      background: radial-gradient(circle at 80% 20%, rgba(0, 180, 170, 0.08) 0%, rgba(15, 43, 61, 0.02) 100%);
+    }
+    
+    /* ============================================================
+       SYNAPSEPM CUSTOM LOGO — FIXED SIZING & ALIGNMENT
+       ============================================================ */
+    .synapsepm-logo {
+      font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 22px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      vertical-align: middle;
+    }
+    .synapsepm-logo > span:not(.logo-icon),
+    .synapsepm-logo strong {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+      height: 32px;
+    }
+    .synapsepm-logo > span:not(.logo-icon) {
+      color: #0B1F4D;
+    }
+    .synapsepm-logo strong {
+      background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .synapsepm-logo .logo-icon {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: transparent !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .synapsepm-logo .logo-icon img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      display: block;
+    }
+    .synapsepm-logo.logo-sm { font-size: 18px; gap: 0.4rem; }
+    .synapsepm-logo.logo-sm .logo-icon,
+    .synapsepm-logo.logo-sm .logo-icon img {
+      width: 26px; height: 26px; min-width: 26px; min-height: 26px;
+    }
+    .synapsepm-logo.logo-sm > span:not(.logo-icon),
+    .synapsepm-logo.logo-sm strong { height: 26px; }
+
+    .synapsepm-logo.logo-lg { font-size: 26px; gap: 0.65rem; }
+    .synapsepm-logo.logo-lg .logo-icon,
+    .synapsepm-logo.logo-lg .logo-icon img {
+      width: 38px; height: 38px; min-width: 38px; min-height: 38px;
+    }
+    .synapsepm-logo.logo-lg > span:not(.logo-icon),
+    .synapsepm-logo.logo-lg strong { height: 38px; }
+    
+    .legal-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+    .legal-container h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #0f2b3d;
+      margin-bottom: 0.5rem;
+    }
+    .legal-container h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0f2b3d;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #00b4aa;
+      display: inline-block;
+    }
+    .legal-container h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #0f2b3d;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .legal-container p {
+      color: #475569;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .legal-container ul {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+    .legal-container li {
+      color: #475569;
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+    }
+    .legal-container li strong {
+      color: #0f2b3d;
+    }
+    
+    .legal-highlight {
+      background: linear-gradient(135deg, rgba(0, 180, 170, 0.05) 0%, rgba(15, 43, 61, 0.03) 100%);
+      border-left: 4px solid #00b4aa;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin: 1.5rem 0;
+    }
+    
+    .contact-list {
+      background: #f8fafc;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      list-style: none;
+    }
+    .contact-list li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .acknowledgment {
+      background: #f8fafc;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      text-align: center;
+      margin-top: 2rem;
+      font-weight: 500;
+      color: #0f2b3d;
+    }
+    
+    .table-responsive {
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    .data-table th, .data-table td {
+      border: 1px solid #e2e8f0;
+      padding: 0.75rem;
+      text-align: left;
+    }
+    .data-table th {
+      background: #f8fafc;
+      font-weight: 600;
+      color: #0f2b3d;
+    }
+    
+    .social-icon {
+      transition: all 0.2s ease;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      background-color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .social-icon svg {
+      width: 1rem;
+      height: 1rem;
+    }
+    .social-icon svg path {
+      fill: #475569;
+      transition: fill 0.2s ease;
+    }
+    .social-icon:hover {
+      background-color: rgba(0, 180, 170, 0.1);
+    }
+    .social-icon:hover svg path {
+      fill: #00b4aa;
+    }
+    .footer-link {
+      transition: color 0.2s ease;
+    }
+    .footer-link:hover {
+      color: #00b4aa;
+    }
+    
+    @media (max-width: 768px) {
+      .legal-container h1 { font-size: 1.75rem; }
+      .legal-container h2 { font-size: 1.25rem; }
+      .legal-container { padding: 1.5rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="bg-white/95 backdrop-blur-md border-b border-border-light sticky top-0 z-50 w-full transition-all duration-300" id="header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-3 sm:py-4 lg:py-5">
+      <a href="index.html" class="flex items-center gap-2 group">
+        <div class="synapsepm-logo logo-lg">
+          <span class="logo-icon">
+            <img src="assets/img/logo.png" alt="SynapsePM Logo" id="logoImg" onerror="this.style.display='none'">
+          </span>
+          <span>Synapse</span><strong>PM</strong>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-4 lg:gap-8">
+        <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-primary">Home</a>
+        <a href="explore.html" class="text-sm font-medium text-slate-600 hover:text-primary">Explore</a>
+        <a href="about.html" class="text-sm font-medium text-slate-600 hover:text-primary">About</a>
+        <a href="contact.html" class="text-sm font-medium text-slate-600 hover:text-primary">Contact</a>
+      </div>
+
+      <div class="hidden md:flex items-center gap-2 lg:gap-3">
+        <a href="login.html" class="text-sm font-semibold text-slate-600 hover:text-primary px-3 py-1.5 lg:px-4 lg:py-2">Login</a>
+        <a href="signup.html" class="gradient-cta text-white px-3 py-1.5 lg:px-5 lg:py-2.5 rounded-xl text-sm font-semibold shadow-md hover:shadow-lg">Get Started</a>
+      </div>
+
+      <button class="md:hidden p-2 hover:bg-slate-100 rounded-full" id="mobileToggleBtn">
+        <span class="material-symbols-outlined text-slate-700">menu</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm invisible opacity-0 transition-all" id="mobileMenuOverlay">
+  <div class="absolute right-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl transform translate-x-full transition-transform" id="mobileMenuPanel">
+    <div class="flex justify-between items-center p-4 sm:p-6 border-b">
+      <div class="flex items-center gap-2">
+        <div class="synapsepm-logo logo-sm">
+          <span class="logo-icon">
+            <img src="assets/img/logo.png" alt="SynapsePM" id="mobileLogoImg" onerror="this.style.display='none'">
+          </span>
+          <span>Synapse</span><strong>PM</strong>
+        </div>
+      </div>
+      <button id="closeMobileMenuBtn" class="p-2 rounded-full hover:bg-slate-100"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="flex flex-col p-4 sm:p-6 gap-4">
+      <a href="index.html" class="mobile-link text-base text-slate-700 hover:text-primary pl-3 py-1">Home</a>
+      <a href="explore.html" class="mobile-link text-base text-slate-700 hover:text-primary pl-3 py-1">Explore</a>
+      <a href="about.html" class="mobile-link text-base text-slate-700 hover:text-primary pl-3 py-1">About</a>
+      <a href="contact.html" class="mobile-link text-base text-slate-700 hover:text-primary pl-3 py-1">Contact</a>
+      <div class="pt-4 mt-4 border-t flex flex-col gap-3">
+        <a href="login.html" class="text-center py-2 text-primary font-semibold">Login</a>
+        <a href="signup.html" class="gradient-cta text-white text-center py-2.5 rounded-xl font-semibold">Get Started</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- ===== HERO SECTION ===== -->
+<section class="relative pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 hero-gradient-bg">
+  <div class="max-w-4xl mx-auto text-center">
+    <div class="inline-flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 mb-4 sm:mb-6">
+      <span class="material-symbols-outlined text-secondary text-sm">shield</span>
+      <span class="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-secondary">Privacy Commitment</span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-headline text-primary mb-4 sm:mb-6">
+      Privacy <span class="text-secondary">Policy</span>
+    </h1>
+    <p class="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
+      How we collect, use, and protect your industrial and personal data.
+    </p>
+    <p class="text-xs sm:text-sm text-secondary font-medium mt-3 sm:mt-4">Effective Date: January 1, 2026</p>
+  </div>
+</section>
+
+<!-- ===== PRIVACY BANNER ===== -->
+<section class="py-4 px-4 sm:px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="gradient-primary rounded-2xl p-4 sm:p-6 text-white flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex items-start gap-2 sm:gap-3">
+        <span class="material-symbols-outlined text-secondary text-xl sm:text-2xl">verified</span>
+        <div>
+          <strong class="font-headline text-sm sm:text-base">Your Data is Yours</strong>
+          <p class="text-white/80 text-xs sm:text-sm mt-1">We never sell your industrial data. Ever.</p>
+        </div>
+      </div>
+      <a href="signup.html" class="bg-white text-primary px-4 sm:px-6 py-1.5 sm:py-2 rounded-lg font-semibold text-sm sm:text-base hover:shadow-lg transition-all whitespace-nowrap">I Understand →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEGAL CONTENT ===== -->
+<div class="legal-container">
+  <div class="legal-highlight">
+    <div class="flex items-start gap-2 sm:gap-3">
+      <span class="material-symbols-outlined text-secondary text-xl sm:text-2xl">security</span>
+      <p class="text-sm sm:text-base"><strong>At SynapsePM, we take your privacy seriously.</strong> This policy explains how we collect, use, and protect your personal and industrial data when you use our AI-powered predictive maintenance platform.</p>
+    </div>
+  </div>
+
+  <h2>1. Information We Collect</h2>
+  
+  <h3>1.1 Personal Information</h3>
+  <p>When you create an account, subscribe to our services, or contact us, we collect:</p>
+  <ul>
+    <li><strong>Account Information:</strong> Name, email address, company name, job title, phone number</li>
+    <li><strong>Authentication Data:</strong> Hashed passwords (Argon2id), optional MFA secrets, session metadata (IP address, user agent)</li>
+    <li><strong>Billing Information:</strong> Plan selection, billing email, and payment transaction IDs. Full card details are handled by our payment processor (Paddle) and never touch our servers.</li>
+    <li><strong>Communication Preferences:</strong> Your notification settings and marketing preferences</li>
+    <li><strong>Support Interactions:</strong> Any information you provide when contacting our support team</li>
+  </ul>
+  
+  <h3>1.2 Industrial & Equipment Data</h3>
+  <p>To provide our AI-powered predictive maintenance services, we collect and process:</p>
+  <ul>
+    <li><strong>Sensor Data:</strong> Temperature, vibration, pressure, current, and any other numeric channels you send from your equipment</li>
+    <li><strong>Machine Metadata:</strong> Equipment name, type, manufacturer, model, location, installation date, maintenance notes</li>
+    <li><strong>Prediction Records:</strong> RUL (Remaining Useful Life) values, risk scores, model versions, and processing times</li>
+    <li><strong>Alerts:</strong> Alert titles, severities, and resolution notes generated by the platform</li>
+    <li><strong>Uploaded Datasets:</strong> CSV / XLSX / JSON / TXT files you upload for testing or historical analysis</li>
+  </ul>
+  <p class="text-sm text-slate-500 mt-2">⚠️ Important: Industrial data you upload belongs to you. We process it only to deliver predictions and store it under your organization's tenant boundary.</p>
+  
+  <h3>1.3 Usage & Analytics Data</h3>
+  <p>We automatically collect information about how you interact with our platform:</p>
+  <ul>
+    <li><strong>Access Logs:</strong> IP addresses, login timestamps, browser type, device information</li>
+    <li><strong>Audit Trail:</strong> Every create / update / delete action on machines, predictions, alerts, users, and settings</li>
+    <li><strong>Performance Metrics:</strong> API response times, prediction latency, error rates</li>
+    <li><strong>Session Data:</strong> Pages visited, time spent, navigation patterns</li>
+  </ul>
+
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr><th>Data Category</th><th>Examples</th><th>Retention</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Personal Information</td><td>Name, email, phone</td><td>While your account is active</td></tr>
+        <tr><td>Deleted Accounts</td><td>Soft-deleted user records</td><td>30 days, then permanently removed</td></tr>
+        <tr><td>Industrial Sensor Data</td><td>Temperature, vibration, pressure</td><td>While your account is active; deleted with the machine</td></tr>
+        <tr><td>Prediction History</td><td>RUL, alerts, model outputs</td><td>While your account is active</td></tr>
+        <tr><td>Audit Logs</td><td>User actions with hash chain</td><td>90 days (configurable)</td></tr>
+        <tr><td>Reports & Downloads</td><td>Generated PDFs, exports</td><td>30 days</td></tr>
+        <tr><td>Webhook Events</td><td>Paddle / payment events</td><td>30 days</td></tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <h2>2. How We Use Your Information</h2>
+  <p>Your data powers our AI platform. Specifically, we use it for:</p>
+  <ul>
+    <li><strong>Delivering AI Predictions:</strong> Running your sensor data through our trained models to compute Remaining Useful Life</li>
+    <li><strong>Real-time Monitoring:</strong> Displaying dashboards, generating alerts, and sending email notifications</li>
+    <li><strong>Model Selection:</strong> Automatically matching your data to the most compatible trained model family (LSTM, XGBoost, Random Forest, etc.)</li>
+    <li><strong>Account Management:</strong> Processing payments, managing subscriptions, and providing customer support</li>
+    <li><strong>Security & Compliance:</strong> Detecting unauthorized access, investigating incidents, and complying with legal obligations</li>
+    <li><strong>Platform Improvement:</strong> Analyzing aggregated, anonymized usage patterns to improve performance</li>
+  </ul>
+  
+  <div class="legal-highlight">
+    <div class="flex items-start gap-2 sm:gap-3">
+      <span class="material-symbols-outlined text-secondary text-xl sm:text-2xl">database</span>
+      <div>
+        <p class="text-sm sm:text-base"><strong>Your Industrial Data is Yours — Period.</strong></p>
+        <p class="text-xs sm:text-sm mt-1">We never sell your proprietary equipment data. It is used solely to deliver predictions to you, and it is stored with a strict per-organization tenant boundary. You can export or delete your data at any time from your dashboard.</p>
+      </div>
+    </div>
+  </div>
+  
+  <h2>3. Data Security</h2>
+  <p>We implement the following security measures on our platform:</p>
+  <ul>
+    <li><strong>Password Hashing:</strong> Argon2id (the current industry standard), with automatic PBKDF2 fallback for development only</li>
+    <li><strong>Sensitive Field Encryption:</strong> Fernet symmetric encryption for sensitive stored values</li>
+    <li><strong>Transport Encryption:</strong> TLS for all data transmitted between your browser and our servers</li>
+    <li><strong>Authentication:</strong> JWT access tokens with short expiry, revocable refresh tokens, per-session revocation, and optional TOTP-based multi-factor authentication</li>
+    <li><strong>Tenant Isolation:</strong> Every database query is scoped to your organization ID. Cross-tenant access returns 404 — never 403 — so we never confirm that another tenant's data exists</li>
+    <li><strong>Audit Logging:</strong> Every sensitive action is recorded in a tamper-evident hash-chained audit log</li>
+    <li><strong>Rate Limiting:</strong> Per-user and per-endpoint throttling to prevent abuse</li>
+    <li><strong>Input Validation:</strong> All data is sanitized and validated server-side before persistence</li>
+  </ul>
+  
+  <h2>4. Data Sharing & Disclosure</h2>
+  <p>We do NOT sell your personal or industrial data. We share data only in these limited circumstances:</p>
+  <ul>
+    <li><strong>Service Providers:</strong> Trusted partners that help us operate — our hosting provider, Paddle (for payments), and our transactional email provider. Each is contractually bound to protect your data and cannot use it for other purposes.</li>
+    <li><strong>Legal Compliance:</strong> When required by law, court order, or to protect our rights, property, or safety</li>
+    <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets, with reasonable advance notice</li>
+    <li><strong>With Your Consent:</strong> When you explicitly authorize us to share your data</li>
+  </ul>
+  
+  <h2>5. Your Legal Rights</h2>
+  <p>Depending on your location, you have the following rights regarding your data:</p>
+  <ul>
+    <li><strong>Right to Access:</strong> Request a copy of all personal data we hold about you</li>
+    <li><strong>Right to Rectification:</strong> Correct inaccurate or incomplete information — you can do this directly from your profile page</li>
+    <li><strong>Right to Erasure:</strong> Delete your account and personal data from the account settings page. Industrial data associated with your organization is deleted with your machines</li>
+    <li><strong>Right to Data Portability:</strong> Export all your data as a ZIP archive (JSON) from the account settings page</li>
+    <li><strong>Right to Restrict Processing:</strong> Limit how we use your data (e.g., opt out of anonymized analytics)</li>
+    <li><strong>Right to Lodge a Complaint:</strong> File a complaint with your local data protection authority</li>
+  </ul>
+  <p>To exercise these rights, use your dashboard or contact us at <strong class="text-secondary">synapsepm121@gmail.com</strong>. We respond within 30 days.</p>
+  
+  <h2>6. Data Retention</h2>
+  <p>We retain your data while your account is active. When you delete your account:</p>
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead><tr><th>Data Type</th><th>Retention on Delete</th></tr></thead>
+      <tbody>
+        <tr><td>Personal profile (name, email)</td><td>Anonymized immediately, soft-deleted for 30 days</td></tr>
+        <tr><td>Sessions & tokens</td><td>Revoked immediately</td></tr>
+        <tr><td>API keys & device keys</td><td>Revoked immediately</td></tr>
+        <tr><td>Payment records</td><td>Anonymized (customer name / email removed)</td></tr>
+        <tr><td>Reports</td><td>Deleted</td></tr>
+        <tr><td>Organization data</td><td>Deletable from the organization settings page</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>You can request immediate data deletion at any time from your account settings.</p>
+  
+  <h2>7. Cookies & Tracking Technologies</h2>
+  <p>We use essential cookies only. No third-party advertising or tracking cookies:</p>
+  <ul>
+    <li><strong>Authentication Cookies:</strong> Maintain your logged-in session securely</li>
+    <li><strong>Preference Cookies:</strong> Remember your dashboard layout, theme, and notification settings</li>
+    <li><strong>Security Cookies:</strong> Help detect and prevent fraudulent activity</li>
+  </ul>
+  <p>You can disable cookies in your browser settings, but this will affect platform functionality (you'll be logged out on every page load).</p>
+  
+  <h2>8. International Data Transfers</h2>
+  <p>SynapsePM is a remote-first platform. Your data is processed on the infrastructure you deploy to — this may be a cloud region you select, or your own on-premise environment. We do not silently move your industrial data between jurisdictions.</p>
+  <p>If you deploy to a cloud region outside your home jurisdiction and you are an EU resident, we ensure appropriate safeguards are in place, including Standard Contractual Clauses (SCCs) where applicable.</p>
+  
+  <h2>9. GDPR Compliance (For EU / UK Residents)</h2>
+  <p>If you are in the European Economic Area (EEA) or the United Kingdom, you have the following rights under the GDPR:</p>
+  <ul>
+    <li>Our legal bases for processing include: contract performance (providing the service), legitimate interests (security and fraud prevention), legal obligations, and your consent</li>
+    <li>You have the right to withdraw consent at any time without affecting the lawfulness of processing based on consent before its withdrawal</li>
+    <li>You have the right to request a copy of your data in a portable format</li>
+    <li>You have the right to request deletion of your data subject to legal retention requirements</li>
+    <li>You can contact us at <strong>synapsepm121@gmail.com</strong> for any GDPR-related request</li>
+  </ul>
+  
+  <h2>10. CCPA Compliance (For California Residents)</h2>
+  <p>If you are a California resident, the California Consumer Privacy Act (CCPA) gives you the following rights:</p>
+  <ul>
+    <li>Right to know what personal information we collect, use, and disclose</li>
+    <li>Right to delete personal information (subject to exceptions)</li>
+    <li>Right to opt-out of the sale of personal information — <strong>we do not sell any personal information</strong></li>
+    <li>Right to non-discrimination for exercising your CCPA rights</li>
+  </ul>
+  <p>To exercise CCPA rights, email <strong>synapsepm121@gmail.com</strong>.</p>
+  
+  <h2>11. Children's Privacy</h2>
+  <p>Our services are intended for business and industrial use and are not directed at children under 18 years of age. We do not knowingly collect personal information from minors. If you believe a minor has provided us with personal information, please contact us immediately.</p>
+  
+  <h2>12. Third-Party Links</h2>
+  <p>Our platform may contain links to third-party websites (documentation, partner pages, blog posts). We are not responsible for the privacy practices or content of these third-party sites. We encourage you to read their privacy policies.</p>
+  
+  <h2>13. Changes to This Policy</h2>
+  <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will notify you of material changes via:</p>
+  <ul>
+    <li>Email notification to the address associated with your account (at least 30 days in advance of the change taking effect)</li>
+    <li>In-app notification displayed on your next login</li>
+    <li>A banner on this page for at least 30 days</li>
+  </ul>
+  <p>The "Effective Date" at the top of this policy indicates when the latest version took effect.</p>
+  
+  <h2>14. Contact Us</h2>
+  <p>If you have questions about this Privacy Policy or wish to exercise your data rights, please contact us:</p>
+  <ul class="contact-list">
+    <li><span class="material-symbols-outlined text-secondary text-sm align-middle mr-2">email</span> <strong>Privacy Team:</strong> synapsepm121@gmail.com</li>
+    <li><span class="material-symbols-outlined text-secondary text-sm align-middle mr-2">support_agent</span> <strong>Support:</strong> synapsepm121@gmail.com</li>
+    <li><span class="material-symbols-outlined text-secondary text-sm align-middle mr-2">call</span> <strong>Phone:</strong> +91-9773518956 (Mon–Fri, 9am–6pm IST)</li>
+    <li><span class="material-symbols-outlined text-secondary text-sm align-middle mr-2">public</span> <strong>Remote-first company:</strong> Serving customers worldwide — no walk-in office visits</li>
+  </ul>
+  
+  <div class="legal-highlight">
+    <div class="flex items-start gap-2 sm:gap-3">
+      <span class="material-symbols-outlined text-secondary text-xl sm:text-2xl">gpp_maybe</span>
+      <div>
+        <p class="text-sm sm:text-base"><strong>Your Rights, In Practice</strong></p>
+        <p class="text-xs sm:text-sm mt-1">Most data rights are self-service: export your data from the account settings page, delete your account with one click, or view your full audit trail from the dashboard. If anything is unclear, email us and we'll help you personally.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="acknowledgment">
+    <span class="material-symbols-outlined text-secondary text-xl sm:text-2xl mb-2">verified</span>
+    <p class="text-sm sm:text-base mb-0">By using SynapsePM, you acknowledge that you have read and understood this Privacy Policy. If you disagree with any part, please discontinue use of the platform.</p>
+  </div>
+</div>
+
+<!-- ===== CTA SECTION ===== -->
+<section class="py-12 sm:py-16 px-4 sm:px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="gradient-primary rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 text-center text-white">
+      <span class="material-symbols-outlined text-3xl sm:text-4xl mb-3">verified_user</span>
+      <h2 class="text-xl sm:text-2xl md:text-3xl font-headline font-bold mb-3">Have Questions About Privacy?</h2>
+      <p class="text-white/80 text-sm sm:text-base mb-5 sm:mb-6">Our team is here to help. Reach us any time.</p>
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+        <a href="mailto:synapsepm121@gmail.com?subject=Privacy%20Question" class="bg-white text-primary px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base hover:shadow-lg transition-all inline-flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base sm:text-lg">email</span>
+          Email Privacy Team
+        </a>
+        <a href="contact.html" class="bg-white/20 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base border border-white/30 hover:bg-white/30 transition-all">Contact Support</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-white border-t border-border-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12">
+      
+      <div class="text-center sm:text-left">
+        <a href="index.html" class="inline-flex items-center gap-2 mb-3">
+          <div class="synapsepm-logo logo-sm">
+            <span class="logo-icon">
+              <img src="assets/img/logo.png" alt="SynapsePM" id="footerLogoImg" onerror="this.style.display='none'">
+            </span>
+            <span>Synapse</span><strong>PM</strong>
+          </div>
+        </a>
+        <p class="text-slate-500 text-xs sm:text-sm mb-3 max-w-xs mx-auto sm:mx-0">AI-powered predictive maintenance for forward-thinking manufacturers.</p>
+        <p class="text-slate-400/50 text-[10px] sm:text-xs">© 2026 SynapsePM. All rights reserved.</p>
+        <div class="flex gap-2 sm:gap-3 mt-3 justify-center sm:justify-start">
+          <a href="https://x.com/SamirAlam7860" target="_blank" rel="noopener" class="social-icon" aria-label="Twitter"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z"/></svg></a>
+          <a href="https://www.linkedin.com/in/md-shamir-alam-9aa763286/" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a>
+          <a href="https://github.com/alamsameer786" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026.797-.222 1.65-.333 2.5-.336.85.003 1.703.114 2.5.336 1.91-1.295 2.75-1.026 2.75-1.026.544 1.378.201 2.397.098 2.65.64.7 1.029 1.595 1.029 2.688 0 3.846-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>
+          <a href="https://www.youtube.com/@aihacks786" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="text-center sm:text-left"><h4 class="font-bold text-primary mb-3 sm:mb-5 text-sm sm:text-base">Get Started</h4><ul class="space-y-2 text-xs sm:text-sm text-slate-500"><li><a href="explore.html" class="footer-link hover:text-secondary">Features</a></li><li><a href="pricing.html" class="footer-link hover:text-secondary">Pricing</a></li><li><a href="contact.html" class="footer-link hover:text-secondary">Contact</a></li><li><a href="demo.html" class="footer-link hover:text-secondary">Request Demo</a></li></ul></div>
+      <div class="text-center sm:text-left"><h4 class="font-bold text-primary mb-3 sm:mb-5 text-sm sm:text-base">Documentation</h4><ul class="space-y-2 text-xs sm:text-sm text-slate-500"><li><a href="docs.html" class="footer-link hover:text-secondary">API Reference</a></li><li><a href="docs.html#getting-started" class="footer-link hover:text-secondary">Integration Guides</a></li><li><a href="demo.html" class="footer-link hover:text-secondary">Video Tutorials</a></li><li><a href="docs.html#sdks" class="footer-link hover:text-secondary">SDK Downloads</a></li></ul></div>
+      <div class="text-center sm:text-left"><h4 class="font-bold text-primary mb-3 sm:mb-5 text-sm sm:text-base">Company</h4><ul class="space-y-2 text-xs sm:text-sm text-slate-500"><li><a href="about.html" class="footer-link hover:text-secondary">About Us</a></li><li><a href="career.html" class="footer-link hover:text-secondary">Careers</a></li><li><a href="blog.html" class="footer-link hover:text-secondary">Blog</a></li><li><a href="faq.html" class="footer-link hover:text-secondary">FAQ</a></li><li><a href="privacy.html" class="footer-link hover:text-secondary">Privacy Policy</a></li><li><a href="terms.html" class="footer-link hover:text-secondary">Terms of Service</a></li><li><a href="security.html" class="hover:text-secondary transition-colors">Security</a></li></ul></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const mobileToggle = document.getElementById('mobileToggleBtn');
+  const mobileClose = document.getElementById('closeMobileMenuBtn');
+  const mobileOverlay = document.getElementById('mobileMenuOverlay');
+  const mobilePanel = document.getElementById('mobileMenuPanel');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+
+  function openMenu() {
+    if (mobileOverlay && mobilePanel) {
+      mobileOverlay.classList.remove('invisible', 'opacity-0');
+      mobileOverlay.classList.add('visible', 'opacity-100');
+      mobilePanel.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  
+  function closeMenu() {
+    if (mobileOverlay && mobilePanel) {
+      mobileOverlay.classList.add('invisible', 'opacity-0');
+      mobileOverlay.classList.remove('visible', 'opacity-100');
+      mobilePanel.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    }
+  }
+  
+  if (mobileToggle) mobileToggle.addEventListener('click', openMenu);
+  if (mobileClose) mobileClose.addEventListener('click', closeMenu);
+  if (mobileOverlay) mobileOverlay.addEventListener('click', (e) => { if (e.target === mobileOverlay) closeMenu(); });
+  mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('shadow-lg');
+    } else {
+      header?.classList.remove('shadow-lg');
+    }
+  });
+
+  console.log('🔒 SynapsePM Privacy Policy');
+  console.log('📋 Self-service data rights + honest security disclosure');
+})();
+</script>
+</body>
+</html>

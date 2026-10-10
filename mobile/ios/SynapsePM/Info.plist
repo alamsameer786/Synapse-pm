@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDisplayName</key>
+    <string>SynapsePM</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>12.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>com.synapsepm.app</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>synapsepm</string>
+            </array>
+        </dict>
+    </array>
+    
+    <!-- ===== SECURITY ===== -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <false/>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>app.synapsepm.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <false/>
+                <key>NSExceptionMinimumTLSVersion</key>
+                <string>TLSv1.2</string>
+                <key>NSRequiresCertificateTransparency</key>
+                <true/>
+            </dict>
+            <key>api.synapsepm.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <false/>
+                <key>NSExceptionMinimumTLSVersion</key>
+                <string>TLSv1.2</string>
+                <key>NSRequiresCertificateTransparency</key>
+                <true/>
+            </dict>
+        </dict>
+    </dict>
+    
+    <!-- ===== PERMISSIONS ===== -->
+    <key>NSCameraUsageDescription</key>
+    <string>SynapsePM needs camera access for machine inspection and QR code scanning.</string>
+    
+    <key>NSMicrophoneUsageDescription</key>
+    <string>SynapsePM needs microphone access for audio diagnostics and voice commands.</string>
+    
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>SynapsePM needs location access for machine location tracking.</string>
+    
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>SynapsePM needs location access for machine location tracking.</string>
+    
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>SynapsePM needs photo access for uploading machine images.</string>
+    
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>SynapsePM needs photo access for saving reports and images.</string>
+    
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>remote-notification</string>
+        <string>fetch</string>
+        <string>processing</string>
+    </array>
+    
+    <!-- ===== UI CONFIGURATION ===== -->
+    <key>UIApplicationSupportsIndirectInputEvents</key>
+    <true/>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <true/>
+    <key>UIPrefersStatusBarHidden</key>
+    <false/>
+    <key>UIStatusBarStyle</key>
+    <string>UIStatusBarStyleLightContent</string>
+    
+    <!-- ===== KEYCHAIN ===== -->
+    <key>keychain-access-groups</key>
+    <array>
+        <string>$(AppIdentifierPrefix)com.synapsepm.app</string>
+    </array>
+    
+    <!-- ===== APP STORE ===== -->
+    <key>SKAdNetworkItems</key>
+    <array>
+        <dict>
+            <key>SKAdNetworkIdentifier</key>
+            <string>com.synapsepm.app</string>
+        </dict>
+    </array>
+</dict>
+</plist>

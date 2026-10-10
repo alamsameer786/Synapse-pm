@@ -1,0 +1,36 @@
+
+# Python environments and cache
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Gradle and generated Android files
+.gradle/
+**/.gradle/
+build/
+**/build/
+
+# Logs and temporary files
+*.log
+# Generated application builds and logs
+dist/
+build/
+**/__pycache__/
+*.py[cod]
+logs/*.log
+
+# Local environment and generated dependencies
+venv/
+.venv/
+**/node_modules/
+**/.gradle/
+
+# Local uploads
+uploads/

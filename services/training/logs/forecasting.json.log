@@ -1,0 +1,7 @@
+{"timestamp": "2026-07-20 11:52:42,634", "level": "[33mWARNING[0m", "module": "training", "function": "warning", "line": 270, "message": "Statsmodels not available"}
+{"timestamp": "2026-07-20 11:57:26,764", "level": "[33mWARNING[0m", "module": "training", "function": "warning", "line": 270, "message": "Statsmodels not available"}
+{"timestamp": "2026-07-20 12:01:15,553", "level": "[33mWARNING[0m", "module": "training", "function": "warning", "line": 270, "message": "Statsmodels not available"}
+{"timestamp": "2026-07-20 12:05:39,289", "level": "[33mWARNING[0m", "module": "training", "function": "warning", "line": 270, "message": "Statsmodels not available"}
+{"timestamp": "2026-07-20 12:09:00,645", "level": "[33mWARNING[0m", "module": "training", "function": "warning", "line": 270, "message": "Statsmodels not available"}
+{"timestamp": "2026-07-20 12:12:13,794", "level": "[33mWARNING[0m", "module": "training", "function": "warning", "line": 270, "message": "Statsmodels not available"}
+{"timestamp": "2026-07-21 09:18:05,782", "level": "[33mWARNING[0m", "module": "training", "function": "warning", "line": 326, "message": "Statsmodels not available"}

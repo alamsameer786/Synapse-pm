@@ -1,0 +1,198 @@
+2026-04-01 11:45:36,830 - __main__ - INFO - Auto-retrain not started
+2026-04-01 11:45:36,895 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 14:18:38,349 - __main__ - INFO - Auto-retrain not started
+2026-04-01 14:18:38,485 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 14:18:38,487 - __main__ - ERROR - Data load failed: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-04-01 15:05:04,240 - __main__ - ERROR - Error in auto-retrain loop: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-04-01 15:05:04,244 - __main__ - INFO - Auto-retrain service started
+2026-04-01 15:05:04,252 - __main__ - INFO - Auto-retrain service initialized
+2026-04-01 15:05:04,594 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 15:05:04,598 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 15:05:04,615 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 15:05:04,617 - __main__ - ERROR - Data load failed: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-04-01 22:13:31,553 - __main__ - ERROR - Error in auto-retrain loop: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-04-01 22:13:31,555 - __main__ - INFO - Auto-retrain service started
+2026-04-01 22:13:31,561 - __main__ - INFO - Auto-retrain service initialized
+2026-04-01 22:13:31,680 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 22:13:31,682 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 22:13:31,692 - __main__ - INFO - Trainer initialized for org 1
+2026-04-01 22:13:31,695 - __main__ - ERROR - Data load failed: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-06-24 13:21:17,682 - __main__ - INFO - Auto-retraining scheduler started
+2026-06-24 13:21:17,684 - __main__ - INFO - Trainer initialized for org 1
+2026-06-24 13:21:17,685 - __main__ - INFO - Loading data for organization 1
+2026-06-24 13:21:17,686 - __main__ - INFO - No database available, generating sample data
+2026-06-24 13:21:17,687 - __main__ - INFO - Generating synthetic training data
+2026-06-24 13:21:17,790 - __main__ - INFO - Starting training for organization 1
+2026-06-24 13:21:17,791 - __main__ - INFO - Loading data for organization 1
+2026-06-24 13:21:17,791 - __main__ - INFO - No database available, generating sample data
+2026-06-24 13:21:17,791 - __main__ - INFO - Generating synthetic training data
+2026-06-24 13:21:17,834 - __main__ - INFO - Preprocessed 2000 samples with 13 features
+2026-06-24 13:21:18,158 - __main__ - ERROR - Training failed: XGBModel.fit() got an unexpected keyword argument 'early_stopping_rounds'
+2026-06-24 13:25:18,797 - __main__ - INFO - Auto-retraining scheduler started
+2026-06-24 13:25:18,798 - __main__ - INFO - Trainer initialized for org 1
+2026-06-24 13:25:18,802 - __main__ - INFO - Loading data for organization 1
+2026-06-24 13:25:18,803 - __main__ - INFO - No database available, generating sample data
+2026-06-24 13:25:18,804 - __main__ - INFO - Generating synthetic training data
+2026-06-24 13:25:18,843 - __main__ - INFO - Starting training for organization 1
+2026-06-24 13:25:18,843 - __main__ - INFO - Loading data for organization 1
+2026-06-24 13:25:18,844 - __main__ - INFO - No database available, generating sample data
+2026-06-24 13:25:18,844 - __main__ - INFO - Generating synthetic training data
+2026-06-24 13:25:18,870 - __main__ - INFO - Preprocessed 2000 samples with 13 features
+2026-06-24 13:30:46,819 - __main__ - INFO - Auto-retraining scheduler started
+2026-06-24 13:30:46,822 - __main__ - INFO - Trainer initialized for org 1
+2026-06-24 13:30:46,823 - __main__ - INFO - Loading data from CSV folder: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data
+2026-06-24 13:30:46,826 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\dataset.csv
+2026-06-24 13:30:46,865 - __main__ - INFO - Loaded 500 rows from dataset.csv
+2026-06-24 13:30:46,865 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\equipment_anomaly_data.csv
+2026-06-24 13:30:46,902 - __main__ - INFO - Loaded 7672 rows from equipment_anomaly_data.csv
+2026-06-24 13:30:46,903 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\healthcare_iot_target_dataset.csv
+2026-06-24 13:30:46,923 - __main__ - INFO - Loaded 200 rows from healthcare_iot_target_dataset.csv
+2026-06-24 13:30:46,923 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\industrial_pump_data.csv
+2026-06-24 13:30:46,940 - __main__ - INFO - Loaded 200 rows from industrial_pump_data.csv
+2026-06-24 13:30:46,940 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\mri_machine_data.csv
+2026-06-24 13:30:46,961 - __main__ - INFO - Loaded 100 rows from mri_machine_data.csv
+2026-06-24 13:30:46,988 - __main__ - INFO - No RUL column found, generating synthetic RUL
+2026-06-24 13:30:47,059 - __main__ - INFO - Starting training for organization 1
+2026-06-24 13:30:47,059 - __main__ - INFO - Loading data from CSV folder: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data
+2026-06-24 13:30:47,061 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\dataset.csv
+2026-06-24 13:30:47,064 - __main__ - INFO - Loaded 500 rows from dataset.csv
+2026-06-24 13:30:47,066 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\equipment_anomaly_data.csv
+2026-06-24 13:30:47,127 - __main__ - INFO - Loaded 7672 rows from equipment_anomaly_data.csv
+2026-06-24 13:30:47,160 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\healthcare_iot_target_dataset.csv
+2026-06-24 13:30:47,193 - __main__ - INFO - Loaded 200 rows from healthcare_iot_target_dataset.csv
+2026-06-24 13:30:47,201 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\industrial_pump_data.csv
+2026-06-24 13:30:47,211 - __main__ - INFO - Loaded 200 rows from industrial_pump_data.csv
+2026-06-24 13:30:47,211 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\mri_machine_data.csv
+2026-06-24 13:30:47,215 - __main__ - INFO - Loaded 100 rows from mri_machine_data.csv
+2026-06-24 13:30:47,244 - __main__ - INFO - No RUL column found, generating synthetic RUL
+2026-06-24 13:30:47,294 - __main__ - ERROR - Training failed: could not convert string to float: 'Turbine'
+2026-06-24 13:35:58,092 - __main__ - INFO - Auto-retraining scheduler started
+2026-06-24 13:35:58,094 - __main__ - INFO - Trainer initialized for org 1
+2026-06-24 13:35:58,095 - __main__ - INFO - Loading data from CSV folder: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data
+2026-06-24 13:35:58,096 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\dataset.csv
+2026-06-24 13:35:58,122 - __main__ - INFO - Loaded 500 rows from dataset.csv
+2026-06-24 13:35:58,123 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\equipment_anomaly_data.csv
+2026-06-24 13:35:58,217 - __main__ - INFO - Loaded 7672 rows from equipment_anomaly_data.csv
+2026-06-24 13:35:58,262 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\healthcare_iot_target_dataset.csv
+2026-06-24 13:35:58,468 - __main__ - INFO - Loaded 200 rows from healthcare_iot_target_dataset.csv
+2026-06-24 13:35:58,469 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\industrial_pump_data.csv
+2026-06-24 13:35:58,493 - __main__ - INFO - Loaded 200 rows from industrial_pump_data.csv
+2026-06-24 13:35:58,494 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\mri_machine_data.csv
+2026-06-24 13:35:58,519 - __main__ - INFO - Loaded 100 rows from mri_machine_data.csv
+2026-06-24 13:35:58,522 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\train_FD001.txt
+2026-06-24 13:35:58,701 - __main__ - INFO - Dropped column 'Unnamed: 26' due to high missing values
+2026-06-24 13:35:58,703 - __main__ - INFO - Dropped column 'Unnamed: 27' due to high missing values
+2026-06-24 13:35:58,723 - __main__ - INFO - Loaded 10000 rows from train_FD001.txt
+2026-06-24 13:35:58,749 - __main__ - INFO - Dropped column 'feature1' due to high missing values
+2026-06-24 13:35:58,787 - __main__ - INFO - Dropped column 'feature2' due to high missing values
+2026-06-24 13:35:58,792 - __main__ - INFO - Dropped column 'feature3' due to high missing values
+2026-06-24 13:35:58,800 - __main__ - INFO - Dropped column 'target' due to high missing values
+2026-06-24 13:35:58,807 - __main__ - INFO - Dropped column 'temperature' due to high missing values
+2026-06-24 13:35:58,817 - __main__ - INFO - Dropped column 'pressure' due to high missing values
+2026-06-24 13:35:58,825 - __main__ - INFO - Dropped column 'vibration' due to high missing values
+2026-06-24 13:35:58,834 - __main__ - INFO - Dropped column 'humidity' due to high missing values
+2026-06-24 13:35:58,843 - __main__ - INFO - Dropped column 'faulty' due to high missing values
+2026-06-24 13:35:58,855 - __main__ - INFO - Dropped column 'Patient_ID' due to high missing values
+2026-06-24 13:35:58,860 - __main__ - INFO - Dropped column 'Sensor_ID' due to high missing values
+2026-06-24 13:35:58,872 - __main__ - INFO - Dropped column 'Temperature (°C)' due to high missing values
+2026-06-24 13:35:58,879 - __main__ - INFO - Dropped column 'Systolic_BP (mmHg)' due to high missing values
+2026-06-24 13:35:58,888 - __main__ - INFO - Dropped column 'Diastolic_BP (mmHg)' due to high missing values
+2026-06-24 13:35:58,896 - __main__ - INFO - Dropped column 'Heart_Rate (bpm)' due to high missing values
+2026-06-24 13:35:58,906 - __main__ - INFO - Dropped column 'Device_Battery_Level (%)' due to high missing values
+2026-06-24 13:35:58,912 - __main__ - INFO - Dropped column 'Target_Blood_Pressure' due to high missing values
+2026-06-24 13:35:58,921 - __main__ - INFO - Dropped column 'Target_Heart_Rate' due to high missing values
+2026-06-24 13:35:58,927 - __main__ - INFO - Dropped column 'Battery_Level (%)' due to high missing values
+2026-06-24 13:35:58,937 - __main__ - INFO - Dropped column 'engine_id' due to high missing values
+2026-06-24 13:35:58,942 - __main__ - INFO - Dropped column 'time_cycles' due to high missing values
+2026-06-24 13:35:58,951 - __main__ - INFO - Dropped column 'pressure_psi' due to high missing values
+2026-06-24 13:35:58,955 - __main__ - INFO - Dropped column 'temperature_c' due to high missing values
+2026-06-24 13:35:58,960 - __main__ - INFO - Dropped column 'vibration_mm_s' due to high missing values
+2026-06-24 13:35:58,968 - __main__ - INFO - Dropped column 'oil_quality' due to high missing values
+2026-06-24 13:35:58,975 - __main__ - INFO - Dropped column 'flow_rate' due to high missing values
+2026-06-24 13:35:58,980 - __main__ - INFO - Dropped column 'helium_level' due to high missing values
+2026-06-24 13:35:58,989 - __main__ - INFO - Dropped column 'coolant_temp' due to high missing values
+2026-06-24 13:35:58,995 - __main__ - INFO - Dropped column 'vacuum_pressure' due to high missing values
+2026-06-24 13:35:59,004 - __main__ - INFO - Dropped column 'gradient_coil_temp' due to high missing values
+2026-06-24 13:35:59,008 - __main__ - INFO - Dropped column 'image_quality' due to high missing values
+2026-06-24 13:35:59,012 - __main__ - INFO - Dropped column 'avg_energy_consumption' due to high missing values
+2026-06-24 13:35:59,056 - __main__ - WARNING - Missing required columns: ['temperature', 'vibration', 'pressure']
+2026-06-24 13:35:59,057 - __main__ - INFO - No RUL column found, generating synthetic RUL
+2026-06-24 13:35:59,062 - __main__ - WARNING - Column 'temperature' still missing, adding default values
+2026-06-24 13:35:59,063 - __main__ - WARNING - Column 'vibration' still missing, adding default values
+2026-06-24 13:35:59,067 - __main__ - WARNING - Column 'pressure' still missing, adding default values
+2026-06-24 13:35:59,184 - __main__ - INFO - Prepared 18672 samples with 41 features
+2026-06-24 13:35:59,195 - __main__ - INFO - Starting training for organization 1
+2026-06-24 13:35:59,196 - __main__ - INFO - Loading data from CSV folder: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data
+2026-06-24 13:35:59,200 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\dataset.csv
+2026-06-24 13:35:59,223 - __main__ - INFO - Loaded 500 rows from dataset.csv
+2026-06-24 13:35:59,226 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\equipment_anomaly_data.csv
+2026-06-24 13:35:59,359 - __main__ - INFO - Loaded 7672 rows from equipment_anomaly_data.csv
+2026-06-24 13:35:59,360 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\healthcare_iot_target_dataset.csv
+2026-06-24 13:35:59,404 - __main__ - INFO - Loaded 200 rows from healthcare_iot_target_dataset.csv
+2026-06-24 13:35:59,406 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\industrial_pump_data.csv
+2026-06-24 13:35:59,426 - __main__ - INFO - Loaded 200 rows from industrial_pump_data.csv
+2026-06-24 13:35:59,440 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\mri_machine_data.csv
+2026-06-24 13:35:59,475 - __main__ - INFO - Loaded 100 rows from mri_machine_data.csv
+2026-06-24 13:35:59,476 - __main__ - INFO - Loading file: C:\Users\DELL\OneDrive\Desktop\Synapse PM\data\train_FD001.txt
+2026-06-24 13:35:59,759 - __main__ - INFO - Dropped column 'Unnamed: 26' due to high missing values
+2026-06-24 13:35:59,761 - __main__ - INFO - Dropped column 'Unnamed: 27' due to high missing values
+2026-06-24 13:35:59,811 - __main__ - INFO - Loaded 10000 rows from train_FD001.txt
+2026-06-24 13:35:59,861 - __main__ - INFO - Dropped column 'feature1' due to high missing values
+2026-06-24 13:35:59,879 - __main__ - INFO - Dropped column 'feature2' due to high missing values
+2026-06-24 13:35:59,889 - __main__ - INFO - Dropped column 'feature3' due to high missing values
+2026-06-24 13:35:59,895 - __main__ - INFO - Dropped column 'target' due to high missing values
+2026-06-24 13:35:59,918 - __main__ - INFO - Dropped column 'temperature' due to high missing values
+2026-06-24 13:35:59,934 - __main__ - INFO - Dropped column 'pressure' due to high missing values
+2026-06-24 13:35:59,946 - __main__ - INFO - Dropped column 'vibration' due to high missing values
+2026-06-24 13:35:59,959 - __main__ - INFO - Dropped column 'humidity' due to high missing values
+2026-06-24 13:35:59,976 - __main__ - INFO - Dropped column 'faulty' due to high missing values
+2026-06-24 13:35:59,993 - __main__ - INFO - Dropped column 'Patient_ID' due to high missing values
+2026-06-24 13:36:00,012 - __main__ - INFO - Dropped column 'Sensor_ID' due to high missing values
+2026-06-24 13:36:00,060 - __main__ - INFO - Dropped column 'Temperature (°C)' due to high missing values
+2026-06-24 13:36:00,076 - __main__ - INFO - Dropped column 'Systolic_BP (mmHg)' due to high missing values
+2026-06-24 13:36:00,091 - __main__ - INFO - Dropped column 'Diastolic_BP (mmHg)' due to high missing values
+2026-06-24 13:36:00,110 - __main__ - INFO - Dropped column 'Heart_Rate (bpm)' due to high missing values
+2026-06-24 13:36:00,134 - __main__ - INFO - Dropped column 'Device_Battery_Level (%)' due to high missing values
+2026-06-24 13:36:00,156 - __main__ - INFO - Dropped column 'Target_Blood_Pressure' due to high missing values
+2026-06-24 13:36:00,162 - __main__ - INFO - Dropped column 'Target_Heart_Rate' due to high missing values
+2026-06-24 13:36:00,182 - __main__ - INFO - Dropped column 'Battery_Level (%)' due to high missing values
+2026-06-24 13:36:00,197 - __main__ - INFO - Dropped column 'engine_id' due to high missing values
+2026-06-24 13:36:00,211 - __main__ - INFO - Dropped column 'time_cycles' due to high missing values
+2026-06-24 13:36:00,229 - __main__ - INFO - Dropped column 'pressure_psi' due to high missing values
+2026-06-24 13:36:00,243 - __main__ - INFO - Dropped column 'temperature_c' due to high missing values
+2026-06-24 13:36:00,259 - __main__ - INFO - Dropped column 'vibration_mm_s' due to high missing values
+2026-06-24 13:36:00,270 - __main__ - INFO - Dropped column 'oil_quality' due to high missing values
+2026-06-24 13:36:00,290 - __main__ - INFO - Dropped column 'flow_rate' due to high missing values
+2026-06-24 13:36:00,298 - __main__ - INFO - Dropped column 'helium_level' due to high missing values
+2026-06-24 13:36:00,305 - __main__ - INFO - Dropped column 'coolant_temp' due to high missing values
+2026-06-24 13:36:00,309 - __main__ - INFO - Dropped column 'vacuum_pressure' due to high missing values
+2026-06-24 13:36:00,316 - __main__ - INFO - Dropped column 'gradient_coil_temp' due to high missing values
+2026-06-24 13:36:00,323 - __main__ - INFO - Dropped column 'image_quality' due to high missing values
+2026-06-24 13:36:00,329 - __main__ - INFO - Dropped column 'avg_energy_consumption' due to high missing values
+2026-06-24 13:36:00,368 - __main__ - WARNING - Missing required columns: ['temperature', 'vibration', 'pressure']
+2026-06-24 13:36:00,369 - __main__ - INFO - No RUL column found, generating synthetic RUL
+2026-06-24 13:36:00,373 - __main__ - WARNING - Column 'temperature' still missing, adding default values
+2026-06-24 13:36:00,374 - __main__ - WARNING - Column 'vibration' still missing, adding default values
+2026-06-24 13:36:00,375 - __main__ - WARNING - Column 'pressure' still missing, adding default values
+2026-06-24 13:36:00,432 - __main__ - INFO - Prepared 18672 samples with 41 features
+2026-06-24 13:36:00,476 - __main__ - INFO - Preprocessed 18672 samples with 41 features

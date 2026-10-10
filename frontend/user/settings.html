@@ -1,0 +1,1822 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Settings | SynapsePM - Account Management</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+    <meta name="robots" content="noindex, nofollow">
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+
+        .gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
+        .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+        .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+        .gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .synapsepm-logo {
+            font-family: "Inter", sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            font-size: 20px;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            vertical-align: middle;
+        }
+        .synapsepm-logo > span:not(.logo-icon),
+        .synapsepm-logo strong {
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
+            height: 28px;
+        }
+        .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+        .synapsepm-logo strong {
+            background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .synapsepm-logo .logo-icon {
+            width: 28px; height: 28px;
+            min-width: 28px; min-height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .synapsepm-logo .logo-icon img {
+            width: 28px; height: 28px;
+            object-fit: contain; display: block;
+        }
+
+        .settings-wrapper { max-width: 1000px; margin: 0 auto; padding: 1rem; }
+        @media (min-width: 640px) { .settings-wrapper { padding: 1.5rem; } }
+        @media (min-width: 1024px) { .settings-wrapper { padding: 2rem 1.5rem; } }
+
+        .back-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 0.875rem; color: #64748b; text-decoration: none;
+            transition: color 0.2s; padding: 0.5rem 0.75rem; border-radius: 0.5rem;
+        }
+        .back-link:hover { color: #00b4aa; background: #f1f5f9; }
+
+        .settings-header h1 { font-size: 1.5rem; font-weight: 800; color: #0f2b3d; }
+        @media (min-width: 640px) { .settings-header h1 { font-size: 1.875rem; } }
+
+        .settings-tabs {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem; padding-bottom: 0.5rem;
+        }
+        .settings-tab {
+            padding: 0.5rem 1rem; font-size: 0.75rem; font-weight: 600;
+            background: transparent; border: none; color: #64748b;
+            cursor: pointer; transition: all 0.2s; border-radius: 0.5rem;
+        }
+        @media (min-width: 640px) { .settings-tab { padding: 0.625rem 1.25rem; font-size: 0.875rem; } }
+        .settings-tab:hover { color: #00b4aa; background: #f1f5f9; }
+        .settings-tab.active { color: #00b4aa; background: rgba(0, 180, 170, 0.1); }
+
+        .settings-panel {
+            background: white; border-radius: 1rem;
+            border: 1px solid #e2e8f0; margin-bottom: 1.5rem; overflow: hidden;
+        }
+        .panel-header {
+            padding: 1rem; border-bottom: 1px solid #e2e8f0;
+            display: flex; flex-direction: column; gap: 0.75rem;
+        }
+        @media (min-width: 640px) { .panel-header { flex-direction: row; justify-content: space-between; align-items: center; } }
+        .panel-header h2 { font-size: 1rem; font-weight: 700; color: #0f2b3d; }
+        .panel-content { padding: 1rem; }
+        @media (min-width: 640px) { .panel-content { padding: 1.5rem; } }
+
+        .form-input, .form-select {
+            width: 100%; padding: 0.625rem 0.875rem;
+            background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem;
+            font-size: 0.875rem; transition: all 0.2s;
+        }
+        .form-input:focus, .form-select:focus {
+            outline: none; border-color: #00b4aa;
+            box-shadow: 0 0 0 3px rgba(0, 180, 170, 0.1);
+        }
+        .form-input:disabled { background: #f1f5f9; cursor: not-allowed; }
+        .form-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
+        .form-input.success { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+
+        .form-label {
+            display: block; font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            color: #475569; margin-bottom: 0.5rem;
+        }
+        .form-grid {
+            display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1.5rem;
+        }
+        @media (min-width: 640px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+
+        .avatar-large {
+            width: 80px; height: 80px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; cursor: pointer; flex-shrink: 0;
+            background-size: cover; background-position: center;
+            background-color: #e2e8f0;
+            background-image: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%);
+            border: 3px solid #e2e8f0; transition: all 0.3s;
+        }
+        .avatar-large:hover { border-color: #00b4aa; transform: scale(1.02); }
+        .avatar-large span { font-size: 2rem; font-weight: 700; color: white; }
+        .avatar-edit {
+            position: absolute; bottom: 0; right: 0; width: 28px; height: 28px;
+            background: #00b4aa; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid white; cursor: pointer; transition: all 0.2s;
+        }
+        .avatar-edit:hover { transform: scale(1.1); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00b4aa 0%, #009688 100%);
+            color: white; padding: 0.625rem 1.5rem; border: none;
+            border-radius: 0.75rem; font-weight: 600; font-size: 0.875rem;
+            cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 180, 170, 0.3); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .btn-secondary {
+            background: #f8fafc; border: 1px solid #e2e8f0; color: #475569;
+            padding: 0.625rem 1.25rem; border-radius: 0.75rem;
+            font-weight: 600; font-size: 0.875rem;
+            cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .btn-secondary:hover { border-color: #00b4aa; color: #00b4aa; }
+        .btn-danger {
+            background: #dc2626; color: white; padding: 0.625rem 1.25rem;
+            border-radius: 0.75rem; font-weight: 600; font-size: 0.875rem;
+            border: none; cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .btn-danger:hover { background: #b91c1c; }
+
+        .toggle-group {
+            display: flex; flex-direction: column; gap: 0.75rem;
+            padding: 1rem 0; border-bottom: 1px solid #e2e8f0;
+        }
+        @media (min-width: 640px) { .toggle-group { flex-direction: row; justify-content: space-between; align-items: center; } }
+        .toggle-info h3 { font-size: 0.875rem; font-weight: 600; color: #0f2b3d; margin-bottom: 0.25rem; }
+        .toggle-info p { font-size: 0.75rem; color: #64748b; }
+        .toggle-switch {
+            position: relative; display: inline-block; width: 48px; height: 24px; flex-shrink: 0;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1; transition: 0.3s; border-radius: 34px;
+        }
+        .toggle-slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px;
+            left: 3px; bottom: 3px; background-color: white;
+            transition: 0.3s; border-radius: 50%;
+        }
+        input:checked + .toggle-slider { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+        input:checked + .toggle-slider:before { transform: translateX(24px); }
+        input:disabled + .toggle-slider { opacity: 0.5; cursor: not-allowed; }
+
+        .danger-zone {
+            background: #fef2f2; border: 1px solid #fecaca;
+            border-radius: 1rem; padding: 1rem; margin-top: 1rem;
+        }
+        @media (min-width: 640px) { .danger-zone { padding: 1.5rem; } }
+        .danger-zone h3 { font-size: 0.875rem; font-weight: 700; color: #dc2626; margin-bottom: 0.5rem; }
+        .danger-zone p { font-size: 0.75rem; color: #dc2626; margin-bottom: 1rem; }
+
+        .toast {
+            position: fixed; bottom: 1.5rem; right: 1.5rem;
+            background: white; border-radius: 0.75rem; padding: 1rem 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            display: flex; align-items: center; gap: 0.75rem;
+            z-index: 1100; animation: slideInRight 0.3s ease-out;
+            border-left: 4px solid; max-width: 400px;
+        }
+        .toast.success { border-left-color: #10b981; }
+        .toast.error { border-left-color: #ef4444; }
+        .toast.warning { border-left-color: #f59e0b; }
+        .toast.info { border-left-color: #00b4aa; }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+            z-index: 1000; align-items: center; justify-content: center;
+        }
+        .modal.active { display: flex; animation: fadeIn 0.2s ease-out; }
+        .modal-content {
+            background: white; border-radius: 1.5rem; max-width: 500px;
+            width: 90%; max-height: 90vh; overflow-y: auto; padding: 2rem;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .loading-spinner {
+            display: inline-block; width: 1rem; height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white; border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin-right: 0.5rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .input-error-text { font-size: 0.7rem; color: #ef4444; margin-top: 0.25rem; display: none; }
+        .input-error-text.show { display: block; }
+
+        .empty-state { text-align: center; padding: 1.5rem 1rem; color: #94a3b8; font-size: 0.8rem; }
+
+        .qr-container {
+            display: flex; justify-content: center; padding: 1rem;
+            background: #f8fafc; border-radius: 0.75rem;
+            margin-bottom: 1rem; min-height: 220px; align-items: center;
+        }
+        .qr-container img { width: 200px; height: 200px; border-radius: 0.5rem; }
+        .secret-code {
+            font-family: 'Courier New', monospace; background: #f1f5f9;
+            padding: 0.5rem 0.75rem; border-radius: 0.5rem;
+            font-size: 0.8rem; letter-spacing: 2px; word-break: break-all;
+            color: #0f2b3d; font-weight: 600;
+        }
+        .backup-codes {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+            font-family: 'Courier New', monospace; font-size: 0.75rem;
+            background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-top: 0.75rem;
+        }
+        .backup-codes span {
+            padding: 0.35rem 0.5rem; background: white;
+            border: 1px solid #e2e8f0; border-radius: 0.35rem; text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3 min-w-0">
+        <a href="dashboard.html" class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-slate-100 transition-colors flex-shrink-0" aria-label="Back to Dashboard">
+            <span class="material-symbols-outlined text-slate-700">arrow_back</span>
+        </a>
+        <a href="dashboard.html" class="synapsepm-logo" aria-label="SynapsePM home">
+            <span class="logo-icon">
+                <img src="/assets/img/logo.png" alt="SynapsePM Logo"
+                     onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:24px\'>hub</span>'">
+            </span>
+            <span>Synapse</span><strong>PM</strong>
+        </a>
+        <span class="text-slate-300 hidden sm:inline">/</span>
+        <h1 class="text-base sm:text-lg font-bold text-slate-800 truncate">Settings</h1>
+    </div>
+    <div class="flex items-center gap-2 flex-shrink-0">
+        <span id="saveIndicator" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">Ready</span>
+    </div>
+</header>
+
+<main class="settings-wrapper">
+    <div class="flex items-center justify-between mb-4 sm:mb-6">
+        <a href="dashboard.html" class="back-link">
+            <span class="material-symbols-outlined text-sm">arrow_back</span>
+            Back to Dashboard
+        </a>
+    </div>
+
+    <div class="settings-header mb-6">
+        <h1>Account Settings</h1>
+        <p class="text-slate-500 text-sm mt-1">Manage your profile, security preferences, and account settings</p>
+    </div>
+
+    <!-- TABS — use data attributes so event delegation can find them -->
+    <div class="settings-tabs" id="settingsTabs" role="tablist">
+        <button type="button" class="settings-tab active" data-tab="profile" role="tab" aria-selected="true">Profile</button>
+        <button type="button" class="settings-tab" data-tab="security" role="tab" aria-selected="false">Security</button>
+        <button type="button" class="settings-tab" data-tab="notifications" role="tab" aria-selected="false">Notifications</button>
+        <button type="button" class="settings-tab" data-tab="api" role="tab" aria-selected="false">API Keys</button>
+        <button type="button" class="settings-tab" data-tab="sessions" role="tab" aria-selected="false">Sessions</button>
+        <button type="button" class="settings-tab" data-tab="billing" role="tab" aria-selected="false">Billing</button>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="tab-content active" id="tab-profile" role="tabpanel">
+        <div class="settings-panel">
+            <div class="panel-header">
+                <h2>Profile Information</h2>
+                <span class="text-xs text-slate-400" id="profileMeta">Loading…</span>
+            </div>
+            <div class="panel-content">
+                <div class="flex flex-wrap items-center gap-4 mb-6">
+                    <div class="avatar-large" id="avatarLarge" role="button" aria-label="Change profile photo" tabindex="0">
+                        <span id="avatarInitials">U</span>
+                        <div class="avatar-edit" title="Change photo">
+                            <span class="material-symbols-outlined" style="font-size:16px;color:white;">edit</span>
+                        </div>
+                    </div>
+                    <input type="file" id="avatarInput" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp" style="display:none;">
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" class="btn-secondary" id="uploadAvatarBtn">Upload Photo</button>
+                        <button type="button" class="btn-secondary text-red-500 hover:text-red-700" id="removeAvatarBtn" style="display:none;">Remove</button>
+                        <p class="text-[10px] text-slate-400 w-full">PNG, JPG, GIF, WebP up to 5MB</p>
+                    </div>
+                </div>
+
+                <form id="profileForm" novalidate>
+                    <div class="form-grid">
+                        <div>
+                            <label class="form-label" for="fullName">Full Name <span class="text-red-500">*</span></label>
+                            <input type="text" class="form-input" id="fullName" required autocomplete="name">
+                        </div>
+                        <div>
+                            <label class="form-label" for="email">Email Address</label>
+                            <input type="email" class="form-input" id="email" disabled title="Email cannot be changed here">
+                        </div>
+                        <div>
+                            <label class="form-label" for="username">Username</label>
+                            <input type="text" class="form-input" id="username" disabled>
+                        </div>
+                        <div>
+                            <label class="form-label" for="company">Company / Organization</label>
+                            <input type="text" class="form-input" id="company" autocomplete="organization">
+                        </div>
+                        <div>
+                            <label class="form-label" for="jobTitle">Job Title</label>
+                            <input type="text" class="form-input" id="jobTitle" autocomplete="organization-title">
+                        </div>
+                        <div>
+                            <label class="form-label" for="phone">Phone Number</label>
+                            <input type="tel" class="form-input" id="phone" autocomplete="tel">
+                        </div>
+                        <div>
+                            <label class="form-label" for="timezone">Timezone</label>
+                            <select class="form-select" id="timezone">
+                                <option value="UTC">UTC</option>
+                                <option value="America/New_York">Eastern Time (ET)</option>
+                                <option value="America/Chicago">Central Time (CT)</option>
+                                <option value="America/Denver">Mountain Time (MT)</option>
+                                <option value="America/Los_Angeles">Pacific Time (PT)</option>
+                                <option value="Europe/London">Greenwich Mean Time (GMT)</option>
+                                <option value="Europe/Paris">Central European Time (CET)</option>
+                                <option value="Asia/Kolkata">India Standard Time (IST)</option>
+                                <option value="Asia/Dubai">Gulf Standard Time (GST)</option>
+                                <option value="Asia/Tokyo">Japan Standard Time (JST)</option>
+                                <option value="Australia/Sydney">Australian Eastern Time (AET)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" for="language">Language</label>
+                            <select class="form-select" id="language">
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                                <option value="fr">Français</option>
+                                <option value="de">Deutsch</option>
+                                <option value="hi">हिन्दी</option>
+                                <option value="ja">日本語</option>
+                                <option value="zh">中文</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" id="profileSaveBtn">
+                        <span class="material-symbols-outlined text-base align-middle">save</span>
+                        Save Changes
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div class="tab-content" id="tab-security" role="tabpanel">
+        <div class="settings-panel">
+            <div class="panel-header">
+                <h2>Change Password</h2>
+            </div>
+            <div class="panel-content">
+                <form id="passwordForm" novalidate>
+                    <div class="form-grid">
+                        <div>
+                            <label class="form-label" for="currentPassword">Current Password <span class="text-red-500">*</span></label>
+                            <input type="password" class="form-input" id="currentPassword" required autocomplete="current-password">
+                        </div>
+                        <div>
+                            <label class="form-label" for="newPassword">New Password <span class="text-red-500">*</span></label>
+                            <input type="password" class="form-input" id="newPassword" required minlength="8" autocomplete="new-password">
+                            <div class="input-error-text" id="newPasswordError">Password must be at least 8 characters</div>
+                        </div>
+                        <div>
+                            <label class="form-label" for="confirmPassword">Confirm New Password <span class="text-red-500">*</span></label>
+                            <input type="password" class="form-input" id="confirmPassword" required autocomplete="new-password">
+                            <div class="input-error-text" id="confirmPasswordError">Passwords do not match</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" id="passwordSaveBtn">
+                        <span class="material-symbols-outlined text-base align-middle">lock</span>
+                        Update Password
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="settings-panel">
+            <div class="panel-header">
+                <h2>Two-Factor Authentication</h2>
+                <span class="text-xs text-slate-400" id="twoFactorMeta">Loading…</span>
+            </div>
+            <div class="panel-content">
+                <div class="toggle-group" style="border-bottom:none;">
+                    <div class="toggle-info">
+                        <h3>Enable 2FA</h3>
+                        <p>Add an extra layer of security to your account (TOTP authenticator app)</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="twoFactorToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="danger-zone">
+            <h3>⚠️ Danger Zone</h3>
+            <p>Once you delete your account, there is no going back. All your data will be permanently removed after the retention period.</p>
+            <button type="button" class="btn-danger" id="deleteAccountBtn">Delete Account</button>
+        </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="tab-content" id="tab-notifications" role="tabpanel">
+        <div class="settings-panel">
+            <div class="panel-header">
+                <h2>Notification Preferences</h2>
+                <span class="text-xs text-slate-400" id="notificationsMeta"></span>
+            </div>
+            <div class="panel-content">
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h3>Email Notifications</h3>
+                        <p>Receive updates about predictions and alerts via email</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="emailNotifications">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h3>Critical Alerts</h3>
+                        <p>Immediate notifications for critical machine failures</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="criticalAlerts">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h3>Weekly Reports</h3>
+                        <p>Weekly summary of machine health and predictions</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="weeklyReports">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-group" style="border-bottom:none;">
+                    <div class="toggle-info">
+                        <h3>Prediction Alerts</h3>
+                        <p>Get notified when new predictions are generated for your machines</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="predictionAlerts">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <button type="button" class="btn-primary mt-4" id="saveNotificationsBtn">
+                    <span class="material-symbols-outlined text-base align-middle">save</span>
+                    Save Preferences
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- API KEYS -->
+    <div class="tab-content" id="tab-api" role="tabpanel">
+        <div class="settings-panel">
+            <div class="panel-header">
+                <h2>API Keys</h2>
+                <button type="button" class="btn-primary" id="generateApiKeyBtn">
+                    <span class="material-symbols-outlined text-base align-middle">add</span>
+                    Generate New Key
+                </button>
+            </div>
+            <div class="panel-content">
+                <p class="text-xs sm:text-sm text-slate-500 mb-4">API keys allow you to programmatically access SynapsePM. Keep them secure and never share them publicly.</p>
+                <div id="apiKeysList">
+                    <div class="empty-state">Loading API keys…</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SESSIONS -->
+    <div class="tab-content" id="tab-sessions" role="tabpanel">
+        <div class="settings-panel">
+            <div class="panel-header">
+                <h2>Active Sessions</h2>
+                <button type="button" class="btn-secondary text-red-500" id="revokeAllSessionsBtn">
+                    <span class="material-symbols-outlined text-base align-middle">logout</span>
+                    Revoke All Others
+                </button>
+            </div>
+            <div class="panel-content">
+                <p class="text-xs sm:text-sm text-slate-500 mb-4">These are devices currently signed into your account. Revoke any you don't recognize.</p>
+                <div id="sessionsList">
+                    <div class="empty-state">Loading sessions…</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BILLING -->
+    <div class="tab-content" id="tab-billing" role="tabpanel">
+        <div class="settings-panel">
+            <div class="panel-header">
+                <h2>Current Plan</h2>
+            </div>
+            <div class="panel-content" id="billingContent">
+                <div class="empty-state">Loading plan…</div>
+            </div>
+        </div>
+
+        <div class="settings-panel">
+            <div class="panel-header">
+                <h2>Billing & Payments</h2>
+            </div>
+            <div class="panel-content">
+                <p class="text-sm text-slate-500 mb-4">Manage your payment methods and view invoices on the Billing page.</p>
+                <button type="button" class="btn-primary" id="openBillingPageBtn">
+                    <span class="material-symbols-outlined text-base align-middle">credit_card</span>
+                    Open Billing Page
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- 2FA Setup Modal -->
+<div class="modal" id="mfaSetupModal">
+    <div class="modal-content">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-slate-800">Set Up Two-Factor Authentication</h3>
+            <button type="button" id="closeMfaSetupBtn" class="p-2 rounded-lg hover:bg-slate-100">
+                <span class="material-symbols-outlined text-slate-500">close</span>
+            </button>
+        </div>
+        <p class="text-sm text-slate-600 mb-4">Scan this QR code with your authenticator app (Google Authenticator, Authy, 1Password, etc.), then enter the 6-digit code to verify.</p>
+
+        <div class="qr-container" id="mfaQrContainer">
+            <img id="mfaQrImage" src="" alt="QR Code">
+        </div>
+
+        <p class="text-xs text-slate-500 mb-2">Or enter this code manually:</p>
+        <div class="secret-code" id="mfaSecret">—</div>
+
+        <div class="mt-4">
+            <label class="form-label" for="mfaVerifyCode">Verification Code</label>
+            <input type="text" class="form-input" id="mfaVerifyCode" placeholder="123456" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code">
+        </div>
+
+        <div class="mt-4 flex gap-2">
+            <button type="button" class="btn-secondary flex-1" id="cancelMfaSetupBtn">Cancel</button>
+            <button type="button" class="btn-primary flex-1" id="verifyMfaSetupBtn">Verify & Enable</button>
+        </div>
+    </div>
+</div>
+
+<!-- MFA Backup Codes Modal -->
+<div class="modal" id="mfaBackupModal">
+    <div class="modal-content">
+        <div class="flex items-center gap-2 mb-3">
+            <span class="material-symbols-outlined text-amber-500 text-2xl">warning</span>
+            <h3 class="text-lg font-bold text-slate-800">Save Your Backup Codes</h3>
+        </div>
+        <p class="text-sm text-slate-600 mb-4">Save these backup codes in a safe place. Each code can be used once if you lose access to your authenticator app.</p>
+
+        <div class="backup-codes" id="mfaBackupCodes"></div>
+
+        <div class="mt-4 flex gap-2">
+            <button type="button" class="btn-secondary flex-1" id="copyBackupCodesBtn">
+                <span class="material-symbols-outlined text-base align-middle">content_copy</span>
+                Copy Codes
+            </button>
+            <button type="button" class="btn-primary flex-1" id="closeMfaBackupBtn">Done</button>
+        </div>
+    </div>
+</div>
+
+<!-- API Key Created Modal -->
+<div class="modal" id="apiKeyModal">
+    <div class="modal-content">
+        <div class="flex items-center gap-2 mb-3">
+            <span class="material-symbols-outlined text-teal-500 text-2xl">key</span>
+            <h3 class="text-lg font-bold text-slate-800">API Key Created</h3>
+        </div>
+        <p class="text-sm text-slate-600 mb-4">Copy this key now. It will only be shown once. Store it securely — never commit it to version control.</p>
+
+        <div class="secret-code" id="newApiKeyValue" style="letter-spacing:0;"></div>
+
+        <div class="mt-4 flex gap-2">
+            <button type="button" class="btn-secondary flex-1" id="copyApiKeyBtn">
+                <span class="material-symbols-outlined text-base align-middle">content_copy</span>
+                Copy Key
+            </button>
+            <button type="button" class="btn-primary flex-1" id="closeApiKeyModalBtn">Done</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// SYNAPSEPM SETTINGS — v33.2.0
+//
+// KEY FIX: All buttons use addEventListener inside try/catch,
+// bound explicitly at the bottom of the file. If ANY handler
+// throws during init, the rest still bind. Tab switching uses
+// event delegation so it works even if a later script crashes.
+// ============================================================
+
+(function () {
+    'use strict';
+
+    const API_BASE = '/api/v1';
+    const REQUEST_TIMEOUT_MS = 30000;
+
+    // ------------------------------------------------------------
+    // TOKEN / AUTH
+    // ------------------------------------------------------------
+    function getToken() {
+        return localStorage.getItem('synapse_token')
+            || localStorage.getItem('synapse_admin_token')
+            || localStorage.getItem('token')
+            || localStorage.getItem('auth_token')
+            || localStorage.getItem('access_token')
+            || null;
+    }
+    function getRefreshToken() {
+        return localStorage.getItem('synapse_refresh')
+            || localStorage.getItem('refresh_token')
+            || null;
+    }
+    function getUser() {
+        try {
+            const raw = localStorage.getItem('synapse_user')
+                || localStorage.getItem('synapse_admin_user')
+                || localStorage.getItem('user');
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+    }
+    function decodeJwt(token) {
+        if (!token || typeof token !== 'string') return null;
+        try {
+            const parts = token.split('.');
+            if (parts.length !== 3) return null;
+            const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+            const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+            return JSON.parse(atob(padded));
+        } catch (e) { return null; }
+    }
+    function isTokenValid(token) {
+        const payload = decodeJwt(token);
+        if (!payload || typeof payload.exp !== 'number') return false;
+        return payload.exp > Math.floor(Date.now() / 1000) + 10;
+    }
+    function persistUser(user) {
+        try {
+            if (!user) return;
+            localStorage.setItem('synapse_user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user));
+            window.dispatchEvent(new CustomEvent('synapse:user-updated', { detail: user }));
+            try { localStorage.setItem('synapse_user_updated_at', String(Date.now())); } catch (e) {}
+        } catch (e) {}
+    }
+
+    const Auth = {
+        get token() { return getToken(); },
+        get user() { return getUser(); },
+        get isAuthenticated() {
+            const t = getToken();
+            const u = getUser();
+            return !!(t && u && isTokenValid(t));
+        },
+        logout() {
+            ['synapse_token','synapse_user','synapse_refresh','synapse_tenant',
+             'synapse_admin_token','synapse_admin_user','synapse_mfa','synapse_sessions',
+             'token','auth_token','access_token','refresh_token','user','organization',
+             'synapse_user_updated_at'].forEach(k => {
+                try { localStorage.removeItem(k); } catch (e) {}
+            });
+            try { sessionStorage.setItem('justLoggedOut', 'true'); } catch (e) {}
+            window.location.replace('login.html');
+        }
+    };
+
+    // ------------------------------------------------------------
+    // HELPERS
+    // ------------------------------------------------------------
+    function $(id) { return document.getElementById(id); }
+    function escapeHtml(text) {
+        if (text === null || text === undefined) return '';
+        const div = document.createElement('div');
+        div.textContent = String(text);
+        return div.innerHTML;
+    }
+    function showToast(message, type = 'info', duration = 4000) {
+        const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#00b4aa' };
+        const icons = { success: 'check_circle', error: 'error', warning: 'warning', info: 'info' };
+        const toast = document.createElement('div');
+        toast.className = 'toast ' + type;
+        toast.style.borderLeftColor = colors[type] || colors.info;
+        toast.innerHTML = `<span class="material-symbols-outlined text-sm" style="color:${colors[type]}">${icons[type] || 'info'}</span><span class="text-sm">${escapeHtml(message)}</span>`;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.3s';
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+    }
+    function setSaveIndicator(state, text) {
+        const el = $('saveIndicator');
+        if (!el) return;
+        const map = {
+            ready: 'bg-slate-100 text-slate-500',
+            saving: 'bg-amber-100 text-amber-700',
+            saved: 'bg-green-100 text-green-700',
+            error: 'bg-red-100 text-red-700'
+        };
+        el.className = 'text-xs font-semibold px-2 py-0.5 rounded-full ' + (map[state] || map.ready);
+        el.textContent = text || (state === 'saving' ? 'Saving…' : state === 'saved' ? 'Saved' : state === 'error' ? 'Error' : 'Ready');
+    }
+
+    // ------------------------------------------------------------
+    // API CLIENT
+    // ------------------------------------------------------------
+    let refreshPromise = null;
+    async function performRefresh() {
+        if (refreshPromise) return refreshPromise;
+        const rt = getRefreshToken();
+        if (!rt) return false;
+        refreshPromise = (async () => {
+            try {
+                const resp = await fetch(API_BASE + '/auth/refresh', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        refresh_token: rt,
+                        device_id: localStorage.getItem('synapse_device_id') || null,
+                    }),
+                    credentials: 'same-origin',
+                });
+                if (!resp.ok) return false;
+                const data = await resp.json().catch(() => null);
+                if (!data || !data.success || !data.access_token) return false;
+                try {
+                    localStorage.setItem('synapse_token', data.access_token);
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('auth_token', data.access_token);
+                    localStorage.setItem('access_token', data.access_token);
+                    if (data.refresh_token) {
+                        localStorage.setItem('synapse_refresh', data.refresh_token);
+                        localStorage.setItem('refresh_token', data.refresh_token);
+                    }
+                } catch (e) {}
+                return true;
+            } catch (e) { return false; }
+            finally { refreshPromise = null; }
+        })();
+        return refreshPromise;
+    }
+
+    const API = {
+        async request(endpoint, options = {}, _retried = false) {
+            const token = getToken();
+            if (!token) {
+                try { sessionStorage.setItem('justLoggedOut', 'true'); } catch (e) {}
+                if (!/login\.html/i.test(window.location.pathname)) {
+                    window.location.replace('login.html');
+                }
+                throw new Error('Not authenticated');
+            }
+            const headers = { 'Accept': 'application/json', ...(options.headers || {}) };
+            const isForm = (typeof FormData !== 'undefined') && (options.body instanceof FormData);
+            if (!isForm && options.body !== undefined && options.body !== null && !headers['Content-Type']) {
+                headers['Content-Type'] = 'application/json';
+            }
+            headers['Authorization'] = 'Bearer ' + token;
+
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+            let response;
+            try {
+                response = await fetch(API_BASE + endpoint, {
+                    ...options, headers,
+                    credentials: 'same-origin',
+                    signal: controller.signal,
+                });
+            } catch (err) {
+                clearTimeout(timer);
+                if (err && err.name === 'AbortError') {
+                    const e = new Error('Request timed out'); e.status = 0; throw e;
+                }
+                const e = new Error('Network error — cannot reach backend'); e.status = 0; throw e;
+            }
+            clearTimeout(timer);
+
+            if (response.status === 401 && !_retried) {
+                const ok = await performRefresh();
+                if (ok) return this.request(endpoint, options, true);
+                Auth.logout();
+                const e = new Error('Session expired. Please log in again.'); e.status = 401; throw e;
+            }
+
+            const ctype = response.headers.get('content-type') || '';
+            let data = null;
+            if (ctype.includes('application/json')) {
+                try { data = await response.json(); } catch (e) { data = null; }
+            } else {
+                try {
+                    const text = await response.text();
+                    try { data = JSON.parse(text); } catch (e) { data = { raw: text }; }
+                } catch (e) { data = null; }
+            }
+            if (!response.ok) {
+                const msg = (data && (data.error || data.message || data.detail)) || ('HTTP ' + response.status);
+                const err = new Error(msg); err.status = response.status; err.data = data;
+                throw err;
+            }
+            return data;
+        },
+        async uploadAvatar(file, _retried = false) {
+            const token = getToken();
+            if (!token) throw new Error('Not authenticated');
+            const fd = new FormData();
+            fd.append('avatar', file);
+            const res = await fetch(API_BASE + '/user/avatar', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token },
+                body: fd,
+                credentials: 'same-origin'
+            });
+            if (res.status === 401 && !_retried) {
+                const ok = await performRefresh();
+                if (ok) return this.uploadAvatar(file, true);
+                Auth.logout();
+                throw new Error('Session expired');
+            }
+            if (!res.ok) {
+                let err = {};
+                try { err = await res.json(); } catch (e) {}
+                throw new Error(err.error || err.message || `Upload failed (${res.status})`);
+            }
+            return res.json();
+        }
+    };
+
+    // ------------------------------------------------------------
+    // STATE
+    // ------------------------------------------------------------
+    let currentUser = null;
+    let mfaSetupData = null;
+    let newApiKeyValue = null;
+    let backupCodes = [];
+    let tabDataLoaded = { profile: true };
+
+    // ------------------------------------------------------------
+    // TAB SWITCHING — event delegation, always works
+    // ------------------------------------------------------------
+    document.addEventListener('click', function (e) {
+        const tab = e.target.closest('.settings-tab');
+        if (!tab) return;
+        e.preventDefault();
+        const name = tab.dataset.tab;
+        if (!name) return;
+
+        // Highlight
+        document.querySelectorAll('.settings-tab').forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        // Show panel
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        const content = document.getElementById('tab-' + name);
+        if (content) content.classList.add('active');
+
+        // Lazy-load tab data on first click
+        if (!tabDataLoaded[name]) {
+            tabDataLoaded[name] = true;
+            try {
+                if (name === 'security') loadTwoFactorStatus().catch(() => {});
+                if (name === 'notifications') loadNotificationPreferences().catch(() => {});
+                if (name === 'api') loadApiKeys().catch(() => {});
+                if (name === 'sessions') loadSessions().catch(() => {});
+                if (name === 'billing') loadBillingInfo().catch(() => {});
+            } catch (err) { console.warn('Tab load failed:', err); }
+        }
+    });
+
+    // ------------------------------------------------------------
+    // AVATAR
+    // ------------------------------------------------------------
+    function renderAvatar(user) {
+        const large = $('avatarLarge');
+        const initials = $('avatarInitials');
+        const removeBtn = $('removeAvatarBtn');
+        if (!large || !initials) return;
+        if (user && user.avatar_url) {
+            const url = String(user.avatar_url).replace(/'/g, "%27");
+            const sep = url.includes('?') ? '&' : '?';
+            large.style.backgroundImage = `url('${url}${sep}t=${Date.now()}')`;
+            large.style.backgroundSize = 'cover';
+            large.style.backgroundPosition = 'center';
+            initials.style.display = 'none';
+            if (removeBtn) removeBtn.style.display = 'inline-block';
+        } else {
+            const name = (user && (user.display_name || user.full_name || user.name || user.username)) || 'U';
+            initials.textContent = name.split(/\s+/).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
+            initials.style.display = 'flex';
+            large.style.backgroundImage = 'linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%)';
+            if (removeBtn) removeBtn.style.display = 'none';
+        }
+    }
+
+    async function uploadAvatar(input) {
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        const file = input.files[0];
+        if (!file) return;
+        const allowed = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'];
+        if (!allowed.includes(file.type)) {
+            showToast('Please upload PNG, JPG, GIF, or WebP', 'error');
+            input.value = '';
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('Image must be under 5 MB', 'error');
+            input.value = '';
+            return;
+        }
+        setSaveIndicator('saving', 'Uploading…');
+        try {
+            const data = await API.uploadAvatar(file);
+            const newAvatarUrl = data.avatar_url || (data.user && data.user.avatar_url);
+            if (!newAvatarUrl) throw new Error('Server did not return avatar URL');
+            const stored = getUser() || {};
+            stored.avatar_url = newAvatarUrl;
+            persistUser(stored);
+            currentUser = currentUser || {};
+            currentUser.avatar_url = newAvatarUrl;
+            renderAvatar(currentUser);
+            showToast('✅ Avatar updated', 'success');
+            setSaveIndicator('saved', 'Saved');
+        } catch (error) {
+            console.error('Avatar upload failed:', error);
+            showToast('Avatar upload failed: ' + error.message, 'error', 5000);
+            setSaveIndicator('error', 'Error');
+        } finally {
+            input.value = '';
+        }
+    }
+
+    async function removeAvatar() {
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        if (!confirm('Remove your profile photo?')) return;
+        setSaveIndicator('saving', 'Removing…');
+        try {
+            await API.request('/user/avatar', { method: 'DELETE' });
+            const stored = getUser() || {};
+            stored.avatar_url = null;
+            persistUser(stored);
+            currentUser = currentUser || {};
+            currentUser.avatar_url = null;
+            renderAvatar(currentUser);
+            showToast('Avatar removed', 'success');
+            setSaveIndicator('saved', 'Saved');
+        } catch (error) {
+            console.error('Remove avatar failed:', error);
+            showToast('Failed: ' + error.message, 'error');
+            setSaveIndicator('error', 'Error');
+        }
+    }
+
+    // ------------------------------------------------------------
+    // LOAD USER DATA
+    // ------------------------------------------------------------
+    async function loadUserData() {
+        if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+        try {
+            const data = await API.request('/user/profile');
+            currentUser = data.user || data;
+            const name = currentUser.display_name || currentUser.full_name
+                || currentUser.name
+                || [currentUser.first_name, currentUser.last_name].filter(Boolean).join(' ')
+                || currentUser.username || '';
+            $('fullName').value = name;
+            $('email').value = currentUser.email || '';
+            $('username').value = currentUser.username || '';
+            $('company').value = currentUser.organization_name
+                || (currentUser.organization && currentUser.organization.name)
+                || currentUser.company || '';
+            $('jobTitle').value = currentUser.job_title || '';
+            $('phone').value = currentUser.phone || '';
+            $('timezone').value = currentUser.timezone || 'UTC';
+            $('language').value = currentUser.language || 'en';
+            renderAvatar(currentUser);
+            $('profileMeta').textContent = currentUser.email || '';
+
+            // Preload non-profile tab data in background (does not block UI)
+            setTimeout(() => {
+                loadBillingInfo().catch(() => {});
+                loadNotificationPreferences().catch(() => {});
+                loadTwoFactorStatus().catch(() => {});
+                loadApiKeys().catch(() => {});
+                loadSessions().catch(() => {});
+            }, 300);
+        } catch (error) {
+            console.error('loadUserData failed:', error);
+            showToast('Failed to load profile: ' + error.message, 'error');
+            const meta = $('profileMeta');
+            if (meta) meta.textContent = 'Failed to load';
+        }
+    }
+
+    // ------------------------------------------------------------
+    // PROFILE SAVE
+    // ------------------------------------------------------------
+    async function saveProfile(e) {
+        e.preventDefault();
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        const name = $('fullName').value.trim();
+        if (!name) {
+            showToast('Please enter your full name', 'error');
+            $('fullName').focus();
+            return;
+        }
+        const parts = name.split(/\s+/);
+        const firstName = parts[0] || '';
+        const lastName = parts.slice(1).join(' ') || '';
+        const payload = {
+            name, display_name: name,
+            first_name: firstName, last_name: lastName,
+            company: $('company').value.trim(),
+            job_title: $('jobTitle').value.trim(),
+            phone: $('phone').value.trim(),
+            timezone: $('timezone').value,
+            language: $('language').value,
+        };
+        const btn = $('profileSaveBtn');
+        const original = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Saving…';
+        setSaveIndicator('saving', 'Saving…');
+        try {
+            const data = await API.request('/user/profile', {
+                method: 'PUT',
+                body: JSON.stringify(payload)
+            });
+            const updated = (data && data.user) || {};
+            const stored = getUser() || {};
+            Object.assign(stored, {
+                display_name: updated.display_name || name,
+                name: updated.name || name,
+                first_name: updated.first_name || firstName,
+                last_name: updated.last_name || lastName,
+                job_title: updated.job_title !== undefined ? updated.job_title : payload.job_title,
+                phone: updated.phone !== undefined ? updated.phone : payload.phone,
+                timezone: updated.timezone !== undefined ? updated.timezone : payload.timezone,
+                language: updated.language !== undefined ? updated.language : payload.language,
+                organization_name: updated.organization_name || stored.organization_name,
+            });
+            persistUser(stored);
+            showToast('✅ Profile saved successfully! Returning to dashboard…', 'success', 3000);
+            setSaveIndicator('saved', 'Saved');
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1400);
+        } catch (error) {
+            console.error('Save profile failed:', error);
+            showToast('Failed to save profile: ' + error.message, 'error', 5000);
+            setSaveIndicator('error', 'Error');
+            btn.disabled = false;
+            btn.innerHTML = original;
+        }
+    }
+
+    // ------------------------------------------------------------
+    // PASSWORD CHANGE
+    // ------------------------------------------------------------
+    function onNewPasswordInput() {
+        const el = $('newPasswordError');
+        const v = $('newPassword').value;
+        if (v.length > 0 && v.length < 8) {
+            $('newPassword').classList.add('error');
+            $('newPassword').classList.remove('success');
+            el.classList.add('show');
+        } else if (v.length >= 8) {
+            $('newPassword').classList.remove('error');
+            $('newPassword').classList.add('success');
+            el.classList.remove('show');
+        } else {
+            $('newPassword').classList.remove('error', 'success');
+            el.classList.remove('show');
+        }
+    }
+    function onConfirmPasswordInput() {
+        const el = $('confirmPasswordError');
+        const v = $('confirmPassword').value;
+        const pw = $('newPassword').value;
+        if (v.length > 0 && v !== pw) {
+            $('confirmPassword').classList.add('error');
+            $('confirmPassword').classList.remove('success');
+            el.classList.add('show');
+        } else if (v.length > 0 && v === pw) {
+            $('confirmPassword').classList.remove('error');
+            $('confirmPassword').classList.add('success');
+            el.classList.remove('show');
+        } else {
+            $('confirmPassword').classList.remove('error', 'success');
+            el.classList.remove('show');
+        }
+    }
+    async function savePassword(e) {
+        e.preventDefault();
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        const current = $('currentPassword').value;
+        const next = $('newPassword').value;
+        const confirm = $('confirmPassword').value;
+        if (!current) { showToast('Please enter your current password', 'error'); return; }
+        if (next.length < 8) { showToast('Password must be at least 8 characters', 'error'); $('newPassword').focus(); return; }
+        if (next !== confirm) { showToast('Passwords do not match', 'error'); $('confirmPassword').focus(); return; }
+        const btn = $('passwordSaveBtn');
+        const original = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Updating…';
+        setSaveIndicator('saving', 'Saving…');
+        try {
+            await API.request('/user/change-password', {
+                method: 'POST',
+                body: JSON.stringify({
+                    old_password: current,
+                    current_password: current,
+                    new_password: next
+                })
+            });
+            showToast('✅ Password changed successfully', 'success');
+            $('passwordForm').reset();
+            document.querySelectorAll('#passwordForm .form-input').forEach(el => el.classList.remove('success', 'error'));
+            document.querySelectorAll('.input-error-text').forEach(el => el.classList.remove('show'));
+            setSaveIndicator('saved', 'Saved');
+        } catch (error) {
+            console.error('Change password failed:', error);
+            showToast('Failed: ' + error.message, 'error', 5000);
+            setSaveIndicator('error', 'Error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = original;
+        }
+    }
+
+    // ------------------------------------------------------------
+    // NOTIFICATION PREFERENCES
+    // ------------------------------------------------------------
+    async function loadNotificationPreferences() {
+        try {
+            const data = await API.request('/user/preferences');
+            const prefs = (data.preferences && data.preferences.notifications) || data.notifications || {};
+            $('emailNotifications').checked = prefs.email !== false;
+            $('criticalAlerts').checked = prefs.critical !== false;
+            $('weeklyReports').checked = prefs.weekly !== false;
+            $('predictionAlerts').checked = prefs.prediction !== false;
+        } catch (error) {
+            console.error('loadNotificationPreferences failed:', error);
+        }
+    }
+    async function saveNotificationSettings() {
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        const btn = $('saveNotificationsBtn');
+        const settings = {
+            email: $('emailNotifications').checked,
+            critical: $('criticalAlerts').checked,
+            weekly: $('weeklyReports').checked,
+            prediction: $('predictionAlerts').checked,
+        };
+        const original = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Saving…';
+        setSaveIndicator('saving', 'Saving…');
+        try {
+            await API.request('/user/preferences', {
+                method: 'PUT',
+                body: JSON.stringify({ notifications: settings })
+            });
+            const stored = getUser() || {};
+            stored.notification_preferences = { ...(stored.notification_preferences || {}), ...settings };
+            persistUser(stored);
+            showToast('✅ Notification preferences saved', 'success');
+            setSaveIndicator('saved', 'Saved');
+        } catch (error) {
+            console.error('Save preferences failed:', error);
+            showToast('Failed: ' + error.message, 'error', 5000);
+            setSaveIndicator('error', 'Error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = original;
+        }
+    }
+
+    // ------------------------------------------------------------
+    // 2FA — FIXED ENDPOINTS
+    // ------------------------------------------------------------
+    async function loadTwoFactorStatus() {
+        try {
+            const data = await API.request('/user/2fa/status');
+            const toggle = $('twoFactorToggle');
+            toggle.checked = !!data.enabled;
+            const meta = $('twoFactorMeta');
+            if (data.available === false) {
+                toggle.disabled = true;
+                meta.textContent = 'Not available on this server';
+            } else {
+                meta.textContent = data.enabled ? 'Enabled' : 'Disabled';
+            }
+        } catch (error) {
+            console.error('loadTwoFactorStatus failed:', error);
+            const meta = $('twoFactorMeta');
+            if (meta) meta.textContent = 'Unavailable';
+        }
+    }
+    async function onTwoFactorToggle() {
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        const toggle = $('twoFactorToggle');
+        const meta = $('twoFactorMeta');
+        const enabled = toggle.checked;
+        if (enabled) {
+            toggle.checked = false;
+            await startMfaSetup();
+            return;
+        }
+        const code = prompt('Enter a 6-digit code from your authenticator app to disable 2FA:');
+        if (!code) { toggle.checked = true; return; }
+        setSaveIndicator('saving', 'Saving…');
+        try {
+            await API.request('/auth/mfa/disable', {
+                method: 'POST',
+                body: JSON.stringify({ code })
+            });
+            showToast('2FA disabled', 'success');
+            if (meta) meta.textContent = 'Disabled';
+            const stored = getUser() || {};
+            stored.is_mfa_enabled = false;
+            persistUser(stored);
+            setSaveIndicator('saved', 'Saved');
+        } catch (error) {
+            toggle.checked = true;
+            showToast('Failed to disable 2FA: ' + error.message, 'error');
+            setSaveIndicator('error', 'Error');
+        }
+    }
+    async function startMfaSetup() {
+        setSaveIndicator('saving', 'Preparing…');
+        try {
+            const token = getToken();
+            if (!token) {
+                showToast('You are not logged in. Please sign in again.', 'error');
+                Auth.logout();
+                return;
+            }
+            const data = await API.request('/auth/mfa/setup', { method: 'POST' });
+            mfaSetupData = data;
+            $('mfaSecret').textContent = data.secret || '—';
+            const img = $('mfaQrImage');
+            const container = $('mfaQrContainer');
+            if (data.qr_code) {
+                img.src = data.qr_code;
+                img.style.display = '';
+            } else if (data.provisioning_uri) {
+                img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(data.provisioning_uri);
+                img.style.display = '';
+            } else {
+                img.style.display = 'none';
+                if (container) container.innerHTML = '<p class="text-xs text-slate-500 text-center">QR code not available. Use the manual secret above.</p>';
+            }
+            $('mfaVerifyCode').value = '';
+            $('mfaSetupModal').classList.add('active');
+            setSaveIndicator('ready', 'Ready');
+            setTimeout(() => $('mfaVerifyCode').focus(), 250);
+        } catch (error) {
+            console.error('startMfaSetup failed:', error);
+            showToast('Could not start 2FA setup: ' + error.message, 'error');
+            setSaveIndicator('error', 'Error');
+        }
+    }
+    async function verifyMfaSetup() {
+        const code = $('mfaVerifyCode').value.trim();
+        if (!/^\d{6}$/.test(code)) {
+            showToast('Enter a valid 6-digit code', 'error');
+            return;
+        }
+        const btn = $('verifyMfaSetupBtn');
+        const original = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Verifying…';
+        try {
+            const data = await API.request('/auth/mfa/verify', {
+                method: 'POST',
+                body: JSON.stringify({ code })
+            });
+            $('twoFactorToggle').checked = true;
+            const meta = $('twoFactorMeta');
+            if (meta) meta.textContent = 'Enabled';
+            if (data.backup_codes && data.backup_codes.length) {
+                showBackupCodes(data.backup_codes);
+            } else {
+                showToast('✅ 2FA enabled successfully', 'success');
+            }
+            closeMfaSetupModal();
+            setSaveIndicator('saved', 'Saved');
+            const stored = getUser() || {};
+            stored.is_mfa_enabled = true;
+            persistUser(stored);
+        } catch (error) {
+            console.error('verifyMfaSetup failed:', error);
+            showToast('Verification failed: ' + error.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = original;
+        }
+    }
+    function closeMfaSetupModal() {
+        $('mfaSetupModal').classList.remove('active');
+        mfaSetupData = null;
+    }
+    function showBackupCodes(codes) {
+        backupCodes = codes || [];
+        const container = $('mfaBackupCodes');
+        container.innerHTML = backupCodes.map(c => `<span>${escapeHtml(c)}</span>`).join('');
+        $('mfaBackupModal').classList.add('active');
+    }
+    function closeMfaBackupModal() {
+        $('mfaBackupModal').classList.remove('active');
+        showToast('✅ 2FA enabled. Save your backup codes!', 'success', 5000);
+    }
+    async function copyBackupCodes() {
+        try {
+            await navigator.clipboard.writeText(backupCodes.join('\n'));
+            showToast('Backup codes copied to clipboard', 'success');
+        } catch (e) {
+            showToast('Could not copy — please copy manually', 'warning');
+        }
+    }
+
+    // ------------------------------------------------------------
+    // API KEYS
+    // ------------------------------------------------------------
+    async function loadApiKeys() {
+        const list = $('apiKeysList');
+        try {
+            const data = await API.request('/user/api-keys');
+            const keys = data.keys || data.api_keys || (Array.isArray(data) ? data : []);
+            if (!keys.length) {
+                list.innerHTML = '<div class="empty-state">No API keys generated yet.</div>';
+                return;
+            }
+            list.innerHTML = keys.map(key => {
+                const id = key.id || key.uuid;
+                const name = key.name || 'API Key';
+                const prefix = key.key_prefix || key.prefix || 'spm_…';
+                const created = key.created_at ? new Date(key.created_at).toLocaleDateString() : 'N/A';
+                const lastUsed = key.last_used_at ? new Date(key.last_used_at).toLocaleString() : 'Never';
+                const usage = key.usage_count || 0;
+                return `
+                    <div class="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-50 rounded-xl mb-2">
+                        <div class="min-w-0 flex-1">
+                            <div class="font-semibold text-slate-800 text-sm truncate">${escapeHtml(name)}</div>
+                            <div class="text-xs text-slate-400 font-mono truncate">${escapeHtml(prefix)}…</div>
+                            <div class="text-[10px] text-slate-400 mt-0.5">Created ${escapeHtml(created)} · Last used ${escapeHtml(lastUsed)} · ${escapeHtml(String(usage))} calls</div>
+                        </div>
+                        <div class="flex gap-2 flex-shrink-0">
+                            <button type="button" data-revoke-key="${escapeHtml(id)}" class="text-red-500 text-xs hover:underline font-semibold">Revoke</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } catch (error) {
+            console.error('loadApiKeys failed:', error);
+            list.innerHTML = '<div class="empty-state">Could not load API keys.</div>';
+        }
+    }
+    async function generateAPIKey() {
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        const btn = $('generateApiKeyBtn');
+        const original = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Generating…';
+        setSaveIndicator('saving', 'Generating…');
+        try {
+            const data = await API.request('/user/api-keys', {
+                method: 'POST',
+                body: JSON.stringify({ name: 'API Key ' + new Date().toLocaleDateString() })
+            });
+            const key = data.key || (data.api_key && data.api_key.key) || null;
+            if (key) {
+                newApiKeyValue = key;
+                $('newApiKeyValue').textContent = key;
+                $('apiKeyModal').classList.add('active');
+            } else {
+                showToast('API key created', 'success');
+            }
+            loadApiKeys();
+            setSaveIndicator('saved', 'Saved');
+        } catch (error) {
+            console.error('generateAPIKey failed:', error);
+            showToast('Failed: ' + error.message, 'error');
+            setSaveIndicator('error', 'Error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = original;
+        }
+    }
+    async function revokeAPIKey(keyId) {
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        if (!confirm('Revoke this API key? This cannot be undone.')) return;
+        setSaveIndicator('saving', 'Revoking…');
+        try {
+            await API.request('/user/api-keys/' + encodeURIComponent(keyId), { method: 'DELETE' });
+            showToast('API key revoked', 'success');
+            loadApiKeys();
+            setSaveIndicator('saved', 'Saved');
+        } catch (error) {
+            console.error('revokeAPIKey failed:', error);
+            showToast('Failed: ' + error.message, 'error');
+            setSaveIndicator('error', 'Error');
+        }
+    }
+    function closeApiKeyModal() {
+        $('apiKeyModal').classList.remove('active');
+        newApiKeyValue = null;
+    }
+    async function copyApiKey() {
+        if (!newApiKeyValue) return;
+        try {
+            await navigator.clipboard.writeText(newApiKeyValue);
+            showToast('API key copied to clipboard', 'success');
+        } catch (e) {
+            showToast('Could not copy — please copy manually', 'warning');
+        }
+    }
+
+    // ------------------------------------------------------------
+    // SESSIONS
+    // ------------------------------------------------------------
+    async function loadSessions() {
+        const list = $('sessionsList');
+        try {
+            const data = await API.request('/auth/sessions');
+            const sessions = data.sessions || [];
+            if (!sessions.length) {
+                list.innerHTML = '<div class="empty-state">No active sessions found.</div>';
+                return;
+            }
+            const currentJti = (function () {
+                try {
+                    const t = getToken();
+                    const p = decodeJwt(t);
+                    return p && p.sid ? String(p.sid) : null;
+                } catch { return null; }
+            })();
+            list.innerHTML = sessions.map(s => {
+                const id = s.id;
+                const device = s.device_id || 'Unknown device';
+                const ip = s.ip_address || '—';
+                const ua = s.user_agent || '';
+                const created = s.created_at ? new Date(s.created_at).toLocaleString() : '—';
+                const lastActive = s.last_activity_at ? new Date(s.last_activity_at).toLocaleString() : '—';
+                const isCurrent = currentJti && s.jti && String(s.jti) === currentJti;
+                const badge = isCurrent
+                    ? '<span class="ml-2 text-[10px] px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full font-semibold">This device</span>'
+                    : '';
+                return `
+                    <div class="flex flex-wrap items-start justify-between gap-3 p-3 bg-slate-50 rounded-xl mb-2">
+                        <div class="min-w-0 flex-1">
+                            <div class="font-semibold text-slate-800 text-sm truncate">${escapeHtml(device)} ${badge}</div>
+                            <div class="text-xs text-slate-500 mt-0.5">IP: ${escapeHtml(ip)}</div>
+                            <div class="text-[10px] text-slate-400 mt-0.5 truncate">${escapeHtml(ua)}</div>
+                            <div class="text-[10px] text-slate-400 mt-0.5">Created ${escapeHtml(created)} · Last active ${escapeHtml(lastActive)}</div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            ${isCurrent
+                                ? '<span class="text-xs text-slate-400">Current</span>'
+                                : `<button type="button" data-revoke-session="${escapeHtml(id)}" class="text-red-500 text-xs hover:underline font-semibold">Revoke</button>`}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } catch (error) {
+            console.error('loadSessions failed:', error);
+            list.innerHTML = '<div class="empty-state">Could not load sessions.</div>';
+        }
+    }
+    async function revokeSession(sessionId) {
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        if (!confirm('Revoke this session? The device will be signed out.')) return;
+        setSaveIndicator('saving', 'Revoking…');
+        try {
+            await API.request('/auth/sessions/' + encodeURIComponent(sessionId), { method: 'DELETE' });
+            showToast('Session revoked', 'success');
+            loadSessions();
+            setSaveIndicator('saved', 'Saved');
+        } catch (error) {
+            console.error('revokeSession failed:', error);
+            showToast('Failed: ' + error.message, 'error');
+            setSaveIndicator('error', 'Error');
+        }
+    }
+    async function revokeAllSessions() {
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        if (!confirm('Revoke ALL sessions except this device? You will need to sign in again on every other device.')) return;
+        const btn = $('revokeAllSessionsBtn');
+        const original = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Revoking…';
+        setSaveIndicator('saving', 'Revoking…');
+        try {
+            await API.request('/auth/sessions/revoke-all', { method: 'POST', body: JSON.stringify({}) });
+            showToast('All other sessions revoked', 'success');
+            loadSessions();
+            setSaveIndicator('saved', 'Saved');
+        } catch (error) {
+            console.error('revokeAllSessions failed:', error);
+            showToast('Failed: ' + error.message, 'error');
+            setSaveIndicator('error', 'Error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = original;
+        }
+    }
+
+    // ------------------------------------------------------------
+    // BILLING
+    // ------------------------------------------------------------
+    async function loadBillingInfo() {
+        const content = $('billingContent');
+        try {
+            const data = await API.request('/user/billing');
+            const plan = data.plan || {};
+            const planId = (data.plan || plan.id || 'free').toString().toLowerCase();
+            const planName = plan.name || data.plan_name || planId;
+            const planDisplay = String(planName).charAt(0).toUpperCase() + String(planName).slice(1);
+            const status = (data.subscription_status || plan.status || 'active').toUpperCase();
+            const priceDisplay = plan.price_display
+                || (plan.price ? '$' + (Number(plan.price) / 100).toFixed(2) : (data.price_display || 'Free'));
+            const period = planId === 'free' ? '' : '/month';
+            const maxMachines = data.max_machines || plan.max_machines || 0;
+            const maxUsers = data.max_users || plan.max_users || 0;
+            const maxPredictions = data.max_api_calls || plan.max_predictions || 0;
+            const trialDays = data.trial_days_remaining;
+            const isTrial = data.is_trial_active;
+            content.innerHTML = `
+                <div class="flex flex-wrap justify-between items-start gap-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">${escapeHtml(planDisplay)}</h3>
+                        <p class="text-slate-500 text-sm">${escapeHtml(String(priceDisplay))}${escapeHtml(period)}</p>
+                        <span class="inline-block px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs font-semibold mt-1">${escapeHtml(status)}</span>
+                        ${isTrial && trialDays != null ? `<span class="inline-block px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full text-xs font-semibold mt-1 ml-1">Trial · ${escapeHtml(String(trialDays))}d left</span>` : ''}
+                    </div>
+                    <div class="text-right">
+                        <button type="button" class="text-teal-600 text-sm font-semibold hover:underline" onclick="window.location.href='billing.html'">Manage Plan →</button>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-200 grid grid-cols-3 gap-3 text-center">
+                    <div><div class="text-xs text-slate-500">Machines</div><div class="text-xl font-bold text-slate-800">${escapeHtml(String(maxMachines))}</div></div>
+                    <div><div class="text-xs text-slate-500">Users</div><div class="text-xl font-bold text-slate-800">${escapeHtml(String(maxUsers))}</div></div>
+                    <div><div class="text-xs text-slate-500">Predictions</div><div class="text-xl font-bold text-slate-800">${escapeHtml(String(maxPredictions))}</div></div>
+                </div>
+            `;
+        } catch (error) {
+            console.error('loadBillingInfo failed:', error);
+            content.innerHTML = `
+                <div class="empty-state">
+                    <span class="material-symbols-outlined text-3xl text-slate-300 block mb-2">credit_card_off</span>
+                    <p>Could not load billing info.</p>
+                    <button type="button" class="mt-3 btn-secondary" onclick="window.location.href='billing.html'">Go to Billing</button>
+                </div>
+            `;
+        }
+    }
+
+    // ------------------------------------------------------------
+    // DELETE ACCOUNT
+    // ------------------------------------------------------------
+    async function deleteAccount() {
+        if (!Auth.isAuthenticated) { Auth.logout(); return; }
+        if (!confirm('Are you absolutely sure? This cannot be undone.')) return;
+        const typed = prompt('Type DELETE (uppercase) to confirm:');
+        if (typed !== 'DELETE') { showToast('Account deletion cancelled', 'info'); return; }
+        setSaveIndicator('saving', 'Deleting…');
+        try {
+            await API.request('/user/delete', { method: 'DELETE' });
+            showToast('Account deletion requested. Signing out…', 'info', 3000);
+            setTimeout(() => Auth.logout(), 1500);
+        } catch (error) {
+            console.error('deleteAccount failed:', error);
+            showToast('Failed: ' + error.message, 'error');
+            setSaveIndicator('error', 'Error');
+        }
+    }
+
+    // ------------------------------------------------------------
+    // BIND ALL BUTTONS — runs at script load, not in DOMContentLoaded
+    // so it works even if the rest of the page has issues.
+    // ------------------------------------------------------------
+    function bindAll() {
+        const binds = [
+            // Profile
+            ['avatarLarge', 'click', () => $('avatarInput').click()],
+            ['avatarLarge', 'keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('avatarInput').click(); }
+            }],
+            ['uploadAvatarBtn', 'click', () => $('avatarInput').click()],
+            ['avatarInput', 'change', function () { uploadAvatar(this); }],
+            ['removeAvatarBtn', 'click', removeAvatar],
+            ['profileForm', 'submit', saveProfile],
+
+            // Password
+            ['newPassword', 'input', onNewPasswordInput],
+            ['confirmPassword', 'input', onConfirmPasswordInput],
+            ['passwordForm', 'submit', savePassword],
+
+            // 2FA
+            ['twoFactorToggle', 'change', onTwoFactorToggle],
+            ['closeMfaSetupBtn', 'click', closeMfaSetupModal],
+            ['cancelMfaSetupBtn', 'click', closeMfaSetupModal],
+            ['verifyMfaSetupBtn', 'click', verifyMfaSetup],
+            ['copyBackupCodesBtn', 'click', copyBackupCodes],
+            ['closeMfaBackupBtn', 'click', closeMfaBackupModal],
+
+            // Notifications
+            ['saveNotificationsBtn', 'click', saveNotificationSettings],
+
+            // API Keys
+            ['generateApiKeyBtn', 'click', generateAPIKey],
+            ['copyApiKeyBtn', 'click', copyApiKey],
+            ['closeApiKeyModalBtn', 'click', closeApiKeyModal],
+
+            // Sessions
+            ['revokeAllSessionsBtn', 'click', revokeAllSessions],
+
+            // Billing
+            ['openBillingPageBtn', 'click', () => { window.location.href = 'billing.html'; }],
+
+            // Danger zone
+            ['deleteAccountBtn', 'click', deleteAccount],
+
+            // Escape key closes all modals
+            [document, 'keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeMfaSetupModal();
+                    closeMfaBackupModal();
+                    closeApiKeyModal();
+                }
+            }],
+        ];
+
+        binds.forEach(([id, event, handler]) => {
+            try {
+                const el = (id === document) ? document : $(id);
+                if (el) el.addEventListener(event, handler);
+            } catch (err) {
+                console.warn('Failed to bind', id, event, err);
+            }
+        });
+
+        // Delegated handlers for dynamically rendered Revoke buttons
+        try {
+            document.addEventListener('click', function (e) {
+                const k = e.target.closest('[data-revoke-key]');
+                if (k) { e.preventDefault(); revokeAPIKey(k.getAttribute('data-revoke-key')); return; }
+                const s = e.target.closest('[data-revoke-session]');
+                if (s) { e.preventDefault(); revokeSession(s.getAttribute('data-revoke-session')); return; }
+            });
+        } catch (err) { console.warn('Delegated bind failed:', err); }
+
+        // Click outside modals closes them
+        try {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.classList.remove('active');
+                });
+            });
+        } catch (err) { console.warn('Modal outside-click bind failed:', err); }
+    }
+
+    // ------------------------------------------------------------
+    // BOOT
+    // ------------------------------------------------------------
+    function boot() {
+        if (!Auth.isAuthenticated) {
+            window.location.replace('login.html');
+            return;
+        }
+        setSaveIndicator('ready', 'Ready');
+        bindAll();               // bind buttons first — most important
+        loadUserData();          // then load data
+        connectWebSocket();      // then connect realtime
+    }
+
+    // Run immediately if DOM is ready, else wait for it
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+
+    // ------------------------------------------------------------
+    // WEBSOCKET (kept simple, optional)
+    // ------------------------------------------------------------
+    let wsConnection = null;
+    let wsReconnectTimer = null;
+    function connectWebSocket() {
+        const token = getToken();
+        if (!token || !isTokenValid(token)) return;
+        if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+        try {
+            const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const url = `${proto}//${window.location.host}/ws?token=${encodeURIComponent(token)}`;
+            wsConnection = new WebSocket(url);
+            wsConnection.onmessage = (event) => {
+                try { handleWsMessage(JSON.parse(event.data)); } catch (e) {}
+            };
+            wsConnection.onclose = (evt) => {
+                if (evt && evt.code === 1008) return;
+                if (isTokenValid(getToken())) {
+                    if (wsReconnectTimer) clearTimeout(wsReconnectTimer);
+                    wsReconnectTimer = setTimeout(connectWebSocket, 5000);
+                }
+            };
+            wsConnection.onerror = () => {};
+        } catch (e) {}
+    }
+    function handleWsMessage(data) {
+        if (!data || !data.type) return;
+        if (data.type === 'user_updated' && data.user) {
+            const stored = getUser() || {};
+            Object.assign(stored, data.user);
+            persistUser(stored);
+            currentUser = { ...(currentUser || {}), ...data.user };
+            renderAvatar(currentUser);
+        } else if (data.type === 'session_revoked') {
+            try {
+                const t = getToken();
+                const p = decodeJwt(t);
+                if (p && data.session_jti && String(p.sid) === String(data.session_jti)) {
+                    showToast('Your session was revoked elsewhere', 'warning', 4000);
+                    setTimeout(() => Auth.logout(), 1500);
+                }
+            } catch (e) {}
+        }
+    }
+
+    // Expose debug helpers (not required for functionality)
+    window.__settingsDebug = { Auth, API, loadUserData, loadApiKeys, loadSessions, loadBillingInfo };
+
+    console.log('✅ SynapsePM Settings v33.2.0 loaded — buttons and tabs are fully bound');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,432 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>404 - Page Not Found | SynapsePM</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+
+<meta name="description" content="The page you're looking for couldn't be found. Return to SynapsePM homepage to continue exploring our AI predictive maintenance platform.">
+<meta name="robots" content="noindex, nofollow">
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0f2b3d",
+              "primary-light": "#1a4a6e",
+              "secondary": "#00b4aa",
+              "secondary-dark": "#009688",
+              "accent": "#ff6b35",
+              "surface": "#ffffff",
+              "surface-gray": "#f8fafc",
+              "on-surface": "#0f172a",
+              "on-surface-light": "#475569",
+              "border-light": "#e2e8f0",
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+            },
+            animation: {
+              'float': 'float 3s ease-in-out infinite',
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'spin-slow': 'spin 8s linear infinite',
+              'fade-in': 'fadeIn 1s ease-out',
+              'slide-up': 'slideUp 0.8s ease-out',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+            }
+          }
+        }
+      }
+    </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    body { 
+      min-height: 100dvh; 
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+    h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    
+    .gradient-primary {
+      background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%);
+    }
+    .gradient-cta {
+      background: linear-gradient(135deg, #00b4aa 0%, #009688 100%);
+    }
+    .gradient-cta:hover {
+      background: linear-gradient(135deg, #009688 0%, #00796b 100%);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #0f2b3d 0%, #00b4aa 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .synapsepm-logo {
+    font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-size: 22px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    vertical-align: middle;
+}
+.synapsepm-logo > span:not(.logo-icon),
+.synapsepm-logo strong {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    height: 32px;                 /* locks text height = logo height */
+}
+.synapsepm-logo > span:not(.logo-icon) {
+    color: #0B1F4D;
+}
+.synapsepm-logo strong {
+    background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.synapsepm-logo .logo-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.synapsepm-logo .logo-icon img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    display: block;
+}
+
+/* Size variants — add class to .synapsepm-logo when you want a different size */
+.synapsepm-logo.logo-sm { font-size: 18px; gap: 0.4rem; }
+.synapsepm-logo.logo-sm .logo-icon,
+.synapsepm-logo.logo-sm .logo-icon img { width: 26px; height: 26px; min-width: 26px; min-height: 26px; }
+.synapsepm-logo.logo-sm > span:not(.logo-icon),
+.synapsepm-logo.logo-sm strong { height: 26px; }
+
+.synapsepm-logo.logo-lg { font-size: 26px; gap: 0.65rem; }
+.synapsepm-logo.logo-lg .logo-icon,
+.synapsepm-logo.logo-lg .logo-icon img { width: 38px; height: 38px; min-width: 38px; min-height: 38px; }
+.synapsepm-logo.logo-lg > span:not(.logo-icon),
+.synapsepm-logo.logo-lg strong { height: 38px; }
+
+/* Override the inline override trick that was fighting with the logo */
+.synapsepm-logo .logo-icon[style*="width"] img,
+.synapsepm-logo .logo-icon[style*="height"] img {
+    width: inherit;
+    height: inherit;
+    max-width: 100%;
+    max-height: 100%;
+}
+    
+    /* ===== 404 Page Background with Image ===== */
+    .page-background {
+      position: relative;
+      min-height: 100vh;
+      background: #f8fafc;
+    }
+    .page-background::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('assets/img/bg img.png') no-repeat center center;
+      background-size: cover;
+      opacity: 0.15;
+      z-index: 0;
+    }
+    .page-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* ===== 404 Responsive Styles ===== */
+    .error-number {
+      font-size: clamp(80px, 20vw, 220px);
+      line-height: 1;
+    }
+    
+    .error-zero-icon {
+      font-size: clamp(60px, 15vw, 180px);
+    }
+    
+    .error-heading {
+      font-size: clamp(1.5rem, 6vw, 3rem);
+    }
+    
+    .error-description {
+      font-size: clamp(0.875rem, 3vw, 1.125rem);
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    @media (min-width: 480px) {
+      .action-buttons {
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+      }
+    }
+    
+    /* Floating particles animation */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 180, 170, 0.15);
+      pointer-events: none;
+      animation: float 4s ease-in-out infinite;
+    }
+    .particle:nth-child(1) { width: 20px; height: 20px; top: 10%; left: 5%; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 30px; height: 30px; top: 70%; right: 8%; animation-delay: 1s; }
+    .particle:nth-child(3) { width: 15px; height: 15px; bottom: 20%; left: 15%; animation-delay: 2s; }
+    .particle:nth-child(4) { width: 25px; height: 25px; top: 30%; right: 15%; animation-delay: 0.5s; }
+    .particle:nth-child(5) { width: 18px; height: 18px; bottom: 40%; left: 30%; animation-delay: 1.5s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-20px) scale(1.1); }
+    }
+    
+    /* Glow animation for the 404 text */
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 20px rgba(0, 180, 170, 0.1); }
+      50% { text-shadow: 0 0 40px rgba(0, 180, 170, 0.3); }
+    }
+    .glow-text {
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== 404 PAGE BACKGROUND ===== -->
+<div class="page-background">
+  
+  <!-- Floating Particles -->
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  
+  <div class="page-content">
+    
+    <!-- ===== NAVBAR - ONLY LOGO & NAME ===== -->
+    <nav class="bg-white/95 backdrop-blur-md border-b border-border-light sticky top-0 z-50 w-full transition-all duration-300" id="header">
+      <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-3 sm:py-4 lg:py-5">
+          <a href="index.html" class="logo flex items-center gap-2 group">
+            <div class="synapsepm-logo logo-lg">
+    <span class="logo-icon">
+        <img src="assets/img/logo.png" alt="SynapsePM Logo" id="logoImg" onerror="this.style.display='none'">
+    </span>
+    <span>Synapse</span><strong>PM</strong>
+</div>
+          </a>
+
+          <!-- Only Contact button in navbar -->
+          <div class="hidden md:flex items-center gap-2 lg:gap-3">
+            <a href="contact.html" class="gradient-cta text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md hover:shadow-lg transition-all">Contact</a>
+          </div>
+
+          <button class="mobile-toggle md:hidden p-2 hover:bg-slate-100 rounded-full transition-colors" id="mobileToggleBtn">
+            <span class="material-symbols-outlined text-slate-700">menu</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-all duration-300 invisible opacity-0" id="mobileMenuOverlay">
+      <div class="absolute right-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl transform translate-x-full transition-transform duration-300" id="mobileMenuPanel">
+        <div class="flex justify-between items-center p-4 sm:p-6 border-b">
+          <div class="flex items-center gap-2">
+            <div class="synapsepm-logo logo-sm">
+    <span class="logo-icon">
+        <img src="assets/img/logo.png" alt="SynapsePM" id="mobileLogoImg" onerror="this.style.display='none'">
+    </span>
+    <span>Synapse</span><strong>PM</strong>
+</div>
+          </div>
+          <button id="closeMobileMenuBtn" class="p-2 rounded-full hover:bg-slate-100">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="flex flex-col p-4 sm:p-6 gap-4 sm:gap-5">
+          <a href="index.html" class="mobile-link text-base sm:text-lg font-medium text-slate-700 hover:text-primary pl-3">Home</a>
+          <a href="contact.html" class="mobile-link text-base sm:text-lg font-semibold text-primary border-l-4 border-secondary pl-3">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 404 ERROR SECTION ===== -->
+    <main class="min-h-[calc(100vh-160px)] flex items-center justify-center py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+      <div class="max-w-3xl mx-auto text-center animate-fade-in">
+        
+        <!-- Animated 404 Visual -->
+        <div class="relative mb-6 sm:mb-8">
+          <div class="error-number font-extrabold font-headline leading-none glow-text">
+            <span class="gradient-text">4</span>
+            <span class="gradient-text relative inline-block animate-float">
+              <span class="material-symbols-outlined error-zero-icon text-secondary absolute -top-8 sm:-top-10 md:-top-12 left-1/2 transform -translate-x-1/2 opacity-20">settings_overscan</span>
+              0
+            </span>
+            <span class="gradient-text">4</span>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-full bg-secondary/5 animate-pulse"></div>
+          </div>
+        </div>
+        
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-secondary/10 border border-secondary/20 mb-4 sm:mb-6 animate-slide-up">
+          <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-secondary animate-pulse"></span>
+          <span class="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-secondary">Page Not Found</span>
+        </div>
+        
+        <!-- Title -->
+        <h1 class="error-heading font-extrabold font-headline text-primary mb-3 sm:mb-4 animate-slide-up">
+          Oops! This page doesn't exist
+        </h1>
+        
+        <!-- Description -->
+        <p class="error-description text-on-surface-light max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed animate-slide-up">
+          The page you're looking for might have been moved, deleted, or never existed. 
+          Let's get you back on track.
+        </p>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons mb-8 sm:mb-12 animate-slide-up">
+          <a href="index.html" class="gradient-cta text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 inline-flex items-center justify-center gap-2 text-sm sm:text-base">
+            <span class="material-symbols-outlined text-base sm:text-lg">home</span>
+            Go to Homepage
+          </a>
+          <a href="contact.html" class="bg-white text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold border-2 border-primary/20 hover:border-primary/40 hover:bg-slate-50 transition-all duration-300 inline-flex items-center justify-center gap-2 text-sm sm:text-base">
+            <span class="material-symbols-outlined text-base sm:text-lg">mail</span>
+            Contact Us
+          </a>
+        </div>
+        
+        <!-- Fun Element -->
+        <div class="mt-6 sm:mt-8 text-center animate-slide-up">
+          <div class="inline-flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-on-surface-light/60">
+            <span class="material-symbols-outlined text-sm sm:text-base">sentiment_satisfied</span>
+            <span>Don't worry, our AI is still predicting failures perfectly</span>
+            <span class="material-symbols-outlined text-sm sm:text-base">sentiment_satisfied</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  // Mobile Menu
+  const mobileToggle = document.getElementById('mobileToggleBtn');
+  const mobileClose = document.getElementById('closeMobileMenuBtn');
+  const mobileOverlay = document.getElementById('mobileMenuOverlay');
+  const mobilePanel = document.getElementById('mobileMenuPanel');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+
+  function openMenu() {
+    if (mobileOverlay && mobilePanel) {
+      mobileOverlay.classList.remove('invisible', 'opacity-0');
+      mobileOverlay.classList.add('visible', 'opacity-100');
+      mobilePanel.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  
+  function closeMenu() {
+    if (mobileOverlay && mobilePanel) {
+      mobileOverlay.classList.add('invisible', 'opacity-0');
+      mobileOverlay.classList.remove('visible', 'opacity-100');
+      mobilePanel.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    }
+  }
+  
+  if (mobileToggle) mobileToggle.addEventListener('click', openMenu);
+  if (mobileClose) mobileClose.addEventListener('click', closeMenu);
+  if (mobileOverlay) mobileOverlay.addEventListener('click', (e) => { if (e.target === mobileOverlay) closeMenu(); });
+  mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+  // Scroll Effect
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('shadow-lg');
+    } else {
+      header?.classList.remove('shadow-lg');
+    }
+  });
+
+  console.log('🔍 404 Page - SynapsePM');
+  console.log('🏠 Go back to homepage: /');
+})();
+</script>
+</body>
+</html>

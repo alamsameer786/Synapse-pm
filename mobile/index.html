@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0f2b3d">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    
+    <title>SynapsePM</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0f2b3d;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        
+        #app-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        #app-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #ffffff;
+        }
+        
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: opacity 0.6s ease;
+        }
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #splash-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0, 180, 170, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+            background: #00b4aa;
+        }
+        #splash-logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+        }
+        #splash-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 24px;
+            letter-spacing: -0.5px;
+        }
+        #splash-subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        #splash-loader {
+            margin-top: 32px;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #00b4aa;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        /* Bottom Navigation */
+        #bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: none;
+            height: 64px;
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 100;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+        }
+        #bottom-nav.show {
+            display: flex;
+        }
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 0;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 500;
+            transition: color 0.2s;
+            border: none;
+            background: none;
+            cursor: pointer;
+            position: relative;
+        }
+        .nav-item .nav-icon {
+            font-size: 24px;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+        .nav-item.active {
+            color: #00b4aa;
+        }
+        .nav-item.active .nav-icon {
+            color: #00b4aa;
+        }
+        .nav-item .nav-badge {
+            position: absolute;
+            top: 4px;
+            right: 50%;
+            transform: translateX(18px);
+            background: #ef4444;
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+        .nav-item .nav-label {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @media (max-width: 480px) {
+            #splash-logo { width: 90px; height: 90px; }
+            #splash-logo img { width: 60px; height: 60px; }
+            #splash-title { font-size: 22px; }
+            #splash-subtitle { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash-screen">
+    <div id="splash-logo">
+        <img src="../frontend/images/applogo.png" alt="SynapsePM Logo">
+    </div>
+    <div id="splash-title">SynapsePM</div>
+    <div id="splash-subtitle">AI-Powered Predictive Maintenance</div>
+    <div id="splash-loader"></div>
+</div>
+
+<!-- ===== APP CONTAINER ===== -->
+<div id="app-container">
+    <iframe 
+        id="app-iframe" 
+        src="https://app.synapsepm.com" 
+        allow="camera; microphone; geolocation; notifications"
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
+    ></iframe>
+</div>
+
+<!-- ===== BOTTOM NAVIGATION (MOBILE) ===== -->
+<div id="bottom-nav">
+    <button class="nav-item active" data-tab="dashboard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Dashboard</span>
+    </button>
+    <button class="nav-item" data-tab="machines">
+        <span class="nav-icon">🏭</span>
+        <span class="nav-label">Machines</span>
+    </button>
+    <button class="nav-item" data-tab="predictions">
+        <span class="nav-icon">📈</span>
+        <span class="nav-label">Predict</span>
+    </button>
+    <button class="nav-item" data-tab="alerts">
+        <span class="nav-icon">🔔</span>
+        <span class="nav-label">Alerts</span>
+        <span class="nav-badge" id="alertBadge">3</span>
+    </button>
+    <button class="nav-item" data-tab="settings">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Settings</span>
+    </button>
+</div>
+
+<script>
+    // ============================================================
+    // MOBILE APP WRAPPER
+    // ============================================================
+    
+    const iframe = document.getElementById('app-iframe');
+    const splash = document.getElementById('splash-screen');
+    const bottomNav = document.getElementById('bottom-nav');
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    // Check if running in mobile app
+    const isMobileApp = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    
+    if (isMobileApp) {
+        bottomNav.classList.add('show');
+        document.body.style.paddingBottom = '64px';
+    }
+    
+    // Hide splash when iframe loads
+    iframe.addEventListener('load', function() {
+        setTimeout(() => {
+            splash.classList.add('hidden');
+        }, 800);
+    });
+    
+    // Handle iframe load error
+    iframe.addEventListener('error', function() {
+        splash.innerHTML = `
+            <div style="text-align:center;color:white;">
+                <div style="font-size:48px;margin-bottom:20px;">⚠️</div>
+                <h2 style="font-size:20px;margin-bottom:10px;">Connection Error</h2>
+                <p style="color:rgba(255,255,255,0.6);font-size:14px;">Please check your internet connection</p>
+                <button onclick="location.reload()" style="margin-top:20px;padding:12px 30px;background:#00b4aa;border:none;border-radius:10px;color:white;font-size:16px;font-weight:600;cursor:pointer;">Retry</button>
+            </div>
+        `;
+    });
+    
+    // Navigation handling
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            navItems.forEach(n => n.classList.remove('active'));
+            this.classList.add('active');
+            const tab = this.dataset.tab;
+            
+            // Send message to iframe
+            iframe.contentWindow.postMessage({
+                type: 'navigate',
+                tab: tab
+            }, '*');
+        });
+    });
+    
+    // Listen for messages from iframe
+    window.addEventListener('message', function(event) {
+        // Only accept messages from same origin
+        if (event.origin !== 'https://app.synapsepm.com' && event.origin !== 'http://localhost:3000') return;
+        
+        const data = event.data;
+        if (data.type === 'setActiveTab') {
+            navItems.forEach(n => n.classList.remove('active'));
+            const tab = document.querySelector(`.nav-item[data-tab="${data.tab}"]`);
+            if (tab) tab.classList.add('active');
+        }
+        
+        if (data.type === 'updateBadge') {
+            const badge = document.getElementById('alertBadge');
+            if (badge) {
+                if (data.count > 0) {
+                    badge.textContent = data.count;
+                    badge.style.display = 'block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+    });
+    
+    // Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then(() => console.log('📱 Service Worker registered'))
+            .catch(() => console.log('⚠️ Service Worker registration failed'));
+    }
+    
+    // Handle back button on Android
+    document.addEventListener('backbutton', function() {
+        if (iframe.contentWindow.history.length > 1) {
+            iframe.contentWindow.history.back();
+        } else {
+            // Ask before exiting
+            if (confirm('Exit SynapsePM?')) {
+                navigator.app.exitApp();
+            }
+        }
+    }, false);
+    
+    console.log('📱 SynapsePM Mobile App Loaded');
+</script>
+</body>
+</html>

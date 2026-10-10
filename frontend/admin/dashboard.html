@@ -1,0 +1,3470 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin Dashboard | SynapsePM</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+<meta name="robots" content="noindex, nofollow">
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    body { background: #f8fafc; font-family: 'Inter', sans-serif; min-height: 100vh; }
+    h1,h2,h3,.font-headline { font-family: 'Manrope', sans-serif; }
+    .gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
+    .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+    .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+
+    /* ============================================================
+       SYNAPSEPM LOGO
+       ============================================================ */
+    .synapsepm-logo {
+        font-family: "Inter", sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        font-size: 22px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        vertical-align: middle;
+    }
+    .synapsepm-logo > span:not(.logo-icon),
+    .synapsepm-logo strong {
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+        height: 32px;
+    }
+    .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+    .synapsepm-logo strong {
+        background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .synapsepm-logo .logo-icon {
+        width: 32px; height: 32px;
+        min-width: 32px; min-height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .synapsepm-logo .logo-icon img {
+        width: 32px; height: 32px;
+        object-fit: contain; display: block;
+    }
+
+    :root{--sidebar-width:264px;--sidebar-collapsed-width:84px;--sidebar-border:#e2e8f0}
+
+    /* ============================================================
+       SIDEBAR
+       ============================================================ */
+    .sidebar {
+        width: var(--sidebar-width);
+        min-height: 100dvh; height: 100dvh;
+        background: #fff;
+        border-right: 1px solid var(--sidebar-border);
+        position: fixed; inset: 0 auto 0 0;
+        z-index: 100;
+        display: flex; flex-direction: column;
+        overflow: visible;
+        transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+
+    .sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #fff; }
+    .sidebar-brand {
+        min-height: 76px; padding: 0 14px;
+        display: flex; align-items: center; justify-content: space-between; gap: 10px;
+        overflow: hidden;
+        transition: padding 0.28s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sidebar-brand-inner {
+        display: flex; align-items: center; gap: 10px;
+        min-width: 0; text-decoration: none;
+    }
+    .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+    .sidebar.collapsed .synapsepm-logo strong { display: none !important; }
+    .sidebar.collapsed .sidebar-brand {
+        flex-direction: column; justify-content: center; align-items: center;
+        gap: 6px; padding: 10px 0; min-height: 76px;
+    }
+    .sidebar.collapsed .sidebar-brand-inner { justify-content: center; gap: 0; }
+
+    .sidebar-toggle {
+        width: 36px; height: 36px;
+        border: 1px solid #dbe4ec; border-radius: 10px;
+        background: #fff; color: #475569;
+        display: inline-flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: 0 2px 7px rgba(15,43,61,0.06);
+        transition: all 0.2s ease; flex-shrink: 0; padding: 0;
+    }
+    .sidebar-toggle:hover { background: #f8fafc; color: #00b4aa; border-color: rgba(0,180,170,0.45); }
+    .sidebar-toggle svg {
+        width: 18px; height: 18px; stroke: currentColor;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
+
+    .sidebar-nav {
+        flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+        padding: 14px 10px;
+        scrollbar-width: thin; scrollbar-color: #dbe4ec transparent;
+    }
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
+
+    .sidebar-group-label { padding: 7px 11px 6px; }
+    .sidebar-group { display: flex; flex-direction: column; gap: 3px; }
+    .sidebar-divider { margin: 14px 4px; border-top: 1px solid #edf2f7; }
+
+    .sidebar-link {
+        min-height: 44px; display: flex; align-items: center; gap: 12px;
+        padding: 9px 11px; border-radius: 11px;
+        color: #64748b; font-weight: 500; font-size: 0.875rem;
+        transition: background 0.18s, color 0.18s;
+        cursor: pointer; text-decoration: none;
+        position: relative; white-space: nowrap;
+    }
+    .sidebar-link:hover { background: #f1f5f9; color: #0f2b3d; }
+    .sidebar-link.active { background: #00b4aa; color: #fff; box-shadow: 0 5px 14px rgba(0,180,170,0.22); }
+    .sidebar-link .material-symbols-outlined {
+        width: 22px; min-width: 22px; font-size: 22px;
+        display: inline-flex; align-items: center; justify-content: center;
+        color: #64748b; transition: color 0.18s;
+    }
+    .sidebar-link.active .material-symbols-outlined,
+    .sidebar-link:hover .material-symbols-outlined { color: inherit; }
+    .sidebar-link .badge-count {
+        margin-left: auto; min-width: 22px; height: 22px;
+        padding: 0 6px; display: inline-flex; align-items: center; justify-content: center;
+        background: #f1f5f9; color: #64748b;
+        font-size: 0.65rem; border-radius: 999px; font-weight: 700;
+    }
+    .sidebar-link.active .badge-count { background: rgba(255,255,255,0.22); color: #fff; }
+    .sidebar-link .badge-count.alert { background: #fee2e2; color: #991b1b; }
+    .sidebar-link.active .badge-count.alert { background: rgba(255,255,255,0.25); color: #fff; }
+    .sidebar-link .badge-count.warn { background: #fef3c7; color: #92400e; }
+    .sidebar-link.active .badge-count.warn { background: rgba(255,255,255,0.25); color: #fff; }
+
+    .sidebar-text { transition: opacity 0.2s; }
+    .sidebar.collapsed .sidebar-text,
+    .sidebar.collapsed .sidebar-label,
+    .sidebar.collapsed .badge-count {
+        opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important;
+    }
+    .sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
+    .sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
+    .sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
+    .sidebar.collapsed .sidebar-link::after {
+        content: attr(data-tooltip);
+        position: absolute; left: calc(100% + 10px); top: 50%;
+        transform: translateY(-50%) translateX(-4px);
+        opacity: 0; pointer-events: none;
+        background: #0f2b3d; color: #fff; padding: 7px 10px;
+        border-radius: 8px; font-size: 12px; font-weight: 600;
+        white-space: nowrap; box-shadow: 0 8px 20px rgba(15,43,61,0.18);
+        transition: opacity 0.15s, transform 0.15s; z-index: 250;
+    }
+    .sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+    .sidebar-user-area {
+        flex-shrink: 0; position: relative;
+        padding: 10px; border-top: 1px solid var(--sidebar-border); background: #fff;
+    }
+    .user-card {
+        min-height: 58px; display: flex; align-items: center; gap: 10px;
+        padding: 8px; background: #f8fafc;
+        border: 1px solid #eef2f7; border-radius: 12px;
+        transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
+    .avatar-wrapper { flex-shrink: 0; position: relative; }
+    .user-card .avatar {
+        width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 0.8rem; color: #fff;
+        background: linear-gradient(135deg, #00b4aa, #009688);
+        background-size: cover; background-position: center;
+        cursor: pointer; transition: box-shadow 0.2s;
+    }
+    .user-card .avatar:hover { box-shadow: 0 0 0 3px rgba(0,180,170,0.15); }
+    .user-card .avatar-wrapper .status-dot {
+        position: absolute; bottom: 0; right: 0;
+        width: 11px; height: 11px; border-radius: 50%;
+        border: 2px solid #fff; background: #10b981; pointer-events: none;
+    }
+    .user-card .user-details { flex: 1; min-width: 0; transition: opacity 0.2s; }
+    .sidebar.collapsed .user-card .user-details { display: none !important; }
+    .user-card .user-details .name {
+        font-weight: 600; font-size: 0.82rem; color: #0f2b3d;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .user-card .user-details .email {
+        font-size: 0.68rem; color: #94a3b8;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px;
+    }
+    .user-card .user-details .role-badge {
+        font-size: 0.58rem; font-weight: 700; color: #dc2626;
+        background: rgba(220,38,38,0.08); padding: 1px 7px;
+        border-radius: 999px; display: inline-block; margin-top: 2px;
+    }
+
+    /* Profile dropdown — expands RIGHT when collapsed */
+    .profile-menu {
+        position: absolute; left: 10px; right: 10px; bottom: calc(100% + 10px);
+        padding: 14px; background: #fff;
+        border: 1px solid #e2e8f0; border-radius: 14px;
+        box-shadow: 0 18px 45px rgba(15,23,42,0.16);
+        opacity: 0; visibility: hidden;
+        transform: translateY(8px); pointer-events: none;
+        transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+        z-index: 300; min-width: 276px;
+    }
+    .profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+    .sidebar.collapsed .profile-menu {
+        left: calc(100% + 10px); right: auto;
+        bottom: 12px; width: 300px; min-width: 300px;
+        transform: translateY(0) translateX(-8px);
+    }
+    .sidebar.collapsed .profile-menu.open { transform: translateY(0) translateX(0); }
+
+    .profile-menu-header {
+        display: flex; align-items: center; gap: 10px;
+        padding-bottom: 12px; border-bottom: 1px solid #edf2f7;
+    }
+    .profile-menu-avatar {
+        width: 42px; height: 42px; flex: 0 0 42px;
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        background: linear-gradient(135deg, #00b4aa, #009688);
+        color: #fff; font-weight: 800;
+        background-size: cover; background-position: center;
+    }
+    .profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
+    .profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
+    .profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
+    .profile-detail-row {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; font-size: 12px;
+    }
+    .profile-detail-label { color: #94a3b8; }
+    .profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
+    .profile-menu-actions {
+        display: flex; flex-direction: column; gap: 6px;
+        margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7;
+    }
+    .profile-action-btn {
+        width: 100%; min-height: 40px;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        border: 1px solid #e2e8f0; border-radius: 10px;
+        background: #fff; color: #475569;
+        font-size: 13px; font-weight: 600; cursor: pointer;
+        transition: all 0.18s; padding: 0 12px; font-family: inherit;
+    }
+    .profile-action-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .profile-action-btn.danger { border-color: #fecaca; color: #dc2626; }
+    .profile-action-btn.danger:hover { background: #fef2f2; }
+    .profile-action-btn.success { border-color: #bbf7d0; color: #15803d; }
+    .profile-action-btn.success:hover { background: #f0fdf4; }
+
+    #mainContent { margin-left: var(--sidebar-width); min-width: 0; transition: margin-left 0.28s cubic-bezier(0.4,0,0.2,1); }
+    body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-width); }
+    .sidebar-overlay { display: none; }
+
+    @media (max-width: 1023px) {
+        .sidebar { width: min(310px, 90vw); transform: translateX(-102%); }
+        .sidebar.mobile-open { transform: translateX(0); box-shadow: 18px 0 50px rgba(15,23,42,0.18); }
+        .sidebar.collapsed { width: min(310px, 90vw); }
+        .sidebar-overlay {
+            position: fixed; inset: 0; background: rgba(15,23,42,0.42);
+            backdrop-filter: blur(3px); z-index: 90; display: block;
+            opacity: 0; visibility: hidden; pointer-events: none; transition: 0.25s;
+        }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+        #mainContent, body.sidebar-is-collapsed #mainContent { margin-left: 0; }
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-label,
+        .sidebar.collapsed .badge-count { display: block !important; opacity: 1 !important; width: auto !important; }
+        .sidebar.collapsed .sidebar-link { justify-content: flex-start; gap: 12px; padding: 9px 11px; }
+        .sidebar.collapsed .sidebar-link::after { display: none; }
+        .sidebar.collapsed .user-card .user-details { display: block !important; opacity: 1 !important; width: auto !important; }
+        .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+        .sidebar.collapsed .synapsepm-logo strong { display: inline-flex !important; }
+        .sidebar.collapsed .sidebar-brand { flex-direction: row; justify-content: space-between; padding: 0 14px; }
+        .sidebar.collapsed .sidebar-toggle svg { transform: none; }
+        .sidebar.collapsed .profile-menu {
+            left: 10px; right: 10px; bottom: calc(100% + 10px);
+            width: auto; min-width: 0; transform: translateY(8px);
+        }
+    }
+
+    /* ===== TOAST ===== */
+    .toast {
+        position: fixed; bottom: 1.5rem; right: 1.5rem;
+        background: #fff; border-radius: 0.75rem;
+        padding: 0.85rem 1.25rem;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+        display: flex; align-items: center; gap: 0.75rem;
+        z-index: 1100; animation: slideInRight 0.3s ease-out;
+        border-left: 4px solid; max-width: 400px;
+        font-size: 0.85rem;
+    }
+    .toast.success { border-left-color: #10b981; }
+    .toast.error { border-left-color: #ef4444; }
+    .toast.warning { border-left-color: #f59e0b; }
+    .toast.info { border-left-color: #00b4aa; }
+    @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    /* ===== MODAL ===== */
+    .modal {
+        display: none; position: fixed; inset: 0;
+        background: rgba(15,23,42,0.5); backdrop-filter: blur(4px);
+        z-index: 1100; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .modal.active { display: flex; animation: fadeIn 0.2s ease; }
+    .modal-content {
+        background: #fff; border-radius: 1.5rem;
+        max-width: 100%; width: 520px; max-height: 90vh;
+        overflow-y: auto; position: relative;
+    }
+    .modal-content.wide { width: 780px; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+    .system-offline-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+        backdrop-filter: blur(10px); z-index: 2000; display: none;
+        align-items: center; justify-content: center;
+        flex-direction: column; color: #fff; text-align: center; padding: 2rem;
+    }
+    .system-offline-overlay.active { display: flex; }
+
+    .stat-card { transition: all 0.3s; }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.08); }
+
+    .empty-state-row td { text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.85rem; }
+
+    .data-table { width: 100%; min-width: 900px; border-collapse: collapse; }
+    .data-table thead { background: #f8fafc; }
+    .data-table th {
+        text-align: left; padding: 0.75rem 1.25rem;
+        font-size: 0.65rem; font-weight: 700; color: #64748b;
+        text-transform: uppercase; letter-spacing: 0.05em;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .data-table td {
+        padding: 0.85rem 1.25rem; font-size: 0.8rem;
+        color: #334155; border-bottom: 1px solid #f1f5f9;
+    }
+    .data-table tr:hover td { background: #f8fafc; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .pill {
+        display: inline-flex; align-items: center;
+        padding: 0.15rem 0.6rem; border-radius: 999px;
+        font-size: 0.65rem; font-weight: 600;
+    }
+    .pill-green { background: #dcfce7; color: #15803d; }
+    .pill-red { background: #fee2e2; color: #b91c1c; }
+    .pill-amber { background: #fef3c7; color: #b45309; }
+    .pill-blue { background: #dbeafe; color: #1d4ed8; }
+    .pill-slate { background: #f1f5f9; color: #475569; }
+    .pill-purple { background: #ede9fe; color: #6d28d9; }
+    .pill-violet { background: #ede9fe; color: #7c3aed; }
+
+    .action-btn {
+        display: inline-flex; align-items: center; gap: 4px;
+        padding: 4px 10px; border-radius: 6px;
+        font-size: 0.7rem; font-weight: 600;
+        cursor: pointer; transition: all 0.15s;
+        background: transparent; border: none; font-family: inherit;
+        text-decoration: none;
+    }
+    .action-btn:hover { background: #f1f5f9; }
+    .action-btn.teal { color: #0d9488; }
+    .action-btn.red { color: #dc2626; }
+    .action-btn.amber { color: #d97706; }
+    .action-btn.slate { color: #475569; }
+    .action-btn.green { color: #15803d; }
+
+    .detail-row {
+        display: flex; justify-content: space-between; gap: 12px;
+        padding: 8px 0; border-bottom: 1px solid #f1f5f9;
+        font-size: 0.82rem;
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label { color: #64748b; }
+    .detail-value { color: #0f2b3d; font-weight: 600; text-align: right; word-break: break-word; }
+
+    .chart-wrap { position: relative; height: 220px; width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- ===== SYSTEM OFFLINE OVERLAY ===== -->
+<div id="systemOfflineOverlay" class="system-offline-overlay">
+    <span class="material-symbols-outlined" style="font-size:4rem;margin-bottom:1rem;">power_off</span>
+    <h2 class="text-3xl font-bold mb-2">System Offline</h2>
+    <p class="text-white/70 mb-6 max-w-md">The platform has been taken offline by an administrator.</p>
+    <button onclick="openBringOnlineModal()" class="gradient-cta text-white px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">power_settings_new</span> Bring System Online
+    </button>
+</div>
+
+<!-- ===== AUTH MODAL ===== -->
+<div id="authModal" class="modal">
+    <div class="modal-content text-center p-8">
+        <div class="w-16 h-16 mx-auto bg-teal-50 rounded-full flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-3xl text-teal-600">admin_panel_settings</span>
+        </div>
+        <h3 class="text-xl font-bold text-slate-800 mb-2">Admin Authentication Required</h3>
+        <p class="text-slate-500 text-sm mb-6">Please sign in to access the admin dashboard.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <button onclick="window.location.href='login.html'" class="gradient-cta text-white py-2.5 rounded-xl font-semibold px-6">Admin Login</button>
+            <button onclick="window.location.href='../user/index.html'" class="border border-slate-300 text-slate-700 py-2.5 rounded-xl font-semibold px-6 hover:bg-slate-50">Return to Site</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MAIN DASHBOARD ===== -->
+<div id="dashboardContent" style="display: none;">
+<div class="flex min-h-screen">
+
+  <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="mainSidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <a href="#" onclick="showSection('dashboard'); return false;" class="sidebar-brand-inner">
+                <div class="synapsepm-logo">
+                    <span class="logo-icon">
+                        <img src="/assets/img/logo.png" alt="SynapsePM"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>admin_panel_settings</span>'">
+                    </span>
+                    <span>Synapse</span><strong>PM</strong>
+                </div>
+            </a>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <!-- OVERVIEW -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Overview</p>
+            </div>
+            <a href="#" onclick="showSection('dashboard'); return false;" class="sidebar-link active" data-section="dashboard" data-tooltip="Dashboard">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a href="#" onclick="showSection('users'); return false;" class="sidebar-link" data-section="users" data-tooltip="Users">
+                <span class="material-symbols-outlined">people</span>
+                <span class="sidebar-text">Users</span>
+                <span class="badge-count" id="sidebarUsersBadge">0</span>
+            </a>
+            <a href="#" onclick="showSection('machines'); return false;" class="sidebar-link" data-section="machines" data-tooltip="Machines">
+                <span class="material-symbols-outlined">precision_manufacturing</span>
+                <span class="sidebar-text">Machines</span>
+                <span class="badge-count" id="sidebarMachinesBadge">0</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- MONITORING -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Monitoring</p>
+            </div>
+            <a href="#" onclick="showSection('predictions'); return false;" class="sidebar-link" data-section="predictions" data-tooltip="Predictions">
+                <span class="material-symbols-outlined">neurology</span>
+                <span class="sidebar-text">Predictions</span>
+                <span class="badge-count" id="sidebarPredictionsBadge">0</span>
+            </a>
+            <a href="#" onclick="showSection('alerts'); return false;" class="sidebar-link" data-section="alerts" data-tooltip="Alerts">
+                <span class="material-symbols-outlined">notifications_active</span>
+                <span class="sidebar-text">Alerts</span>
+                <span class="badge-count alert" id="sidebarAlertsBadge">0</span>
+            </a>
+            <a href="#" onclick="showSection('reports'); return false;" class="sidebar-link" data-section="reports" data-tooltip="Reports">
+                <span class="material-symbols-outlined">assessment</span>
+                <span class="sidebar-text">Reports</span>
+                <span class="badge-count" id="sidebarReportsBadge">0</span>
+            </a>
+            <!-- ===== CHANGED: Download → Install Software ===== -->
+            <a href="#" onclick="showSection('downloads'); return false;" class="sidebar-link" data-section="downloads" data-tooltip="Install Software">
+                <span class="material-symbols-outlined">install_desktop</span>
+                <span class="sidebar-text">Install Software</span>
+                <span class="badge-count" id="sidebarDownloadsBadge">0</span>
+            </a>
+            <a href="#" onclick="showSection('activities'); return false;" class="sidebar-link" data-section="activities" data-tooltip="Activities">
+                <span class="material-symbols-outlined">history</span>
+                <span class="sidebar-text">Activities</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- BUSINESS -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Business</p>
+            </div>
+            <a href="#" onclick="showSection('billing'); return false;" class="sidebar-link" data-section="billing" data-tooltip="Billing &amp; Plans">
+                <span class="material-symbols-outlined">credit_card</span>
+                <span class="sidebar-text">Billing &amp; Plans</span>
+            </a>
+            <a href="#" onclick="showSection('customPlans'); return false;" class="sidebar-link" data-section="customPlans" data-tooltip="Custom Requests">
+                <span class="material-symbols-outlined">workspace_premium</span>
+                <span class="sidebar-text">Custom Requests</span>
+                <span class="badge-count warn" id="sidebarCustomPlansBadge">0</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- SYSTEM -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">System</p>
+            </div>
+            <a href="#" onclick="showSection('settings'); return false;" class="sidebar-link" data-section="settings" data-tooltip="Settings">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="sidebar-text">Settings</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- USER AREA -->
+    <div class="sidebar-user-area">
+        <div class="user-card">
+            <div class="avatar-wrapper">
+                <button type="button" class="avatar" id="userAvatar" aria-label="Account menu">
+                    <span id="userAvatarText">AD</span>
+                </button>
+                <div class="status-dot" id="userStatusDot"></div>
+            </div>
+            <div class="user-details">
+                <div class="name" id="userName">Administrator</div>
+                <div class="email" id="userEmail">admin@synapsepm.com</div>
+                <div class="role-badge" id="userRole">Super Admin</div>
+            </div>
+        </div>
+
+        <div class="profile-menu" id="profileMenu" role="dialog">
+            <div class="profile-menu-header">
+                <div class="profile-menu-avatar" id="profileMenuAvatar">AD</div>
+                <div class="min-w-0">
+                    <div class="profile-menu-name" id="profileMenuName">Administrator</div>
+                    <div class="profile-menu-email" id="profileMenuEmail">admin@synapsepm.com</div>
+                </div>
+            </div>
+            <div class="profile-menu-details">
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Username</span>
+                    <span class="profile-detail-value" id="profileMenuUsername">—</span>
+                </div>
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Email</span>
+                    <span class="profile-detail-value" id="profileMenuEmailDetail">—</span>
+                </div>
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">Role</span>
+                    <span class="profile-detail-value" id="profileMenuRole">Super Admin</span>
+                </div>
+            </div>
+            <div class="profile-menu-actions">
+                <button type="button" class="profile-action-btn" onclick="openAvatarUpload()">
+                    <span class="material-symbols-outlined text-base">photo_camera</span> Upload Avatar
+                </button>
+                <button type="button" class="profile-action-btn success" id="bringOnlineBtn" onclick="openBringOnlineModal()" style="display:none;">
+                    <span class="material-symbols-outlined text-base">power_settings_new</span> Bring System Online
+                </button>
+                <button type="button" class="profile-action-btn danger" id="shutdownBtn" onclick="confirmShutdown()">
+                    <span class="material-symbols-outlined text-base">power_off</span> Shutdown System
+                </button>
+                <button type="button" class="profile-action-btn danger" onclick="adminLogout()">
+                    <span class="material-symbols-outlined text-base">logout</span> Sign out
+                </button>
+            </div>
+        </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main class="flex-1 min-w-0" id="mainContent">
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 py-3 flex justify-between items-center">
+        <div class="flex items-center gap-3 min-w-0">
+            <button id="mobileMenuToggle" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <h1 class="text-lg font-bold text-slate-800 truncate" id="pageTitle">Admin Dashboard</h1>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">●</span>
+            <button id="refreshBtn" class="p-2 rounded-lg hover:bg-slate-100" title="Refresh">
+                <span class="material-symbols-outlined text-slate-600 text-base">refresh</span>
+            </button>
+            <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full">
+                <span class="material-symbols-outlined text-teal-600 text-sm">verified</span>
+                <span class="text-sm font-medium text-slate-800" id="headerAdminName">Admin</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="p-4 sm:p-6 max-w-7xl mx-auto">
+
+      <!-- ============ DASHBOARD ============ -->
+      <div id="dashboardSection">
+        <div class="gradient-primary rounded-2xl p-6 mb-6 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <p class="text-white/70 text-sm mb-1">Admin Overview</p>
+                    <h2 class="text-2xl md:text-3xl font-bold">System Health Dashboard</h2>
+                    <p class="text-white/60 text-sm mt-1">Real-time monitoring across the entire platform</p>
+                </div>
+                <div class="flex gap-3 flex-wrap">
+                    <div class="text-center px-4 py-2 bg-white/10 rounded-xl backdrop-blur-sm">
+                        <div class="text-xl font-bold" id="hdrUsers">0</div>
+                        <div class="text-[10px] text-white/70">Users</div>
+                    </div>
+                    <div class="text-center px-4 py-2 bg-white/10 rounded-xl backdrop-blur-sm">
+                        <div class="text-xl font-bold" id="hdrMachines">0</div>
+                        <div class="text-[10px] text-white/70">Machines</div>
+                    </div>
+                    <div class="text-center px-4 py-2 bg-white/10 rounded-xl backdrop-blur-sm">
+                        <div class="text-xl font-bold" id="hdrAlerts">0</div>
+                        <div class="text-[10px] text-white/70">Alerts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Total Users</p>
+                        <p class="text-2xl font-bold text-slate-800 mt-1" id="totalUsers">0</p>
+                        <p class="text-[10px] text-teal-600 mt-1" id="activeUsersSub">0 active</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-teal-600">people</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Connected Machines</p>
+                        <p class="text-2xl font-bold text-slate-800 mt-1" id="totalMachines">0</p>
+                        <p class="text-[10px] text-green-600 mt-1" id="onlineMachinesSub">0 online</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-blue-600">precision_manufacturing</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Paid Plans</p>
+                        <p class="text-2xl font-bold text-slate-800 mt-1" id="totalPaidPlans">0</p>
+                        <p class="text-[10px] text-slate-500 mt-1" id="paidPlansSub">active subs</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-emerald-600">credit_card</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Active Alerts</p>
+                        <p class="text-2xl font-bold text-red-600 mt-1" id="totalAlerts">0</p>
+                        <p class="text-[10px] text-slate-500 mt-1" id="alertsSub">across all machines</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-red-500">notifications_active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Total Revenue</p>
+                        <p class="text-2xl font-bold text-slate-800 mt-1" id="totalRevenue">$0</p>
+                        <p class="text-[10px] text-slate-500 mt-1" id="revenueSub">all time</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-green-600">payments</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Predictions</p>
+                        <p class="text-2xl font-bold text-slate-800 mt-1" id="predictionsTotal">0</p>
+                        <p class="text-[10px] text-slate-500 mt-1">total runs</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-purple-600">neurology</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Reports</p>
+                        <p class="text-2xl font-bold text-slate-800 mt-1" id="totalReports">0</p>
+                        <p class="text-[10px] text-slate-500 mt-1" id="reportsSub">generated</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-amber-600">assessment</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">System Status</p>
+                        <p class="text-2xl font-bold text-green-600 mt-1" id="systemStatusBadge">Online</p>
+                        <p class="text-[10px] text-slate-500 mt-1">all services running</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-green-600">check_circle</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-5 mb-6">
+            <div class="bg-white rounded-2xl border p-5">
+                <h3 class="font-bold text-slate-800 mb-3">User Growth (Last 30 Days)</h3>
+                <div class="chart-wrap">
+                    <canvas id="userGrowthChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border p-5">
+                <h3 class="font-bold text-slate-800 mb-3">Prediction Activity (Last 30 Days)</h3>
+                <div class="chart-wrap">
+                    <canvas id="adminTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="px-5 py-3 border-b border-slate-200 flex justify-between items-center">
+                <h3 class="font-bold text-slate-800">Recent User Registrations</h3>
+                <button onclick="showSection('users')" class="text-teal-600 text-xs font-semibold hover:underline">View All →</button>
+            </div>
+            <div id="recentUsersList" class="divide-y divide-slate-100">
+                <div class="px-5 py-8 text-center text-slate-500 text-sm">Loading...</div>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ USERS ============ -->
+      <div id="usersSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Users</h2>
+                <p class="text-xs text-slate-500 mt-0.5">All registered accounts — signup, login, plan, activity</p>
+            </div>
+            <button onclick="openUserModal()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">add</span> Add User
+            </button>
+        </div>
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Plan</th>
+                            <th>Machines</th>
+                            <th>Last Login</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ MACHINES ============ -->
+      <div id="machinesSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Machines</h2>
+                <p class="text-xs text-slate-500 mt-0.5">All connected machines across users — view, block, or remove</p>
+            </div>
+            <button onclick="openMachineModal()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">add</span> Add Machine
+            </button>
+        </div>
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Machine</th>
+                            <th>Owner</th>
+                            <th>Type / Family</th>
+                            <th>Status</th>
+                            <th>Health</th>
+                            <th>Last Activity</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="machinesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ PREDICTIONS ============ -->
+      <div id="predictionsSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Predictions History</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Every prediction run by users — machines &amp; datasets</p>
+            </div>
+            <button onclick="loadPredictions()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+            </button>
+        </div>
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Machine</th>
+                            <th>User</th>
+                            <th>Source</th>
+                            <th>RUL (hours)</th>
+                            <th>Confidence</th>
+                            <th>Model</th>
+                            <th>Status</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="predictionsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ ALERTS ============ -->
+      <div id="alertsSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Alerts History</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Every alert generated — with email notification status</p>
+            </div>
+            <button onclick="loadAlerts()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+            </button>
+        </div>
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table" style="min-width:1100px;">
+                    <thead>
+                        <tr>
+                            <th>Alert</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Machine</th>
+                            <th>Severity</th>
+                            <th>Email Sent</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alertsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ REPORTS ============ -->
+      <div id="reportsSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Reports History</h2>
+                <p class="text-xs text-slate-500 mt-0.5">All reports generated and downloaded by users</p>
+            </div>
+            <button onclick="loadReports()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+            </button>
+        </div>
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Report</th>
+                            <th>User</th>
+                            <th>Type</th>
+                            <th>Format</th>
+                            <th>Downloads</th>
+                            <th>Last Download</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ INSTALL SOFTWARE (was Downloads) ============ -->
+      <div id="downloadsSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Install Software</h2>
+                <p class="text-xs text-slate-500 mt-0.5">App installs &amp; native downloads — per user and platform</p>
+            </div>
+            <button onclick="refreshDownloads()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+            </button>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 mb-6">
+            <div class="bg-white rounded-xl border p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-teal-600">download</span>
+                    </div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase">Total Installs</p><p class="text-xl font-bold text-slate-800" id="totalDownloads">0</p></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl border p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-blue-600">desktop_windows</span>
+                    </div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase">Windows</p><p class="text-xl font-bold text-blue-600" id="windowsDownloads">0</p></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl border p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-slate-700">laptop_mac</span>
+                    </div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase">macOS</p><p class="text-xl font-bold text-slate-700" id="macDownloads">0</p></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl border p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-amber-600">terminal</span>
+                    </div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase">Linux</p><p class="text-xl font-bold text-amber-600" id="linuxDownloads">0</p></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl border p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-green-600">android</span>
+                    </div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase">Android</p><p class="text-xl font-bold text-green-600" id="androidDownloads">0</p></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl border p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-indigo-600">phone_iphone</span>
+                    </div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase">iOS</p><p class="text-xl font-bold text-indigo-600" id="iosDownloads">0</p></div>
+                </div>
+            </div>
+            <!-- NEW: PWA installs tile -->
+            <div class="bg-white rounded-xl border p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-violet-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-violet-600">install_desktop</span>
+                    </div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase">Installed App</p><p class="text-xl font-bold text-violet-600" id="pwaInstallsCount">0</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border p-5 mb-6">
+            <h3 class="font-bold text-slate-800 mb-3">Install &amp; Download Trends (Last 30 Days)</h3>
+            <div class="chart-wrap">
+                <canvas id="downloadTrendChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="px-5 py-3 border-b border-slate-200 flex justify-between items-center flex-wrap gap-2">
+                <h3 class="font-bold text-slate-800">Install History</h3>
+                <select id="downloadPlatformFilter" onchange="filterDownloads()" class="text-xs border rounded-lg px-3 py-1.5 bg-white">
+                    <option value="all">All Platforms</option>
+                    <option value="windows">Windows</option>
+                    <option value="macos">macOS</option>
+                    <option value="linux">Linux</option>
+                    <option value="android">Android</option>
+                    <option value="ios">iOS</option>
+                    <option value="pwa">Installed App Only</option>
+                    <option value="native">Native Downloads Only</option>
+                </select>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Platform</th>
+                            <th>Method</th>
+                            <th>Version</th>
+                            <th>IP Address</th>
+                            <th>Installed / Downloaded</th>
+                        </tr>
+                    </thead>
+                    <tbody id="downloadsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ ACTIVITIES ============ -->
+      <div id="activitiesSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Activity Log</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Every action performed by users and admins</p>
+            </div>
+            <button onclick="loadActivities()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+            </button>
+        </div>
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Target</th>
+                            <th>Performed By</th>
+                            <th>IP</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activitiesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ BILLING ============ -->
+      <div id="billingSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Billing &amp; Plans</h2>
+                <p class="text-xs text-slate-500 mt-0.5">All user subscriptions and payment history</p>
+            </div>
+            <button onclick="loadBilling()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+            </button>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-4 mb-5">
+            <div class="bg-white rounded-xl border p-5">
+                <p class="text-[10px] text-slate-500 uppercase font-bold">Total Revenue</p>
+                <p class="text-2xl font-bold text-slate-800 mt-1" id="billingTotalRevenue">$0</p>
+            </div>
+            <div class="bg-white rounded-xl border p-5">
+                <p class="text-[10px] text-slate-500 uppercase font-bold">Active Subscriptions</p>
+                <p class="text-2xl font-bold text-slate-800 mt-1" id="billingActiveSubs">0</p>
+            </div>
+            <div class="bg-white rounded-xl border p-5">
+                <p class="text-[10px] text-slate-500 uppercase font-bold">Monthly Recurring Revenue</p>
+                <p class="text-2xl font-bold text-slate-800 mt-1" id="billingMRR">$0</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="px-5 py-3 border-b border-slate-200">
+                <h3 class="font-bold text-slate-800">All User Subscriptions</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Plan</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Since</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billingTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ CUSTOM PLAN REQUESTS ============ -->
+      <div id="customPlansSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Custom Plan Requests</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Approve to activate the plan for the requesting user</p>
+            </div>
+            <button onclick="loadEnterpriseRequests()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+            </button>
+        </div>
+        <div class="bg-white rounded-2xl border overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table" style="min-width:1100px;">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Machines</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customPlansTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- ============ SETTINGS ============ -->
+      <div id="settingsSection" style="display: none;">
+        <div class="mb-5">
+            <h2 class="text-xl font-bold text-slate-800">System Settings</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Admin configuration for the platform</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5">
+            <div class="bg-white rounded-2xl border p-6">
+                <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-teal-600">tune</span> General
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">System Name</label>
+                        <input type="text" id="systemName" class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Contact Email</label>
+                        <input type="email" id="contactEmail" class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                    </div>
+                    <button onclick="saveSettings()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold">Save Settings</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border p-6">
+                <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-amber-600">warning</span> Alert Thresholds
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Temperature Warning (°C)</label>
+                        <input type="number" id="tempWarning" class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Temperature Critical (°C)</label>
+                        <input type="number" id="tempCritical" class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Vibration Warning (mm/s)</label>
+                        <input type="number" id="vibWarning" class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm" step="0.1">
+                    </div>
+                    <button onclick="saveThresholds()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold">Save Thresholds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECURITY / MFA -->
+        <div class="grid md:grid-cols-2 gap-5 mt-5">
+            <div class="bg-white rounded-2xl border p-6">
+                <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-teal-600">security</span> Two-Factor Authentication
+                </h3>
+
+                <div class="flex items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="min-w-0">
+                        <p class="font-semibold text-slate-800 text-sm">Status</p>
+                        <p class="text-xs text-slate-500 mt-0.5" id="adminMfaStatusText">Loading…</p>
+                    </div>
+                    <span id="adminMfaStatusBadge"
+                          class="px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-600 flex-shrink-0">
+                        Checking…
+                    </span>
+                </div>
+
+                <div class="mt-4 space-y-2">
+                    <button type="button" id="adminEnableMfaBtn"
+                            class="w-full gradient-cta text-white px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-base">lock_open</span>
+                        Enable 2FA
+                    </button>
+                    <button type="button" id="adminDisableMfaBtn"
+                            class="w-full border border-red-300 text-red-600 px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-red-50 transition flex items-center justify-center gap-2"
+                            style="display:none;">
+                        <span class="material-symbols-outlined text-base">lock</span>
+                        Disable 2FA
+                    </button>
+                    <button type="button" id="adminRegenBackupBtn"
+                            class="w-full border border-slate-200 text-slate-700 px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-50 transition flex items-center justify-center gap-2"
+                            style="display:none;">
+                        <span class="material-symbols-outlined text-base">key</span>
+                        Regenerate Backup Codes
+                    </button>
+                </div>
+
+                <div class="mt-4 p-3 rounded-xl bg-blue-50 border border-blue-100 text-xs text-blue-800">
+                    <strong>Required for super-admins.</strong> Without MFA the backend returns
+                    <code>403</code> on every admin endpoint and shows a forced-enrollment prompt on login.
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border p-6">
+                <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-teal-600">vpn_key</span> Recent Login Sessions
+                </h3>
+                <div id="adminSessionsList" class="space-y-2 text-sm text-slate-500">
+                    <div class="text-center py-6">
+                        <div class="inline-block animate-spin rounded-full h-5 w-5 border-2 border-teal-500 border-t-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MFA Setup Modal -->
+        <div class="modal" id="adminMfaSetupModal" role="dialog" aria-modal="true" aria-hidden="true">
+            <div class="modal-content max-w-md w-full">
+                <div class="gradient-primary px-6 py-4 rounded-t-3xl flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white">Enable Two-Factor Authentication</h3>
+                    <button type="button" id="adminCloseMfaSetupBtn" class="text-white/80 hover:text-white text-2xl leading-none">&times;</button>
+                </div>
+                <div class="p-6">
+                    <p class="text-sm text-slate-600 mb-4">
+                        Scan this QR code with Google Authenticator, Authy, or 1Password.
+                        Then enter the 6-digit code to confirm.
+                    </p>
+
+                    <div class="flex justify-center p-4 bg-slate-50 rounded-xl mb-4">
+                        <img id="adminMfaQrImg" src="" alt="QR Code"
+                             class="w-[200px] h-[200px] rounded-lg">
+                    </div>
+
+                    <p class="text-xs text-slate-500 mb-1">Or enter this secret manually:</p>
+                    <div class="font-mono text-xs bg-slate-100 px-3 py-2 rounded-lg break-all mb-4"
+                         id="adminMfaSecret">—</div>
+
+                    <label class="block text-xs font-semibold text-slate-700 mb-1" for="adminMfaCodeInput">
+                        Verification Code
+                    </label>
+                    <input type="text" id="adminMfaCodeInput" maxlength="6" inputmode="numeric"
+                           pattern="[0-9]{6}" placeholder="123456"
+                           class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm tracking-widest text-center font-mono">
+
+                    <div id="adminMfaSetupError" class="hidden mt-3 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg p-2"></div>
+
+                    <div class="flex gap-3 mt-5">
+                        <button type="button" id="adminCancelMfaBtn"
+                                class="flex-1 border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl font-semibold text-sm hover:bg-slate-50">Cancel</button>
+                        <button type="button" id="adminConfirmMfaBtn"
+                                class="flex-1 gradient-cta text-white px-4 py-2.5 rounded-xl font-semibold text-sm">Verify & Enable</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Backup Codes Modal -->
+        <div class="modal" id="adminBackupCodesModal" role="dialog" aria-modal="true" aria-hidden="true">
+            <div class="modal-content max-w-md w-full">
+                <div class="gradient-primary px-6 py-4 rounded-t-3xl flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white">Save Backup Codes</h3>
+                    <button type="button" id="adminCloseBackupBtn" class="text-white/80 hover:text-white text-2xl leading-none">&times;</button>
+                </div>
+                <div class="p-6">
+                    <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl mb-4 text-xs text-amber-800">
+                        ⚠️ Save these now. Each code can be used once. They will not be shown again.
+                    </div>
+                    <div id="adminBackupCodesGrid"
+                         class="grid grid-cols-2 gap-2 font-mono text-xs bg-slate-50 rounded-lg p-4"></div>
+                    <button type="button" id="adminCopyBackupBtn"
+                            class="w-full mt-4 gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm">
+                        Copy Codes
+                    </button>
+                </div>
+            </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- ============ MODALS ============ -->
+
+<!-- Details Modal -->
+<div class="modal" id="detailsModal">
+    <div class="modal-content wide">
+        <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg font-bold text-white" id="detailsModalTitle">Details</h3>
+            <button onclick="closeDetailsModal()" class="text-white/80 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6" id="detailsModalBody"></div>
+    </div>
+</div>
+
+<!-- User Modal -->
+<div class="modal" id="userModal">
+    <div class="modal-content">
+        <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg font-bold text-white" id="userModalTitle">Add User</h3>
+            <button onclick="closeUserModal()" class="text-white/80 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6">
+            <form id="userForm">
+                <input type="hidden" id="editUserId">
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Full Name *</label>
+                    <input type="text" id="userFullName" required class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Email *</label>
+                    <input type="email" id="userEmailInput" required class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Password (blank = auto)</label>
+                    <input type="text" id="userPassword" class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Plan</label>
+                    <select id="userPlanSelect" class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                        <option value="free">Free</option>
+                        <option value="starter">Starter</option>
+                        <option value="professional">Professional</option>
+                        <option value="business">Business</option>
+                        <option value="enterprise">Enterprise</option>
+                    </select>
+                </div>
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm">Save User</button>
+                    <button type="button" onclick="closeUserModal()" class="flex-1 border px-4 py-2 rounded-xl font-semibold text-slate-600 text-sm">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Machine Modal -->
+<div class="modal" id="machineModal">
+    <div class="modal-content">
+        <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg font-bold text-white" id="machineModalTitle">Add Machine</h3>
+            <button onclick="closeMachineModal()" class="text-white/80 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6">
+            <form id="machineForm">
+                <input type="hidden" id="editMachineId">
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Machine Name *</label>
+                    <input type="text" id="machineNameInput" required class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Owner</label>
+                    <select id="machineOwner" class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm"></select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Location</label>
+                    <input type="text" id="machineLocationInput" class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm">
+                </div>
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm">Save Machine</button>
+                    <button type="button" onclick="closeMachineModal()" class="flex-1 border px-4 py-2 rounded-xl font-semibold text-slate-600 text-sm">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Avatar Modal -->
+<div class="modal" id="avatarModal">
+    <div class="modal-content">
+        <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg font-bold text-white">Upload Avatar</h3>
+            <button onclick="closeAvatarModal()" class="text-white/80 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 text-center">
+            <div id="avatarPreview" style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#00b4aa,#009688);display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:700;color:white;margin:0 auto 1rem;background-size:cover;background-position:center;">
+                <span id="avatarPreviewText">AD</span>
+            </div>
+            <form id="avatarForm" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <input type="file" id="avatarFile" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp" required class="w-full px-3 py-2 rounded-xl border text-sm">
+                    <p class="text-[10px] text-slate-400 mt-1 text-left">PNG, JPG, GIF, WebP up to 5MB</p>
+                </div>
+                <div id="avatarErrorMsg" class="hidden text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg p-2 mb-3 text-left"></div>
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm">Upload</button>
+                    <button type="button" onclick="closeAvatarModal()" class="flex-1 border px-4 py-2 rounded-xl font-semibold text-slate-600 text-sm">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Shutdown Modal -->
+<div class="modal" id="shutdownModal">
+    <div class="modal-content">
+        <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg font-bold text-white">Shutdown System</h3>
+            <button onclick="closeShutdownModal()" class="text-white/80 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6">
+            <div class="text-center mb-4">
+                <span class="material-symbols-outlined text-4xl text-red-500">power_settings_new</span>
+                <p class="text-slate-600 text-sm mt-2">Enter your admin password to shut down the entire platform.</p>
+                <p class="text-xs text-red-500 mt-1">⚠️ Users will see a 404 page until brought back online.</p>
+            </div>
+            <form id="shutdownForm">
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Admin Password *</label>
+                    <input type="password" id="shutdownPassword" required class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm" placeholder="Enter your password">
+                </div>
+                <div id="shutdownErrorMsg" class="hidden text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg p-2 mb-3"></div>
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 bg-red-600 text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-red-700">Shutdown System</button>
+                    <button type="button" onclick="closeShutdownModal()" class="flex-1 border px-4 py-2 rounded-xl font-semibold text-slate-600 text-sm">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bring Online Modal -->
+<div class="modal" id="onlineModal">
+    <div class="modal-content">
+        <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg font-bold text-white">Bring System Online</h3>
+            <button onclick="closeBringOnlineModal()" class="text-white/80 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6">
+            <div class="text-center mb-4">
+                <span class="material-symbols-outlined text-4xl text-green-500">power_settings_new</span>
+                <p class="text-slate-600 text-sm mt-2">Enter your admin password to restore access for all users.</p>
+            </div>
+            <form id="onlineForm">
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Admin Password *</label>
+                    <input type="password" id="onlinePassword" required class="w-full px-3 py-2 rounded-xl border focus:border-teal-500 outline-none text-sm" placeholder="Enter your password">
+                </div>
+                <div id="onlineErrorMsg" class="hidden text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg p-2 mb-3"></div>
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm">Bring Online</button>
+                    <button type="button" onclick="closeBringOnlineModal()" class="flex-1 border px-4 py-2 rounded-xl font-semibold text-slate-600 text-sm">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// SYNAPSEPM ADMIN DASHBOARD v6.0
+// - "Download" section renamed to "Install Software"
+// - Now tracks PWA (app) installs alongside native downloads
+// - All other features preserved (MFA, shutdown, WS, charts, etc.)
+// ============================================================
+
+const API_BASE_URL = '/api/v1';
+const REQUEST_TIMEOUT_MS = 45000;
+const REFRESH_STORAGE_KEYS = ['synapse_refresh', 'refresh_token', 'synapse_refresh_token'];
+
+let users = [];
+let machines = [];
+let predictions = [];
+let alerts = [];
+let reports = [];
+let activities = [];
+let subscriptions = [];
+let downloads = [];
+let enterpriseRequests = [];
+let dashboardStats = {};
+let isSystemOnline = true;
+let autoRefreshInterval = null;
+let userGrowthChart = null;
+let adminTrendChart = null;
+let downloadTrendChart = null;
+let currentSection = 'dashboard';
+let wsConnection = null;
+let wsReconnectTimer = null;
+let wsReconnectAttempt = 0;
+let refreshPromise = null;
+
+// ---------- TOKEN / AUTH ----------
+function getToken() {
+    return localStorage.getItem('synapse_admin_token')
+        || localStorage.getItem('synapse_token')
+        || localStorage.getItem('token')
+        || localStorage.getItem('auth_token')
+        || localStorage.getItem('access_token')
+        || null;
+}
+function getRefreshToken() {
+    for (const k of REFRESH_STORAGE_KEYS) {
+        try { const v = localStorage.getItem(k); if (v) return v; } catch (e) {}
+    }
+    return null;
+}
+function getUser() {
+    try {
+        const a = localStorage.getItem('synapse_admin_user');
+        if (a) return JSON.parse(a);
+        const u = localStorage.getItem('synapse_user') || localStorage.getItem('user');
+        if (u) return JSON.parse(u);
+    } catch (e) {}
+    return null;
+}
+function clearAuth() {
+    ['synapse_admin_token','synapse_admin_user','synapse_token','synapse_user',
+     'synapse_refresh','synapse_tenant','token','auth_token','access_token',
+     'refresh_token','user','organization'].forEach(k => {
+        try { localStorage.removeItem(k); } catch (e) {}
+    });
+}
+function isTokenValid(token) {
+    if (!token) return false;
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) return false;
+        const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+        const payload = JSON.parse(atob(padded));
+        if (!payload.exp) return true;
+        return payload.exp > Math.floor(Date.now() / 1000) + 5;
+    } catch (e) { return false; }
+}
+
+async function performRefresh() {
+    if (refreshPromise) return refreshPromise;
+    const rt = getRefreshToken();
+    if (!rt) return false;
+    refreshPromise = (async () => {
+        try {
+            const resp = await fetch(API_BASE_URL + '/auth/refresh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ refresh_token: rt }),
+                credentials: 'same-origin',
+            });
+            if (!resp.ok) return false;
+            const data = await resp.json().catch(() => null);
+            if (!data || !data.success || !data.access_token) return false;
+            try {
+                localStorage.setItem('synapse_token', data.access_token);
+                localStorage.setItem('token', data.access_token);
+                localStorage.setItem('auth_token', data.access_token);
+                localStorage.setItem('access_token', data.access_token);
+                localStorage.setItem('synapse_admin_token', data.access_token);
+                if (data.refresh_token) {
+                    localStorage.setItem('synapse_refresh', data.refresh_token);
+                    localStorage.setItem('refresh_token', data.refresh_token);
+                }
+            } catch (e) {}
+            return true;
+        } catch (e) { return false; }
+        finally { refreshPromise = null; }
+    })();
+    return refreshPromise;
+}
+
+const Auth = {
+    get token() { return getToken(); },
+    get user() { return getUser(); },
+    get isAuthenticated() {
+        const t = getToken();
+        const u = getUser();
+        if (!t || !u || !isTokenValid(t)) return false;
+        const role = (u.role || '').toLowerCase();
+        return role === 'admin' || role === 'super_admin' || role === 'org_admin';
+    },
+    logout() {
+        clearAuth();
+        sessionStorage.setItem('justLoggedOut', 'true');
+        window.location.replace('login.html');
+    }
+};
+
+const API = {
+    async fetch(endpoint, options = {}, _retried = false) {
+        const token = getToken();
+        if (!token) {
+            sessionStorage.setItem('justLoggedOut', 'true');
+            if (!/login\.html/i.test(window.location.pathname)) {
+                window.location.replace('login.html');
+            }
+            throw new Error('Not authenticated');
+        }
+        const headers = { 'Accept': 'application/json', ...(options.headers || {}) };
+        const isForm = (typeof FormData !== 'undefined') && (options.body instanceof FormData);
+        if (!isForm && options.body !== undefined && options.body !== null && !headers['Content-Type']) {
+            headers['Content-Type'] = 'application/json';
+        }
+        headers['Authorization'] = 'Bearer ' + token;
+
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+        let response;
+        try {
+            response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                ...options, headers,
+                credentials: 'same-origin',
+                signal: controller.signal,
+            });
+        } catch (err) {
+            clearTimeout(timer);
+            if (err && err.name === 'AbortError') { const e = new Error('Request timed out'); e.status = 0; throw e; }
+            const e = new Error('Network error — cannot reach backend'); e.status = 0; throw e;
+        }
+        clearTimeout(timer);
+
+        if (response.status === 401 && !_retried) {
+            const ok = await performRefresh();
+            if (ok) return this.fetch(endpoint, options, true);
+            clearAuth();
+            sessionStorage.setItem('justLoggedOut', 'true');
+            setTimeout(() => { window.location.replace('login.html'); }, 200);
+            const e = new Error('Session expired — please log in again'); e.status = 401; throw e;
+        }
+
+        const ctype = response.headers.get('content-type') || '';
+        let data = null;
+        if (ctype.includes('application/json')) {
+            try { data = await response.json(); } catch (e) { data = null; }
+        } else {
+            try {
+                const text = await response.text();
+                try { data = JSON.parse(text); } catch (e) { data = { raw: text }; }
+            } catch (e) { data = null; }
+        }
+
+        if (!response.ok) {
+            const msg = (data && (data.error || data.message || data.detail)) || `HTTP ${response.status}`;
+            const err = new Error(msg);
+            err.status = response.status;
+            err.data = data;
+            throw err;
+        }
+        return data;
+    }
+};
+
+const $ = id => document.getElementById(id);
+const escapeHtml = (text) => {
+    if (text === null || text === undefined) return '';
+    const div = document.createElement('div');
+    div.textContent = String(text);
+    return div.innerHTML;
+};
+
+function showToast(message, type = 'info', duration = 4000) {
+    const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#00b4aa' };
+    const icons = { success: 'check_circle', error: 'error', warning: 'warning', info: 'info' };
+    const toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.style.borderLeftColor = colors[type] || colors.info;
+    toast.innerHTML = `<span class="material-symbols-outlined text-sm" style="color:${colors[type]}">${icons[type] || 'info'}</span><span class="text-sm">${escapeHtml(message)}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+function fmtDate(d) { if (!d) return '—'; try { return new Date(d).toLocaleDateString(); } catch { return '—'; } }
+function fmtDateTime(d) { if (!d) return '—'; try { return new Date(d).toLocaleString(); } catch { return '—'; } }
+function fmtMoney(n) { return '$' + Number(n || 0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+// ============================================================
+// INIT
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!Auth.isAuthenticated) {
+        $('authModal').classList.add('active');
+        $('dashboardContent').style.display = 'none';
+        document.body.style.overflow = 'hidden';
+        return;
+    }
+    $('authModal').classList.remove('active');
+    $('dashboardContent').style.display = 'block';
+    document.body.style.overflow = '';
+
+    try {
+        const me = await API.fetch('/auth/me');
+        if (me && me.user) {
+            try {
+                localStorage.setItem('synapse_admin_user', JSON.stringify(me.user));
+                localStorage.setItem('synapse_user', JSON.stringify(me.user));
+            } catch {}
+        }
+    } catch (e) { /* non-fatal */ }
+
+    updateAdminInfo(Auth.user);
+    initCharts();
+    initEventListeners();
+    loadAllData();
+    loadSystemStatus();
+    startAutoRefresh();
+    connectWebSocket();
+});
+
+window.addEventListener('storage', (e) => {
+    if (e.key === 'synapse_admin_user' || e.key === 'synapse_user' || e.key === 'user') {
+        try { updateAdminInfo(getUser()); } catch {}
+    }
+});
+
+// ============================================================
+// ADMIN INFO
+// ============================================================
+
+function updateAdminInfo(user) {
+    if (!user) return;
+    const name = user.name || user.display_name || user.full_name
+        || [user.first_name, user.last_name].filter(Boolean).join(' ')
+        || user.username || 'Administrator';
+    const initials = name.split(/\s+/).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'AD';
+    const email = user.email || '';
+    const role = user.role === 'super_admin' ? 'Super Admin'
+               : user.role === 'org_admin' ? 'Org Admin'
+               : 'Admin';
+
+    $('userName').textContent = name;
+    $('userEmail').textContent = email;
+    $('userRole').textContent = role;
+    $('userAvatarText').textContent = initials;
+    $('headerAdminName').textContent = name;
+    $('avatarPreviewText').textContent = initials;
+    $('profileMenuName').textContent = name;
+    $('profileMenuEmail').textContent = email;
+    $('profileMenuUsername').textContent = user.username || name;
+    $('profileMenuEmailDetail').textContent = email;
+    $('profileMenuRole').textContent = role;
+
+    if (user.avatar_url) {
+        const url = String(user.avatar_url).replace(/'/g, "%27") + '?t=' + Date.now();
+        const avatarEl = $('userAvatar');
+        avatarEl.style.backgroundImage = `url('${url}')`;
+        avatarEl.style.backgroundSize = 'cover';
+        avatarEl.style.backgroundPosition = 'center';
+        $('userAvatarText').style.display = 'none';
+        const pm = $('profileMenuAvatar');
+        pm.style.backgroundImage = `url('${url}')`;
+        pm.style.backgroundSize = 'cover';
+        pm.style.backgroundPosition = 'center';
+        pm.textContent = '';
+        const preview = $('avatarPreview');
+        preview.style.backgroundImage = `url('${url}')`;
+        preview.style.backgroundSize = 'cover';
+        preview.style.backgroundPosition = 'center';
+    }
+}
+
+function adminLogout() { Auth.logout(); }
+
+// ============================================================
+// DATA LOADERS
+// ============================================================
+
+async function loadAllData() {
+    if (!Auth.isAuthenticated) return;
+    await Promise.allSettled([
+        loadUsers(),
+        loadMachines(),
+        loadPredictions(),
+        loadAlerts(),
+        loadReports(),
+        loadDownloads(),
+        loadActivities(),
+        loadBilling(),
+        loadEnterpriseRequests(),
+        loadSettings()
+    ]);
+    updateStats();
+    updateCharts();
+}
+
+async function loadUsers() {
+    try {
+        const data = await API.fetch('/admin/users?per_page=500');
+        users = data.users || data.items || [];
+        renderUsers();
+        renderRecentUsers();
+        const b = $('sidebarUsersBadge'); if (b) b.textContent = users.length;
+    } catch (e) {
+        console.warn('loadUsers:', e.message);
+        users = []; renderUsers(); renderRecentUsers();
+    }
+}
+
+async function loadMachines() {
+    try {
+        const data = await API.fetch('/admin/machines?per_page=500');
+        machines = data.machines || data.items || [];
+        renderMachines();
+        const b = $('sidebarMachinesBadge'); if (b) b.textContent = machines.length;
+    } catch (e) {
+        console.warn('loadMachines:', e.message);
+        machines = []; renderMachines();
+    }
+}
+
+async function loadPredictions() {
+    try {
+        const data = await API.fetch('/admin/predictions?per_page=500');
+        predictions = data.predictions || data.items || [];
+        dashboardStats.model_stats = data.model_stats || {};
+        renderPredictions();
+        const b = $('sidebarPredictionsBadge'); if (b) b.textContent = predictions.length;
+    } catch (e) {
+        console.warn('loadPredictions:', e.message);
+        predictions = []; renderPredictions();
+    }
+}
+
+async function loadAlerts() {
+    try {
+        const data = await API.fetch('/admin/alerts?per_page=500');
+        alerts = data.alerts || data.items || [];
+        renderAlerts();
+        const active = alerts.filter(a => a.status === 'active').length;
+        const b = $('sidebarAlertsBadge'); if (b) b.textContent = active;
+    } catch (e) {
+        console.warn('loadAlerts:', e.message);
+        alerts = []; renderAlerts();
+    }
+}
+
+async function loadReports() {
+    try {
+        const data = await API.fetch('/reports?per_page=500');
+        reports = data.reports || data.items || [];
+        renderReports();
+        const b = $('sidebarReportsBadge'); if (b) b.textContent = reports.length;
+    } catch (e) {
+        console.warn('loadReports:', e.message);
+        reports = []; renderReports();
+    }
+}
+
+async function loadDownloads() {
+    try {
+        const data = await API.fetch('/admin/downloads?per_page=500');
+        downloads = data.downloads || data.items || [];
+        renderDownloads();
+        updateDownloadStats();
+        const b = $('sidebarDownloadsBadge'); if (b) b.textContent = downloads.length;
+    } catch (e) {
+        console.warn('loadDownloads:', e.message);
+        downloads = []; renderDownloads(); updateDownloadStats();
+    }
+}
+
+async function loadActivities() {
+    try {
+        const data = await API.fetch('/admin/activities?per_page=500');
+        activities = data.activities || data.items || [];
+        renderActivities();
+    } catch (e) {
+        console.warn('loadActivities:', e.message);
+        activities = []; renderActivities();
+    }
+}
+
+async function loadBilling() {
+    try {
+        const data = await API.fetch('/admin/billing?per_page=500');
+        subscriptions = data.subscriptions || data.items || [];
+        dashboardStats.billing = data.stats || {};
+        renderBilling();
+        updateBillingStats();
+    } catch (e) {
+        console.warn('loadBilling:', e.message);
+        subscriptions = []; renderBilling(); updateBillingStats();
+    }
+}
+
+async function loadEnterpriseRequests() {
+    try {
+        const data = await API.fetch('/admin/enterprise-requests?per_page=500');
+        enterpriseRequests = data.requests || data.items || [];
+        renderEnterpriseRequests();
+        const pending = enterpriseRequests.filter(r => r.status === 'pending').length;
+        const b = $('sidebarCustomPlansBadge'); if (b) b.textContent = pending;
+    } catch (e) {
+        console.warn('loadEnterpriseRequests:', e.message);
+        enterpriseRequests = []; renderEnterpriseRequests();
+    }
+}
+
+async function loadSettings() {
+    try {
+        const data = await API.fetch('/admin/settings');
+        const s = data.settings || {};
+        $('systemName').value = s.system_name || 'SynapsePM';
+        $('contactEmail').value = s.contact_email || 'admin@synapsepm.com';
+        const th = s.thresholds || {};
+        $('tempWarning').value = th.temp_warning ?? 75;
+        $('tempCritical').value = th.temp_critical ?? 85;
+        $('vibWarning').value = th.vibration_warning ?? 3.5;
+    } catch (e) { console.warn('loadSettings:', e.message); }
+}
+
+async function loadSystemStatus() {
+    try {
+        const data = await API.fetch('/admin/system/status');
+        isSystemOnline = data.online !== false;
+        updateSystemStatusUI();
+    } catch (e) {
+        isSystemOnline = true;
+        updateSystemStatusUI();
+    }
+}
+
+// ============================================================
+// RENDERERS
+// ============================================================
+
+function renderUsers() {
+    const tbody = $('usersTableBody');
+    if (!tbody) return;
+    if (!users.length) {
+        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="8">No users yet — they'll appear here as soon as they register.</td></tr>`;
+        return;
+    }
+    const planColors = {
+        free: 'pill-slate', starter: 'pill-blue',
+        professional: 'pill-purple', business: 'pill-amber', enterprise: 'pill-green'
+    };
+    tbody.innerHTML = users.map(u => {
+        const name = u.display_name || u.full_name || u.name || u.username || 'User';
+        const plan = (u.plan || 'free').toLowerCase();
+        const planCls = planColors[plan] || 'pill-slate';
+        const status = u.is_active === false ? 'inactive' : (u.status || 'active');
+        const statusCls = status === 'active' ? 'pill-green' : 'pill-slate';
+        const machineCount = machines.filter(m => (m.owner_id === u.id) || (m.owner === u.email) || (m.owner_name === name)).length;
+        return `
+        <tr>
+            <td class="font-medium text-slate-800">${escapeHtml(name)}</td>
+            <td>${escapeHtml(u.email)}</td>
+            <td><span class="pill ${statusCls}">${escapeHtml(status)}</span></td>
+            <td><span class="pill ${planCls}" style="text-transform:capitalize;">${escapeHtml(plan)}</span></td>
+            <td>${machineCount}</td>
+            <td>${fmtDateTime(u.last_login_at)}</td>
+            <td>${fmtDate(u.created_at)}</td>
+            <td class="whitespace-nowrap">
+                <button class="action-btn slate" onclick="viewUserDetails('${u.id}')">View</button>
+                <button class="action-btn teal" onclick="editUser('${u.id}')">Edit</button>
+                <button class="action-btn red" onclick="deleteUser('${u.id}')">Remove</button>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+function renderRecentUsers() {
+    const container = $('recentUsersList');
+    if (!container) return;
+    const recent = [...users].sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0)).slice(0, 5);
+    if (!recent.length) {
+        container.innerHTML = '<div class="px-5 py-8 text-center text-slate-500 text-sm">No registrations yet.</div>';
+        return;
+    }
+    container.innerHTML = recent.map(u => {
+        const name = u.display_name || u.full_name || u.name || u.username || 'User';
+        return `
+        <div class="px-5 py-3 flex items-center justify-between hover:bg-slate-50">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold text-sm">${escapeHtml((name[0] || 'U').toUpperCase())}</div>
+                <div>
+                    <p class="text-sm font-medium text-slate-800">${escapeHtml(name)}</p>
+                    <p class="text-xs text-slate-500">${escapeHtml(u.email)}</p>
+                </div>
+            </div>
+            <span class="text-xs text-slate-400">${fmtDate(u.created_at)}</span>
+        </div>`;
+    }).join('');
+}
+
+function renderMachines() {
+    const tbody = $('machinesTableBody');
+    if (!tbody) return;
+    if (!machines.length) {
+        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="7">No machines yet — they appear as users connect them.</td></tr>`;
+        return;
+    }
+    const statusColors = { online: 'pill-green', warning: 'pill-amber', critical: 'pill-red', offline: 'pill-slate', blocked: 'pill-red' };
+    tbody.innerHTML = machines.map(m => {
+        const family = (m.machine_data && m.machine_data.dataset_family) || m.dataset_family || '—';
+        const health = Number(m.health || 0);
+        const healthColor = health > 70 ? 'text-green-600' : health > 40 ? 'text-amber-600' : 'text-red-600';
+        const isBlocked = m.status === 'blocked' || m.is_blocked === true;
+        return `
+        <tr>
+            <td class="font-medium text-slate-800">${escapeHtml(m.name)}</td>
+            <td>${escapeHtml(m.owner_name || m.owner || 'Unassigned')}</td>
+            <td>${escapeHtml(m.type || m.machine_type || 'general')} / <span class="text-slate-500">${escapeHtml(family)}</span></td>
+            <td><span class="pill ${statusColors[m.status] || 'pill-slate'}">${escapeHtml(m.status || 'offline')}</span></td>
+            <td class="font-semibold ${healthColor}">${health}%</td>
+            <td>${fmtDateTime(m.last_activity_at || m.updated_at)}</td>
+            <td class="whitespace-nowrap">
+                <button class="action-btn slate" onclick="viewMachineDetails('${m.id}')">View</button>
+                <button class="action-btn amber" onclick="toggleBlockMachine('${m.id}')">${isBlocked ? 'Unblock' : 'Block'}</button>
+                <button class="action-btn red" onclick="deleteMachine('${m.id}')">Remove</button>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+function renderPredictions() {
+    const tbody = $('predictionsTableBody');
+    if (!tbody) return;
+    if (!predictions.length) {
+        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="8">No predictions yet — every prediction run by users appears here.</td></tr>`;
+        return;
+    }
+    const statusColors = { good: 'pill-green', healthy: 'pill-green', warning: 'pill-amber', critical: 'pill-red' };
+    tbody.innerHTML = predictions.map(p => {
+        const rul = Number(p.rul_hours ?? p.rul ?? 0);
+        const conf = p.confidence != null ? Number(p.confidence) : null;
+        const source = p.model_selection_audit && p.model_selection_audit.mode
+            ? p.model_selection_audit.mode
+            : (p.model_type || 'model');
+        return `
+        <tr>
+            <td class="font-medium text-slate-800">${escapeHtml(p.machine_name || p.machine_id || '—')}</td>
+            <td>${escapeHtml(p.owner_name || p.owner || p.user_email || '—')}</td>
+            <td>${escapeHtml(source)}</td>
+            <td class="font-bold text-slate-800">${rul.toFixed(1)}</td>
+            <td>${conf != null ? conf.toFixed(1) + '%' : '—'}</td>
+            <td>${escapeHtml(p.model_type || '—')}</td>
+            <td><span class="pill ${statusColors[p.status] || 'pill-slate'}">${escapeHtml(p.status || 'unknown')}</span></td>
+            <td>${fmtDateTime(p.created_at)}</td>
+        </tr>`;
+    }).join('');
+}
+
+function renderAlerts() {
+    const tbody = $('alertsTableBody');
+    if (!tbody) return;
+    if (!alerts.length) {
+        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="8">No alerts yet — critical predictions generate them automatically.</td></tr>`;
+        return;
+    }
+    const sevColors = { critical: 'pill-red', high: 'pill-amber', warning: 'pill-amber', info: 'pill-blue' };
+    tbody.innerHTML = alerts.map(a => {
+        const email = a.email_status || {};
+        const emailSent = email.sent === true;
+        const emailReason = email.sent === false ? (email.reason || 'not sent') : '—';
+        const emailCls = emailSent ? 'pill-green' : 'pill-slate';
+        return `
+        <tr>
+            <td class="max-w-xs truncate">${escapeHtml(a.title || a.message || '—')}</td>
+            <td>${escapeHtml(a.user_name || a.user || '—')}</td>
+            <td class="truncate">${escapeHtml(a.user_email || email.recipient || '—')}</td>
+            <td>${escapeHtml(a.machine_name || a.machine || '—')}</td>
+            <td><span class="pill ${sevColors[a.severity] || 'pill-slate'}">${escapeHtml(a.severity || 'info')}</span></td>
+            <td><span class="pill ${emailCls}">${emailSent ? 'Sent' : escapeHtml(emailReason)}</span></td>
+            <td>${fmtDateTime(a.created_at)}</td>
+            <td><span class="pill ${a.status === 'active' ? 'pill-red' : 'pill-green'}">${escapeHtml(a.status || 'active')}</span></td>
+        </tr>`;
+    }).join('');
+}
+
+function renderReports() {
+    const tbody = $('reportsTableBody');
+    if (!tbody) return;
+    if (!reports.length) {
+        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="7">No reports generated yet.</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = reports.map(r => `
+        <tr>
+            <td class="font-medium text-slate-800 max-w-xs truncate">${escapeHtml(r.name || 'Untitled')}</td>
+            <td>${escapeHtml(r.user_name || r.user_email || r.user_id || '—')}</td>
+            <td><span class="pill pill-purple">${escapeHtml(r.type || 'report')}</span></td>
+            <td>${escapeHtml((r.format || 'txt').toUpperCase())}</td>
+            <td class="font-bold text-slate-800">${r.download_count || 0}</td>
+            <td>${fmtDateTime(r.last_downloaded_at || r.updated_at)}</td>
+            <td>${fmtDateTime(r.created_at)}</td>
+        </tr>
+    `).join('');
+}
+
+// ============================================================
+// INSTALL SOFTWARE renderer — handles both app installs + native downloads
+// ============================================================
+function renderDownloads() {
+    const tbody = $('downloadsTableBody');
+    if (!tbody) return;
+    if (!downloads.length) {
+        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="6">No installs or downloads yet — they'll appear here as soon as a user installs the app or downloads a native installer.</td></tr>`;
+        return;
+    }
+    const platformColors = {
+        windows: 'pill-blue', macos: 'pill-slate', linux: 'pill-amber',
+        android: 'pill-green', ios: 'pill-purple',
+        web: 'pill-violet'
+    };
+    tbody.innerHTML = downloads.map(d => {
+        const p = (d.platform || 'unknown').toLowerCase();
+        const isPWA = d.type === 'app_install';
+        const methodLabel = isPWA ? 'Installed App' : 'Native Download';
+        const methodCls = isPWA ? 'pill-violet' : 'pill-slate';
+        return `
+        <tr>
+            <td class="font-medium text-slate-800">${escapeHtml(d.user_name || d.user || 'Guest')}</td>
+            <td><span class="pill ${platformColors[p] || 'pill-slate'}">${escapeHtml(p)}</span></td>
+            <td><span class="pill ${methodCls}">${methodLabel}</span></td>
+            <td>${escapeHtml(d.version || '—')}</td>
+            <td>${escapeHtml(d.ip_address || '—')}</td>
+            <td>${fmtDateTime(d.created_at)}</td>
+        </tr>`;
+    }).join('');
+}
+
+function renderActivities() {
+    const tbody = $('activitiesTableBody');
+    if (!tbody) return;
+    if (!activities.length) {
+        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="5">No activity yet.</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = activities.map(a => `
+        <tr>
+            <td class="font-medium text-slate-700" style="text-transform:capitalize;">${escapeHtml((a.action || 'event').replace(/_/g, ' '))}</td>
+            <td>${escapeHtml(a.target || a.resource_type || '—')}</td>
+            <td>${escapeHtml(a.admin_name || a.admin || 'System')}</td>
+            <td>${escapeHtml(a.ip_address || '—')}</td>
+            <td>${fmtDateTime(a.created_at)}</td>
+        </tr>
+    `).join('');
+}
+
+function renderBilling() {
+    const tbody = $('billingTableBody');
+    if (!tbody) return;
+    if (!subscriptions.length) {
+        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="6">No subscriptions yet.</td></tr>`;
+        return;
+    }
+    const statusColors = {
+        active: 'pill-green', completed: 'pill-green',
+        trialing: 'pill-amber', pending: 'pill-amber',
+        canceled: 'pill-red', expired: 'pill-red', failed: 'pill-red'
+    };
+    tbody.innerHTML = subscriptions.map(s => `
+        <tr>
+            <td class="font-medium text-slate-800">${escapeHtml(s.user_name || s.user || '—')}</td>
+            <td><span class="pill pill-purple" style="text-transform:capitalize;">${escapeHtml(s.plan || '—')}</span></td>
+            <td class="font-bold text-slate-800">${fmtMoney(s.amount)}</td>
+            <td><span class="pill ${statusColors[s.status] || 'pill-slate'}">${escapeHtml(s.status || '—')}</span></td>
+            <td>${fmtDate(s.created_at)}</td>
+            <td class="whitespace-nowrap">
+                ${s.user_id ? `
+                    <button class="action-btn teal" onclick="changePlan('${s.user_id}')">Change</button>
+                    <button class="action-btn red" onclick="cancelSub('${s.user_id}')">Cancel</button>
+                ` : '<span class="text-slate-400">—</span>'}
+            </td>
+        </tr>
+    `).join('');
+}
+
+function renderEnterpriseRequests() {
+    const tbody = $('customPlansTableBody');
+    if (!tbody) return;
+    if (!enterpriseRequests.length) {
+        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="7">No custom plan requests yet.</td></tr>`;
+        return;
+    }
+    const statusColors = {
+        pending: 'pill-amber', contacted: 'pill-blue',
+        negotiating: 'pill-purple', approved: 'pill-green',
+        won: 'pill-green', rejected: 'pill-red',
+        lost: 'pill-red', archived: 'pill-slate'
+    };
+    tbody.innerHTML = enterpriseRequests.map(r => `
+        <tr>
+            <td class="font-medium text-slate-800">${escapeHtml(r.company || '—')}</td>
+            <td>${escapeHtml(r.full_name || '—')}</td>
+            <td>${escapeHtml(r.email || '—')}</td>
+            <td>${escapeHtml(r.phone || '—')}</td>
+            <td>${escapeHtml(r.machines || '—')}</td>
+            <td><span class="pill ${statusColors[r.status] || 'pill-slate'}">${escapeHtml(r.status || 'pending')}</span></td>
+            <td class="whitespace-nowrap">
+                <button class="action-btn slate" onclick="viewEnterpriseRequest('${r.uuid || r.id}')">View</button>
+                ${['pending','contacted','negotiating'].includes(r.status) ? `
+                    <button class="action-btn green" onclick="approveEnterpriseRequest('${r.uuid || r.id}')">Approve</button>
+                    <button class="action-btn red" onclick="rejectEnterpriseRequest('${r.uuid || r.id}')">Reject</button>
+                ` : ''}
+            </td>
+        </tr>
+    `).join('');
+}
+
+// ============================================================
+// STATS
+// ============================================================
+
+function updateStats() {
+    const activeUsers = users.filter(u => u.is_active !== false).length;
+    const onlineMachines = machines.filter(m => m.status === 'online').length;
+    const activeAlerts = alerts.filter(a => a.status === 'active').length;
+    const paidPlans = subscriptions.filter(s => ['active','completed'].includes(s.status)).length;
+
+    $('totalUsers').textContent = users.length || 0;
+    $('activeUsersSub').textContent = `${activeUsers} active`;
+    $('totalMachines').textContent = machines.length || 0;
+    $('onlineMachinesSub').textContent = `${onlineMachines} online`;
+    $('totalPaidPlans').textContent = paidPlans;
+    $('paidPlansSub').textContent = `${subscriptions.length} total`;
+    $('totalAlerts').textContent = activeAlerts;
+    $('alertsSub').textContent = `${alerts.length} total`;
+    $('predictionsTotal').textContent = predictions.length;
+    $('totalReports').textContent = reports.length || 0;
+    $('reportsSub').textContent = `${reports.reduce((s,r)=>s+(r.download_count||0),0)} downloads`;
+
+    $('hdrUsers').textContent = users.length || 0;
+    $('hdrMachines').textContent = machines.length || 0;
+    $('hdrAlerts').textContent = activeAlerts;
+}
+
+function updateDownloadStats() {
+    // Only count native downloads in the platform tiles; PWA installs separately
+    const nativeOnly = downloads.filter(d => d.type !== 'app_install');
+    const pwaOnly = downloads.filter(d => d.type === 'app_install');
+    const get = p => nativeOnly.filter(d => (d.platform || '').toLowerCase() === p).length;
+
+    $('totalDownloads').textContent = downloads.length;
+    $('windowsDownloads').textContent = get('windows');
+    $('macDownloads').textContent = get('macos');
+    $('linuxDownloads').textContent = get('linux');
+    $('androidDownloads').textContent = get('android');
+    $('iosDownloads').textContent = get('ios');
+    const pwaEl = $('pwaInstallsCount');
+    if (pwaEl) pwaEl.textContent = pwaOnly.length;
+
+    updateDownloadChart();
+}
+
+function updateBillingStats() {
+    const stats = dashboardStats.billing || {};
+    const totalRev = stats.total_revenue != null
+        ? stats.total_revenue
+        : subscriptions.reduce((s,x)=>s+(Number(x.amount)||0),0);
+    const activeSubs = stats.active_subscriptions != null
+        ? stats.active_subscriptions
+        : subscriptions.filter(s => ['active','completed'].includes(s.status)).length;
+    const mrr = stats.mrr != null ? stats.mrr : subscriptions.filter(s=>s.status==='active').reduce((s,x)=>s+(Number(x.amount)||0),0);
+
+    $('totalRevenue').textContent = fmtMoney(totalRev);
+    $('revenueSub').textContent = `${subscriptions.length} payments`;
+    $('billingTotalRevenue').textContent = fmtMoney(totalRev);
+    $('billingActiveSubs').textContent = activeSubs;
+    $('billingMRR').textContent = fmtMoney(mrr);
+}
+
+// ============================================================
+// SYSTEM STATUS
+// ============================================================
+
+function updateSystemStatusUI() {
+    const badge = $('systemStatusBadge');
+    if (badge) {
+        if (isSystemOnline) {
+            badge.textContent = 'Online';
+            badge.className = 'text-2xl font-bold text-green-600 mt-1';
+            $('systemOfflineOverlay')?.classList.remove('active');
+        } else {
+            badge.textContent = 'Offline';
+            badge.className = 'text-2xl font-bold text-red-600 mt-1';
+        }
+    }
+
+    const shutdownBtn = $('shutdownBtn');
+    const bringOnlineBtn = $('bringOnlineBtn');
+    if (isSystemOnline) {
+        if (shutdownBtn)     shutdownBtn.style.display = '';
+        if (bringOnlineBtn)  bringOnlineBtn.style.display = 'none';
+    } else {
+        if (shutdownBtn)     shutdownBtn.style.display = 'none';
+        if (bringOnlineBtn)  bringOnlineBtn.style.display = '';
+    }
+}
+
+// ============================================================
+// CHARTS
+// ============================================================
+
+function initCharts() {
+    if (typeof Chart === 'undefined') return;
+
+    const userCtx = $('userGrowthChart');
+    if (userCtx) {
+        userGrowthChart = new Chart(userCtx.getContext('2d'), {
+            type: 'line',
+            data: { labels: [], datasets: [{ label: 'Users', data: [], borderColor: '#00b4aa', backgroundColor: 'rgba(0,180,170,0.05)', fill: true, tension: 0.3 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#e2e8f0' } }, x: { grid: { display: false } } } }
+        });
+    }
+    const trendCtx = $('adminTrendChart');
+    if (trendCtx) {
+        adminTrendChart = new Chart(trendCtx.getContext('2d'), {
+            type: 'line',
+            data: { labels: [], datasets: [{ label: 'Predictions', data: [], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.05)', fill: true, tension: 0.3 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#e2e8f0' } }, x: { grid: { display: false } } } }
+        });
+    }
+    const downloadCtx = $('downloadTrendChart');
+    if (downloadCtx) {
+        downloadTrendChart = new Chart(downloadCtx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    { label: 'Windows', data: [], borderColor: '#0078d4', backgroundColor: 'rgba(0,120,212,0.05)', fill: true, tension: 0.3 },
+                    { label: 'macOS', data: [], borderColor: '#555555', backgroundColor: 'rgba(85,85,85,0.05)', fill: true, tension: 0.3 },
+                    { label: 'Linux', data: [], borderColor: '#f57c00', backgroundColor: 'rgba(245,124,0,0.05)', fill: true, tension: 0.3 },
+                    { label: 'Android', data: [], borderColor: '#3ddc84', backgroundColor: 'rgba(61,220,132,0.05)', fill: true, tension: 0.3 },
+                    { label: 'iOS', data: [], borderColor: '#007aff', backgroundColor: 'rgba(0,122,255,0.05)', fill: true, tension: 0.3 }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 8 } } }, scales: { y: { beginAtZero: true, grid: { color: '#e2e8f0' } }, x: { grid: { display: false } } } }
+        });
+    }
+}
+
+function buildDailyCounts(items, days, key = 'created_at') {
+    const out = Array(days).fill(0);
+    const now = new Date();
+    items.forEach(it => {
+        const t = it[key];
+        if (!t) return;
+        const d = new Date(t);
+        if (isNaN(d)) return;
+        const diff = Math.floor((now - d) / 86400000);
+        if (diff >= 0 && diff < days) out[days - 1 - diff] += 1;
+    });
+    return out;
+}
+
+function updateCharts() {
+    const days = 30;
+    const labels = Array.from({ length: days }, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - (days - 1 - i));
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    });
+
+    if (userGrowthChart) {
+        userGrowthChart.data.labels = labels;
+        userGrowthChart.data.datasets[0].data = buildDailyCounts(users, days);
+        userGrowthChart.update();
+    }
+    if (adminTrendChart) {
+        adminTrendChart.data.labels = labels;
+        adminTrendChart.data.datasets[0].data = buildDailyCounts(predictions, days);
+        adminTrendChart.update();
+    }
+}
+
+function updateDownloadChart() {
+    if (!downloadTrendChart) return;
+    const days = 30;
+    const labels = Array.from({ length: days }, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - (days - 1 - i));
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    });
+    const platforms = ['windows', 'macos', 'linux', 'android', 'ios'];
+    downloadTrendChart.data.labels = labels;
+    platforms.forEach((p, i) => {
+        downloadTrendChart.data.datasets[i].data = buildDailyCounts(
+            downloads.filter(d => (d.platform || '').toLowerCase() === p), days
+        );
+    });
+    downloadTrendChart.update();
+}
+
+// ============================================================
+// SECTION NAVIGATION
+// ============================================================
+
+function showSection(section) {
+    currentSection = section;
+    document.querySelectorAll('[id$="Section"]').forEach(el => {
+        if (el.id.endsWith('Section')) el.style.display = 'none';
+    });
+    const map = {
+        dashboard: 'dashboardSection', users: 'usersSection', machines: 'machinesSection',
+        predictions: 'predictionsSection', alerts: 'alertsSection', reports: 'reportsSection',
+        downloads: 'downloadsSection', activities: 'activitiesSection',
+        billing: 'billingSection', customPlans: 'customPlansSection', settings: 'settingsSection'
+    };
+    const targetId = map[section];
+    if (targetId && $(targetId)) $(targetId).style.display = 'block';
+
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    document.querySelector(`.sidebar-link[data-section="${section}"]`)?.classList.add('active');
+
+    const titles = {
+        dashboard: 'Admin Dashboard', users: 'Users', machines: 'Machines',
+        predictions: 'Predictions History', alerts: 'Alerts History', reports: 'Reports History',
+        downloads: 'Install Software', activities: 'Activity Log',
+        billing: 'Billing & Plans', customPlans: 'Custom Plan Requests', settings: 'System Settings'
+    };
+    $('pageTitle').textContent = titles[section] || 'Admin Dashboard';
+}
+
+// ============================================================
+// DETAILS MODAL
+// ============================================================
+
+function openDetailsModal(title, html) {
+    $('detailsModalTitle').textContent = title;
+    $('detailsModalBody').innerHTML = html;
+    $('detailsModal').classList.add('active');
+}
+function closeDetailsModal() { $('detailsModal').classList.remove('active'); }
+
+function row(label, value) {
+    return `<div class="detail-row"><span class="detail-label">${escapeHtml(label)}</span><span class="detail-value">${escapeHtml(String(value ?? '—'))}</span></div>`;
+}
+
+function viewUserDetails(id) {
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+    const machineCount = machines.filter(m => (m.owner_id === u.id) || (m.owner === u.email)).length;
+    const predCount = predictions.filter(p => p.user_email === u.email || p.owner_name === (u.display_name || u.name)).length;
+    const alertCount = alerts.filter(a => a.user_email === u.email).length;
+    const installCount = downloads.filter(d => d.user_name === (u.display_name || u.name) || d.user_id === u.id).length;
+    const pwaInstalls = downloads.filter(d =>
+        d.type === 'app_install' &&
+        (d.user_name === (u.display_name || u.name) || d.user_id === u.id)
+    ).length;
+    const html = `
+        ${row('Name', u.display_name || u.full_name || u.name || u.username)}
+        ${row('Email', u.email)}
+        ${row('Username', u.username)}
+        ${row('Role', u.role)}
+        ${row('Plan', u.plan)}
+        ${row('Status', u.is_active === false ? 'inactive' : (u.status || 'active'))}
+        ${row('Verified', u.is_verified ? 'Yes' : 'No')}
+        ${row('Machines', machineCount)}
+        ${row('Predictions', predCount)}
+        ${row('Alerts', alertCount)}
+        ${row('Total Installs/Downloads', installCount)}
+        ${row('App Installs (PWA)', pwaInstalls)}
+        ${row('Last Login', fmtDateTime(u.last_login_at))}
+        ${row('Last Login IP', u.last_login_ip)}
+        ${row('Login Count', u.login_count || 0)}
+        ${row('Created', fmtDateTime(u.created_at))}
+    `;
+    openDetailsModal(`User — ${u.email || u.username || ''}`, html);
+}
+
+function viewMachineDetails(id) {
+    const m = machines.find(x => x.id === id);
+    if (!m) return;
+    const machinePreds = predictions.filter(p => p.machine_id === m.id).length;
+    const machineAlerts = alerts.filter(a => a.machine_id === m.id).length;
+    const html = `
+        ${row('Name', m.name)}
+        ${row('Type', m.type || m.machine_type)}
+        ${row('Dataset Family', (m.machine_data && m.machine_data.dataset_family) || m.dataset_family)}
+        ${row('Owner', m.owner_name || m.owner)}
+        ${row('Location', m.location)}
+        ${row('Status', m.status)}
+        ${row('Health', (m.health || 0) + '%')}
+        ${row('Temperature', (m.temperature ?? '—') + ' °C')}
+        ${row('Vibration', (m.vibration ?? '—') + ' mm/s')}
+        ${row('Pressure', m.pressure ?? '—')}
+        ${row('Predictions', machinePreds)}
+        ${row('Alerts', machineAlerts)}
+        ${row('Last Activity', fmtDateTime(m.last_activity_at))}
+        ${row('Created', fmtDateTime(m.created_at))}
+    `;
+    openDetailsModal(`Machine — ${m.name}`, html);
+}
+
+function viewEnterpriseRequest(rid) {
+    const r = enterpriseRequests.find(x => (x.uuid || x.id) === rid);
+    if (!r) return;
+    const html = `
+        ${row('Company', r.company)}
+        ${row('Contact', r.full_name)}
+        ${row('Email', r.email)}
+        ${row('Phone', r.phone)}
+        ${row('Machines Requested', r.machines)}
+        ${row('Status', r.status)}
+        ${row('Requirements', r.requirements)}
+        ${row('Admin Notes', r.admin_notes)}
+        ${row('Submitted', fmtDateTime(r.created_at))}
+    `;
+    openDetailsModal(`Custom Plan — ${r.company || ''}`, html);
+}
+
+// ============================================================
+// CRUD
+// ============================================================
+
+function openUserModal(userId = null) {
+    $('userModal').classList.add('active');
+    if (userId) {
+        const u = users.find(x => x.id === userId);
+        if (u) {
+            $('userModalTitle').textContent = 'Edit User';
+            $('editUserId').value = u.id;
+            $('userFullName').value = u.display_name || u.full_name || u.name || '';
+            $('userEmailInput').value = u.email || '';
+            $('userPlanSelect').value = (u.plan || 'free').toLowerCase();
+            $('userPassword').value = '';
+        }
+    } else {
+        $('userModalTitle').textContent = 'Add User';
+        $('editUserId').value = '';
+        $('userForm').reset();
+    }
+}
+function closeUserModal() { $('userModal').classList.remove('active'); }
+function editUser(id) { openUserModal(id); }
+
+async function deleteUser(id) {
+    const u = users.find(x => x.id === id);
+    if (!confirm(`Remove user "${u?.email || id}"? They will be deactivated.`)) return;
+    try {
+        await API.fetch('/admin/users/' + id, { method: 'DELETE' });
+        showToast('User removed', 'success');
+        loadAllData();
+    } catch (e) { showToast('Remove failed: ' + e.message, 'error'); }
+}
+
+function openMachineModal(machineId = null) {
+    const ownerSelect = $('machineOwner');
+    ownerSelect.innerHTML = users.map(u => {
+        const name = u.display_name || u.full_name || u.name || u.username || 'User';
+        return `<option value="${u.id}">${escapeHtml(name)} (${escapeHtml(u.email || '')})</option>`;
+    }).join('');
+
+    $('machineModal').classList.add('active');
+    if (machineId) {
+        const m = machines.find(x => x.id === machineId);
+        if (m) {
+            $('machineModalTitle').textContent = 'Edit Machine';
+            $('editMachineId').value = m.id;
+            $('machineNameInput').value = m.name || '';
+            $('machineOwner').value = m.owner_id || '';
+            $('machineLocationInput').value = m.location || '';
+        }
+    } else {
+        $('machineModalTitle').textContent = 'Add Machine';
+        $('editMachineId').value = '';
+        $('machineForm').reset();
+    }
+}
+function closeMachineModal() { $('machineModal').classList.remove('active'); }
+
+async function deleteMachine(id) {
+    const m = machines.find(x => x.id === id);
+    if (!confirm(`Remove machine "${m?.name || id}"? This cannot be undone.`)) return;
+    try {
+        await API.fetch('/admin/machines/' + id, { method: 'DELETE' });
+        showToast('Machine removed', 'success');
+        loadAllData();
+    } catch (e) { showToast('Remove failed: ' + e.message, 'error'); }
+}
+
+async function toggleBlockMachine(id) {
+    const m = machines.find(x => x.id === id);
+    if (!m) return;
+    const isBlocked = m.status === 'blocked' || m.is_blocked === true;
+    const action = isBlocked ? 'unblock' : 'block';
+    if (!confirm(`${isBlocked ? 'Unblock' : 'Block'} machine "${m.name}"?`)) return;
+    try {
+        try {
+            await API.fetch('/admin/machines/' + id + (isBlocked ? '/unblock' : '/block'), { method: 'POST' });
+        } catch (err) {
+            await API.fetch('/machines/' + id + '/status', {
+                method: 'PATCH',
+                body: JSON.stringify({ status: isBlocked ? 'offline' : 'blocked' })
+            });
+        }
+        showToast(`Machine ${action}ed`, 'success');
+        loadAllData();
+    } catch (e) { showToast(`Failed to ${action}: ` + e.message, 'error'); }
+}
+
+// ============================================================
+// ENTERPRISE REQUESTS
+// ============================================================
+
+async function approveEnterpriseRequest(rid) {
+    const r = enterpriseRequests.find(x => (x.uuid || x.id) === rid);
+    if (!confirm(`Approve request from ${r?.company || rid}? The custom plan will be activated for the user.`)) return;
+    try {
+        await API.fetch(`/admin/enterprise-requests/${rid}`, {
+            method: 'PUT', body: JSON.stringify({ status: 'approved' })
+        });
+        showToast('✅ Request approved — plan activated', 'success');
+        loadEnterpriseRequests();
+        loadUsers();
+        loadBilling();
+    } catch (e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+async function rejectEnterpriseRequest(rid) {
+    const notes = prompt('Reason for rejection (optional):') || '';
+    try {
+        await API.fetch(`/admin/enterprise-requests/${rid}`, {
+            method: 'PUT', body: JSON.stringify({ status: 'rejected', admin_notes: notes })
+        });
+        showToast('Request rejected', 'info');
+        loadEnterpriseRequests();
+    } catch (e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// BILLING
+// ============================================================
+
+async function changePlan(userId) {
+    const u = users.find(x => x.id === userId);
+    const current = (u?.plan || 'free').toLowerCase();
+    const plans = ['free', 'starter', 'professional', 'business', 'enterprise'];
+    const input = prompt(`Change plan for ${u?.email || 'user'}\nCurrent: ${current}\nNew plan (free/starter/professional/business/enterprise):`, current);
+    if (!input || !plans.includes(input.toLowerCase())) return;
+    try {
+        await API.fetch(`/admin/users/${userId}/plan`, { method: 'PUT', body: JSON.stringify({ plan: input.toLowerCase() }) });
+        showToast(`Plan changed to ${input}`, 'success');
+        loadAllData();
+    } catch (e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+async function cancelSub(userId) {
+    if (!confirm('Cancel this subscription?')) return;
+    try {
+        await API.fetch(`/admin/users/${userId}/subscription/cancel`, { method: 'POST' });
+        showToast('Subscription cancelled', 'success');
+        loadAllData();
+    } catch (e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// AVATAR
+// ============================================================
+
+function openAvatarUpload() {
+    $('profileMenu')?.classList.remove('open');
+    $('avatarModal').classList.add('active');
+    $('avatarFile').value = '';
+    const errEl = $('avatarErrorMsg');
+    if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
+}
+function closeAvatarModal() { $('avatarModal').classList.remove('active'); }
+
+function showAvatarError(msg) {
+    const el = $('avatarErrorMsg');
+    if (!el) { showToast(msg, 'error'); return; }
+    el.textContent = msg;
+    el.classList.remove('hidden');
+}
+
+// ============================================================
+// SHUTDOWN / BRING ONLINE
+// ============================================================
+
+function confirmShutdown() {
+    $('profileMenu')?.classList.remove('open');
+    $('shutdownModal').classList.add('active');
+    $('shutdownPassword').value = '';
+    const errEl = $('shutdownErrorMsg');
+    if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
+}
+function closeShutdownModal() { $('shutdownModal').classList.remove('active'); }
+
+function openBringOnlineModal() {
+    $('profileMenu')?.classList.remove('open');
+    $('onlineModal').classList.add('active');
+    $('onlinePassword').value = '';
+    const errEl = $('onlineErrorMsg');
+    if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
+}
+function closeBringOnlineModal() { $('onlineModal').classList.remove('active'); }
+
+// ============================================================
+// SETTINGS
+// ============================================================
+
+async function saveSettings() {
+    try {
+        await API.fetch('/admin/settings', {
+            method: 'PUT',
+            body: JSON.stringify({
+                system_name: $('systemName').value,
+                contact_email: $('contactEmail').value
+            })
+        });
+        showToast('Settings saved', 'success');
+    } catch (e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+async function saveThresholds() {
+    try {
+        await API.fetch('/admin/thresholds', {
+            method: 'PUT',
+            body: JSON.stringify({
+                temp_warning: parseFloat($('tempWarning').value),
+                temp_critical: parseFloat($('tempCritical').value),
+                vibration_warning: parseFloat($('vibWarning').value)
+            })
+        });
+        showToast('Thresholds saved', 'success');
+    } catch (e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// WEBSOCKET
+// ============================================================
+
+function connectWebSocket() {
+    const token = getToken();
+    if (!token || !isTokenValid(token)) return;
+    if (wsConnection && (wsConnection.readyState === WebSocket.OPEN || wsConnection.readyState === WebSocket.CONNECTING)) return;
+
+    try {
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = `${proto}//${window.location.host}/ws/admin?token=${encodeURIComponent(token)}`;
+        wsConnection = new WebSocket(url);
+
+        wsConnection.onopen = () => {
+            wsReconnectAttempt = 0;
+            const el = $('wsStatus');
+            if (el) { el.textContent = '● LIVE'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700'; }
+            loadAllData();
+        };
+        wsConnection.onmessage = (event) => {
+            try { handleWsMessage(JSON.parse(event.data)); } catch (e) {}
+        };
+        wsConnection.onclose = (evt) => {
+            const el = $('wsStatus');
+            if (el) { el.textContent = '●'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500'; }
+            if (evt && evt.code === 1008) return;
+            if (isTokenValid(getToken())) {
+                if (wsReconnectTimer) clearTimeout(wsReconnectTimer);
+                const attempt = Math.min(8, wsReconnectAttempt);
+                wsReconnectAttempt = attempt + 1;
+                const delay = Math.min(60000, 1000 * (2 ** attempt)) + Math.floor(Math.random() * 500);
+                wsReconnectTimer = setTimeout(connectWebSocket, delay);
+            }
+        };
+        wsConnection.onerror = () => {};
+    } catch (e) {}
+}
+
+function handleWsMessage(data) {
+    if (!data || !data.type) return;
+    switch (data.type) {
+        case 'user_created':
+            loadUsers();
+            showToast(`New user: ${data.user?.email || ''}`, 'success');
+            break;
+        case 'user_updated':
+        case 'user_deleted':
+            loadUsers();
+            break;
+        case 'machine_created':
+            loadMachines();
+            showToast(`New machine: ${data.machine?.name || ''}`, 'success');
+            break;
+        case 'machine_updated':
+        case 'machine_deleted':
+            loadMachines();
+            break;
+        case 'sensor_update':
+            loadMachines();
+            break;
+        case 'prediction_created':
+            loadPredictions();
+            showToast(`New prediction: ${data.prediction?.machine_name || ''}`, 'info');
+            break;
+        case 'alert_created':
+            loadAlerts();
+            showToast(`New alert: ${data.alert?.title || ''}`, 'warning');
+            break;
+        case 'alert_updated':
+        case 'alerts_marked_read':
+            loadAlerts();
+            break;
+        case 'report_created':
+            loadReports();
+            showToast(`New report: ${data.report?.name || ''}`, 'info');
+            break;
+        case 'download_created':
+            loadDownloads();
+            {
+                const isPWA = data.download?.type === 'app_install';
+                const who = data.download?.user_name || 'A user';
+                const plat = data.download?.platform || 'unknown';
+                const msg = isPWA
+                    ? `${who} installed SynapsePM on ${plat}`
+                    : `${who} downloaded the ${plat} installer`;
+                showToast(msg, 'success');
+            }
+            break;
+        case 'enterprise_request_created':
+            loadEnterpriseRequests();
+            showToast(`New custom plan: ${data.request?.company || ''}`, 'success');
+            break;
+        case 'enterprise_request_updated':
+            loadEnterpriseRequests();
+            break;
+        case 'billing_updated':
+            loadBilling();
+            loadUsers();
+            break;
+        case 'activity_created':
+            loadActivities();
+            break;
+        case 'system_status_changed':
+            isSystemOnline = data.online !== false;
+            updateSystemStatusUI();
+            break;
+        case 'settings_updated':
+            loadSettings();
+            break;
+        case 'ping':
+            try { wsConnection?.send(JSON.stringify({ type: 'pong' })); } catch {}
+            break;
+    }
+    updateStats();
+}
+
+// ============================================================
+// AUTO REFRESH
+// ============================================================
+
+function startAutoRefresh() {
+    if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+    autoRefreshInterval = setInterval(() => {
+        if (!Auth.isAuthenticated) return;
+        if (document.visibilityState !== 'visible') return;
+        if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
+        loadAllData();
+    }, 30000);
+}
+
+function refreshDashboard() {
+    loadAllData();
+    loadSystemStatus();
+    showToast('Refreshing…', 'info', 1500);
+}
+
+function refreshDownloads() { loadDownloads(); showToast('Install history refreshed', 'success'); }
+
+function filterDownloads() {
+    const filter = $('downloadPlatformFilter').value;
+    document.querySelectorAll('#downloadsTableBody tr').forEach(row => {
+        if (filter === 'all') { row.style.display = ''; return; }
+        const method = row.querySelector('td:nth-child(3)')?.textContent?.toLowerCase() || '';
+        if (filter === 'pwa') {
+            row.style.display = method.includes('installed app') ? '' : 'none';
+            return;
+        }
+        if (filter === 'native') {
+            row.style.display = method.includes('native') ? '' : 'none';
+            return;
+        }
+        const platform = row.querySelector('td:nth-child(2)')?.textContent?.toLowerCase() || '';
+        row.style.display = platform.includes(filter) ? '' : 'none';
+    });
+}
+
+// ============================================================
+// EVENT LISTENERS
+// ============================================================
+
+function initEventListeners() {
+    const sidebar = $('mainSidebar');
+    let isCollapsed = localStorage.getItem('admin_sidebar_collapsed') === 'true';
+
+    function applySidebar() {
+        if (isCollapsed && window.innerWidth >= 1024) {
+            sidebar.classList.add('collapsed');
+            document.body.classList.add('sidebar-is-collapsed');
+        } else {
+            sidebar.classList.remove('collapsed');
+            document.body.classList.remove('sidebar-is-collapsed');
+        }
+    }
+    applySidebar();
+
+    $('sidebarToggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const scrollY = window.scrollY;
+        if (window.innerWidth >= 1024) {
+            isCollapsed = !isCollapsed;
+            localStorage.setItem('admin_sidebar_collapsed', String(isCollapsed));
+            applySidebar();
+        } else {
+            openMobileSidebar();
+        }
+        window.scrollTo(0, scrollY);
+    });
+
+    $('mobileMenuToggle')?.addEventListener('click', openMobileSidebar);
+    $('sidebarOverlay')?.addEventListener('click', closeMobileSidebar);
+
+    const av = $('userAvatar');
+    const menu = $('profileMenu');
+    av?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        menu?.classList.toggle('open');
+    });
+    menu?.addEventListener('click', (e) => e.stopPropagation());
+    document.addEventListener('click', (e) => {
+        if (menu?.classList.contains('open') && !menu.contains(e.target) && !av?.contains(e.target)) {
+            menu.classList.remove('open');
+        }
+    });
+
+    $('refreshBtn')?.addEventListener('click', refreshDashboard);
+
+    let rTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(rTimer);
+        rTimer = setTimeout(() => {
+            applySidebar();
+            if (window.innerWidth >= 1024) closeMobileSidebar();
+        }, 100);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeUserModal(); closeMachineModal();
+            closeShutdownModal(); closeAvatarModal();
+            closeBringOnlineModal(); closeDetailsModal();
+            menu?.classList.remove('open');
+        }
+        if (e.ctrlKey && e.key === 'r') { e.preventDefault(); refreshDashboard(); }
+    });
+
+    // USER FORM
+    $('userForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const id = $('editUserId').value;
+        const name = $('userFullName').value.trim();
+        const email = $('userEmailInput').value.trim();
+        const plan = $('userPlanSelect').value;
+        const password = $('userPassword').value.trim();
+        const btn = this.querySelector('button[type="submit"]');
+        const orig = btn.textContent;
+        btn.textContent = 'Saving...'; btn.disabled = true;
+        try {
+            if (id) {
+                const body = { name, email, plan };
+                if (password) body.password = password;
+                await API.fetch('/admin/users/' + id, { method: 'PUT', body: JSON.stringify(body) });
+                showToast('User updated', 'success');
+            } else {
+                const body = { name, email, plan };
+                if (password) body.password = password;
+                await API.fetch('/admin/users', { method: 'POST', body: JSON.stringify(body) });
+                showToast('User created', 'success');
+            }
+            closeUserModal();
+            loadAllData();
+        } catch (err) {
+            showToast('Error: ' + err.message, 'error', 6000);
+        } finally {
+            btn.textContent = orig; btn.disabled = false;
+        }
+    });
+
+    // MACHINE FORM
+    $('machineForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const id = $('editMachineId').value;
+        const name = $('machineNameInput').value.trim();
+        const owner_id = $('machineOwner').value;
+        const location = $('machineLocationInput').value.trim();
+        const btn = this.querySelector('button[type="submit"]');
+        const orig = btn.textContent;
+        btn.textContent = 'Saving...'; btn.disabled = true;
+        try {
+            if (id) {
+                await API.fetch('/admin/machines/' + id, { method: 'PUT', body: JSON.stringify({ name, owner_id, location }) });
+                showToast('Machine updated', 'success');
+            } else {
+                await API.fetch('/admin/machines', { method: 'POST', body: JSON.stringify({ name, owner_id, location, machine_type: 'general' }) });
+                showToast('Machine created', 'success');
+            }
+            closeMachineModal();
+            loadAllData();
+        } catch (err) {
+            showToast('Error: ' + err.message, 'error', 6000);
+        } finally {
+            btn.textContent = orig; btn.disabled = false;
+        }
+    });
+
+    // AVATAR FORM
+    $('avatarForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const errEl = $('avatarErrorMsg');
+        if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
+
+        const file = $('avatarFile').files[0];
+        if (!file) { showAvatarError('Please select an image.'); return; }
+        const allowed = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'];
+        if (!allowed.includes(file.type)) {
+            showAvatarError('Please upload a PNG, JPG, GIF, or WebP image.');
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            showAvatarError('Image must be smaller than 5 MB.');
+            return;
+        }
+
+        const fd = new FormData();
+        fd.append('avatar', file);
+        const btn = this.querySelector('button[type="submit"]');
+        const orig = btn.textContent;
+        btn.textContent = 'Uploading...'; btn.disabled = true;
+
+        try {
+            const doPost = () => fetch(`${API_BASE_URL}/user/avatar`, {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + getToken() },
+                body: fd,
+                credentials: 'same-origin'
+            });
+            let res = await doPost();
+            if (res.status === 401) {
+                const ok = await performRefresh();
+                if (!ok) { showAvatarError('Session expired.'); setTimeout(() => Auth.logout(), 1200); return; }
+                res = await doPost();
+            }
+            if (!res.ok) {
+                let errBody = {}; try { errBody = await res.json(); } catch {}
+                throw new Error(errBody.error || errBody.message || `Upload failed (HTTP ${res.status})`);
+            }
+            const data = await res.json();
+            const newUrl = data.avatar_url || (data.user && data.user.avatar_url);
+            if (!newUrl) throw new Error('Server did not return an avatar URL.');
+
+            const u = getUser() || {};
+            u.avatar_url = newUrl;
+            try {
+                localStorage.setItem('synapse_admin_user', JSON.stringify(u));
+                localStorage.setItem('synapse_user', JSON.stringify(u));
+                localStorage.setItem('user', JSON.stringify(u));
+            } catch {}
+            updateAdminInfo(u);
+            closeAvatarModal();
+            showToast('✅ Avatar updated', 'success');
+        } catch (err) {
+            showAvatarError(err.message || 'Upload failed.');
+            showToast('Avatar upload failed: ' + err.message, 'error', 6000);
+        } finally {
+            btn.textContent = orig; btn.disabled = false;
+        }
+    });
+
+    $('avatarFile')?.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file || !file.type.startsWith('image/')) return;
+        const prev = $('avatarPreview');
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            prev.style.backgroundImage = `url('${ev.target.result}')`;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // SHUTDOWN FORM
+    $('shutdownForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const errEl = $('shutdownErrorMsg');
+        if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
+        const password = $('shutdownPassword').value;
+        if (!password) { if (errEl) { errEl.textContent = 'Password required.'; errEl.classList.remove('hidden'); } return; }
+        const btn = this.querySelector('button[type="submit"]');
+        const orig = btn.textContent;
+        btn.textContent = 'Shutting down...'; btn.disabled = true;
+        try {
+            await API.fetch('/admin/system/shutdown', { method: 'POST', body: JSON.stringify({ password }) });
+            isSystemOnline = false;
+            updateSystemStatusUI();
+            $('systemOfflineOverlay').classList.add('active');
+            closeShutdownModal();
+            showToast('System offline — users now see 404', 'warning', 6000);
+        } catch (err) {
+            if (errEl) { errEl.textContent = err.message || 'Shutdown failed'; errEl.classList.remove('hidden'); }
+            showToast('Error: ' + err.message, 'error', 5000);
+        } finally {
+            btn.textContent = orig; btn.disabled = false;
+        }
+    });
+
+    // ONLINE FORM
+    $('onlineForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const errEl = $('onlineErrorMsg');
+        if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
+        const password = $('onlinePassword').value;
+        if (!password) { if (errEl) { errEl.textContent = 'Password required.'; errEl.classList.remove('hidden'); } return; }
+        const btn = this.querySelector('button[type="submit"]');
+        const orig = btn.textContent;
+        btn.textContent = 'Restoring...'; btn.disabled = true;
+        try {
+            await API.fetch('/admin/system/start', { method: 'POST', body: JSON.stringify({ password }) });
+            isSystemOnline = true;
+            updateSystemStatusUI();
+            $('systemOfflineOverlay').classList.remove('active');
+            closeBringOnlineModal();
+            showToast('System online — users restored', 'success');
+        } catch (err) {
+            if (errEl) { errEl.textContent = err.message || 'Restore failed'; errEl.classList.remove('hidden'); }
+            showToast('Error: ' + err.message, 'error', 5000);
+        } finally {
+            btn.textContent = orig; btn.disabled = false;
+        }
+    });
+}
+
+function openMobileSidebar() {
+    $('mainSidebar')?.classList.add('mobile-open');
+    $('sidebarOverlay')?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeMobileSidebar() {
+    $('mainSidebar')?.classList.remove('mobile-open');
+    $('sidebarOverlay')?.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function closeAuthModal() { $('authModal').classList.remove('active'); }
+
+// ============================================================
+// GLOBAL EXPORTS
+// ============================================================
+
+window.showSection = showSection;
+window.confirmShutdown = confirmShutdown;
+window.openBringOnlineModal = openBringOnlineModal;
+window.closeShutdownModal = closeShutdownModal;
+window.closeBringOnlineModal = closeBringOnlineModal;
+window.openAvatarUpload = openAvatarUpload;
+window.closeAvatarModal = closeAvatarModal;
+window.openUserModal = openUserModal;
+window.closeUserModal = closeUserModal;
+window.editUser = editUser;
+window.deleteUser = deleteUser;
+window.viewUserDetails = viewUserDetails;
+window.openMachineModal = openMachineModal;
+window.closeMachineModal = closeMachineModal;
+window.deleteMachine = deleteMachine;
+window.toggleBlockMachine = toggleBlockMachine;
+window.viewMachineDetails = viewMachineDetails;
+window.viewEnterpriseRequest = viewEnterpriseRequest;
+window.approveEnterpriseRequest = approveEnterpriseRequest;
+window.rejectEnterpriseRequest = rejectEnterpriseRequest;
+window.changePlan = changePlan;
+window.cancelSub = cancelSub;
+window.saveSettings = saveSettings;
+window.saveThresholds = saveThresholds;
+window.refreshDownloads = refreshDownloads;
+window.filterDownloads = filterDownloads;
+window.loadReports = loadReports;
+window.loadPredictions = loadPredictions;
+window.loadAlerts = loadAlerts;
+window.loadActivities = loadActivities;
+window.loadBilling = loadBilling;
+window.loadEnterpriseRequests = loadEnterpriseRequests;
+window.adminLogout = adminLogout;
+window.closeAuthModal = closeAuthModal;
+window.closeDetailsModal = closeDetailsModal;
+
+// ============================================================
+// ADMIN MFA MANAGEMENT
+// ============================================================
+(function () {
+    'use strict';
+
+    let adminMfaSetupData = null;
+    let adminBackupCodes = [];
+
+    function token() {
+        return localStorage.getItem('synapse_admin_token')
+            || localStorage.getItem('synapse_token')
+            || localStorage.getItem('token')
+            || localStorage.getItem('access_token');
+    }
+
+    async function adminFetch(url, options = {}) {
+        const headers = { 'Accept': 'application/json', ...(options.headers || {}) };
+        const t = token();
+        if (t) headers['Authorization'] = 'Bearer ' + t;
+        if (options.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
+
+        const res = await fetch(url, { ...options, headers, credentials: 'same-origin' });
+        let data = null;
+        try { data = await res.json(); } catch (e) {}
+        return { ok: res.ok, status: res.status, data };
+    }
+
+    async function loadAdminMfaStatus() {
+        try {
+            const { ok, data } = await adminFetch('/api/v1/user/2fa/status');
+            const enabled = ok && data && data.enabled;
+            const badge = document.getElementById('adminMfaStatusBadge');
+            const text = document.getElementById('adminMfaStatusText');
+            const enableBtn = document.getElementById('adminEnableMfaBtn');
+            const disableBtn = document.getElementById('adminDisableMfaBtn');
+            const regenBtn = document.getElementById('adminRegenBackupBtn');
+
+            if (enabled) {
+                badge.textContent = 'Enabled';
+                badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 flex-shrink-0';
+                text.textContent = 'Your account is protected by TOTP.';
+                enableBtn.style.display = 'none';
+                disableBtn.style.display = 'flex';
+                regenBtn.style.display = 'flex';
+            } else {
+                badge.textContent = 'Disabled';
+                badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 flex-shrink-0';
+                text.textContent = 'Enable 2FA to protect your admin account.';
+                enableBtn.style.display = 'flex';
+                disableBtn.style.display = 'none';
+                regenBtn.style.display = 'none';
+            }
+        } catch (e) {
+            document.getElementById('adminMfaStatusText').textContent = 'Could not check status.';
+        }
+    }
+
+    async function openMfaSetup() {
+        const errEl = document.getElementById('adminMfaSetupError');
+        errEl.classList.add('hidden');
+        try {
+            const { ok, data } = await adminFetch('/api/v1/auth/mfa/setup', { method: 'POST' });
+            if (!ok) throw new Error((data && (data.error || data.message)) || 'Setup failed');
+            adminMfaSetupData = data;
+
+            const img = document.getElementById('adminMfaQrImg');
+            if (data.qr_code) img.src = data.qr_code;
+            else if (data.provisioning_uri)
+                img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(data.provisioning_uri);
+
+            document.getElementById('adminMfaSecret').textContent = data.secret || '—';
+            document.getElementById('adminMfaCodeInput').value = '';
+            document.getElementById('adminMfaSetupModal').classList.add('active');
+            setTimeout(() => document.getElementById('adminMfaCodeInput').focus(), 250);
+        } catch (err) {
+            alert('Could not start MFA setup: ' + err.message);
+        }
+    }
+
+    async function confirmMfaSetup() {
+        const code = document.getElementById('adminMfaCodeInput').value.trim();
+        const errEl = document.getElementById('adminMfaSetupError');
+        errEl.classList.add('hidden');
+
+        if (!/^\d{6}$/.test(code)) {
+            errEl.textContent = 'Enter a valid 6-digit code.';
+            errEl.classList.remove('hidden');
+            return;
+        }
+
+        const btn = document.getElementById('adminConfirmMfaBtn');
+        const orig = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Verifying…';
+
+        try {
+            const { ok, data } = await adminFetch('/api/v1/auth/mfa/verify', {
+                method: 'POST',
+                body: JSON.stringify({ code })
+            });
+            if (!ok || !data || !data.success) {
+                throw new Error((data && (data.error || data.message)) || 'Invalid code.');
+            }
+
+            document.getElementById('adminMfaSetupModal').classList.remove('active');
+
+            if (data.backup_codes && data.backup_codes.length) {
+                adminBackupCodes = data.backup_codes;
+                const grid = document.getElementById('adminBackupCodesGrid');
+                grid.innerHTML = data.backup_codes
+                    .map(c => `<span class="bg-white border border-slate-200 rounded px-2 py-1 text-center">${c}</span>`)
+                    .join('');
+                document.getElementById('adminBackupCodesModal').classList.add('active');
+            } else {
+                alert('✅ 2FA enabled.');
+            }
+            loadAdminMfaStatus();
+        } catch (err) {
+            errEl.textContent = err.message || 'Verification failed.';
+            errEl.classList.remove('hidden');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = orig;
+        }
+    }
+
+    async function disableMfa() {
+        const code = prompt('Enter a 6-digit code from your authenticator app to disable 2FA:');
+        if (!code) return;
+        try {
+            const { ok, data } = await adminFetch('/api/v1/auth/mfa/disable', {
+                method: 'POST',
+                body: JSON.stringify({ code })
+            });
+            if (!ok || !data || !data.success) throw new Error((data && (data.error || data.message)) || 'Failed');
+            alert('2FA disabled.');
+            loadAdminMfaStatus();
+        } catch (err) {
+            alert('Could not disable 2FA: ' + err.message);
+        }
+    }
+
+    async function regenerateBackupCodes() {
+        if (!confirm('Generate new backup codes? Old codes will stop working.')) return;
+        try {
+            const { ok, data } = await adminFetch('/api/v1/auth/mfa/backup-codes', {
+                method: 'POST',
+                body: JSON.stringify({ count: 10 })
+            });
+            if (!ok || !data || !data.success) throw new Error((data && (data.error || data.message)) || 'Failed');
+            adminBackupCodes = data.codes || [];
+            const grid = document.getElementById('adminBackupCodesGrid');
+            grid.innerHTML = adminBackupCodes
+                .map(c => `<span class="bg-white border border-slate-200 rounded px-2 py-1 text-center">${c}</span>`)
+                .join('');
+            document.getElementById('adminBackupCodesModal').classList.add('active');
+        } catch (err) {
+            alert('Could not regenerate codes: ' + err.message);
+        }
+    }
+
+    async function loadAdminSessions() {
+        try {
+            const { ok, data } = await adminFetch('/api/v1/auth/sessions');
+            const list = document.getElementById('adminSessionsList');
+            if (!ok || !data || !Array.isArray(data.sessions)) {
+                list.innerHTML = '<div class="text-center py-6 text-xs text-slate-400">Session info unavailable.</div>';
+                return;
+            }
+            if (data.sessions.length === 0) {
+                list.innerHTML = '<div class="text-center py-6 text-xs text-slate-400">No active sessions.</div>';
+                return;
+            }
+            list.innerHTML = data.sessions.map(s => {
+                const ip = s.ip_address || '—';
+                const dev = s.device_id || 'Unknown device';
+                const when = s.created_at ? new Date(s.created_at).toLocaleString() : '—';
+                return `
+                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                        <div class="min-w-0">
+                            <p class="font-semibold text-slate-800 text-xs truncate">${dev}</p>
+                            <p class="text-[10px] text-slate-500">IP: ${ip} · ${when}</p>
+                        </div>
+                    </div>`;
+            }).join('');
+        } catch (e) { /* silent */ }
+    }
+
+    function bindAdminMfa() {
+        document.getElementById('adminEnableMfaBtn')?.addEventListener('click', openMfaSetup);
+        document.getElementById('adminConfirmMfaBtn')?.addEventListener('click', confirmMfaSetup);
+        document.getElementById('adminDisableMfaBtn')?.addEventListener('click', disableMfa);
+        document.getElementById('adminRegenBackupBtn')?.addEventListener('click', regenerateBackupCodes);
+        document.getElementById('adminCloseMfaSetupBtn')?.addEventListener('click', () =>
+            document.getElementById('adminMfaSetupModal').classList.remove('active'));
+        document.getElementById('adminCancelMfaBtn')?.addEventListener('click', () =>
+            document.getElementById('adminMfaSetupModal').classList.remove('active'));
+        document.getElementById('adminCloseBackupBtn')?.addEventListener('click', () =>
+            document.getElementById('adminBackupCodesModal').classList.remove('active'));
+        document.getElementById('adminCopyBackupBtn')?.addEventListener('click', () => {
+            navigator.clipboard.writeText(adminBackupCodes.join('\n'))
+                .then(() => alert('Backup codes copied.'))
+                .catch(() => alert('Copy failed — copy manually.'));
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            bindAdminMfa();
+            loadAdminMfaStatus();
+            loadAdminSessions();
+        });
+    } else {
+        bindAdminMfa();
+        loadAdminMfaStatus();
+        loadAdminSessions();
+    }
+})();
+</script>
+</body>
+</html>

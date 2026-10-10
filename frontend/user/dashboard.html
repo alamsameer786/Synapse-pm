@@ -1,0 +1,2504 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dashboard | SynapsePM - AI Predictive Maintenance</title>
+    <meta name="description" content="Real-time AI-powered predictive maintenance dashboard for industrial equipment">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f2b3d",
+                        "primary-light": "#1a4a6e",
+                        "secondary": "#00b4aa",
+                        "secondary-dark": "#009688",
+                        "accent": "#ff6b35",
+                        "surface": "#ffffff",
+                        "surface-gray": "#f8fafc",
+                        "on-surface": "#0f172a",
+                        "on-surface-light": "#475569",
+                        "border-light": "#e2e8f0",
+                        "error": "#ef4444",
+                        "success": "#10b981",
+                        "warning": "#f59e0b",
+                        "info": "#3b82f6",
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { box-sizing: border-box; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { background: #f8fafc; font-family: 'Inter', sans-serif; min-height: 100vh; }
+        .gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
+        .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+        .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+
+        /* Standalone PWA adjustments */
+        @media (display-mode: standalone) {
+            body { padding-top: env(safe-area-inset-top); }
+            .pwa-only { display: inline-flex !important; }
+            .browser-only { display: none !important; }
+        }
+        .pwa-only { display: none; }
+
+        /* ============================================================
+           SYNAPSEPM CUSTOM LOGO
+           ============================================================ */
+        .synapsepm-logo {
+            font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            font-size: 22px;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            vertical-align: middle;
+        }
+        .synapsepm-logo > span:not(.logo-icon),
+        .synapsepm-logo strong {
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
+            height: 32px;
+        }
+        .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+        .synapsepm-logo strong {
+            background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .synapsepm-logo .logo-icon {
+            width: 32px; height: 32px;
+            min-width: 32px; min-height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: transparent !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+        .synapsepm-logo .logo-icon img {
+            width: 32px; height: 32px;
+            object-fit: contain; display: block;
+        }
+
+        /* ============================================================
+           SIDEBAR
+           ============================================================ */
+        :root {
+            --sidebar-width: 264px;
+            --sidebar-collapsed-width: 84px;
+            --sidebar-border: #e2e8f0;
+            --sidebar-bg: #ffffff;
+            --sidebar-muted: #64748b;
+            --sidebar-primary: #0f2b3d;
+            --sidebar-accent: #00b4aa;
+            --sidebar-hover: #f1f5f9;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-height: 100dvh;
+            height: 100dvh;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            position: fixed;
+            inset: 0 auto 0 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            overflow: visible;
+            transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s ease;
+        }
+        .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+
+        .sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #ffffff; }
+        .sidebar-brand {
+            min-height: 76px;
+            padding: 0 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            overflow: hidden;
+            transition: padding 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                        min-height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-brand-inner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            transition: opacity 0.2s ease;
+        }
+        .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+        .sidebar.collapsed .synapsepm-logo strong {
+            display: none !important;
+        }
+        .sidebar.collapsed .sidebar-brand {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 0;
+            min-height: 76px;
+        }
+        .sidebar.collapsed .sidebar-brand-inner {
+            opacity: 1;
+            pointer-events: auto;
+            width: auto;
+            overflow: visible;
+            justify-content: center;
+            gap: 0;
+        }
+        .sidebar-toggle {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #dbe4ec;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #475569;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 7px rgba(15, 43, 61, 0.06);
+            transition: background 0.2s ease, border-color 0.2s ease,
+                        color 0.2s ease, box-shadow 0.2s ease;
+            flex-shrink: 0;
+            padding: 0;
+        }
+        .sidebar-toggle:hover {
+            background: #f8fafc;
+            color: var(--sidebar-accent);
+            border-color: rgba(0, 180, 170, 0.45);
+            box-shadow: 0 5px 14px rgba(15, 43, 61, 0.10);
+        }
+        .sidebar-toggle svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
+
+        .sidebar.collapsed .synapsepm-logo { justify-content: center; }
+        .sidebar.collapsed .synapsepm-logo .logo-icon {
+            display: inline-flex !important;
+            opacity: 1 !important;
+            width: 32px !important;
+            min-width: 32px !important;
+            height: 32px !important;
+            min-height: 32px !important;
+            background: transparent !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+        .sidebar.collapsed .synapsepm-logo .logo-icon img {
+            display: block !important;
+            width: 32px !important;
+            height: 32px !important;
+            object-fit: contain !important;
+        }
+
+        .sidebar-nav {
+            flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+            padding: 14px 10px; scrollbar-width: thin; scrollbar-color: #dbe4ec transparent;
+        }
+        .sidebar-nav::-webkit-scrollbar { width: 4px; }
+        .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
+        .sidebar-group-label { padding: 7px 11px 6px; }
+        .sidebar-group { display: flex; flex-direction: column; gap: 3px; }
+        .sidebar-link {
+            min-height: 44px; display: flex; align-items: center; gap: 12px; padding: 9px 11px;
+            border-radius: 11px; color: var(--sidebar-muted); font-weight: 500; font-size: 0.875rem;
+            line-height: 1.2; transition: background 0.18s ease, color 0.18s ease; cursor: pointer;
+            text-decoration: none; position: relative; white-space: nowrap; overflow: visible;
+        }
+        .sidebar-link:hover { background: var(--sidebar-hover); color: var(--sidebar-primary); }
+        .sidebar-link.active { background: #00b4aa; color: #ffffff; box-shadow: 0 5px 14px rgba(0, 180, 170, 0.22); }
+        .sidebar-link .material-symbols-outlined {
+            width: 22px; min-width: 22px; font-size: 22px; display: inline-flex;
+            align-items: center; justify-content: center; color: #64748b; transition: color 0.18s ease;
+        }
+        .sidebar-link.active .material-symbols-outlined, .sidebar-link:hover .material-symbols-outlined { color: inherit; }
+        .sidebar-link .badge-count {
+            margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #f1f5f9; color: #64748b; font-size: 0.65rem;
+            border-radius: 999px; font-weight: 700; transition: all 0.2s ease;
+        }
+        .sidebar-link.active .badge-count { background: rgba(255,255,255,0.22); color: #fff; }
+        .sidebar-divider { margin: 14px 4px; border-top: 1px solid #edf2f7; }
+        .sidebar-text { transition: opacity 0.2s ease; }
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-label,
+        .sidebar.collapsed .badge-count {
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            overflow: hidden;
+            display: none !important;
+        }
+        .sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
+        .sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
+        .sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
+        .sidebar.collapsed .sidebar-link::after {
+            content: attr(data-tooltip); position: absolute; left: calc(100% + 10px); top: 50%;
+            transform: translateY(-50%) translateX(-4px); opacity: 0; pointer-events: none;
+            background: #0f2b3d; color: #fff; padding: 7px 10px; border-radius: 8px;
+            font-size: 12px; font-weight: 600; white-space: nowrap;
+            box-shadow: 0 8px 20px rgba(15,43,61,0.18); transition: opacity .15s ease, transform .15s ease; z-index: 250;
+        }
+        .sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+        .sidebar-user-area { flex-shrink: 0; position: relative; padding: 10px; border-top: 1px solid var(--sidebar-border); background: #ffffff; }
+        .user-card {
+            min-height: 58px; display: flex; align-items: center; gap: 10px; padding: 8px;
+            background: #f8fafc; border: 1px solid #eef2f7; border-radius: 12px; transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
+        .avatar-wrapper { flex-shrink: 0; position: relative; }
+        .user-card .avatar {
+            width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.8rem; color: #fff;
+            background: linear-gradient(135deg, #00b4aa, #009688);
+            background-size: cover; background-position: center;
+            cursor: pointer; position: relative; transition: box-shadow 0.2s ease;
+        }
+        .user-card .avatar:hover { box-shadow: 0 0 0 3px rgba(0,180,170,.15); }
+        .user-card .avatar-wrapper .status-dot {
+            position: absolute; bottom: 0; right: 0; width: 11px; height: 11px;
+            border-radius: 50%; border: 2px solid white; background: #10b981; pointer-events: none;
+        }
+        .user-card .user-details { flex: 1; min-width: 0; transition: opacity 0.2s ease; }
+        .sidebar.collapsed .user-card .user-details { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
+        .user-card .user-details .name { font-weight: 600; font-size: 0.82rem; color: #0f2b3d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-card .user-details .email { font-size: 0.68rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+        .user-card .user-details .plan {
+            font-size: 0.58rem; font-weight: 700; color: #00a79d;
+            background: rgba(0,180,170,.08); padding: 1px 7px; border-radius: 999px;
+            display: inline-block; margin-top: 2px;
+        }
+        .sidebar.collapsed .user-card .user-details, .sidebar.collapsed .user-card #logoutBtn { display: none !important; }
+
+        .profile-menu{
+            position:absolute;
+            left:10px;
+            right:10px;
+            bottom:calc(100% + 10px);
+            padding:14px;
+            background:#fff;
+            border:1px solid #e2e8f0;
+            border-radius:14px;
+            box-shadow:0 18px 45px rgba(15,23,42,.16);
+            opacity:0;
+            visibility:hidden;
+            transform:translateY(8px);
+            pointer-events:none;
+            transition:opacity .18s ease,transform .18s ease,visibility .18s ease;
+            z-index:300;
+            min-width: 276px;
+        }
+        .sidebar.collapsed .profile-menu {
+            left: calc(100% + 10px);
+            right: auto;
+            bottom: 12px;
+            width: 300px;
+            min-width: 300px;
+            transform: translateY(0) translateX(-8px);
+        }
+        .sidebar.collapsed .profile-menu.open { transform: translateY(0) translateX(0); }
+        .profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .profile-menu-header { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #edf2f7; }
+        .profile-menu-avatar {
+            width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #00b4aa, #009688); color: #fff; font-weight: 800;
+            background-size: cover; background-position: center;
+        }
+        .profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
+        .profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
+        .profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
+        .profile-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
+        .profile-detail-label { color: #94a3b8; }
+        .profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
+        .profile-menu-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7; }
+        .profile-action-btn {
+            width: 100%; min-height: 40px; display: flex; align-items: center; justify-content: center;
+            gap: 8px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff;
+            color: #475569; font-size: 13px; font-weight: 600; cursor: pointer;
+            transition: all .18s ease; padding: 0 12px;
+            font-family: inherit;
+        }
+        .profile-action-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+        .profile-action-btn.danger { border-color: #fecaca; color: #dc2626; }
+        .profile-action-btn.danger:hover { background: #fef2f2; border-color: #fca5a5; }
+
+        #mainContent { margin-left: var(--sidebar-width); min-width: 0; transition: margin-left .28s cubic-bezier(.4,0,.2,1); }
+        body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-width); }
+        .sidebar-overlay { display: none; }
+
+        @media (max-width: 1023px) {
+            .sidebar { width: min(310px, 90vw); transform: translateX(-102%); box-shadow: none; }
+            .sidebar.mobile-open { transform: translateX(0); box-shadow: 18px 0 50px rgba(15,23,42,.18); }
+            .sidebar.collapsed { width: min(310px, 90vw); }
+            .sidebar-overlay {
+                position: fixed; inset: 0; background: rgba(15,23,42,.42); backdrop-filter: blur(3px);
+                z-index: 90; display: block; opacity: 0; visibility: hidden; pointer-events: none;
+                transition: opacity .25s ease, visibility .25s ease;
+            }
+            .sidebar-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+            #mainContent, body.sidebar-is-collapsed #mainContent { margin-left: 0; }
+            .sidebar.collapsed .sidebar-text,
+            .sidebar.collapsed .sidebar-label,
+            .sidebar.collapsed .badge-count { display: block !important; opacity: 1 !important; transform: none !important; width: auto !important; }
+            .sidebar.collapsed .sidebar-link { justify-content: flex-start; gap: 12px; padding: 9px 11px; }
+            .sidebar.collapsed .sidebar-link::after { display: none; }
+            .sidebar.collapsed .user-card .user-details { display: block !important; opacity: 1 !important; transform: none !important; width: auto !important; }
+            .sidebar.collapsed .sidebar-brand-inner { opacity: 1 !important; pointer-events: auto !important; width: auto !important; }
+            .sidebar.collapsed .sidebar-brand { justify-content: space-between; }
+            .sidebar.collapsed .sidebar-toggle svg { transform: none; }
+            .sidebar.collapsed .profile-menu {
+                left: 10px; right: 10px; bottom: calc(100% + 10px);
+                width: auto; min-width: 0; transform: translateY(8px);
+            }
+            .sidebar.collapsed .profile-menu.open { transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { width: min(310px, 90vw); }
+            .sidebar-brand { min-height: 72px; }
+            .sidebar-nav { padding-top: 10px; }
+            .sidebar-link { min-height: 46px; }
+            .profile-menu { width: auto; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .sidebar, .sidebar-link, .sidebar-toggle, #mainContent, .sidebar-overlay, .profile-menu { transition: none !important; }
+        }
+
+        /* ===== MACHINE CARDS ===== */
+        .machine-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer; background: white; border-radius: 1rem;
+            border: 1px solid #e2e8f0; overflow: hidden;
+        }
+        .machine-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.08); border-color: #00b4aa; }
+        .status-indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .status-good { background: #10b981; }
+        .status-warning { background: #f59e0b; animation: pulse 1.5s infinite; }
+        .status-critical { background: #ef4444; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem; padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; z-index: 1100; animation: slideUp 0.3s ease;
+            font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 90vw; background: white;
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== MODALS ===== */
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px); z-index: 1000; align-items: center;
+            justify-content: center; padding: 1rem;
+        }
+        .modal.active { display: flex; animation: fadeIn 0.2s ease; }
+        .modal-content {
+            background: white; border-radius: 1.5rem; max-width: 100%; width: 450px;
+            max-height: 90vh; overflow-y: auto; position: relative;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* ===== SPINNER ===== */
+        .spinner { width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top-color: #00b4aa; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .stat-card { transition: all 0.3s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.06); }
+
+        /* ===== INSTALL SOFTWARE BUTTON ===== */
+        .install-software-btn {
+            display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 1rem;
+            border-radius: 0.75rem; font-weight: 600; font-size: 0.75rem;
+            transition: all 0.3s ease; cursor: pointer; border: none;
+            background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); color: white;
+            box-shadow: 0 4px 12px rgba(0, 180, 170, 0.25);
+            font-family: inherit;
+        }
+        .install-software-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 180, 170, 0.4); }
+        .install-software-btn .material-symbols-outlined { font-size: 1.1rem; }
+
+        /* ===== INSTALL MODAL ===== */
+        .install-modal-overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(8px); z-index: 2000; display: none;
+            align-items: center; justify-content: center; padding: 1rem;
+        }
+        .install-modal-overlay.active { display: flex; }
+        .install-modal {
+            background: white; border-radius: 1.5rem; max-width: 620px; width: 100%;
+            max-height: 90vh; overflow-y: auto; padding: 1.75rem;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25); animation: slideUp 0.35s ease-out;
+        }
+        .install-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+        .install-modal-header h2 {
+            font-family: 'Manrope', sans-serif; font-size: 1.4rem; font-weight: 700;
+            color: #0f2b3d; display: flex; align-items: center; gap: .5rem; margin: 0;
+        }
+        .install-modal-header h2 img { width: 28px; height: 28px; object-fit: contain; }
+        .install-modal-close {
+            background: none; border: none; font-size: 1.4rem; cursor: pointer;
+            color: #94a3b8; padding: 0.4rem; border-radius: 0.5rem;
+            transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .install-modal-close:hover { background: #f1f5f9; color: #0f2b3d; }
+
+        .install-category {
+            border: 2px solid #e2e8f0; border-radius: 1rem;
+            margin-bottom: 0.75rem; overflow: hidden; transition: all 0.25s ease;
+        }
+        .install-category.open { border-color: #00b4aa; background: #f0fdfa; }
+        .install-category-header {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; padding: 1rem 1.25rem; cursor: pointer; background: white;
+            border: none; width: 100%; text-align: left; font-family: inherit;
+        }
+        .install-category.open .install-category-header { background: #f0fdfa; }
+        .install-category-left { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+        .install-category-icon {
+            width: 3rem; height: 3rem; border-radius: 0.85rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.75rem; flex-shrink: 0; color: white;
+        }
+        .install-category-icon.pc { background: linear-gradient(135deg, #0f2b3d, #1a4a6e); }
+        .install-category-icon.mobile { background: linear-gradient(135deg, #00b4aa, #009688); }
+        .install-category-icon.pwa { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+        .install-category-text h3 { font-weight: 700; color: #0f2b3d; font-size: 1rem; margin: 0; }
+        .install-category-text p { font-size: 0.8rem; color: #64748b; margin: 0.15rem 0 0; }
+        .install-category-toggle { color: #94a3b8; font-size: 1.5rem; transition: transform 0.25s ease; flex-shrink: 0; }
+        .install-category.open .install-category-toggle { transform: rotate(180deg); color: #00b4aa; }
+        .install-category-body { display: none; padding: 0 0.75rem 0.75rem; background: #f0fdfa; }
+        .install-category.open .install-category-body { display: block; }
+
+        .install-option {
+            display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem;
+            border: 1px solid #e2e8f0; border-radius: 0.85rem; margin-bottom: 0.5rem;
+            transition: all 0.25s ease; cursor: pointer; background: white;
+            text-decoration: none; color: inherit; width: 100%; text-align: left; font-family: inherit;
+        }
+        .install-option:last-child { margin-bottom: 0; }
+        .install-option:hover { border-color: #00b4aa; background: #f0fdfa; transform: translateX(4px); }
+        .install-option.loading { opacity: 0.6; pointer-events: none; }
+        .install-option.download-unavailable { opacity: 0.55; cursor: not-allowed; filter: grayscale(0.15); }
+        .install-option.download-unavailable:hover { transform: none; border-color: #e2e8f0; background: #fff; }
+        .install-option.download-complete { border-color: #10b981; background: #ecfdf5; }
+        .install-progress { margin-top: 0.45rem; }
+        .install-progress-track { height: 5px; width: 100%; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+        .install-progress-fill { height: 100%; width: 0; border-radius: 999px; background: #00b4aa; transition: width .18s ease; }
+        .install-progress-label { display: block; margin-top: 0.22rem; font-size: 0.65rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .install-category-logo { width: 28px; height: 28px; object-fit: contain; display: block; }
+
+        .install-option .icon {
+            width: 2.75rem; height: 2.75rem; border-radius: 0.7rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; flex-shrink: 0;
+        }
+        .install-option .content { flex: 1; min-width: 0; }
+        .install-option .content h4 { font-weight: 600; color: #0f2b3d; font-size: 0.9rem; margin: 0 0 0.15rem 0; }
+        .install-option .content p { font-size: 0.75rem; color: #64748b; margin: 0; }
+        .install-option .badge {
+            font-size: 0.65rem; font-weight: 600; padding: 0.2rem 0.6rem;
+            border-radius: 9999px; flex-shrink: 0;
+        }
+
+        .pwa-highlight {
+            background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+            border-color: #6366f1 !important;
+        }
+        .pwa-highlight .install-category-header { background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%) !important; }
+        .pwa-badge {
+            display: inline-block; font-size: 0.55rem; font-weight: 700;
+            padding: 1px 6px; border-radius: 999px; background: #6366f1; color: #fff;
+            text-transform: uppercase; letter-spacing: 0.05em; margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .sys-req {
+            font-size: 0.7rem; color: #94a3b8; margin-top: 1rem;
+            padding-top: 1rem; border-top: 1px solid #e2e8f0;
+        }
+        .sys-req span { display: inline-block; background: #f1f5f9; padding: 0.2rem 0.6rem; border-radius: 9999px; margin: 0.2rem; }
+
+        .health-bar { height: 4px; border-radius: 2px; background: #e2e8f0; overflow: hidden; margin-top: 4px; }
+        .health-bar .fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+
+        @media (max-width: 640px) {
+            .install-modal { padding: 1.25rem; margin: 0.5rem; }
+            .install-option { padding: 0.7rem 0.85rem; }
+            .install-option .icon { width: 2.4rem; height: 2.4rem; font-size: 1.3rem; }
+            .install-category-icon { width: 2.5rem; height: 2.5rem; font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== INSTALL SOFTWARE MODAL ===== -->
+<div class="install-modal-overlay" id="downloadModal">
+    <div class="install-modal">
+        <div class="install-modal-header">
+            <h2>
+                <img src="/assets/img/logo.png" alt="SynapsePM"
+                     onerror="this.style.display='none'">
+                Install Software
+            </h2>
+            <button class="install-modal-close" onclick="closeDownloadModal()" aria-label="Close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div id="downloadContent"></div>
+        <div class="sys-req">
+            <strong>Supported Platforms:</strong>
+            <span>Windows 10+</span>
+            <span>macOS 12+</span>
+            <span>Ubuntu 20.04+</span>
+            <span>Android 8.0+</span>
+            <span>iOS 14+</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== AUTH MODAL ===== -->
+<div id="authModal" class="modal">
+    <div class="modal-content text-center p-6 sm:p-8">
+        <button class="absolute top-3 right-3 sm:top-4 sm:right-4 text-2xl text-slate-400 hover:text-primary bg-transparent border-0 cursor-pointer" id="closeAuthModal">×</button>
+        <div class="w-16 h-16 mx-auto bg-secondary/10 rounded-full flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-3xl text-secondary">dashboard</span>
+        </div>
+        <h3 class="text-xl font-bold text-primary mb-2">Welcome to SynapsePM</h3>
+        <p class="text-slate-500 text-sm mb-4">Sign in to access your real data, or continue as guest to explore.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <button onclick="window.location.href='login.html'" class="gradient-cta text-white py-2.5 rounded-xl font-semibold px-6">Sign In</button>
+            <button onclick="window.location.href='signup.html'" class="border border-border-light text-primary py-2.5 rounded-xl font-semibold px-6 hover:bg-slate-50">Create Account</button>
+            <button onclick="continueAsGuest()" class="text-slate-400 py-2.5 rounded-xl font-medium px-4 hover:text-slate-600 text-sm">Continue as Guest</button>
+        </div>
+        <p class="text-xs text-slate-400 mt-4">Your data is encrypted and secure</p>
+    </div>
+</div>
+
+<!-- ===== MAIN DASHBOARD ===== -->
+<div id="dashboardContent" style="display: none;">
+    <div class="flex min-h-screen">
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="mainSidebar" aria-label="Main navigation">
+
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
+                        <div class="synapsepm-logo">
+                            <span class="logo-icon">
+                                <img src="/assets/img/logo.png" alt="SynapsePM Logo"
+                                     onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
+                            </span>
+                            <span>Synapse</span><strong>PM</strong>
+                        </div>
+                    </a>
+                    <button type="button" class="sidebar-toggle" id="sidebarToggle"
+                            title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                             aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav" aria-label="Application">
+                <div class="sidebar-group">
+                    <div class="sidebar-group-label sidebar-text">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p>
+                    </div>
+                    <a href="dashboard.html" class="sidebar-link active" data-tooltip="Dashboard" aria-label="Dashboard">
+                        <span class="material-symbols-outlined" aria-hidden="true">dashboard</span>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                    <a href="machines.html" class="sidebar-link" data-tooltip="Machines" aria-label="Machines">
+                        <span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span>
+                        <span class="sidebar-text">Machines</span>
+                    </a>
+                    <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions" aria-label="Predictions">
+                        <span class="material-symbols-outlined" aria-hidden="true">neurology</span>
+                        <span class="sidebar-text">Predictions</span>
+                    </a>
+                    <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts" aria-label="Alerts">
+                        <span class="material-symbols-outlined" aria-hidden="true">notifications_active</span>
+                        <span class="sidebar-text">Alerts</span>
+                        <span class="badge-count" id="sidebarAlertsBadge" aria-label="Unread active alerts">0</span>
+                    </a>
+                    <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports">
+                        <span class="material-symbols-outlined" aria-hidden="true">assessment</span>
+                        <span class="sidebar-text">Reports</span>
+                    </a>
+                </div>
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-group">
+                    <div class="sidebar-group-label sidebar-text">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p>
+                    </div>
+                    <a href="billing.html" class="sidebar-link" data-tooltip="Billing" aria-label="Billing">
+                        <span class="material-symbols-outlined" aria-hidden="true">credit_card</span>
+                        <span class="sidebar-text">Billing</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-user-area">
+                <div class="user-card">
+                    <div class="avatar-wrapper">
+                        <button type="button" class="avatar" id="userAvatar"
+                                aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu">
+                            <span id="userAvatarText" class="avatar-initial"></span>
+                        </button>
+                        <div class="status-dot" id="userStatusDot" aria-hidden="true"></div>
+                    </div>
+                    <div class="user-details">
+                        <div class="name" id="userName"></div>
+                        <div class="email" id="userEmail"></div>
+                        <div class="plan" id="userPlan"></div>
+                    </div>
+                </div>
+
+                <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
+                    <div class="profile-menu-header">
+                        <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
+                        <div class="min-w-0">
+                            <div class="profile-menu-name" id="profileMenuName"></div>
+                            <div class="profile-menu-email" id="profileMenuEmail"></div>
+                        </div>
+                    </div>
+                    <div class="profile-menu-details">
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label">Username</span>
+                            <span class="profile-detail-value" id="profileMenuUsername"></span>
+                        </div>
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label">Email</span>
+                            <span class="profile-detail-value" id="profileMenuEmailDetail"></span>
+                        </div>
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label">Plan</span>
+                            <span class="profile-detail-value" id="profileMenuPlan"></span>
+                        </div>
+                        <div class="profile-detail-row" id="profileRoleRow" hidden>
+                            <span class="profile-detail-label">Role</span>
+                            <span class="profile-detail-value" id="profileMenuRole"></span>
+                        </div>
+                        <div class="profile-detail-row" id="profileOrgRow" hidden>
+                            <span class="profile-detail-label">Organization</span>
+                            <span class="profile-detail-value" id="profileMenuOrg"></span>
+                        </div>
+                    </div>
+                    <div class="profile-menu-actions">
+                        <button type="button" class="profile-action-btn" id="profileSettingsBtn">
+                            <span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>
+                            Settings
+                        </button>
+                        <button type="button" class="profile-action-btn" id="profileInstallBtn" style="display:none;">
+                            <span class="material-symbols-outlined text-base" aria-hidden="true">install_desktop</span>
+                            Install App
+                        </button>
+                        <button type="button" class="profile-action-btn danger" id="profileLogoutBtn">
+                            <span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>
+                            Sign out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="flex-1 min-w-0" id="mainContent">
+            <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-border-light px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
+                <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+                    <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation" aria-controls="mainSidebar" aria-expanded="false">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h1 class="text-base sm:text-lg md:text-xl font-bold text-primary font-headline truncate">Dashboard</h1>
+                    <span class="hidden sm:inline-block text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                    <!-- ===== Install Software button ===== -->
+                    <button onclick="openDownloadModal()" class="install-software-btn" aria-label="Install SynapsePM software">
+                        <span class="material-symbols-outlined">install_desktop</span>
+                        <span class="hidden sm:inline">Install Software</span>
+                    </button>
+                    <button id="refreshBtn" class="p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors" title="Refresh" aria-label="Refresh">
+                        <span class="material-symbols-outlined text-slate-600 text-sm sm:text-base">refresh</span>
+                    </button>
+                    <a href="alerts.html" class="relative p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors" aria-label="Alerts">
+                        <span class="material-symbols-outlined text-slate-600 text-sm sm:text-base">notifications</span>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full" id="alertBellDot" style="display: none;"></span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Offline banner (only shows when offline) -->
+            <div id="offlineBanner" style="display:none;"
+                 class="px-3 sm:px-4 md:px-6 py-2 bg-amber-50 border-b border-amber-200 text-amber-800 text-xs sm:text-sm text-center">
+                <span class="material-symbols-outlined text-xs align-middle">cloud_off</span>
+                You're offline. SynapsePM needs internet for live data.
+            </div>
+
+            <div class="p-3 sm:p-4 md:p-6 max-w-7xl mx-auto">
+                <div class="gradient-primary rounded-2xl p-4 sm:p-5 md:p-6 mb-4 sm:mb-6 text-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                    <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                    <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <div class="min-w-0">
+                            <p class="text-white/70 text-xs sm:text-sm mb-0.5">Welcome to SynapsePM,</p>
+                            <h2 class="text-lg sm:text-xl md:text-2xl font-bold truncate welcome-title" id="welcomeName">Your maintenance overview</h2>
+                            <p class="text-white/60 text-xs sm:text-sm mt-0.5 truncate" id="welcomeSubtext">Real-time machine health monitoring</p>
+                        </div>
+                        <div class="flex gap-2 sm:gap-3 flex-shrink-0 flex-wrap">
+                            <div class="text-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 rounded-lg sm:rounded-xl backdrop-blur-sm">
+                                <div class="text-base sm:text-xl font-bold" id="welcomeHealthScore">--</div>
+                                <div class="text-[8px] sm:text-[10px] text-white/70">Health Score</div>
+                            </div>
+                            <div class="text-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 rounded-lg sm:rounded-xl backdrop-blur-sm">
+                                <div class="text-base sm:text-xl font-bold" id="welcomeUptime">--</div>
+                                <div class="text-[8px] sm:text-[10px] text-white/70">Uptime</div>
+                            </div>
+                            <div class="text-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 rounded-lg sm:rounded-xl backdrop-blur-sm">
+                                <div class="text-base sm:text-xl font-bold" id="welcomePredictions">--</div>
+                                <div class="text-[8px] sm:text-[10px] text-white/70">Today</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
+                    <div class="stat-card bg-white rounded-xl border border-border-light p-2.5 sm:p-3 md:p-4">
+                        <div class="flex justify-between items-start">
+                            <div class="min-w-0">
+                                <p class="text-[9px] sm:text-[10px] font-semibold text-slate-500 uppercase truncate">Total Machines</p>
+                                <p class="text-lg sm:text-xl md:text-2xl font-bold text-primary mt-0.5" id="statTotalMachines">0</p>
+                            </div>
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-secondary text-sm sm:text-base">precision_manufacturing</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-xl border border-border-light p-2.5 sm:p-3 md:p-4">
+                        <div class="flex justify-between items-start">
+                            <div class="min-w-0">
+                                <p class="text-[9px] sm:text-[10px] font-semibold text-slate-500 uppercase truncate">Active Alerts</p>
+                                <p class="text-lg sm:text-xl md:text-2xl font-bold text-error mt-0.5" id="statActiveAlerts">0</p>
+                            </div>
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-error text-sm sm:text-base">notifications_active</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-xl border border-border-light p-2.5 sm:p-3 md:p-4">
+                        <div class="flex justify-between items-start">
+                            <div class="min-w-0">
+                                <p class="text-[9px] sm:text-[10px] font-semibold text-slate-500 uppercase truncate">Avg. Confidence</p>
+                                <p class="text-lg sm:text-xl md:text-2xl font-bold text-primary mt-0.5" id="statAvgConfidence">0%</p>
+                            </div>
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-success text-sm sm:text-base">analytics</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-xl border border-border-light p-2.5 sm:p-3 md:p-4">
+                        <div class="flex justify-between items-start">
+                            <div class="min-w-0">
+                                <p class="text-[9px] sm:text-[10px] font-semibold text-slate-500 uppercase truncate">Predictions (MTD)</p>
+                                <p class="text-lg sm:text-xl md:text-2xl font-bold text-primary mt-0.5" id="statPredictionsMTD">0</p>
+                            </div>
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-info text-sm sm:text-base">bar_chart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-3 sm:gap-4 md:gap-5 mb-4 sm:mb-6">
+                    <div class="bg-white rounded-2xl border border-border-light p-3 sm:p-4 md:p-5">
+                        <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+                            <h3 class="font-bold text-primary text-sm sm:text-base">Prediction Trends</h3>
+                            <select id="trendPeriod" class="px-2 sm:px-3 py-1 sm:py-1.5 pr-6 sm:pr-8 rounded-lg border border-border-light text-xs sm:text-sm focus:outline-none focus:border-secondary bg-white">
+                                <option value="7">7 days</option>
+                                <option value="30" selected>30 days</option>
+                                <option value="90">90 days</option>
+                            </select>
+                        </div>
+                        <canvas id="trendChart" height="180" style="max-height: 220px; width: 100%;"></canvas>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-border-light p-3 sm:p-4 md:p-5">
+                        <h3 class="font-bold text-primary text-sm sm:text-base mb-3">Machine Health Distribution</h3>
+                        <canvas id="healthChart" height="180" style="max-height: 220px; width: 100%;"></canvas>
+                    </div>
+                </div>
+
+                <div class="mb-4 sm:mb-6">
+                    <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold text-primary">Your Machines</h3>
+                        <button onclick="window.location.href='machines.html'" class="text-secondary text-xs sm:text-sm font-semibold hover:underline flex items-center gap-0.5 bg-transparent border-none cursor-pointer">
+                            Add Machine <span class="material-symbols-outlined text-sm">add</span>
+                        </button>
+                    </div>
+                    <div id="machinesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4"></div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-border-light overflow-hidden" id="historySection">
+                    <div class="px-3 sm:px-4 md:px-5 py-2.5 sm:py-3 border-b border-border-light">
+                        <h3 class="font-bold text-primary text-sm sm:text-base">Activity History</h3>
+                    </div>
+                    <div id="activityList" class="divide-y divide-border-light"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// SYNAPSEPM DASHBOARD — v19.0.0 (Install Software + PWA tracking)
+// ============================================================
+
+// ---------- PWA STATE ----------
+let deferredPWAInstallPrompt = null;
+let pwaInstallAvailable = false;
+
+// ---------- 1. AUTH HELPERS ----------
+function getStoredToken() {
+    return localStorage.getItem('synapse_token')
+        || localStorage.getItem('token')
+        || localStorage.getItem('auth_token')
+        || localStorage.getItem('access_token')
+        || localStorage.getItem('synapse_admin_token')
+        || null;
+}
+function getStoredUser() {
+    try {
+        const u = localStorage.getItem('synapse_user') || localStorage.getItem('user');
+        if (u) return JSON.parse(u);
+        const a = localStorage.getItem('synapse_admin_user');
+        if (a) return JSON.parse(a);
+    } catch (e) {}
+    return null;
+}
+function isTokenValid(token) {
+    if (!token || typeof token !== 'string') return false;
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) return false;
+        const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+        const payload = JSON.parse(atob(padded));
+        if (!payload || typeof payload.exp !== 'number') return false;
+        return payload.exp > Math.floor(Date.now() / 1000) + 10;
+    } catch (e) { return false; }
+}
+
+const Auth = {
+    get token() { return getStoredToken(); },
+    get user() { return getStoredUser(); },
+    get isAuthenticated() {
+        const t = getStoredToken();
+        const u = getStoredUser();
+        return !!(t && u && isTokenValid(t));
+    },
+    clearStorage() {
+        ['synapse_token','synapse_user','synapse_refresh','synapse_tenant',
+         'synapse_admin_token','synapse_admin_user','token','user','auth_token',
+         'access_token','refresh_token','synapse_guest'].forEach(k => localStorage.removeItem(k));
+    },
+    logout() {
+        this.clearStorage();
+        sessionStorage.setItem('justLoggedOut', 'true');
+        window.location.replace('login.html');
+    },
+    redirectToLogin() { window.location.replace('login.html'); },
+    redirectToSignup() { window.location.href = 'signup.html'; }
+};
+
+// ---------- 2. DOM REFS ----------
+const $ = id => document.getElementById(id);
+const DOM = {
+    mainSidebar: $('mainSidebar'),
+    sidebarToggle: $('sidebarToggle'),
+    mobileMenuToggle: $('mobileMenuToggle'),
+    sidebarOverlay: $('sidebarOverlay'),
+    userAvatar: $('userAvatar'),
+    userAvatarText: $('userAvatarText'),
+    userName: $('userName'),
+    userEmail: $('userEmail'),
+    userPlan: $('userPlan'),
+    profileMenu: $('profileMenu'),
+    profileMenuAvatar: $('profileMenuAvatar'),
+    profileMenuName: $('profileMenuName'),
+    profileMenuEmail: $('profileMenuEmail'),
+    profileMenuUsername: $('profileMenuUsername'),
+    profileMenuEmailDetail: $('profileMenuEmailDetail'),
+    profileMenuPlan: $('profileMenuPlan'),
+    profileMenuRole: $('profileMenuRole'),
+    profileMenuOrg: $('profileMenuOrg'),
+    profileRoleRow: $('profileRoleRow'),
+    profileOrgRow: $('profileOrgRow'),
+    profileSettingsBtn: $('profileSettingsBtn'),
+    profileInstallBtn: $('profileInstallBtn'),
+    profileLogoutBtn: $('profileLogoutBtn'),
+    sidebarAlertsBadge: $('sidebarAlertsBadge'),
+    modeBadge: $('modeBadge')
+};
+
+// ---------- 3. SIDEBAR ----------
+let sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+const sidebar = DOM.mainSidebar;
+
+function isDesktop() { return window.innerWidth >= 1024; }
+
+function updateSidebarUI() {
+    if (!sidebar) return;
+    if (isDesktop()) {
+        sidebar.classList.toggle('collapsed', sidebarCollapsed);
+        document.body.classList.toggle('sidebar-is-collapsed', sidebarCollapsed);
+        DOM.sidebarToggle?.setAttribute('aria-expanded', String(!sidebarCollapsed));
+    } else {
+        sidebar.classList.remove('collapsed');
+        document.body.classList.remove('sidebar-is-collapsed');
+    }
+}
+
+function toggleSidebar() {
+    if (!isDesktop()) { openMobileSidebar(); return; }
+    sidebarCollapsed = !sidebarCollapsed;
+    localStorage.setItem('sidebar_collapsed', String(sidebarCollapsed));
+    closeProfileMenu();
+    updateSidebarUI();
+}
+
+function openMobileSidebar() {
+    if (!sidebar || isDesktop()) return;
+    sidebar.classList.add('mobile-open');
+    DOM.sidebarOverlay?.classList.add('active');
+    DOM.mobileMenuToggle?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('mobile-open');
+    DOM.sidebarOverlay?.classList.remove('active');
+    DOM.mobileMenuToggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+}
+
+DOM.sidebarToggle?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleSidebar(); });
+DOM.mobileMenuToggle?.addEventListener('click', openMobileSidebar);
+DOM.sidebarOverlay?.addEventListener('click', closeMobileSidebar);
+
+document.querySelectorAll('#mainSidebar .sidebar-link').forEach(link => {
+    link.addEventListener('click', () => {
+        if (!isDesktop()) closeMobileSidebar();
+        closeProfileMenu();
+    });
+});
+
+updateSidebarUI();
+
+let sidebarResizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(sidebarResizeTimer);
+    sidebarResizeTimer = setTimeout(() => {
+        if (isDesktop()) closeMobileSidebar();
+        updateSidebarUI();
+    }, 80);
+});
+
+// ---------- 4. PROFILE MENU ----------
+function getUserName(user) {
+    return user?.display_name || user?.full_name || user?.name || user?.username || user?.email?.split('@')[0] || '';
+}
+function getUserPlan(user) {
+    return user?.plan || user?.subscription_plan || user?.subscription?.plan || '';
+}
+
+function setProfileMenuOpen(open) {
+    if (!DOM.profileMenu || !DOM.userAvatar) return;
+    DOM.profileMenu.classList.toggle('open', open);
+    DOM.profileMenu.setAttribute('aria-hidden', String(!open));
+    DOM.userAvatar.setAttribute('aria-expanded', String(open));
+}
+function closeProfileMenu() { setProfileMenuOpen(false); }
+function toggleProfileMenu() { setProfileMenuOpen(!DOM.profileMenu?.classList.contains('open')); }
+
+DOM.userAvatar?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleProfileMenu(); });
+DOM.profileMenu?.addEventListener('click', e => e.stopPropagation());
+DOM.profileSettingsBtn?.addEventListener('click', () => { window.location.href = 'settings.html'; });
+DOM.profileLogoutBtn?.addEventListener('click', () => Auth.logout());
+DOM.profileInstallBtn?.addEventListener('click', () => { closeProfileMenu(); promptPWAInstall(); });
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        closeProfileMenu();
+        if (!isDesktop() && sidebar.classList.contains('mobile-open')) closeMobileSidebar();
+        closeDownloadModal();
+    }
+});
+document.addEventListener('click', e => {
+    if (DOM.profileMenu?.classList.contains('open') &&
+        !DOM.profileMenu.contains(e.target) &&
+        !DOM.userAvatar?.contains(e.target)) {
+        closeProfileMenu();
+    }
+});
+
+// ---------- 5. TOAST ----------
+function showToast(message, type = 'info', duration = 4000) {
+    const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#00b4aa' };
+    const icons = { success: 'check_circle', error: 'error', warning: 'warning', info: 'info' };
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.style.borderLeft = `4px solid ${colors[type] || colors.info}`;
+    el.innerHTML = `
+        <span class="material-symbols-outlined text-sm" style="color:${colors[type]}">${icons[type] || 'info'}</span>
+        <span class="text-sm">${escapeHtml(message)}</span>
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = 'opacity 0.3s';
+        setTimeout(() => el.remove(), 300);
+    }, duration);
+}
+function escapeHtml(text) {
+    if (!text && text !== 0) return '';
+    const d = document.createElement('div');
+    d.textContent = String(text);
+    return d.innerHTML;
+}
+
+// ---------- 6. API CLIENT ----------
+let apiRefreshPromise = null;
+function getRefreshToken() {
+    return localStorage.getItem('synapse_refresh') || localStorage.getItem('refresh_token') || null;
+}
+function setAccessTokens(accessToken, refreshToken) {
+    if (accessToken) {
+        localStorage.setItem('synapse_token', accessToken);
+        localStorage.setItem('token', accessToken);
+        localStorage.setItem('access_token', accessToken);
+    }
+    if (refreshToken) {
+        localStorage.setItem('synapse_refresh', refreshToken);
+        localStorage.setItem('refresh_token', refreshToken);
+    }
+}
+function clearAuthStorage() {
+    ['synapse_token','synapse_user','synapse_refresh','synapse_tenant',
+     'synapse_admin_token','synapse_admin_user','token','user','auth_token',
+     'access_token','refresh_token'].forEach(k => localStorage.removeItem(k));
+}
+async function refreshAccessToken() {
+    if (apiRefreshPromise) return apiRefreshPromise;
+    const refreshToken = getRefreshToken();
+    if (!refreshToken) return false;
+    apiRefreshPromise = (async () => {
+        try {
+            const resp = await fetch(window.location.origin + '/api/v1/auth/refresh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ refresh_token: refreshToken })
+            });
+            let data = {};
+            try { data = await resp.json(); } catch (_) {}
+            if (!resp.ok || !data.access_token) throw new Error(data.error || `Refresh failed (${resp.status})`);
+            setAccessTokens(data.access_token, data.refresh_token);
+            try { window.dispatchEvent(new CustomEvent('synapse:token-refreshed')); } catch (e) {}
+            return true;
+        } catch (error) {
+            console.warn('[API] Refresh failed:', error.message);
+            clearAuthStorage();
+            return false;
+        } finally {
+            apiRefreshPromise = null;
+        }
+    })();
+    return apiRefreshPromise;
+}
+function redirectToLoginOnce() {
+    sessionStorage.setItem('justLoggedOut', 'true');
+    if (!window.location.pathname.includes('login.html')) {
+        window.location.replace('login.html');
+    }
+}
+
+const API = {
+    baseURL: window.location.origin + '/api/v1',
+    getToken() { return getStoredToken(); },
+    getHeaders(extra = {}) {
+        const token = this.getToken();
+        return {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ...(token ? { 'Authorization': 'Bearer ' + token } : {}),
+            ...extra
+        };
+    },
+    async request(endpoint, options = {}, retry = true) {
+        let token = this.getToken();
+        if (!token) { redirectToLoginOnce(); throw new Error('Authentication required'); }
+        if (!isTokenValid(token)) {
+            const refreshed = await refreshAccessToken();
+            if (!refreshed) { redirectToLoginOnce(); throw new Error('Session expired'); }
+            token = this.getToken();
+        }
+        const url = this.baseURL + endpoint;
+        const config = { ...options, headers: this.getHeaders(options.headers || {}), credentials: 'same-origin' };
+        let response = await fetch(url, config);
+        if (response.status === 401 && retry) {
+            const refreshed = await refreshAccessToken();
+            if (refreshed) {
+                response = await fetch(url, { ...options, headers: this.getHeaders(options.headers || {}), credentials: 'same-origin' });
+            }
+        }
+        if (response.status === 401) {
+            clearAuthStorage();
+            redirectToLoginOnce();
+            throw new Error('Session expired. Please sign in again.');
+        }
+        if (!response.ok) {
+            let error = {};
+            try { error = await response.json(); } catch (_) {}
+            const msg = error.error || error.message || error.detail || `Request failed (${response.status})`;
+            const err = new Error(msg);
+            err.status = response.status;
+            throw err;
+        }
+        if (response.status === 204) return {};
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.includes('application/json')) return response;
+        return response.json();
+    },
+    async getMachines() {
+        const data = await this.request('/machines');
+        return data.items || data.machines || data.data || [];
+    },
+    async getPredictions() {
+        const data = await this.request('/predictions/history');
+        return data.items || data.predictions || data.data || [];
+    },
+    async getAlerts() {
+        const data = await this.request('/alerts');
+        return data.items || data.alerts || data.data || [];
+    },
+    async getDownloadManifest() {
+        const data = await this.request('/downloads', { method: 'GET' });
+        return data || { success: true, availability: {} };
+    },
+    async trackInstall(platform, displayMode, source) {
+        try {
+            return await this.request('/downloads/track-install', {
+                method: 'POST',
+                body: {
+                    platform,
+                    display_mode: displayMode || 'standalone',
+                    source: source || 'unknown'
+                }
+            });
+        } catch (e) {
+            console.warn('[Install tracking]', e.message);
+            return null;
+        }
+    },
+    async downloadFile(type, onProgress) {
+        const urlMap = {
+            windows: '/downloads/desktop/windows',
+            macos:   '/downloads/desktop/macos',
+            linux:   '/downloads/desktop/linux',
+            android: '/downloads/mobile/android',
+            ios:     '/downloads/mobile/ios'
+        };
+
+        const endpoint = urlMap[type];
+        if (!endpoint) throw new Error('Invalid download type');
+
+        const ext = type === 'windows' ? '.exe'
+                  : type === 'macos' ? '.dmg'
+                  : type === 'linux' ? '.AppImage'
+                  : type === 'android' ? '.apk'
+                  : '.ipa';
+
+        const doFetch = () => fetch(this.baseURL + endpoint, {
+            method: 'GET',
+            headers: {
+                'Accept': '*/*',
+                ...(this.getToken() ? { 'Authorization': 'Bearer ' + this.getToken() } : {})
+            },
+            credentials: 'same-origin',
+            cache: 'no-store'
+        });
+
+        let response = await doFetch();
+
+        if (response.status === 401) {
+            const refreshed = await refreshAccessToken();
+            if (refreshed) response = await doFetch();
+        }
+
+        if (response.status === 401) {
+            clearAuthStorage();
+            redirectToLoginOnce();
+            throw new Error('Session expired. Please sign in again.');
+        }
+
+        if (!response.ok) {
+            let errBody = {};
+            try { errBody = await response.json(); } catch (_) {}
+            const error = new Error(
+                errBody.error ||
+                errBody.detail ||
+                `Download failed (${response.status})`
+            );
+            error.status = response.status;
+            error.payload = errBody;
+            throw error;
+        }
+
+        let filename = `SynapsePM-${type}${ext}`;
+        const cd = response.headers.get('Content-Disposition') || '';
+        const match = cd.match(/filename\*?=(?:UTF-8'')?"?([^";]+)"?/i);
+        if (match && match[1]) {
+            try {
+                filename = decodeURIComponent(match[1]).replace(/[\\/:*?"<>|]/g, '_');
+            } catch (_) {
+                filename = match[1].replace(/[\\/:*?"<>|]/g, '_');
+            }
+        }
+
+        const total = Number(response.headers.get('Content-Length') || 0);
+        let received = 0;
+
+        let blob;
+
+        if (response.body && typeof response.body.getReader === 'function') {
+            const reader = response.body.getReader();
+            const chunks = [];
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                if (value) {
+                    chunks.push(value);
+                    received += value.byteLength;
+                }
+
+                if (typeof onProgress === 'function') {
+                    onProgress({
+                        received,
+                        total,
+                        percent: total > 0
+                            ? Math.min(100, Math.round((received / total) * 100))
+                            : null
+                    });
+                }
+            }
+
+            blob = new Blob(chunks, {
+                type: response.headers.get('Content-Type') || 'application/octet-stream'
+            });
+        } else {
+            blob = await response.blob();
+            received = blob.size;
+
+            if (typeof onProgress === 'function') {
+                onProgress({
+                    received,
+                    total: total || blob.size,
+                    percent: 100
+                });
+            }
+        }
+
+        if (!blob || blob.size === 0) {
+            throw new Error('The server returned an empty release file.');
+        }
+
+        const blobUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = blobUrl;
+        anchor.download = filename;
+        anchor.rel = 'noopener';
+        anchor.style.display = 'none';
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 120000);
+
+        return {
+            filename,
+            size: blob.size,
+            type,
+            downloaded: true
+        };
+    }
+};
+
+// ============================================================
+// PWA INSTALL LOGIC
+// ============================================================
+function isStandalone() {
+    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+        || window.navigator.standalone === true
+        || document.referrer.startsWith('android-app://');
+}
+
+function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+function detectPlatform() {
+    const ua = navigator.userAgent || '';
+    if (/Android/i.test(ua)) return 'android';
+    if (/iPad|iPhone|iPod/.test(ua)) return 'ios';
+    if (/Mac/i.test(ua)) return 'macos';
+    if (/Win/i.test(ua)) return 'windows';
+    if (/Linux/i.test(ua)) return 'linux';
+    return 'web';
+}
+
+function updatePWAButtons() {
+    const profileBtn = $('profileInstallBtn');
+    const installed = isStandalone();
+
+    if (installed) {
+        if (profileBtn) profileBtn.style.display = 'none';
+        return;
+    }
+
+    const showable = pwaInstallAvailable || isIOS();
+    if (profileBtn) {
+        profileBtn.style.display = showable ? 'flex' : 'none';
+    }
+}
+
+async function promptPWAInstall() {
+    if (isStandalone()) {
+        showToast('SynapsePM is already installed as an app.', 'info', 3000);
+        return;
+    }
+
+    if (deferredPWAInstallPrompt) {
+        try {
+            deferredPWAInstallPrompt.prompt();
+            const choice = await deferredPWAInstallPrompt.userChoice;
+            deferredPWAInstallPrompt = null;
+            pwaInstallAvailable = false;
+            updatePWAButtons();
+            if (choice && choice.outcome === 'accepted') {
+                trackPWAInstall('user_prompt');
+                showToast('SynapsePM installed! Look for the app icon on your home screen.', 'success', 6000);
+            } else {
+                showToast('Install cancelled. You can install any time from the header button.', 'info', 4000);
+            }
+        } catch (err) {
+            console.error('PWA prompt failed:', err);
+            showToast('Install prompt failed. Try your browser menu → Install app.', 'warning', 5000);
+        }
+        return;
+    }
+
+    if (isIOS()) {
+        showToast(
+            'To install on iPhone/iPad: tap the Share icon (□↑) → "Add to Home Screen".',
+            'info', 8000
+        );
+        return;
+    }
+
+    showToast(
+        'To install: open your browser menu (⋮ or ⋯) → "Install app" or "Add to Home Screen".',
+        'info', 8000
+    );
+}
+
+// Track installs to backend so admin sees them in "Install Software"
+async function trackPWAInstall(source) {
+    try {
+        const token = getStoredToken();
+        if (!token || !isTokenValid(token)) return;
+        const platform = detectPlatform();
+        const res = await API.trackInstall(platform, isStandalone() ? 'standalone' : 'browser', source);
+        if (res && res.success) {
+            console.log('[Install tracking] recorded install:', platform, source);
+        }
+    } catch (e) {
+        console.warn('PWA install tracking failed:', e);
+    }
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPWAInstallPrompt = e;
+    pwaInstallAvailable = true;
+    updatePWAButtons();
+});
+
+window.addEventListener('appinstalled', () => {
+    deferredPWAInstallPrompt = null;
+    pwaInstallAvailable = false;
+    updatePWAButtons();
+    trackPWAInstall('appinstalled_event');
+    try {
+        showToast('SynapsePM installed successfully!', 'success', 5000);
+    } catch (e) {}
+});
+
+// ---------- SERVICE WORKER REGISTRATION ----------
+async function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') return;
+
+    try {
+        const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+        console.log('[PWA] Service worker registered:', reg.scope);
+        reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    console.log('[PWA] New version available');
+                }
+            });
+        });
+    } catch (err) {
+        console.warn('[PWA] Service worker registration failed:', err);
+    }
+}
+
+// ---------- ONLINE / OFFLINE HANDLING ----------
+function updateOnlineStatus() {
+    const banner = $('offlineBanner');
+    if (!banner) return;
+    if (navigator.onLine) {
+        banner.style.display = 'none';
+    } else {
+        banner.style.display = 'block';
+        showToast('You are offline. Live data will resume when you reconnect.', 'warning', 5000);
+    }
+}
+
+// ---------- 7. INSTALL SOFTWARE MODAL ----------
+function openDownloadModal() {
+    const modal = $('downloadModal');
+    if (!modal) return;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    renderDownloadContent();
+}
+
+function closeDownloadModal() {
+    const modal = $('downloadModal');
+    if (!modal) return;
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function toggleDownloadCategory(categoryId) {
+    const el = document.getElementById(categoryId);
+    if (!el) return;
+
+    document.querySelectorAll('.install-category').forEach(c => {
+        if (c.id !== categoryId) c.classList.remove('open');
+    });
+
+    el.classList.toggle('open');
+}
+
+function setInstallProgress(sourceEl, stage, percent, message) {
+    if (!sourceEl) return;
+
+    const progress = sourceEl.querySelector('.install-progress');
+    const label = sourceEl.querySelector('.install-progress-label');
+    const fill = sourceEl.querySelector('.install-progress-fill');
+
+    if (progress) progress.hidden = false;
+    if (label) label.textContent = message || stage;
+    if (fill) fill.style.width = `${Math.max(0, Math.min(100, percent || 0))}%`;
+
+    sourceEl.setAttribute('aria-busy', stage !== 'ready' && stage !== 'success');
+}
+
+function makeInstallOption(type, icon, iconStyle, title, description, extension) {
+    return `
+        <button type="button"
+                class="install-option"
+                data-download-type="${type}"
+                onclick="startDownload('${type}', this)">
+            <div class="icon" style="${iconStyle}">${icon}</div>
+            <div class="content">
+                <h4>${title}</h4>
+                <p>${description}</p>
+                <div class="install-progress" hidden>
+                    <div class="install-progress-track">
+                        <div class="install-progress-fill" style="width:0%"></div>
+                    </div>
+                    <span class="install-progress-label">Preparing…</span>
+                </div>
+            </div>
+            <span class="badge">${extension}</span>
+        </button>
+    `;
+}
+
+function renderDownloadContent() {
+    const container = $('downloadContent');
+    if (!container) return;
+
+    const token = getStoredToken();
+    const user = getStoredUser();
+    const isLoggedIn = !!(token && user && isTokenValid(token));
+
+    if (!isLoggedIn) {
+        container.innerHTML = `
+            <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg mb-4 flex items-start gap-3">
+                <span class="material-symbols-outlined text-amber-600 text-xl">info</span>
+                <div>
+                    <p class="font-semibold text-amber-800">Sign in required</p>
+                    <p class="text-amber-700 text-sm">Please sign in or create an account to install the software.</p>
+                </div>
+            </div>
+            <div class="text-center p-6 bg-slate-50 rounded-xl">
+                <p class="text-slate-600 mb-4">Sign in to install SynapsePM</p>
+                <div class="flex gap-3 justify-center flex-wrap">
+                    <a href="login.html" style="background:#00b4aa;color:white;padding:0.6rem 2rem;border-radius:0.75rem;font-weight:600;text-decoration:none;display:inline-block;">Sign In</a>
+                    <a href="signup.html" style="background:#0f2b3d;color:white;padding:0.6rem 2rem;border-radius:0.75rem;font-weight:600;text-decoration:none;display:inline-block;">Create Account</a>
+                </div>
+            </div>
+        `;
+        return;
+    }
+
+    const name = user.display_name || user.full_name || user.username || user.email?.split('@')[0] || 'User';
+    const installedAlready = isStandalone();
+
+    container.innerHTML = `
+        <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2">
+            <span class="material-symbols-outlined text-green-600">verified_user</span>
+            <span class="text-green-700 font-medium text-sm">Signed in as ${escapeHtml(name)}</span>
+        </div>
+
+        <!-- PWA category (always shown first) -->
+        <div class="install-category pwa-highlight open" id="installCategoryPWA">
+            <button type="button" class="install-category-header" onclick="toggleDownloadCategory('installCategoryPWA')">
+                <div class="install-category-left">
+                    <div class="install-category-icon pwa">
+                        <span class="material-symbols-outlined" style="color:white;">install_desktop</span>
+                    </div>
+                    <div class="install-category-text">
+                        <h3>Install as App <span class="pwa-badge">Recommended</span></h3>
+                        <p>Works on all devices · No certificate warnings · Runs fullscreen</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined install-category-toggle">expand_more</span>
+            </button>
+            <div class="install-category-body">
+                <button type="button" class="install-option"
+                        onclick="promptPWAInstall()"
+                        ${installedAlready ? 'disabled style="opacity:.5;cursor:not-allowed;"' : ''}>
+                    <div class="icon" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;">⚡</div>
+                    <div class="content">
+                        <h4>${installedAlready ? 'Already installed' : 'Install SynapsePM as an app'}</h4>
+                        <p>${installedAlready
+                            ? 'You are running the installed app version.'
+                            : 'One-click install · Desktop & home screen icon · Fullscreen mode · No warnings'}</p>
+                    </div>
+                    <span class="badge" style="background:#6366f1;color:white;">PWA</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="downloadReleaseStatus"
+             class="mb-4 p-3 rounded-lg border bg-slate-50 border-slate-200 text-sm text-slate-600">
+            Checking the latest SynapsePM release files…
+        </div>
+
+        <div class="install-category" id="installCategoryPC">
+            <button type="button" class="install-category-header" onclick="toggleDownloadCategory('installCategoryPC')">
+                <div class="install-category-left">
+                    <div class="install-category-icon pc">
+                        <img src="/assets/img/logo.png" alt="" class="install-category-logo">
+                    </div>
+                    <div class="install-category-text">
+                        <h3>Native desktop (advanced)</h3>
+                        <p>Windows, macOS, Linux — requires signed installer</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined install-category-toggle">expand_more</span>
+            </button>
+            <div class="install-category-body">
+                ${makeInstallOption('windows', '🪟', 'background:#0078d4;color:white;', 'Windows installer', 'Windows 10 / 11 (64-bit)', '.exe')}
+                ${makeInstallOption('macos', '🍎', 'background:#555555;color:white;', 'macOS installer', 'macOS 12+ (Apple Silicon & Intel)', '.dmg')}
+                ${makeInstallOption('linux', '🐧', 'background:#fcc624;color:#1a1a2e;', 'Linux installer', 'Ubuntu 20.04+, Debian 11+', '.AppImage')}
+            </div>
+        </div>
+
+        <div class="install-category" id="installCategoryMobile">
+            <button type="button" class="install-category-header" onclick="toggleDownloadCategory('installCategoryMobile')">
+                <div class="install-category-left">
+                    <div class="install-category-icon mobile">
+                        <span class="material-symbols-outlined" style="color:white;">smartphone</span>
+                    </div>
+                    <div class="install-category-text">
+                        <h3>Native mobile (advanced)</h3>
+                        <p>Android & iOS — requires store signing</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined install-category-toggle">expand_more</span>
+            </button>
+            <div class="install-category-body">
+                ${makeInstallOption('android', '🤖', 'background:#3ddc84;color:#1a1a2e;', 'Android app', 'Android 8.0+', '.apk')}
+                ${makeInstallOption('ios', '📱', 'background:#007aff;color:white;', 'iOS app', 'iOS 14+', '.ipa')}
+            </div>
+        </div>
+    `;
+
+    API.getDownloadManifest().then(manifest => {
+        applyDownloadManifest(manifest);
+    }).catch(error => {
+        console.error('Release manifest error:', error);
+        const status = $('downloadReleaseStatus');
+        if (status) {
+            status.className = 'mb-4 p-3 rounded-lg border bg-amber-50 border-amber-200 text-sm text-amber-700';
+            status.innerHTML = `
+                <strong>Native release status unavailable.</strong>
+                Use the PWA install option above for a warning-free install on all platforms.
+            `;
+        }
+    });
+}
+
+function applyDownloadManifest(data) {
+    const availability = data && data.availability ? data.availability : {};
+    const all = [
+        ...(availability.desktop ? Object.entries(availability.desktop) : []),
+        ...(availability.mobile ? Object.entries(availability.mobile) : [])
+    ];
+
+    const status = $('downloadReleaseStatus');
+    let availableCount = 0;
+
+    all.forEach(([platform, item]) => {
+        const option = document.querySelector(`[data-download-type="${platform}"]`);
+        if (!option) return;
+
+        const available = !!(item && item.available);
+        option.dataset.available = available ? 'true' : 'false';
+
+        if (!available) {
+            option.classList.add('download-unavailable');
+            option.title = 'Native release not deployed. Use PWA install above for a working app.';
+        } else {
+            availableCount++;
+            option.title = `${item.filename || 'SynapsePM release'}${item.version ? ' • v' + item.version : ''}`;
+        }
+    });
+
+    if (status) {
+        if (availableCount > 0) {
+            status.className = 'mb-4 p-3 rounded-lg border bg-emerald-50 border-emerald-200 text-sm text-emerald-700';
+            status.innerHTML = `<strong>${availableCount} native release${availableCount === 1 ? '' : 's'} available.</strong> Or use the PWA install above — no warnings, works everywhere.`;
+        } else {
+            status.className = 'mb-4 p-3 rounded-lg border bg-indigo-50 border-indigo-200 text-sm text-indigo-700';
+            status.innerHTML = `<strong>Tip:</strong> Use the PWA install above — it works on every device with zero certificate warnings. Native builds will appear here when published.`;
+        }
+    }
+}
+
+async function startDownload(type, sourceEl) {
+    const token = getStoredToken();
+
+    if (!token || !isTokenValid(token)) {
+        showToast('Please sign in to install SynapsePM.', 'error');
+        setTimeout(() => { window.location.href = 'login.html'; }, 800);
+        return;
+    }
+
+    if (!sourceEl || sourceEl.dataset.downloading === 'true') return;
+
+    sourceEl.dataset.downloading = 'true';
+    sourceEl.classList.add('loading');
+
+    const labels = {
+        windows: 'Windows installer',
+        macos: 'macOS installer',
+        linux: 'Linux installer',
+        android: 'Android app',
+        ios: 'iOS app'
+    };
+
+    const label = labels[type] || type;
+
+    try {
+        setInstallProgress(sourceEl, 'preparing', 8, `Preparing ${label}…`);
+        showToast(`Preparing ${label}…`, 'info', 2500);
+
+        try {
+            const manifest = await API.getDownloadManifest();
+            const group = ['windows', 'macos', 'linux'].includes(type) ? 'desktop' : 'mobile';
+            const item = manifest?.availability?.[group]?.[type];
+
+            if (item && item.available === false) {
+                throw new Error(
+                    `${label} is not deployed on the server yet. Use the PWA install option above — it works on every device.`
+                );
+            }
+        } catch (manifestError) {
+            if (manifestError && /not deployed|Expected release/i.test(manifestError.message || '')) {
+                throw manifestError;
+            }
+        }
+
+        setInstallProgress(sourceEl, 'ready', 18, 'Release ready — starting secure install…');
+        showToast(`${label} is ready. Starting download…`, 'success', 2200);
+
+        const result = await API.downloadFile(type, progress => {
+            if (!progress) return;
+
+            const pct = progress.percent == null
+                ? Math.min(94, 20 + Math.round((progress.received / Math.max(progress.received, 1)) * 10))
+                : Math.max(20, Math.min(94, progress.percent));
+
+            const receivedMB = (progress.received / (1024 * 1024)).toFixed(1);
+            const totalMB = progress.total
+                ? (progress.total / (1024 * 1024)).toFixed(1)
+                : null;
+
+            setInstallProgress(
+                sourceEl,
+                'downloading',
+                pct,
+                totalMB
+                    ? `Downloading ${receivedMB} MB / ${totalMB} MB…`
+                    : `Downloading ${receivedMB} MB…`
+            );
+        });
+
+        setInstallProgress(sourceEl, 'success', 100, 'Ready to install.');
+        sourceEl.classList.remove('loading');
+        sourceEl.classList.add('download-complete');
+
+        closeDownloadModal();
+
+        showToast(
+            `✓ ${result.filename} ready. Open it from your Downloads folder to install.`,
+            'success',
+            7000
+        );
+
+        setTimeout(() => {
+            sourceEl.classList.remove('download-complete');
+        }, 1200);
+
+    } catch (error) {
+        console.error('Install error:', error);
+
+        const msg = String(error.message || '').toLowerCase();
+
+        if (error.status === 401 || msg.includes('session expired') || msg.includes('unauthorized')) {
+            showToast('Session expired. Please sign in again.', 'error', 5000);
+        } else if (error.status === 503 || msg.includes('not deployed') || msg.includes('not found')) {
+            showToast(
+                `${label} native build is not available. Use the PWA install above — it works on every device.`,
+                'warning',
+                7000
+            );
+        } else {
+            showToast(error.message || 'Install failed. Please try again.', 'error', 7000);
+        }
+
+        setInstallProgress(sourceEl, 'error', 0, 'Install failed — try PWA install above.');
+        sourceEl.classList.remove('loading');
+    } finally {
+        sourceEl.dataset.downloading = 'false';
+    }
+}
+
+// ---------- 8. STATE ----------
+const State = {
+    machines: [], predictions: [], alerts: [], activities: [],
+    stats: { totalMachines: 0, activeAlerts: 0, avgConfidence: 0,
+             predictionsThisMonth: 0, predictionsToday: 0,
+             healthScore: 0, uptime: 0, uptimeDisplay: '0%' },
+    charts: { trend: null, health: null },
+    trendPeriod: 30,
+    isLoading: false,
+    isGuest: false,
+    isAuthenticated: false,
+    updateInterval: null,
+    ws: null,
+    wsConnected: false,
+    wsReconnectTimer: null
+};
+
+// ---------- 9. DATA LOADER ----------
+async function loadData() {
+    const token = getStoredToken();
+    if (!token || !isTokenValid(token)) {
+        State.machines = []; State.predictions = []; State.alerts = [];
+        State.isGuest = true; State.isAuthenticated = false;
+        calculateStats(); buildActivities(); renderUI(); updateCharts(); updateBadges();
+        updateLiveStatus(false);
+        return;
+    }
+
+    if (!navigator.onLine) {
+        updateLiveStatus(false, 'Offline');
+        return;
+    }
+
+    State.isLoading = true;
+    updateLiveStatus(false, 'Refreshing data…');
+
+    const results = await Promise.allSettled([
+        API.getMachines(), API.getPredictions(), API.getAlerts()
+    ]);
+
+    const failures = [];
+    const [m, p, a] = results;
+    if (m.status === 'fulfilled') State.machines = m.value || [];
+    else failures.push('machines');
+    if (p.status === 'fulfilled') State.predictions = p.value || [];
+    else failures.push('predictions');
+    if (a.status === 'fulfilled') State.alerts = a.value || [];
+    else failures.push('alerts');
+
+    State.isAuthenticated = true;
+    State.isGuest = false;
+
+    calculateStats(); buildActivities(); renderUI(); updateCharts(); updateBadges();
+    updateLiveStatus(true, failures.length ? 'Partially connected' : 'Live');
+
+    if (failures.length) {
+        console.error('[Dashboard] API failures:', failures);
+        showToast(`Dashboard could not load: ${failures.join(', ')}`, 'error', 6000);
+    }
+    State.isLoading = false;
+}
+
+// ---------- 10. STATS + ACTIVITIES ----------
+function calculateStats() {
+    const { machines, predictions, alerts } = State;
+    const total = machines.length;
+    const activeAlerts = alerts.filter(a => a.status === 'active' || !a.resolved).length;
+    const totalPred = predictions.length;
+    const avgConf = totalPred > 0
+        ? Math.round(predictions.reduce((s, p) => s + Number(p.confidence || 0), 0) / totalPred) : 0;
+    const now = new Date();
+    const mtd = predictions.filter(p => {
+        const d = new Date(p.created_at || p.timestamp);
+        return !isNaN(d) && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    }).length;
+    const today = predictions.filter(p => {
+        const d = new Date(p.created_at || p.timestamp);
+        return !isNaN(d) && d.toDateString() === now.toDateString();
+    }).length;
+    const health = total > 0
+        ? Math.round(machines.reduce((s, m) => s + Number(m.health || 0), 0) / total) : 0;
+    const uptime = total > 0
+        ? Math.min(99.9, 95 + (1 - (activeAlerts / Math.max(total, 1))) * 4) : 99.9;
+
+    State.stats = {
+        totalMachines: total, activeAlerts, avgConfidence: avgConf,
+        predictionsThisMonth: mtd, predictionsToday: today,
+        healthScore: health, uptime, uptimeDisplay: uptime.toFixed(1) + '%'
+    };
+}
+
+function buildActivities() {
+    State.activities = [];
+    State.predictions.slice(0, 15).forEach(p => {
+        State.activities.push({
+            type: 'prediction',
+            title: `Prediction · ${p.machine_name || p.machine_id || 'machine'}`,
+            details: `RUL ${Math.round(Number(p.rul_hours || p.rul || 0))}h · Confidence ${Math.round(Number(p.confidence || 0))}% · ${p.model_type || 'model'}`,
+            ts: p.created_at || p.timestamp
+        });
+    });
+    State.alerts.slice(0, 15).forEach(a => {
+        State.activities.push({
+            type: 'alert',
+            title: a.title || 'Alert',
+            details: `Severity: ${a.severity || 'warning'} · ${a.status || 'active'}`,
+            ts: a.created_at || a.timestamp
+        });
+    });
+    State.activities.sort((a, b) => new Date(b.ts || 0) - new Date(a.ts || 0));
+    State.activities = State.activities.slice(0, 20);
+}
+
+// ---------- 11. RENDER ----------
+function renderUI() {
+    const s = State.stats;
+    $('statTotalMachines').textContent = s.totalMachines;
+    $('statActiveAlerts').textContent = s.activeAlerts;
+    $('statAvgConfidence').textContent = s.avgConfidence + '%';
+    $('statPredictionsMTD').textContent = s.predictionsThisMonth.toLocaleString();
+    $('welcomeHealthScore').textContent = s.healthScore + '%';
+    $('welcomeUptime').textContent = s.uptimeDisplay;
+    $('welcomePredictions').textContent = s.predictionsToday;
+    renderMachines();
+    renderActivity();
+}
+
+function renderMachines() {
+    const grid = $('machinesGrid');
+    if (!grid) return;
+    if (!State.machines || State.machines.length === 0) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-12 bg-white rounded-xl border border-border-light">
+                <span class="material-symbols-outlined" style="font-size:48px;color:#cbd5e1">precision_manufacturing</span>
+                <p class="text-slate-500 text-sm mt-3">${State.isAuthenticated ? 'No machines connected yet.' : 'Sign in to see your machines.'}</p>
+                <a href="${State.isAuthenticated ? 'machines.html' : 'login.html'}"
+                   class="inline-flex items-center gap-1 mt-3 text-sm font-semibold hover:underline" style="color:#00b4aa">
+                    ${State.isAuthenticated ? 'Add your first machine' : 'Sign in to get started'}
+                    <span class="material-symbols-outlined" style="font-size:16px">${State.isAuthenticated ? 'add' : 'login'}</span>
+                </a>
+            </div>`;
+        return;
+    }
+    grid.innerHTML = State.machines.map(m => {
+        const health = Number(m.health || 0);
+        const healthColor = health < 50 ? '#ef4444' : health < 70 ? '#f59e0b' : '#10b981';
+        let status = String(m.status || 'good').toLowerCase();
+        if (!['critical','warning','good','online','offline'].includes(status)) status = 'good';
+        const map = {
+            critical: { bg:'#fee2e2', fg:'#b91c1c', dot:'status-critical', label:'Critical' },
+            warning:  { bg:'#fef3c7', fg:'#b45309', dot:'status-warning',  label:'Warning' },
+            good:     { bg:'#dcfce7', fg:'#15803d', dot:'status-good',     label:'Good' },
+            online:   { bg:'#dcfce7', fg:'#15803d', dot:'status-good',     label:'Online' },
+            offline:  { bg:'#e5e7eb', fg:'#4b5563', dot:'',                label:'Offline' }
+        };
+        const st = map[status];
+        return `
+            <a href="machines.html?id=${encodeURIComponent(m.id || '')}" class="machine-card p-4 block no-underline">
+                <div class="flex items-start justify-between mb-3 gap-2">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(0,180,170,.1)">
+                            <span class="material-symbols-outlined" style="color:#00b4aa;font-size:20px">precision_manufacturing</span>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="font-semibold text-primary text-sm truncate">${escapeHtml(m.name || 'Unnamed')}</p>
+                            <p class="text-[11px] text-slate-500 truncate">${escapeHtml(m.location || 'No location')}</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-1 rounded-full whitespace-nowrap flex items-center"
+                          style="background:${st.bg};color:${st.fg}">
+                        ${st.dot ? `<span class="${st.dot}"></span>` : ''}
+                        ${st.label}
+                    </span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 pt-3 border-t border-border-light">
+                    <div class="text-center">
+                        <p class="text-[10px] text-slate-500">Health</p>
+                        <p class="text-sm font-bold" style="color:${healthColor}">${health}%</p>
+                        <div class="health-bar"><div class="fill" style="width:${health}%;background:${healthColor}"></div></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-[10px] text-slate-500">Temp</p>
+                        <p class="text-sm font-bold text-primary">${m.temperature ?? '--'}°C</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-[10px] text-slate-500">Vibration</p>
+                        <p class="text-sm font-bold text-primary">${m.vibration ?? '--'}</p>
+                    </div>
+                </div>
+            </a>`;
+    }).join('');
+}
+
+function renderActivity() {
+    const wrap = $('activityList');
+    if (!wrap) return;
+    if (!State.activities.length) {
+        wrap.innerHTML = `<div class="px-5 py-8 text-center text-slate-500 text-sm">
+            ${State.isAuthenticated ? 'No activity yet. Connect a machine and run a prediction.' : 'Sign in to see your activity.'}
+        </div>`;
+        return;
+    }
+    wrap.innerHTML = State.activities.map(a => {
+        const isPred = a.type === 'prediction';
+        const icon = isPred ? 'trending_up' : 'warning';
+        const bg = isPred ? '#eff6ff' : '#fef2f2';
+        const fg = isPred ? '#3b82f6' : '#ef4444';
+        return `
+            <div class="px-4 sm:px-5 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background:${bg}">
+                    <span class="material-symbols-outlined" style="color:${fg};font-size:16px">${icon}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm text-primary truncate">${escapeHtml(a.title)}</p>
+                    <p class="text-xs text-slate-500 truncate">${escapeHtml(a.details)}</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">${formatTimeAgo(a.ts)}</p>
+                </div>
+            </div>`;
+    }).join('');
+}
+
+function formatTimeAgo(ts) {
+    if (!ts) return 'just now';
+    const d = new Date(ts);
+    if (isNaN(d)) return 'just now';
+    const s = Math.floor((Date.now() - d) / 1000);
+    if (s < 60) return `${s}s ago`;
+    if (s < 3600) return `${Math.floor(s/60)}m ago`;
+    if (s < 86400) return `${Math.floor(s/3600)}h ago`;
+    if (s < 2592000) return `${Math.floor(s/86400)}d ago`;
+    return d.toLocaleDateString();
+}
+
+// ---------- 12. CHARTS ----------
+function initCharts() {
+    if (typeof Chart === 'undefined') return;
+    const tc = $('trendChart');
+    if (tc) {
+        State.charts.trend = new Chart(tc.getContext('2d'), {
+            type: 'line',
+            data: { labels: [], datasets: [{ label: 'Predictions', data: [],
+                borderColor: '#00b4aa', backgroundColor: 'rgba(0,180,170,.08)',
+                fill: true, tension: 0.4, pointRadius: 2, borderWidth: 2 }] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, grid: { color: '#e2e8f0' }, ticks: { font: { size: 10 } } },
+                          x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 0, autoSkip: true } } } }
+        });
+    }
+    const hc = $('healthChart');
+    if (hc) {
+        State.charts.health = new Chart(hc.getContext('2d'), {
+            type: 'doughnut',
+            data: { labels: ['Good','Warning','Critical'], datasets: [{ data: [0,0,0],
+                backgroundColor: ['#10b981','#f59e0b','#ef4444'], borderWidth: 0 }] },
+            options: { responsive: true, maintainAspectRatio: false, cutout: '68%',
+                plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12, padding: 12 } } } }
+        });
+    }
+}
+
+function updateCharts() {
+    const t = State.charts.trend, h = State.charts.health;
+    if (!t || !h) return;
+    const days = State.trendPeriod || 30;
+    const now = new Date();
+    const daily = new Array(days).fill(0);
+    State.predictions.forEach(p => {
+        const d = new Date(p.created_at || p.timestamp);
+        if (isNaN(d)) return;
+        const diff = Math.floor((now - d) / 86400000);
+        if (diff >= 0 && diff < days) daily[days - 1 - diff]++;
+    });
+    const labels = Array.from({ length: days }, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - (days - 1 - i));
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    });
+    t.data.labels = labels;
+    t.data.datasets[0].data = daily;
+    t.update('none');
+
+    const good     = State.machines.filter(m => (m.health >= 70) || m.status === 'good' || m.status === 'online').length;
+    const warning  = State.machines.filter(m => m.status === 'warning' || (m.health >= 50 && m.health < 70)).length;
+    const critical = State.machines.filter(m => m.status === 'critical' || m.health < 50).length;
+    h.data.datasets[0].data = [good, warning, critical];
+    h.update('none');
+}
+
+function updateBadges() {
+    const active = State.alerts.filter(a => a.status === 'active' || !a.resolved).length;
+    const dot = $('alertBellDot');
+    if (dot) dot.style.display = active > 0 ? 'block' : 'none';
+    const badge = $('sidebarAlertsBadge');
+    if (badge) badge.textContent = active;
+}
+
+function updateLiveStatus(active, label) {
+    const badge = $('modeBadge');
+    if (!badge) return;
+    if (State.isGuest) {
+        badge.textContent = 'Guest';
+        badge.className = 'hidden sm:inline-block text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full';
+        return;
+    }
+    badge.textContent = label || (active ? (State.wsConnected ? 'Live · Realtime' : 'Live · Sync') : 'Connecting…');
+    badge.className = active
+        ? 'hidden sm:inline-block text-xs text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full'
+        : 'hidden sm:inline-block text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full';
+}
+
+// ---------- 13. USER UI ----------
+function updateUserUI() {
+    const user = getStoredUser();
+    if (!user) return;
+
+    const username = getUserName(user) || 'User';
+    const email = user.email || '';
+    const plan = getUserPlan(user) || 'free';
+    const role = user.role || '';
+    const org = user.organization_name || user.organization?.name || '';
+    const initials = (username || 'U').split(/\s+/).map(n => n[0]).join('').slice(0,2).toUpperCase() || 'U';
+
+    DOM.userName.textContent = username;
+    DOM.userEmail.textContent = email;
+    DOM.userPlan.textContent = plan ? `${String(plan).charAt(0).toUpperCase() + String(plan).slice(1)} Plan` : '';
+    DOM.userAvatarText.textContent = initials;
+
+    DOM.profileMenuName.textContent = username;
+    DOM.profileMenuEmail.textContent = email;
+    DOM.profileMenuUsername.textContent = user.username || username;
+    DOM.profileMenuEmailDetail.textContent = email;
+    DOM.profileMenuPlan.textContent = plan ? `${String(plan).charAt(0).toUpperCase() + String(plan).slice(1)} Plan` : 'Not available';
+    DOM.profileRoleRow.hidden = !role;
+    DOM.profileMenuRole.textContent = role;
+    DOM.profileOrgRow.hidden = !org;
+    DOM.profileMenuOrg.textContent = org;
+
+    $('welcomeName').textContent = username.split(/\s+/)[0] || username;
+    $('welcomeSubtext').textContent = 'Real-time machine health monitoring active';
+
+    const avatarUrl = user.avatar_url || user.avatar || '';
+    if (avatarUrl) {
+        const safe = String(avatarUrl).replace(/'/g, '%27');
+        DOM.userAvatar.style.backgroundImage = `url('${safe}')`;
+        DOM.userAvatar.style.backgroundSize = 'cover';
+        DOM.userAvatar.style.backgroundPosition = 'center';
+        DOM.userAvatarText.style.display = 'none';
+        DOM.profileMenuAvatar.style.backgroundImage = `url('${safe}')`;
+        DOM.profileMenuAvatar.style.backgroundSize = 'cover';
+        DOM.profileMenuAvatar.style.backgroundPosition = 'center';
+        DOM.profileMenuAvatar.textContent = '';
+    } else {
+        DOM.userAvatar.style.backgroundImage = '';
+        DOM.userAvatarText.style.display = '';
+        DOM.userAvatarText.textContent = initials;
+        DOM.profileMenuAvatar.style.backgroundImage = '';
+        DOM.profileMenuAvatar.textContent = initials;
+    }
+}
+
+function updateUIForGuest() {
+    $('modeBadge').textContent = 'Guest';
+    DOM.userName.textContent = 'Guest';
+    DOM.userEmail.textContent = 'guest@synapsepm.com';
+    DOM.userPlan.textContent = 'Guest';
+    DOM.userAvatarText.textContent = 'G';
+    $('welcomeName').textContent = 'Guest';
+    $('welcomeSubtext').textContent = 'Sign in to see your real data';
+    $('welcomeHealthScore').textContent = '--';
+    $('welcomeUptime').textContent = '--';
+    $('welcomePredictions').textContent = '--';
+}
+
+window.addEventListener('storage', (e) => {
+    if (e.key === 'synapse_user' || e.key === 'user') {
+        try {
+            const u = JSON.parse(e.newValue || 'null');
+            if (u) { updateUserUI(); showToast('Profile updated', 'success', 2500); }
+        } catch {}
+    }
+});
+window.addEventListener('synapse:user-updated', () => updateUserUI());
+window.addEventListener('synapse:token-refreshed', () => {
+    try { State.ws?.close(); } catch {}
+    State.ws = null;
+    connectWebSocket();
+});
+
+// ---------- 14. GUEST ----------
+function continueAsGuest() {
+    State.isGuest = true;
+    State.isAuthenticated = false;
+    localStorage.setItem('synapse_guest', 'true');
+    $('authModal').classList.remove('active');
+    $('dashboardContent').style.display = 'block';
+    document.body.style.overflow = '';
+    updateUIForGuest();
+    loadData();
+}
+
+// ---------- 15. WEBSOCKET ----------
+function connectWebSocket() {
+    const token = getStoredToken();
+    if (!token || !isTokenValid(token)) return;
+    if (!navigator.onLine) return;
+    if (State.ws && (State.ws.readyState === WebSocket.OPEN || State.ws.readyState === WebSocket.CONNECTING)) return;
+    try {
+        const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = `${proto}//${location.host}/ws?token=${encodeURIComponent(token)}`;
+        State.ws = new WebSocket(url);
+        State.ws.onopen = () => {
+            State.wsConnected = true;
+            updateLiveStatus(true, 'Live · Realtime');
+        };
+        State.ws.onmessage = (ev) => { try { handleWebSocketMessage(JSON.parse(ev.data)); } catch {} };
+        State.ws.onerror = () => { State.wsConnected = false; };
+        State.ws.onclose = (ev) => {
+            State.wsConnected = false;
+            if (ev && ev.code === 1008) return;
+            updateLiveStatus(true, 'Live · Sync');
+            const t = getStoredToken();
+            if (t && isTokenValid(t) && navigator.onLine) {
+                clearTimeout(State.wsReconnectTimer);
+                State.wsReconnectTimer = setTimeout(connectWebSocket, 8000);
+            }
+        };
+    } catch (e) { console.warn('WS connect failed:', e); }
+}
+
+function handleWebSocketMessage(data) {
+    if (!data || !data.type) return;
+    switch (data.type) {
+        case 'machine_created':
+        case 'machine_updated':
+        case 'sensor_update':
+            if (data.machine && data.machine.id) {
+                const i = State.machines.findIndex(m => m.id === data.machine.id);
+                if (i >= 0) State.machines[i] = { ...State.machines[i], ...data.machine };
+                else State.machines.push(data.machine);
+                calculateStats(); renderUI(); updateCharts();
+            }
+            break;
+        case 'machine_deleted':
+            if (data.machine_id) {
+                State.machines = State.machines.filter(m => m.id !== data.machine_id);
+                calculateStats(); renderUI(); updateCharts();
+            }
+            break;
+        case 'prediction_created':
+            if (data.prediction) {
+                if (data.prediction.id && State.predictions.some(p => p.id === data.prediction.id)) break;
+                State.predictions.unshift(data.prediction);
+                if (State.predictions.length > 100) State.predictions = State.predictions.slice(0, 100);
+                calculateStats(); buildActivities(); renderUI(); updateCharts();
+            }
+            break;
+        case 'alert_created':
+        case 'alert_updated':
+            if (data.alert && !State.alerts.some(a => a.id === data.alert.id)) {
+                State.alerts.unshift(data.alert);
+                showToast(`⚠️ ${data.alert.title || 'Alert'}`, 'warning');
+            } else if (data.alert) {
+                const i = State.alerts.findIndex(a => a.id === data.alert.id);
+                if (i >= 0) State.alerts[i] = { ...State.alerts[i], ...data.alert };
+            }
+            updateBadges();
+            break;
+        case 'alerts_marked_read':
+            State.alerts = State.alerts.map(a => ({ ...a, is_read: true }));
+            updateBadges();
+            break;
+        case 'user_updated':
+            if (data.user && data.user.id) {
+                const current = getStoredUser();
+                if (!current || current.id === data.user.id) {
+                    try {
+                        const merged = { ...(current || {}), ...data.user };
+                        localStorage.setItem('synapse_user', JSON.stringify(merged));
+                        localStorage.setItem('user', JSON.stringify(merged));
+                    } catch {}
+                    updateUserUI();
+                }
+            }
+            break;
+        case 'ping':
+            try { State.ws?.send(JSON.stringify({ type: 'pong' })); } catch {}
+            break;
+    }
+}
+
+// ---------- 16. AUTO REFRESH ----------
+function startAutoRefresh() {
+    if (State.updateInterval) clearInterval(State.updateInterval);
+    State.updateInterval = setInterval(() => {
+        if (State.isAuthenticated && !State.isLoading && isTokenValid(getStoredToken()) && navigator.onLine) {
+            loadData();
+        }
+    }, 30000);
+}
+
+// ---------- 17. INIT ----------
+document.addEventListener('DOMContentLoaded', () => {
+    initCharts();
+    registerServiceWorker();
+    updatePWAButtons();
+
+    if (isStandalone()) {
+        document.body.classList.add('pwa-standalone');
+        // First standalone launch: track as install (only once per session)
+        const trackedKey = 'pwa_launch_tracked_v1';
+        if (!sessionStorage.getItem(trackedKey)) {
+            sessionStorage.setItem(trackedKey, 'true');
+            setTimeout(() => trackPWAInstall('standalone_launch'), 3000);
+        }
+    }
+
+    window.addEventListener('online', () => {
+        updateOnlineStatus();
+        loadData();
+        connectWebSocket();
+    });
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+
+    const token = getStoredToken();
+    const user = getStoredUser();
+    const isGuest = localStorage.getItem('synapse_guest') === 'true';
+    const tokenOk = token && isTokenValid(token);
+
+    const just = sessionStorage.getItem('justLoggedIn') || sessionStorage.getItem('signupSuccess');
+    if (just) {
+        sessionStorage.removeItem('justLoggedIn');
+        sessionStorage.removeItem('signupSuccess');
+        if (tokenOk && user) showToast('Welcome back! 🎉', 'success', 3000);
+    }
+
+    if (tokenOk && user) {
+        State.isAuthenticated = true;
+        $('authModal').classList.remove('active');
+        $('dashboardContent').style.display = 'block';
+        document.body.style.overflow = '';
+        updateUserUI();
+        loadData();
+        connectWebSocket();
+        startAutoRefresh();
+    } else if (isGuest) {
+        continueAsGuest();
+    } else {
+        if (token && !tokenOk) Auth.clearStorage();
+        $('authModal').classList.add('active');
+        $('dashboardContent').style.display = 'none';
+        document.body.style.overflow = 'hidden';
+    }
+
+    $('refreshBtn')?.addEventListener('click', () => {
+        const t = getStoredToken();
+        if (t && isTokenValid(t) && State.isAuthenticated) {
+            showToast('Refreshing…', 'info', 1200);
+            loadData();
+        } else {
+            showToast('Your session is no longer active. Please sign in again.', 'error');
+            redirectToLoginOnce();
+        }
+    });
+
+    $('trendPeriod')?.addEventListener('change', e => {
+        State.trendPeriod = parseInt(e.target.value) || 30;
+        updateCharts();
+    });
+
+    $('closeAuthModal')?.addEventListener('click', () => {
+        $('authModal').classList.remove('active');
+        $('dashboardContent').style.display = 'block';
+        document.body.style.overflow = '';
+        if (!State.isAuthenticated && !State.isGuest) continueAsGuest();
+    });
+
+    $('authModal')?.addEventListener('click', e => {
+        if (e.target === e.currentTarget) {
+            e.currentTarget.classList.remove('active');
+            $('dashboardContent').style.display = 'block';
+            document.body.style.overflow = '';
+            if (!State.isAuthenticated && !State.isGuest) continueAsGuest();
+        }
+    });
+
+    $('downloadModal')?.addEventListener('click', e => {
+        if (e.target === e.currentTarget) closeDownloadModal();
+    });
+
+    // Show install prompt hint once per session if installable
+    setTimeout(() => {
+        if (pwaInstallAvailable && !isStandalone()) {
+            const shown = sessionStorage.getItem('pwa_hint_shown');
+            if (!shown) {
+                sessionStorage.setItem('pwa_hint_shown', 'true');
+                showToast('💡 Tip: Install SynapsePM as an app for a better experience.', 'info', 7000);
+            }
+        }
+    }, 4000);
+});
+
+// ---------- 18. GLOBAL EXPORTS ----------
+window.continueAsGuest = continueAsGuest;
+window.showToast = showToast;
+window.toggleSidebar = toggleSidebar;
+window.openMobileSidebar = openMobileSidebar;
+window.closeMobileSidebar = closeMobileSidebar;
+window.openDownloadModal = openDownloadModal;
+window.closeDownloadModal = closeDownloadModal;
+window.toggleDownloadCategory = toggleDownloadCategory;
+window.startDownload = startDownload;
+window.promptPWAInstall = promptPWAInstall;
+window.trackPWAInstall = trackPWAInstall;
+window.loadData = loadData;
+window.toggleProfileMenu = toggleProfileMenu;
+window.closeProfileMenu = closeProfileMenu;
+window.handleLogout = Auth.logout.bind(Auth);
+window.redirectToLogin = Auth.redirectToLogin.bind(Auth);
+window.redirectToSignup = Auth.redirectToSignup.bind(Auth);
+</script>
+</body>
+</html>

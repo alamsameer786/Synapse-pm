@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SynapsePM</string>
+    <string name="title_activity_main">SynapsePM</string>
+    <string name="google_maps_key">YOUR_GOOGLE_MAPS_API_KEY</string>
+    
+    <!-- Notification Strings -->
+    <string name="notification_channel_name">SynapsePM Notifications</string>
+    <string name="notification_channel_description">Notifications from SynapsePM</string>
+</resources>

@@ -1,0 +1,1366 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Documentation | SynapsePM - API Reference & Guides</title>
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00b4aa">
+    <meta name="color-scheme" content="light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SynapsePM">
+    <meta name="application-name" content="SynapsePM">
+    <meta name="msapplication-TileColor" content="#0f2b3d">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/logo.png">
+
+<meta name="description" content="Complete documentation for SynapsePM API, SDKs, and integration guides. Build intelligent predictive maintenance solutions with our enterprise-grade AI platform.">
+<meta name="keywords" content="API documentation, developer docs, predictive maintenance API, machine learning API, industrial IoT">
+<meta name="author" content="SynapsePM">
+<meta name="robots" content="index, follow">
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#0f2b3d",
+          "primary-light": "#1a4a6e",
+          "secondary": "#00b4aa",
+          "secondary-dark": "#009688",
+          "accent": "#ff6b35",
+          "surface": "#ffffff",
+          "surface-gray": "#f8fafc",
+          "on-surface": "#0f172a",
+          "on-surface-light": "#475569",
+          "border-light": "#e2e8f0",
+        },
+        fontFamily: {
+          "headline": ["Manrope", "sans-serif"],
+          "body": ["Inter", "sans-serif"],
+          "mono": ["'Fira Code'", "monospace"],
+        },
+        animation: {
+          'fade-in': 'fadeIn 0.8s ease-out',
+          'slide-up': 'slideUp 0.6s ease-out',
+          'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        },
+        keyframes: {
+          fadeIn: {
+            '0%': { opacity: '0' },
+            '100%': { opacity: '1' },
+          },
+          slideUp: {
+            '0%': { opacity: '0', transform: 'translateY(20px)' },
+            '100%': { opacity: '1', transform: 'translateY(0)' },
+          },
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+  body {
+    min-height: 100dvh;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  }
+  h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+
+  .gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
+  .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+  .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+  .hero-gradient-bg { background: radial-gradient(circle at 80% 20%, rgba(0, 180, 170, 0.08) 0%, rgba(15, 43, 61, 0.02) 100%); }
+
+  /* ============================================================
+     SYNAPSEPM CUSTOM LOGO — FIXED SIZING & ALIGNMENT
+     ============================================================ */
+  .synapsepm-logo {
+    font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-size: 22px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    vertical-align: middle;
+  }
+  .synapsepm-logo > span:not(.logo-icon),
+  .synapsepm-logo strong {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    height: 32px;
+  }
+  .synapsepm-logo > span:not(.logo-icon) {
+    color: #0B1F4D;
+  }
+  .synapsepm-logo strong {
+    background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .synapsepm-logo .logo-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .synapsepm-logo .logo-icon img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    display: block;
+  }
+  .synapsepm-logo.logo-sm { font-size: 18px; gap: 0.4rem; }
+  .synapsepm-logo.logo-sm .logo-icon,
+  .synapsepm-logo.logo-sm .logo-icon img {
+    width: 26px; height: 26px; min-width: 26px; min-height: 26px;
+  }
+  .synapsepm-logo.logo-sm > span:not(.logo-icon),
+  .synapsepm-logo.logo-sm strong { height: 26px; }
+
+  .synapsepm-logo.logo-lg { font-size: 26px; gap: 0.65rem; }
+  .synapsepm-logo.logo-lg .logo-icon,
+  .synapsepm-logo.logo-lg .logo-icon img {
+    width: 38px; height: 38px; min-width: 38px; min-height: 38px;
+  }
+  .synapsepm-logo.logo-lg > span:not(.logo-icon),
+  .synapsepm-logo.logo-lg strong { height: 38px; }
+
+  /* ===== Code blocks ===== */
+  pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 0.75rem;
+  }
+  code {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+  }
+  .method-get { background: #10b98120; color: #10b981; border: 1px solid #10b98140; }
+  .method-post { background: #3b82f620; color: #3b82f6; border: 1px solid #3b82f640; }
+  .method-put { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
+  .method-delete { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+
+  /* ===== Sidebar navigation ===== */
+  .sidebar-nav-link { transition: all 0.2s ease; }
+  .sidebar-nav-link:hover { background: #f1f5f9; }
+  .sidebar-nav-link.active {
+    background: #00b4aa10;
+    color: #00b4aa;
+    border-left: 3px solid #00b4aa;
+  }
+  html { scroll-behavior: smooth; }
+
+  /* ============================================================
+     SEARCH — CENTERED IN HERO
+     ============================================================ */
+  .search-container {
+    position: relative;
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .search-input-wrapper:focus-within {
+    border-color: #00b4aa;
+    box-shadow: 0 4px 30px rgba(0, 180, 170, 0.15), 0 0 0 4px rgba(0, 180, 170, 0.08);
+    transform: translateY(-2px);
+  }
+  .search-input-wrapper .search-icon {
+    padding: 0 12px 0 18px;
+    color: #94a3b8;
+    font-size: 22px;
+    flex-shrink: 0;
+    transition: color 0.3s;
+  }
+  .search-input-wrapper:focus-within .search-icon { color: #00b4aa; }
+  .search-input-wrapper input {
+    flex: 1;
+    padding: 14px 16px 14px 0;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    color: #0f172a;
+    background: transparent;
+    min-width: 0;
+    width: 100%;
+  }
+  .search-input-wrapper input::placeholder { color: #94a3b8; font-weight: 400; }
+  .search-input-wrapper input:focus::placeholder { color: #cbd5e1; }
+
+  .search-shortcuts {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-right: 14px;
+    flex-shrink: 0;
+  }
+  .search-shortcut-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
+    min-width: 28px;
+    height: 24px;
+    transition: all 0.2s;
+  }
+  .search-input-wrapper:focus-within .search-shortcut-key {
+    background: #00b4aa10;
+    border-color: #00b4aa40;
+    color: #00b4aa;
+  }
+  .search-shortcut-divider { color: #e2e8f0; font-size: 14px; padding: 0 2px; }
+
+  .search-results-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    max-height: 420px;
+    overflow-y: auto;
+    display: none;
+    z-index: 100;
+    animation: slideDown 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: left;
+  }
+  .search-results-dropdown.visible { display: block; }
+  .search-results-dropdown .result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    color: #0f172a;
+  }
+  .search-results-dropdown .result-item:last-child { border-bottom: none; }
+  .search-results-dropdown .result-item:hover { background: #f8fafc; }
+  .search-results-dropdown .result-item .result-icon {
+    color: #00b4aa;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .search-results-dropdown .result-item .result-content { flex: 1; min-width: 0; }
+  .search-results-dropdown .result-item .result-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #0f172a;
+    line-height: 1.3;
+  }
+  .search-results-dropdown .result-item .result-title .highlight {
+    color: #00b4aa;
+    background: #00b4aa15;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+  .search-results-dropdown .result-item .result-description {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+  .search-results-dropdown .result-item .result-badge {
+    background: #f1f5f9;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+    flex-shrink: 0;
+  }
+  .search-results-dropdown .result-empty {
+    padding: 32px 20px;
+    text-align: center;
+    color: #94a3b8;
+  }
+  .search-results-dropdown .result-empty .empty-icon {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 8px;
+    color: #e2e8f0;
+  }
+  .search-results-dropdown .result-empty .empty-text {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .search-results-dropdown .result-empty .empty-sub {
+    font-size: 12px;
+    color: #cbd5e1;
+  }
+  .search-results-dropdown::-webkit-scrollbar { width: 4px; }
+  .search-results-dropdown::-webkit-scrollbar-track { background: transparent; }
+  .search-results-dropdown::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+  .search-results-dropdown::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @media (max-width: 640px) {
+    .search-input-wrapper { border-radius: 12px; }
+    .search-input-wrapper input { padding: 12px 12px 12px 0; font-size: 14px; }
+    .search-input-wrapper .search-icon { padding: 0 8px 0 14px; font-size: 20px; }
+    .search-shortcuts .search-shortcut-key { font-size: 9px; padding: 1px 6px; min-width: 24px; height: 20px; }
+    .search-results-dropdown { border-radius: 12px; max-height: 300px; top: calc(100% + 8px); }
+    .search-results-dropdown .result-item { padding: 10px 14px; }
+    .search-results-dropdown .result-item .result-title { font-size: 13px; }
+  }
+
+  .responsive-table { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .responsive-table table { min-width: 500px; }
+
+  .social-icon { transition: all 0.2s ease; width: 2rem; height: 2rem; border-radius: 9999px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; }
+  .social-icon svg { width: 1rem; height: 1rem; }
+  .social-icon svg path { fill: #475569; transition: fill 0.2s; }
+  .social-icon:hover { background: rgba(0, 180, 170, 0.1); }
+  .social-icon:hover svg path { fill: #00b4aa; }
+
+  .footer-link { transition: color 0.2s ease; }
+  .footer-link:hover { color: #00b4aa; }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="bg-white/95 backdrop-blur-md border-b border-border-light sticky top-0 z-50 w-full transition-all duration-300" id="header">
+  <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-3 sm:py-4 lg:py-5">
+      <a href="index.html" class="logo flex items-center gap-2 group">
+        <div class="synapsepm-logo logo-lg">
+          <span class="logo-icon">
+            <img src="assets/img/logo.png" alt="SynapsePM Logo" id="logoImg" onerror="this.style.display='none'">
+          </span>
+          <span>Synapse</span><strong>PM</strong>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-4 lg:gap-8">
+        <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-primary transition">Home</a>
+        <a href="explore.html" class="text-sm font-medium text-slate-600 hover:text-primary transition">Explore</a>
+        <a href="about.html" class="text-sm font-medium text-slate-600 hover:text-primary transition">About</a>
+        <a href="contact.html" class="text-sm font-medium text-slate-600 hover:text-primary transition">Contact</a>
+        <a href="docs.html" class="text-sm font-semibold text-primary border-b-2 border-secondary pb-1">Documentation</a>
+      </div>
+
+      <div class="hidden md:flex items-center gap-2 lg:gap-3">
+        <a href="login.html" class="text-sm font-semibold text-slate-600 hover:text-primary transition px-3 py-1.5 lg:px-4 lg:py-2">Login</a>
+        <a href="signup.html" class="gradient-cta text-white px-3 py-1.5 lg:px-5 lg:py-2.5 rounded-xl text-sm font-semibold shadow-md hover:shadow-lg transition-all">Get Started</a>
+      </div>
+
+      <button class="mobile-toggle md:hidden p-2 hover:bg-slate-100 rounded-full transition-colors" id="mobileToggleBtn">
+        <span class="material-symbols-outlined text-slate-700">menu</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== MOBILE MENU ===== -->
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-all duration-300 invisible opacity-0" id="mobileMenuOverlay">
+  <div class="absolute right-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl transform translate-x-full transition-transform duration-300" id="mobileMenuPanel">
+    <div class="flex justify-between items-center p-4 sm:p-6 border-b">
+      <div class="flex items-center gap-2">
+        <div class="synapsepm-logo logo-sm">
+          <span class="logo-icon">
+            <img src="assets/img/logo.png" alt="SynapsePM" id="mobileLogoImg" onerror="this.style.display='none'">
+          </span>
+          <span>Synapse</span><strong>PM</strong>
+        </div>
+      </div>
+      <button id="closeMobileMenuBtn" class="p-2 rounded-full hover:bg-slate-100">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="flex flex-col p-4 sm:p-6 gap-4 sm:gap-5">
+      <a href="index.html" class="mobile-link text-base sm:text-lg font-medium text-slate-700 hover:text-primary pl-3">Home</a>
+      <a href="explore.html" class="mobile-link text-base sm:text-lg font-medium text-slate-700 hover:text-primary pl-3">Explore</a>
+      <a href="about.html" class="mobile-link text-base sm:text-lg font-medium text-slate-700 hover:text-primary pl-3">About</a>
+      <a href="contact.html" class="mobile-link text-base sm:text-lg font-medium text-slate-700 hover:text-primary pl-3">Contact</a>
+      <a href="docs.html" class="mobile-link text-base sm:text-lg font-semibold text-primary border-l-4 border-secondary pl-3">Documentation</a>
+      <div class="pt-4 sm:pt-6 mt-4 border-t flex flex-col gap-3">
+        <a href="login.html" class="text-center py-2 text-primary font-semibold">Login</a>
+        <a href="signup.html" class="gradient-cta text-white text-center py-2.5 sm:py-3 rounded-xl font-semibold">Get Started</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- ===== HERO SECTION (with CENTERED search) ===== -->
+<section class="relative pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-10 sm:pb-12 md:pb-16 px-4 sm:px-6 overflow-hidden hero-gradient-bg">
+  <div class="max-w-4xl mx-auto text-center">
+    <div class="inline-flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 mb-4 sm:mb-6">
+      <span class="material-symbols-outlined text-secondary text-sm">code</span>
+      <span class="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-secondary">Developer Documentation v1.0</span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-headline text-primary mb-3 sm:mb-4">
+      Build with <span class="text-secondary">SynapsePM</span>
+    </h1>
+    <p class="text-base sm:text-lg text-slate-600 mb-6 sm:mb-8 max-w-2xl mx-auto">
+      Everything you need to integrate predictive maintenance into your applications. Comprehensive API docs, SDKs, and guides.
+    </p>
+
+    <!-- Search (centered) -->
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input type="text" id="searchInput" placeholder="Search documentation..." autocomplete="off" aria-label="Search documentation"/>
+        <div class="search-shortcuts">
+          <span class="search-shortcut-key" id="shortcutKey">⌘K</span>
+          <span class="search-shortcut-divider">|</span>
+          <span class="search-shortcut-key">/</span>
+        </div>
+      </div>
+      <div class="search-results-dropdown" id="searchResults">
+        <div class="result-empty">
+          <span class="material-symbols-outlined empty-icon">search</span>
+          <p class="empty-text">Start typing to search...</p>
+          <p class="empty-sub">Find API endpoints, guides, and more</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-center gap-3 mt-4 text-xs text-slate-400">
+      <span class="flex items-center gap-1">
+        <span class="material-symbols-outlined text-sm">lightbulb</span>
+        Try: "authentication", "predictions", "webhooks"
+      </span>
+      <span class="hidden sm:inline">•</span>
+      <span class="flex items-center gap-1">
+        <span class="material-symbols-outlined text-sm">keyboard</span>
+        Press <kbd class="px-1.5 py-0.5 bg-slate-100 rounded text-[10px] font-mono">↑</kbd> <kbd class="px-1.5 py-0.5 bg-slate-100 rounded text-[10px] font-mono">↓</kbd> to navigate
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MOBILE TOC ===== -->
+<div class="px-4 sm:px-6 pt-3 sm:pt-4 md:hidden">
+  <select id="mobileToc" class="w-full p-2.5 sm:p-3 rounded-xl border border-border-light bg-white text-slate-600 text-sm">
+    <option value="#getting-started">📘 Getting Started</option>
+    <option value="#authentication">🔐 Authentication</option>
+    <option value="#machines">⚙️ Machines API</option>
+    <option value="#predictions">🧠 Predictions API</option>
+    <option value="#alerts">🔔 Alerts API</option>
+    <option value="#webhooks">🪝 Webhooks</option>
+    <option value="#sdks">📦 SDKs & Libraries</option>
+    <option value="#errors">⚠️ Error Handling</option>
+  </select>
+</div>
+
+<!-- ===== DOCS CONTENT ===== -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+  <div class="flex flex-col md:flex-row gap-6 sm:gap-8">
+
+    <!-- ===== Sidebar TOC ===== -->
+    <aside class="hidden md:block md:w-72 flex-shrink-0">
+      <div class="sticky top-24 bg-white rounded-xl border border-border-light p-4 shadow-sm">
+        <div class="space-y-5">
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Getting Started</h3>
+            <ul class="space-y-0.5">
+              <li><a href="#getting-started" class="sidebar-nav-link block px-3 py-1.5 text-sm text-slate-600 rounded-lg">Quick Start</a></li>
+              <li><a href="#authentication" class="sidebar-nav-link block px-3 py-1.5 text-sm text-slate-600 rounded-lg">Authentication</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">API Reference</h3>
+            <ul class="space-y-0.5">
+              <li><a href="#machines" class="sidebar-nav-link block px-3 py-1.5 text-sm text-slate-600 rounded-lg">Machines</a></li>
+              <li><a href="#predictions" class="sidebar-nav-link block px-3 py-1.5 text-sm text-slate-600 rounded-lg">Predictions</a></li>
+              <li><a href="#alerts" class="sidebar-nav-link block px-3 py-1.5 text-sm text-slate-600 rounded-lg">Alerts</a></li>
+              <li><a href="#webhooks" class="sidebar-nav-link block px-3 py-1.5 text-sm text-slate-600 rounded-lg">Webhooks</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Guides</h3>
+            <ul class="space-y-0.5">
+              <li><a href="#sdks" class="sidebar-nav-link block px-3 py-1.5 text-sm text-slate-600 rounded-lg">SDKs</a></li>
+              <li><a href="#errors" class="sidebar-nav-link block px-3 py-1.5 text-sm text-slate-600 rounded-lg">Error Handling</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== Main Content ===== -->
+    <main class="flex-1 min-w-0">
+      <div class="bg-white rounded-xl border border-border-light p-4 sm:p-6 md:p-8">
+
+        <!-- ===== Getting Started ===== -->
+        <section id="getting-started" class="docs-section mb-8 sm:mb-10 md:mb-12 scroll-mt-24">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-3 sm:mb-4">Quick Start Guide</h2>
+          <p class="text-slate-600 text-sm sm:text-base mb-4 sm:mb-6">Get up and running with the SynapsePM API in minutes. Follow these steps to start predicting equipment failures with our AI platform.</p>
+
+          <div class="flex items-center gap-2 mb-4 sm:mb-6">
+            <span class="material-symbols-outlined text-secondary text-sm">code_blocks</span>
+            <span class="text-xs sm:text-sm text-slate-500">API version: v1.0</span>
+          </div>
+
+          <h3 class="text-lg sm:text-xl font-bold text-primary mb-2 sm:mb-3">1. Create an Account</h3>
+          <p class="text-slate-600 text-sm sm:text-base mb-3 sm:mb-4">Sign up for a free account at <a href="signup.html" class="text-secondary hover:underline">synapsepm.com/signup</a>. No credit card required for the 14-day trial.</p>
+
+          <h3 class="text-lg sm:text-xl font-bold text-primary mb-2 sm:mb-3">2. Get Your API Key</h3>
+          <p class="text-slate-600 text-sm sm:text-base mb-3 sm:mb-4">After logging in, navigate to <strong>Dashboard → Profile Menu → API Keys</strong> and generate a new key. The key format is:</p>
+
+          <div class="bg-slate-900 rounded-xl overflow-hidden mb-4 sm:mb-6">
+            <div class="flex items-center justify-between bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2">
+              <span class="text-[10px] sm:text-xs text-slate-400 font-mono">API Key Format</span>
+              <button type="button" class="copy-btn text-slate-400 hover:text-white text-[10px] sm:text-sm transition" data-copy="spm_9fK2xQvLmN8pRtY4hW3jZ6aB1cD5eF7gH0iJ2kL4mN6oP8q">📋 Copy</button>
+            </div>
+            <pre class="p-3 sm:p-4 overflow-x-auto"><code class="language-bash text-slate-300 text-xs sm:text-sm">spm_9fK2xQvLmN8pRtY4hW3jZ6aB1cD5eF7gH0iJ2kL4mN6oP8q</code></pre>
+          </div>
+
+          <div class="bg-amber-50 border-l-4 border-amber-500 p-3 sm:p-4 rounded-r-xl mb-4 sm:mb-6">
+            <p class="text-xs sm:text-sm text-amber-800"><strong>⚠️ Important:</strong> Never share your API keys or commit them to version control. Use environment variables or secure secret managers.</p>
+          </div>
+
+          <h3 class="text-lg sm:text-xl font-bold text-primary mb-2 sm:mb-3">3. Make Your First API Call</h3>
+          <p class="text-slate-600 text-sm sm:text-base mb-3 sm:mb-4">Use your API key to authenticate requests. Here's an example using cURL:</p>
+
+          <div class="bg-slate-900 rounded-xl overflow-hidden mb-4 sm:mb-6">
+            <div class="flex items-center justify-between bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2">
+              <span class="text-[10px] sm:text-xs text-slate-400 font-mono">cURL</span>
+              <button type="button" class="copy-btn text-slate-400 hover:text-white text-[10px] sm:text-sm transition" data-copy="curl -X GET https://api.synapsepm.com/api/v1/machines \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'Content-Type: application/json'">📋 Copy</button>
+            </div>
+            <pre class="p-3 sm:p-4 overflow-x-auto"><code class="language-bash text-slate-300 text-xs sm:text-sm">curl -X GET https://api.synapsepm.com/api/v1/machines \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"</code></pre>
+          </div>
+
+          <div class="bg-slate-900 rounded-xl overflow-hidden">
+            <div class="flex items-center justify-between bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2">
+              <span class="text-[10px] sm:text-xs text-slate-400 font-mono">Python</span>
+              <button type="button" class="copy-btn text-slate-400 hover:text-white text-[10px] sm:text-sm transition" data-copy="import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+}
+
+response = requests.get('https://api.synapsepm.com/api/v1/machines', headers=headers)
+print(response.json())">📋 Copy</button>
+            </div>
+            <pre class="p-3 sm:p-4 overflow-x-auto"><code class="language-python text-slate-300 text-xs sm:text-sm">import requests
+
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+
+response = requests.get(
+    "https://api.synapsepm.com/api/v1/machines",
+    headers=headers
+)
+print(response.json())</code></pre>
+          </div>
+        </section>
+
+        <!-- ===== Authentication ===== -->
+        <section id="authentication" class="docs-section mb-8 sm:mb-10 md:mb-12 scroll-mt-24">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-3 sm:mb-4">Authentication</h2>
+          <p class="text-slate-600 text-sm sm:text-base mb-4 sm:mb-6">SynapsePM supports two authentication methods: <strong>JWT Bearer tokens</strong> (from the login endpoint) and <strong>API keys</strong> for server-to-server integrations. Include the credential in the <code class="bg-slate-100 px-1.5 py-0.5 rounded text-primary text-xs">Authorization</code> header.</p>
+
+          <h3 class="text-base sm:text-lg font-bold text-primary mb-2 sm:mb-3">Login (JWT)</h3>
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-post px-2 py-0.5 rounded text-xs font-bold">POST</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/auth/login</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Authenticate with email and password to obtain access + refresh tokens.</p>
+          </div>
+
+          <div class="bg-slate-900 rounded-xl overflow-hidden mb-4 sm:mb-6">
+            <div class="flex items-center justify-between bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2">
+              <span class="text-[10px] sm:text-xs text-slate-400 font-mono">Login request</span>
+              <button type="button" class="copy-btn text-slate-400 hover:text-white text-[10px] sm:text-sm transition" data-copy="curl -X POST https://api.synapsepm.com/api/v1/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{\"email\":\"you@company.com\",\"password\":\"your-password\"}'">📋 Copy</button>
+            </div>
+            <pre class="p-3 sm:p-4 overflow-x-auto"><code class="language-bash text-slate-300 text-xs sm:text-sm">curl -X POST https://api.synapsepm.com/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@company.com","password":"your-password"}'</code></pre>
+          </div>
+
+          <div class="bg-slate-900 rounded-xl overflow-hidden mb-4 sm:mb-6">
+            <div class="flex items-center justify-between bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2">
+              <span class="text-[10px] sm:text-xs text-slate-400 font-mono">Login response</span>
+              <button type="button" class="copy-btn text-slate-400 hover:text-white text-[10px] sm:text-sm transition" data-copy="{
+  \"success\": true,
+  \"access_token\": \"eyJhbGciOiJIUzI1NiIs...\",
+  \"refresh_token\": \"eyJhbGciOiJIUzI1NiIs...\",
+  \"user\": {
+    \"id\": \"2a4c1f...\",
+    \"email\": \"you@company.com\",
+    \"display_name\": \"Your Name\",
+    \"role\": \"org_admin\"
+  }
+}">📋 Copy</button>
+            </div>
+            <pre class="p-3 sm:p-4 overflow-x-auto"><code class="language-json text-slate-300 text-xs sm:text-sm">{
+  "success": true,
+  "access_token": "eyJhbGciOiJIUzI1NiIs...",
+  "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "id": "2a4c1f...",
+    "email": "you@company.com",
+    "display_name": "Your Name",
+    "role": "org_admin"
+  }
+}</code></pre>
+          </div>
+
+          <h3 class="text-base sm:text-lg font-bold text-primary mb-2 sm:mb-3">Authenticated headers</h3>
+          <div class="bg-slate-900 rounded-xl overflow-hidden mb-4 sm:mb-6">
+            <div class="flex items-center justify-between bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2">
+              <span class="text-[10px] sm:text-xs text-slate-400 font-mono">Headers</span>
+              <button type="button" class="copy-btn text-slate-400 hover:text-white text-[10px] sm:text-sm transition" data-copy="Authorization: Bearer YOUR_ACCESS_TOKEN
+Content-Type: application/json">📋 Copy</button>
+            </div>
+            <pre class="p-3 sm:p-4 overflow-x-auto"><code class="language-http text-slate-300 text-xs sm:text-sm">Authorization: Bearer YOUR_ACCESS_TOKEN
+Content-Type: application/json</code></pre>
+          </div>
+
+          <h3 class="text-base sm:text-lg font-bold text-primary mb-2 sm:mb-3">Credential types</h3>
+          <div class="responsive-table mb-4 sm:mb-6">
+            <table class="w-full text-xs sm:text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-50">
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Type</th>
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Format</th>
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border border-border-light p-2 sm:p-3"><code class="bg-slate-100 px-1 py-0.5 rounded text-xs">Access Token</code></td>
+                  <td class="border border-border-light p-2 sm:p-3">JWT (from <code>/auth/login</code>)</td>
+                  <td class="border border-border-light p-2 sm:p-3">Browser / mobile clients</td>
+                </tr>
+                <tr>
+                  <td class="border border-border-light p-2 sm:p-3"><code class="bg-slate-100 px-1 py-0.5 rounded text-xs">API Key</code></td>
+                  <td class="border border-border-light p-2 sm:p-3"><code>spm_...</code></td>
+                  <td class="border border-border-light p-2 sm:p-3">Server-to-server integration</td>
+                </tr>
+                <tr>
+                  <td class="border border-border-light p-2 sm:p-3"><code class="bg-slate-100 px-1 py-0.5 rounded text-xs">Device Key</code></td>
+                  <td class="border border-border-light p-2 sm:p-3"><code>spm_dev_...</code></td>
+                  <td class="border border-border-light p-2 sm:p-3">IoT sensor ingestion (<code>X-Device-Key</code>)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===== Machines API ===== -->
+        <section id="machines" class="docs-section mb-8 sm:mb-10 md:mb-12 scroll-mt-24">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-3 sm:mb-4">Machines API</h2>
+          <p class="text-slate-600 text-sm sm:text-base mb-4 sm:mb-6">Manage your industrial equipment and monitor their health status.</p>
+
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-get px-2 py-0.5 rounded text-xs font-bold">GET</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/machines</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Returns a paginated list of all machines in your organization.</p>
+          </div>
+
+          <h3 class="text-base sm:text-lg font-bold text-primary mb-2 sm:mb-3">Query parameters</h3>
+          <div class="responsive-table mb-4 sm:mb-6">
+            <table class="w-full text-xs sm:text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-50">
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Parameter</th>
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Type</th>
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code>page</code></td><td class="border border-border-light p-2 sm:p-3">integer</td><td class="border border-border-light p-2 sm:p-3">Page number (default: 1)</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code>per_page</code></td><td class="border border-border-light p-2 sm:p-3">integer</td><td class="border border-border-light p-2 sm:p-3">Results per page (default: 20, max: 100)</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code>status</code></td><td class="border border-border-light p-2 sm:p-3">string</td><td class="border border-border-light p-2 sm:p-3">Filter by status: <code>online</code>, <code>offline</code></td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code>search</code></td><td class="border border-border-light p-2 sm:p-3">string</td><td class="border border-border-light p-2 sm:p-3">Search by name or serial number</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bg-slate-900 rounded-xl overflow-hidden">
+            <div class="flex items-center justify-between bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2">
+              <span class="text-[10px] sm:text-xs text-slate-400 font-mono">Example response</span>
+              <button type="button" class="copy-btn text-slate-400 hover:text-white text-[10px] sm:text-sm transition" data-copy="{
+  \"success\": true,
+  \"items\": [
+    {
+      \"id\": \"mach_abc123\",
+      \"name\": \"Turbine A-42\",
+      \"machine_type\": \"turbine\",
+      \"status\": \"online\",
+      \"health\": 92,
+      \"temperature\": 68.4,
+      \"vibration\": 2.1,
+      \"pressure\": 84.6,
+      \"location\": \"Floor 2 - Bay A\",
+      \"created_at\": \"2026-01-15T10:30:00Z\"
+    }
+  ],
+  \"total\": 45,
+  \"page\": 1,
+  \"per_page\": 20
+}">📋 Copy</button>
+            </div>
+            <pre class="p-3 sm:p-4 overflow-x-auto"><code class="language-json text-slate-300 text-xs sm:text-sm">{
+  "success": true,
+  "items": [
+    {
+      "id": "mach_abc123",
+      "name": "Turbine A-42",
+      "machine_type": "turbine",
+      "status": "online",
+      "health": 92,
+      "temperature": 68.4,
+      "vibration": 2.1,
+      "pressure": 84.6,
+      "location": "Floor 2 - Bay A",
+      "created_at": "2026-01-15T10:30:00Z"
+    }
+  ],
+  "total": 45,
+  "page": 1,
+  "per_page": 20
+}</code></pre>
+          </div>
+
+          <h3 class="text-base sm:text-lg font-bold text-primary mt-6 mb-2 sm:mb-3">Create a machine</h3>
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-post px-2 py-0.5 rounded text-xs font-bold">POST</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/machines</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Create a new machine in your organization.</p>
+          </div>
+
+          <div class="bg-slate-900 rounded-xl overflow-hidden">
+            <div class="flex items-center justify-between bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2">
+              <span class="text-[10px] sm:text-xs text-slate-400 font-mono">Create request</span>
+              <button type="button" class="copy-btn text-slate-400 hover:text-white text-[10px] sm:text-sm transition" data-copy="curl -X POST https://api.synapsepm.com/api/v1/machines \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    \"name\": \"Turbine A-42\",
+    \"machine_type\": \"turbine\",
+    \"location\": \"Floor 2\",
+    \"manufacturer\": \"Siemens\"
+  }'">📋 Copy</button>
+            </div>
+            <pre class="p-3 sm:p-4 overflow-x-auto"><code class="language-bash text-slate-300 text-xs sm:text-sm">curl -X POST https://api.synapsepm.com/api/v1/machines \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Turbine A-42",
+    "machine_type": "turbine",
+    "location": "Floor 2",
+    "manufacturer": "Siemens"
+  }'</code></pre>
+          </div>
+        </section>
+
+        <!-- ===== Predictions API ===== -->
+        <section id="predictions" class="docs-section mb-8 sm:mb-10 md:mb-12 scroll-mt-24">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-3 sm:mb-4">Predictions API</h2>
+          <p class="text-slate-600 text-sm sm:text-base mb-4 sm:mb-6">Get RUL (Remaining Useful Life) predictions and failure probabilities for your equipment using our trained ML models.</p>
+
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-post px-2 py-0.5 rounded text-xs font-bold">POST</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/machines/{machine_id}/predict</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Run a fresh prediction for a specific machine using its recent sensor data.</p>
+          </div>
+
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-post px-2 py-0.5 rounded text-xs font-bold">POST</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/predictions/predict-dataset</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Run a prediction on an uploaded dataset file (CSV / XLSX / JSON).</p>
+          </div>
+
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-get px-2 py-0.5 rounded text-xs font-bold">GET</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/predictions/history</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Get the prediction history for your organization, optionally filtered by machine.</p>
+          </div>
+
+          <div class="bg-slate-900 rounded-xl overflow-hidden">
+            <div class="flex items-center justify-between bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2">
+              <span class="text-[10px] sm:text-xs text-slate-400 font-mono">Prediction response</span>
+              <button type="button" class="copy-btn text-slate-400 hover:text-white text-[10px] sm:text-sm transition" data-copy="{
+  \"success\": true,
+  \"request_id\": \"a1b2c3d4-...\",
+  \"prediction\": {
+    \"id\": 1287,
+    \"machine_id\": \"mach_abc123\",
+    \"rul_hours\": 1250.4,
+    \"confidence\": 0.87,
+    \"status\": \"healthy\",
+    \"risk_level\": \"low\",
+    \"model_type\": \"lstm\",
+    \"recommendations\": [
+      \"Schedule inspection within 30 days\",
+      \"Monitor vibration levels daily\"
+    ],
+    \"created_at\": \"2026-01-15T10:30:00Z\"
+  }
+}">📋 Copy</button>
+            </div>
+            <pre class="p-3 sm:p-4 overflow-x-auto"><code class="language-json text-slate-300 text-xs sm:text-sm">{
+  "success": true,
+  "request_id": "a1b2c3d4-...",
+  "prediction": {
+    "id": 1287,
+    "machine_id": "mach_abc123",
+    "rul_hours": 1250.4,
+    "confidence": 0.87,
+    "status": "healthy",
+    "risk_level": "low",
+    "model_type": "lstm",
+    "recommendations": [
+      "Schedule inspection within 30 days",
+      "Monitor vibration levels daily"
+    ],
+    "created_at": "2026-01-15T10:30:00Z"
+  }
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- ===== Alerts API ===== -->
+        <section id="alerts" class="docs-section mb-8 sm:mb-10 md:mb-12 scroll-mt-24">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-3 sm:mb-4">Alerts API</h2>
+          <p class="text-slate-600 text-sm sm:text-base mb-4 sm:mb-6">Manage and respond to AI-generated alerts for your equipment.</p>
+
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-get px-2 py-0.5 rounded text-xs font-bold">GET</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/alerts</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Returns a paginated list of active and historical alerts for your organization.</p>
+          </div>
+
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-post px-2 py-0.5 rounded text-xs font-bold">POST</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/alerts/{alert_id}/acknowledge</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Acknowledge an alert so the team knows someone is handling it.</p>
+          </div>
+
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-post px-2 py-0.5 rounded text-xs font-bold">POST</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/alerts/{alert_id}/resolve</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Mark an alert as resolved with optional resolution notes.</p>
+          </div>
+
+          <div class="border border-border-light rounded-xl p-4 sm:p-5">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-post px-2 py-0.5 rounded text-xs font-bold">POST</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/alerts/mark-all-read</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Mark all active alerts in the organization as read.</p>
+          </div>
+        </section>
+
+        <!-- ===== Webhooks ===== -->
+        <section id="webhooks" class="docs-section mb-8 sm:mb-10 md:mb-12 scroll-mt-24">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-3 sm:mb-4">Webhooks</h2>
+          <p class="text-slate-600 text-sm sm:text-base mb-4 sm:mb-6">Receive real-time notifications when predictions are generated or alerts are triggered. SynapsePM emits events over WebSocket and can push to configured HTTP endpoints.</p>
+
+          <div class="border border-border-light rounded-xl p-4 sm:p-5 mb-4 sm:mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="method-post px-2 py-0.5 rounded text-xs font-bold">POST</span>
+              <code class="text-xs sm:text-sm text-slate-700 break-all">/api/v1/webhooks/configure</code>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">Configure a webhook endpoint URL to receive events.</p>
+          </div>
+
+          <h3 class="text-base sm:text-lg font-bold text-primary mb-2 sm:mb-3">Event types</h3>
+          <div class="responsive-table">
+            <table class="w-full text-xs sm:text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-50">
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Event</th>
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Trigger</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code>machine.created</code></td><td class="border border-border-light p-2 sm:p-3">A new machine is added</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code>machine.updated</code></td><td class="border border-border-light p-2 sm:p-3">Machine details or status change</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code>prediction.created</code></td><td class="border border-border-light p-2 sm:p-3">A new prediction is generated</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code>alert.created</code></td><td class="border border-border-light p-2 sm:p-3">A new alert is triggered</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code>alert.updated</code></td><td class="border border-border-light p-2 sm:p-3">Alert acknowledged or resolved</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===== SDKs ===== -->
+        <section id="sdks" class="docs-section mb-8 sm:mb-10 md:mb-12 scroll-mt-24">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-3 sm:mb-4">SDKs & Libraries</h2>
+          <p class="text-slate-600 text-sm sm:text-base mb-4 sm:mb-6">Official SDKs for popular languages to make integration seamless.</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div class="border border-border-light rounded-xl p-4 sm:p-5 hover:shadow-md transition">
+              <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                <span class="text-xl sm:text-2xl"></span>
+                <h3 class="font-bold text-primary text-sm sm:text-base">Python SDK</h3>
+              </div>
+              <div class="bg-slate-900 rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 overflow-x-auto">
+                <code class="text-slate-300 text-[10px] sm:text-sm">pip install synapsepm</code>
+              </div>
+              <a href="#getting-started" class="text-secondary text-xs sm:text-sm hover:underline">View Documentation →</a>
+            </div>
+
+            <div class="border border-border-light rounded-xl p-4 sm:p-5 hover:shadow-md transition">
+              <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                <span class="text-xl sm:text-2xl"></span>
+                <h3 class="font-bold text-primary text-sm sm:text-base">JavaScript SDK</h3>
+              </div>
+              <div class="bg-slate-900 rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 overflow-x-auto">
+                <code class="text-slate-300 text-[10px] sm:text-sm">npm install synapsepm-js</code>
+              </div>
+              <a href="#getting-started" class="text-secondary text-xs sm:text-sm hover:underline">View Documentation →</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== Error Handling ===== -->
+        <section id="errors" class="docs-section scroll-mt-24">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-3 sm:mb-4">Error Handling</h2>
+          <p class="text-slate-600 text-sm sm:text-base mb-4 sm:mb-6">The API uses standard HTTP response codes to indicate success or failure.</p>
+
+          <div class="responsive-table">
+            <table class="w-full text-xs sm:text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-50">
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Code</th>
+                  <th class="border border-border-light p-2 sm:p-3 text-left">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code class="text-green-600 text-xs">200</code></td><td class="border border-border-light p-2 sm:p-3">Success</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code class="text-green-600 text-xs">201</code></td><td class="border border-border-light p-2 sm:p-3">Created</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code class="text-red-600 text-xs">400</code></td><td class="border border-border-light p-2 sm:p-3">Bad Request — invalid parameters</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code class="text-red-600 text-xs">401</code></td><td class="border border-border-light p-2 sm:p-3">Unauthorized — invalid or missing credentials</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code class="text-red-600 text-xs">403</code></td><td class="border border-border-light p-2 sm:p-3">Forbidden — insufficient permissions</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code class="text-red-600 text-xs">404</code></td><td class="border border-border-light p-2 sm:p-3">Not Found — resource does not exist</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code class="text-red-600 text-xs">422</code></td><td class="border border-border-light p-2 sm:p-3">Unprocessable — prediction abstained (no compatible model)</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code class="text-red-600 text-xs">429</code></td><td class="border border-border-light p-2 sm:p-3">Too Many Requests — rate limit exceeded</td></tr>
+                <tr><td class="border border-border-light p-2 sm:p-3"><code class="text-red-600 text-xs">503</code></td><td class="border border-border-light p-2 sm:p-3">Service Unavailable — model or dependency not ready</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</div>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-white border-t border-border-light mt-8 sm:mt-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12">
+      <div class="text-center sm:text-left">
+        <a href="index.html" class="inline-flex items-center gap-2 mb-3">
+          <div class="synapsepm-logo logo-sm">
+            <span class="logo-icon">
+              <img src="assets/img/logo.png" alt="SynapsePM" id="footerLogoImg" onerror="this.style.display='none'">
+            </span>
+            <span>Synapse</span><strong>PM</strong>
+          </div>
+        </a>
+        <p class="text-slate-500 text-xs sm:text-sm mb-3 max-w-xs mx-auto sm:mx-0">AI-powered predictive maintenance for forward-thinking manufacturers.</p>
+        <p class="text-slate-400/50 text-[10px] sm:text-xs">© 2026 SynapsePM. All rights reserved.</p>
+        <div class="flex gap-2 sm:gap-3 mt-3 justify-center sm:justify-start">
+          <a href="https://x.com/SamirAlam7860" target="_blank" class="social-icon" aria-label="Twitter">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/md-shamir-alam-9aa763286/" target="_blank" class="social-icon" aria-label="LinkedIn">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
+          </a>
+          <a href="https://github.com/alamsameer786" target="_blank" class="social-icon" aria-label="GitHub">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026.797-.222 1.65-.333 2.5-.336.85.003 1.703.114 2.5.336 1.91-1.295 2.75-1.026 2.75-1.026.544 1.378.201 2.397.098 2.65.64.7 1.029 1.595 1.029 2.688 0 3.846-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@aihacks786" target="_blank" class="social-icon" aria-label="YouTube">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="text-center sm:text-left">
+        <h4 class="font-bold text-primary mb-3 sm:mb-5 text-sm sm:text-base">Get Started</h4>
+        <ul class="space-y-2 text-xs sm:text-sm text-slate-500">
+          <li><a href="explore.html" class="footer-link">Features</a></li>
+          <li><a href="pricing.html" class="footer-link">Pricing</a></li>
+          <li><a href="contact.html" class="footer-link">Contact</a></li>
+          <li><a href="demo.html" class="footer-link">Request Demo</a></li>
+        </ul>
+      </div>
+
+      <div class="text-center sm:text-left">
+        <h4 class="font-bold text-primary mb-3 sm:mb-5 text-sm sm:text-base">Documentation</h4>
+        <ul class="space-y-2 text-xs sm:text-sm text-slate-500">
+          <li><a href="docs.html#getting-started" class="footer-link">API Reference</a></li>
+          <li><a href="docs.html#sdks" class="footer-link">Integration Guides</a></li>
+          <li><a href="demo.html" class="footer-link">Video Tutorials</a></li>
+          <li><a href="docs.html#sdks" class="footer-link">SDK Downloads</a></li>
+        </ul>
+      </div>
+
+      <div class="text-center sm:text-left">
+        <h4 class="font-bold text-primary mb-3 sm:mb-5 text-sm sm:text-base">Company</h4>
+        <ul class="space-y-2 text-xs sm:text-sm text-slate-500">
+          <li><a href="about.html" class="footer-link">About Us</a></li>
+          <li><a href="career.html" class="footer-link">Careers</a></li>
+          <li><a href="blog.html" class="footer-link">Blog</a></li>
+          <li><a href="faq.html" class="footer-link">FAQ</a></li>
+          <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+          <li><a href="terms.html" class="footer-link">Terms of Service</a></li>
+          <li><a href="security.html" class="hover:text-secondary transition-colors">Security</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ============================================================
+  // MOBILE MENU
+  // ============================================================
+  const mobileToggle = document.getElementById('mobileToggleBtn');
+  const mobileClose = document.getElementById('closeMobileMenuBtn');
+  const mobileOverlay = document.getElementById('mobileMenuOverlay');
+  const mobilePanel = document.getElementById('mobileMenuPanel');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+
+  function openMenu() {
+    if (mobileOverlay && mobilePanel) {
+      mobileOverlay.classList.remove('invisible', 'opacity-0');
+      mobileOverlay.classList.add('visible', 'opacity-100');
+      mobilePanel.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  function closeMenu() {
+    if (mobileOverlay && mobilePanel) {
+      mobileOverlay.classList.add('invisible', 'opacity-0');
+      mobileOverlay.classList.remove('visible', 'opacity-100');
+      mobilePanel.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    }
+  }
+  if (mobileToggle) mobileToggle.addEventListener('click', openMenu);
+  if (mobileClose) mobileClose.addEventListener('click', closeMenu);
+  if (mobileOverlay) mobileOverlay.addEventListener('click', (e) => {
+    if (e.target === mobileOverlay) closeMenu();
+  });
+  mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+  // ============================================================
+  // HEADER SCROLL EFFECT
+  // ============================================================
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) header?.classList.add('shadow-lg');
+    else header?.classList.remove('shadow-lg');
+  });
+
+  // ============================================================
+  // COPY TO CLIPBOARD — single delegated handler
+  // ============================================================
+  function showToast(message) {
+    const existing = document.querySelector('.custom-toast');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'custom-toast fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-5 py-3 rounded-xl text-sm z-50 shadow-xl';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 0.3s';
+      setTimeout(() => toast.remove(), 300);
+    }, 1800);
+  }
+
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const text = btn.getAttribute('data-copy') || '';
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      const original = btn.innerHTML;
+      btn.innerHTML = '✅ Copied';
+      setTimeout(() => { btn.innerHTML = original; }, 1400);
+    } catch (err) {
+      showToast('❌ Copy failed');
+    }
+  });
+
+  // ============================================================
+  // SEARCH
+  // ============================================================
+  const searchInput = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+
+  const searchIndex = [
+    { title: 'Quick Start Guide', url: '#getting-started', description: 'Get started with SynapsePM API in minutes', badge: 'Guide' },
+    { title: 'Authentication', url: '#authentication', description: 'JWT and API key authentication', badge: 'API' },
+    { title: 'Machines API', url: '#machines', description: 'Manage industrial equipment and assets', badge: 'API' },
+    { title: 'Predictions API', url: '#predictions', description: 'Get RUL predictions and failure probabilities', badge: 'API' },
+    { title: 'Alerts API', url: '#alerts', description: 'Manage AI-generated system alerts', badge: 'API' },
+    { title: 'Webhooks', url: '#webhooks', description: 'Real-time notifications and event streaming', badge: 'Guide' },
+    { title: 'Python SDK', url: '#sdks', description: 'Official Python client library', badge: 'SDK' },
+    { title: 'JavaScript SDK', url: '#sdks', description: 'Official JavaScript / Node.js client library', badge: 'SDK' },
+    { title: 'Error Handling', url: '#errors', description: 'HTTP status codes and error responses', badge: 'Guide' },
+  ];
+
+  let selectedResultIndex = -1;
+
+  function renderEmpty() {
+    searchResults.innerHTML = `
+      <div class="result-empty">
+        <span class="material-symbols-outlined empty-icon">search</span>
+        <p class="empty-text">Start typing to search...</p>
+        <p class="empty-sub">Find API endpoints, guides, and more</p>
+      </div>`;
+  }
+
+  function renderSearchResults(query) {
+    const trimmed = String(query || '').toLowerCase().trim();
+    if (trimmed.length < 1) {
+      renderEmpty();
+      searchResults.classList.add('visible');
+      return;
+    }
+    const results = searchIndex.filter(item =>
+      item.title.toLowerCase().includes(trimmed) ||
+      item.description.toLowerCase().includes(trimmed) ||
+      item.badge.toLowerCase().includes(trimmed)
+    );
+
+    if (results.length === 0) {
+      searchResults.innerHTML = `
+        <div class="result-empty">
+          <span class="material-symbols-outlined empty-icon">search_off</span>
+          <p class="empty-text">No results for "${trimmed}"</p>
+          <p class="empty-sub">Try different keywords</p>
+        </div>`;
+    } else {
+      const safeRegex = new RegExp(trimmed.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      searchResults.innerHTML = results.map((item, index) => {
+        const highlighted = item.title.replace(safeRegex, m => `<span class="highlight">${m}</span>`);
+        return `
+          <a href="${item.url}" class="result-item" data-index="${index}">
+            <span class="material-symbols-outlined result-icon">description</span>
+            <div class="result-content">
+              <div class="result-title">${highlighted}</div>
+              <div class="result-description">${item.description}</div>
+            </div>
+            <span class="result-badge">${item.badge}</span>
+          </a>`;
+      }).join('');
+      selectedResultIndex = -1;
+    }
+    searchResults.classList.add('visible');
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => renderSearchResults(e.target.value));
+
+    searchInput.addEventListener('focus', () => {
+      const q = searchInput.value.trim();
+      if (q.length > 0) renderSearchResults(q);
+      else { renderEmpty(); searchResults.classList.add('visible'); }
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      const items = searchResults.querySelectorAll('.result-item');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (items.length > 0) {
+          selectedResultIndex = Math.min(selectedResultIndex + 1, items.length - 1);
+          items.forEach((item, i) => {
+            item.style.background = i === selectedResultIndex ? '#f1f5f9' : '';
+            if (i === selectedResultIndex) item.scrollIntoView({ block: 'nearest' });
+          });
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (items.length > 0) {
+          selectedResultIndex = Math.max(selectedResultIndex - 1, 0);
+          items.forEach((item, i) => {
+            item.style.background = i === selectedResultIndex ? '#f1f5f9' : '';
+            if (i === selectedResultIndex) item.scrollIntoView({ block: 'nearest' });
+          });
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (selectedResultIndex >= 0 && items.length > 0) items[selectedResultIndex].click();
+        else if (items.length > 0) items[0].click();
+      } else if (e.key === 'Escape') {
+        searchResults.classList.remove('visible');
+        searchInput.blur();
+      }
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const container = document.querySelector('.search-container');
+    if (container && !container.contains(e.target)) {
+      searchResults?.classList.remove('visible');
+    }
+  });
+
+  // ============================================================
+  // MOBILE TOC
+  // ============================================================
+  const mobileToc = document.getElementById('mobileToc');
+  if (mobileToc) {
+    mobileToc.addEventListener('change', (e) => {
+      const target = document.querySelector(e.target.value);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  // ============================================================
+  // ACTIVE SIDEBAR LINK ON SCROLL
+  // ============================================================
+  const sections = document.querySelectorAll('.docs-section');
+  const sidebarLinks = document.querySelectorAll('.sidebar-nav-link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (window.scrollY >= sectionTop) current = section.getAttribute('id');
+    });
+    sidebarLinks.forEach(link => {
+      link.classList.remove('active');
+      link.style.borderLeft = 'none';
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+        link.style.borderLeft = '3px solid #00b4aa';
+      }
+    });
+  });
+
+  // ============================================================
+  // SYNTAX HIGHLIGHTING
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof hljs !== 'undefined') hljs.highlightAll();
+  });
+
+  // ============================================================
+  // KEYBOARD SHORTCUTS
+  // ============================================================
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      if (searchInput) { searchInput.focus(); searchInput.select(); }
+    }
+    if (e.key === '/' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      if (searchInput) searchInput.focus();
+    }
+  });
+
+  console.log('🚀 SynapsePM Documentation v1.0');
+  console.log('🔍 Search: Press "/" or "⌘K" to focus search');
+  console.log('📋 Copy: Click copy buttons on code blocks');
+})();
+</script>
+</body>
+</html>
