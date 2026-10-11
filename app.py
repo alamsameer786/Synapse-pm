@@ -3544,6 +3544,36 @@ class MLEngine:
                 revision,
             )
 
+            import os
+from huggingface_hub import HfApi
+
+token = os.environ.get("HF_TOKEN")
+repo_id = os.environ.get("HF_MODEL_REPO")
+filename = os.environ.get("HF_MODEL_FILENAME")
+revision = os.environ.get("HF_MODEL_REVISION", "main")
+
+logger.info(
+    "HF diagnostic: token_present=%s, token_length=%s, "
+    "repo=%r, filename=%r, revision=%r",
+    bool(token),
+    len(token) if token else 0,
+    repo_id,
+    filename,
+    revision,
+)
+
+if not token:
+    raise RuntimeError("HF_TOKEN is missing or empty")
+
+try:
+    api = HfApi(token=token)
+    info = api.model_info(repo_id)
+    logger.info("HF repository authentication succeeded: %s", info.id)
+    files = api.list_repo_files(repo_id, revision=revision)
+    logger.info("HF repository filenames: %r", files)
+except Exception:
+    logger.exception("HF repository authentication or listing failed")
+    raise
             # The Hub client handles private-repository authentication and URLs.
             downloaded_path = hf_hub_download(
                 repo_id=repo_id,
