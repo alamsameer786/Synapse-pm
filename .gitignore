@@ -34,3 +34,6 @@ venv/
 
 # Local uploads
 uploads/
+
+.env
+.env.*
