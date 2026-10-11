@@ -3499,74 +3499,109 @@ class MLEngine:
                     seen.add(key)
         return result
 
-    def _download_private_hf_release(self):
-        """Download the configured private Hugging Face ZIP before model discovery.
+    
+def _download_private_hf_release(self):
+    """Download and validate a private Hugging Face model ZIP."""
 
-        Credentials are read only from environment variables and are never logged.
-        A download is staged to a temporary file, validated as a ZIP, then atomically
-        moved into place so a partial transfer cannot replace a valid local archive.
-        """
-        repo_id = os.environ.get('HF_MODEL_REPO', '').strip()
-        filename = os.environ.get('HF_MODEL_FILENAME', 'trained model.zip').strip()
-        token = os.environ.get('HF_TOKEN', '').strip()
-        revision = os.environ.get('HF_MODEL_REVISION', 'main').strip() or 'main'
+    import os
+    import shutil
+    import zipfile
+    from pathlib import Path
 
-        if not repo_id:
-            return
-        if not filename:
-            raise RuntimeError('HF_MODEL_FILENAME is empty while HF_MODEL_REPO is configured')
-        if not token:
-            raise RuntimeError('HF_TOKEN is required for the configured private Hugging Face model repository')
-        if not REQUESTS_AVAILABLE or requests is None:
-            raise RuntimeError('The requests package is required for Hugging Face model download')
+    repo_id = os.environ.get("HF_MODEL_REPO", "").strip()
+    filename = os.environ.get(
+        "HF_MODEL_FILENAME", "trained model.zip"
+    ).strip()
+    token = os.environ.get("HF_TOKEN", "").strip()
+    revision = os.environ.get("HF_MODEL_REVISION", "main").strip() or "main"
 
-        from urllib.parse import quote
+    # No configured repository means there is no remote download to perform.
+    if not repo_id:
+        logger.info("No Hugging Face model repository configured; skipping download.")
+        return
+
+    if not filename:
+        raise RuntimeError("HF_MODEL_FILENAME is empty.")
+
+    if not token:
+        raise RuntimeError("HF_TOKEN is required for the private model repository.")
+
+    try:
+        from huggingface_hub import hf_hub_download
+
         release_path = Path(config.MODEL_RELEASE_ZIP).expanduser().resolve()
         release_path.parent.mkdir(parents=True, exist_ok=True)
-        encoded_repo = '/'.join(quote(part, safe='') for part in repo_id.split('/'))
-        encoded_file = quote(filename.lstrip('/'), safe='/')
-        encoded_revision = quote(revision, safe='')
-        url = f'https://huggingface.co/{encoded_repo}/resolve/{encoded_revision}/{encoded_file}?download=true'
-        temp_path = release_path.with_name(release_path.name + '.download-part')
-        max_bytes = max(1, int(os.environ.get('HF_MODEL_MAX_DOWNLOAD_MB', '2048'))) * 1024 * 1024
+
+        max_mb = int(os.environ.get("HF_MODEL_MAX_DOWNLOAD_MB", "2048"))
+        if max_mb < 1:
+            raise ValueError("HF_MODEL_MAX_DOWNLOAD_MB must be at least 1.")
+
+        logger.info(
+            "Downloading private model release "
+            "(repo=%s, file=%s, revision=%s)",
+            repo_id,
+            filename,
+            revision,
+        )
+
+        # The Hub client handles private-repository authentication and URLs.
+        downloaded_path = hf_hub_download(
+            repo_id=repo_id,
+            filename=filename,
+            repo_type="model",
+            revision=revision,
+            token=token,
+        )
+
+        downloaded_path = Path(downloaded_path)
+
+        if not downloaded_path.is_file():
+            raise RuntimeError("Hugging Face did not return a model archive file.")
+
+        if downloaded_path.stat().st_size > max_mb * 1024 * 1024:
+            raise RuntimeError(
+                f"Model archive exceeds HF_MODEL_MAX_DOWNLOAD_MB ({max_mb} MB)."
+            )
+
+        if not zipfile.is_zipfile(downloaded_path):
+            raise RuntimeError(
+                "The downloaded Hugging Face file is not a valid ZIP archive."
+            )
+
+        # Stage beside the destination so os.replace is atomic on the same filesystem.
+        temp_path = release_path.with_name(
+            release_path.name + ".download-part"
+        )
 
         try:
-            logger.info('Downloading private ML release from Hugging Face (repo=%s, file=%s, revision=%s)',
-                        repo_id, filename, revision)
-            with requests.get(
-                url,
-                headers={'Authorization': f'Bearer {token}', 'User-Agent': 'SynapsePM/1.0 model-loader'},
-                stream=True,
-                timeout=(15, 180),
-                allow_redirects=True,
-            ) as response:
-                response.raise_for_status()
-                content_length = response.headers.get('Content-Length')
-                if content_length and int(content_length) > max_bytes:
-                    raise RuntimeError(f'Model archive exceeds HF_MODEL_MAX_DOWNLOAD_MB ({max_bytes // (1024 * 1024)} MB)')
-                written = 0
-                with temp_path.open('wb') as output:
-                    for chunk in response.iter_content(chunk_size=1024 * 1024):
-                        if not chunk:
-                            continue
-                        written += len(chunk)
-                        if written > max_bytes:
-                            raise RuntimeError(f'Model archive exceeded configured maximum size ({max_bytes // (1024 * 1024)} MB)')
-                        output.write(chunk)
-                    output.flush()
-                    os.fsync(output.fileno())
-            if written <= 0 or not zipfile.is_zipfile(temp_path):
-                raise RuntimeError('Hugging Face response was not a valid, non-empty ZIP archive')
+            shutil.copyfile(downloaded_path, temp_path)
+
+            if not zipfile.is_zipfile(temp_path):
+                raise RuntimeError("The staged model archive failed ZIP validation.")
+
             os.replace(str(temp_path), str(release_path))
-            logger.info('Private ML release downloaded and ZIP-validated (%d bytes)', written)
-        except Exception as exc:
+        finally:
             try:
                 temp_path.unlink(missing_ok=True)
-            except Exception:
+            except OSError:
                 pass
-            # Do not print request headers or token values.
-            logger.error('Private Hugging Face model download failed: %s: %s', type(exc).__name__, str(exc)[:500])
-            raise RuntimeError('Private model release download failed; see preceding safe diagnostic log') from exc
+
+        logger.info(
+            "Private model release downloaded and ZIP-validated (%d bytes).",
+            release_path.stat().st_size,
+        )
+
+    except Exception as exc:
+        # Do not log the token or request headers.
+        logger.error(
+            "Private Hugging Face model download failed (%s): %s",
+            type(exc).__name__,
+            str(exc)[:300],
+        )
+        raise RuntimeError(
+            "Private model release download failed. Check the deployment logs "
+            "for the diagnostic above."
+        ) from exc
 
     def _init(self):
         configured_root = Path(config.ML_MODEL_PATH).expanduser().resolve()
