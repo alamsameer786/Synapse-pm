@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SYNAPSEPM v27.1.0 — PREDICTION, MANUAL SENSOR AND RELEASE FIXES
+SYNAPSEPM v27.1.0 — PRIVATE HF MODEL RELEASE FIX
 ====================================================
 Preserves the existing SaaS, auth, IoT, billing, admin, reporting and frontend APIs while adding the v23/v25 trustworthy-ML contract and global-production hardening:
 
@@ -534,6 +534,8 @@ class Config:
     MOBILE_ANDROID_FILE = os.environ.get('MOBILE_ANDROID_FILE', 'SynapsePM-Android.apk')
     MOBILE_IOS_FILE = os.environ.get('MOBILE_IOS_FILE', 'SynapsePM-iOS.ipa')
 
+    # Local ZIP path. In Render, a private Hugging Face release can be downloaded
+    # here at startup by setting HF_MODEL_REPO, HF_MODEL_FILENAME and HF_TOKEN.
     MODEL_RELEASE_ZIP = os.environ.get(
         'MODEL_RELEASE_ZIP',
         os.path.join(os.path.dirname(os.path.abspath(__file__)), 'trained_model.zip')
@@ -3497,9 +3499,81 @@ class MLEngine:
                     seen.add(key)
         return result
 
+    def _download_private_hf_release(self):
+        """Download the configured private Hugging Face ZIP before model discovery.
+
+        Credentials are read only from environment variables and are never logged.
+        A download is staged to a temporary file, validated as a ZIP, then atomically
+        moved into place so a partial transfer cannot replace a valid local archive.
+        """
+        repo_id = os.environ.get('HF_MODEL_REPO', '').strip()
+        filename = os.environ.get('HF_MODEL_FILENAME', 'trained model.zip').strip()
+        token = os.environ.get('HF_TOKEN', '').strip()
+        revision = os.environ.get('HF_MODEL_REVISION', 'main').strip() or 'main'
+
+        if not repo_id:
+            return
+        if not filename:
+            raise RuntimeError('HF_MODEL_FILENAME is empty while HF_MODEL_REPO is configured')
+        if not token:
+            raise RuntimeError('HF_TOKEN is required for the configured private Hugging Face model repository')
+        if not REQUESTS_AVAILABLE or requests is None:
+            raise RuntimeError('The requests package is required for Hugging Face model download')
+
+        from urllib.parse import quote
+        release_path = Path(config.MODEL_RELEASE_ZIP).expanduser().resolve()
+        release_path.parent.mkdir(parents=True, exist_ok=True)
+        encoded_repo = '/'.join(quote(part, safe='') for part in repo_id.split('/'))
+        encoded_file = quote(filename.lstrip('/'), safe='/')
+        encoded_revision = quote(revision, safe='')
+        url = f'https://huggingface.co/{encoded_repo}/resolve/{encoded_revision}/{encoded_file}?download=true'
+        temp_path = release_path.with_name(release_path.name + '.download-part')
+        max_bytes = max(1, int(os.environ.get('HF_MODEL_MAX_DOWNLOAD_MB', '2048'))) * 1024 * 1024
+
+        try:
+            logger.info('Downloading private ML release from Hugging Face (repo=%s, file=%s, revision=%s)',
+                        repo_id, filename, revision)
+            with requests.get(
+                url,
+                headers={'Authorization': f'Bearer {token}', 'User-Agent': 'SynapsePM/1.0 model-loader'},
+                stream=True,
+                timeout=(15, 180),
+                allow_redirects=True,
+            ) as response:
+                response.raise_for_status()
+                content_length = response.headers.get('Content-Length')
+                if content_length and int(content_length) > max_bytes:
+                    raise RuntimeError(f'Model archive exceeds HF_MODEL_MAX_DOWNLOAD_MB ({max_bytes // (1024 * 1024)} MB)')
+                written = 0
+                with temp_path.open('wb') as output:
+                    for chunk in response.iter_content(chunk_size=1024 * 1024):
+                        if not chunk:
+                            continue
+                        written += len(chunk)
+                        if written > max_bytes:
+                            raise RuntimeError(f'Model archive exceeded configured maximum size ({max_bytes // (1024 * 1024)} MB)')
+                        output.write(chunk)
+                    output.flush()
+                    os.fsync(output.fileno())
+            if written <= 0 or not zipfile.is_zipfile(temp_path):
+                raise RuntimeError('Hugging Face response was not a valid, non-empty ZIP archive')
+            os.replace(str(temp_path), str(release_path))
+            logger.info('Private ML release downloaded and ZIP-validated (%d bytes)', written)
+        except Exception as exc:
+            try:
+                temp_path.unlink(missing_ok=True)
+            except Exception:
+                pass
+            # Do not print request headers or token values.
+            logger.error('Private Hugging Face model download failed: %s: %s', type(exc).__name__, str(exc)[:500])
+            raise RuntimeError('Private model release download failed; see preceding safe diagnostic log') from exc
+
     def _init(self):
         configured_root = Path(config.ML_MODEL_PATH).expanduser().resolve()
         configured_root.mkdir(parents=True, exist_ok=True)
+
+        # The archive must exist before the normal extraction and discovery logic runs.
+        self._download_private_hf_release()
 
         extracted = False
         for release in self._release_candidates(configured_root):
