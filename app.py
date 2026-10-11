@@ -405,22 +405,6 @@ class Config:
         PADDLE_PRICE_IDS = {}
 
     # ==========================================================
-    # KHALTI (optional — kept for Nepal market if env configured)
-    # ==========================================================
-    # KHALTI_SECRET_KEY = os.environ.get('KHALTI_SECRET_KEY')
-    # KHALTI_PUBLIC_KEY = os.environ.get('KHALTI_PUBLIC_KEY')
-    # KHALTI_ENV = os.environ.get('KHALTI_ENV', 'test')
-
-    # try:
-    #     KHALTI_AMOUNTS = json.loads(os.environ.get('KHALTI_AMOUNTS_JSON', '{}'))
-    # except Exception:
-    #     KHALTI_AMOUNTS = {}
-
-    # KHALTI_RETURN_URL = os.environ.get(
-    #     'KHALTI_RETURN_URL', f'{APP_URL}/api/v1/payments/khalti/callback'
-    # )
-
-    # ==========================================================
     # MQTT (real IoT device ingestion)
     # ==========================================================
     ENABLE_MQTT = os.environ.get('ENABLE_MQTT', 'false').lower() == 'true'
@@ -5095,8 +5079,8 @@ class PaymentProcessor:
     def _init(self):
         if config.PADDLE_API_KEY and config.PADDLE_PRICE_IDS:
             self.gateways['paddle'] = {'env': config.PADDLE_ENV}
-        if config.KHALTI_SECRET_KEY and config.KHALTI_AMOUNTS:
-            self.gateways['khalti'] = {'env': config.KHALTI_ENV}
+        # if config.KHALTI_SECRET_KEY and config.KHALTI_AMOUNTS:
+        #     self.gateways['khalti'] = {'env': config.KHALTI_ENV}
         if not config.IS_PRODUCTION:
             self.gateways['mock'] = {'env': 'dev'}
 
@@ -5124,21 +5108,21 @@ class PaymentProcessor:
                 'reason': f"missing: {', '.join(missing)}",
             })
 
-        if config.KHALTI_SECRET_KEY and config.KHALTI_AMOUNTS:
-            statuses.append({
-                'name': 'khalti', 'enabled': True,
-                'env': config.KHALTI_ENV,
-            })
-        else:
-            missing = []
-            if not config.KHALTI_SECRET_KEY:
-                missing.append('KHALTI_SECRET_KEY')
-            if not config.KHALTI_AMOUNTS:
-                missing.append('KHALTI_AMOUNTS_JSON')
-            statuses.append({
-                'name': 'khalti', 'enabled': False,
-                'reason': f"missing: {', '.join(missing)}",
-            })
+        # if config.KHALTI_SECRET_KEY and config.KHALTI_AMOUNTS:
+        #     statuses.append({
+        #         'name': 'khalti', 'enabled': True,
+        #         'env': config.KHALTI_ENV,
+        #     })
+        # else:
+        #     missing = []
+        #     if not config.KHALTI_SECRET_KEY:
+        #         missing.append('KHALTI_SECRET_KEY')
+        #     if not config.KHALTI_AMOUNTS:
+        #         missing.append('KHALTI_AMOUNTS_JSON')
+        #     statuses.append({
+        #         'name': 'khalti', 'enabled': False,
+        #         'reason': f"missing: {', '.join(missing)}",
+        #     })
 
         if not config.IS_PRODUCTION:
             statuses.append({
@@ -5250,39 +5234,39 @@ class PaymentProcessor:
                 p.payment_data = {**(p.payment_data or {}),
                                   'paddle_transaction_id': body.get('id'),
                                   'price_id': price_id}
-            elif gateway == 'khalti':
-                if not REQUESTS_AVAILABLE:
-                    raise RuntimeError('requests required')
-                amount = int(config.KHALTI_AMOUNTS.get(plan_id, 0))
-                if amount <= 0:
-                    raise RuntimeError(f'Missing Khalti amount for {plan_id}')
-                base = ('https://dev.khalti.com/api/v2'
-                        if config.KHALTI_ENV != 'live' else 'https://khalti.com/api/v2')
-                r = requests.post(
-                    base + '/epayment/initiate/',
-                    headers={'Authorization': f'Key {config.KHALTI_SECRET_KEY}',
-                             'Content-Type': 'application/json'},
-                    json={'return_url': config.KHALTI_RETURN_URL,
-                          'website_url': config.FRONTEND_URL,
-                          'amount': str(amount),
-                          'purchase_order_id': p.uuid,
-                          'purchase_order_name': plan['name'],
-                          'customer_info': {
-                              'name': user.display_name or user.email,
-                              'email': user.email, 'phone': user.phone or ''
-                          }},
-                    timeout=(5, 20)
-                )
-                r.raise_for_status()
-                body = r.json()
-                checkout = body.get('payment_url')
-                pidx = body.get('pidx')
-                if not checkout or not pidx:
-                    raise RuntimeError('Khalti missing pidx/payment_url')
-                p.gateway_order_id = pidx
-                p.payment_data = {**(p.payment_data or {}),
-                                  'pidx': pidx,
-                                  'khalti_amount_paisa': amount}
+            # elif gateway == 'khalti':
+            #     if not REQUESTS_AVAILABLE:
+            #         raise RuntimeError('requests required')
+            #     amount = int(config.KHALTI_AMOUNTS.get(plan_id, 0))
+            #     if amount <= 0:
+            #         raise RuntimeError(f'Missing Khalti amount for {plan_id}')
+            #     base = ('https://dev.khalti.com/api/v2'
+            #             if config.KHALTI_ENV != 'live' else 'https://khalti.com/api/v2')
+            #     r = requests.post(
+            #         base + '/epayment/initiate/',
+            #         headers={'Authorization': f'Key {config.KHALTI_SECRET_KEY}',
+            #                  'Content-Type': 'application/json'},
+            #         json={'return_url': config.KHALTI_RETURN_URL,
+            #               'website_url': config.FRONTEND_URL,
+            #               'amount': str(amount),
+            #               'purchase_order_id': p.uuid,
+            #               'purchase_order_name': plan['name'],
+            #               'customer_info': {
+            #                   'name': user.display_name or user.email,
+            #                   'email': user.email, 'phone': user.phone or ''
+            #               }},
+            #         timeout=(5, 20)
+            #     )
+            #     r.raise_for_status()
+            #     body = r.json()
+            #     checkout = body.get('payment_url')
+            #     pidx = body.get('pidx')
+            #     if not checkout or not pidx:
+            #         raise RuntimeError('Khalti missing pidx/payment_url')
+            #     p.gateway_order_id = pidx
+            #     p.payment_data = {**(p.payment_data or {}),
+            #                       'pidx': pidx,
+            #                       'khalti_amount_paisa': amount}
             else:
                 raise RuntimeError('Unsupported gateway')
             db.session.commit()
