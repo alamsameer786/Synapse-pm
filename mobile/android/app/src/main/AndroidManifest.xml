@@ -67,7 +67,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" />
-                <data android:host="app.synapsepm.com" />
+                <data android:host="https://synapsepm.us.ci" />
                 <data android:pathPrefix="/" />
             </intent-filter>
         </activity>
