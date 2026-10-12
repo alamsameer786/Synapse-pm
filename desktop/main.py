@@ -71,7 +71,7 @@ class SecureConfig:
             'auto_start': True,
             'notifications': True,
             'api_url': os.getenv('SYNAPPM_API_URL', 'http://localhost:5000/api/v1'),
-            'frontend_url': os.getenv('SYNAPPM_FRONTEND_URL', 'https://app.synapsepm.com'),
+            'frontend_url': os.getenv('SYNAPPM_FRONTEND_URL', 'https://synapsepm.us.ci'),
             'update_check_interval': 86400,  # 24 hours
             'telemetry_enabled': False,
             'last_update_check': None
@@ -493,7 +493,7 @@ def main():
         sys.exit(1)
     
     # Determine URL to load
-    frontend_url = config.get('frontend_url', 'https://app.synapsepm.com')
+    frontend_url = config.get('frontend_url', 'https://synapsepm.us.ci')
     local_dev = "http://localhost:5500"
     
     # Check for local development
