@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="true">app.synapsepm.com</domain>
+        <domain includeSubdomains="true">https://synapsepm.us.ci</domain>
         <domain includeSubdomains="true">api.synapsepm.com</domain>
     </domain-config>
     
