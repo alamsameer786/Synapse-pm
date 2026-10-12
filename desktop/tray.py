@@ -137,7 +137,7 @@ class TrayApp:
         
         # Fallback to web browser
         print("🌐 Opening web version...")
-        webbrowser.open('https://app.synapsepm.com')
+        webbrowser.open('https://synapsepm.us.ci')
     
     def check_updates(self, icon=None, item=None):
         """Check for updates"""
