@@ -31,7 +31,7 @@
         <false/>
         <key>NSExceptionDomains</key>
         <dict>
-            <key>app.synapsepm.com</key>
+            <key>https://synapsepm.us.ci</key>
             <dict>
                 <key>NSIncludesSubdomains</key>
                 <true/>
