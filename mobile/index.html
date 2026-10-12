@@ -192,7 +192,7 @@
 <div id="app-container">
     <iframe 
         id="app-iframe" 
-        src="https://app.synapsepm.com" 
+        src="https://synapsepm.us.ci" 
         allow="camera; microphone; geolocation; notifications"
         sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
     ></iframe>
@@ -278,7 +278,7 @@
     // Listen for messages from iframe
     window.addEventListener('message', function(event) {
         // Only accept messages from same origin
-        if (event.origin !== 'https://app.synapsepm.com' && event.origin !== 'http://localhost:3000') return;
+        if (event.origin !== 'https://synapsepm.us.ci' && event.origin !== 'http://localhost:3000') return;
         
         const data = event.data;
         if (data.type === 'setActiveTab') {
