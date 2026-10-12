@@ -399,7 +399,7 @@ app.secret_key = os.getenv('SECRET_KEY', secrets.token_urlsafe(64))
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 
 # CORS with strict origins
-allowed_origins = os.getenv('CORS_ORIGINS', 'http://localhost:5000,http://localhost:3000,https://app.synapsepm.com').split(',')
+allowed_origins = os.getenv('CORS_ORIGINS', 'http://localhost:5000,http://localhost:3000,https://synapsepm.us.ci').split(',')
 CORS(app, resources={
     r"/api/*": {
         "origins": allowed_origins,
