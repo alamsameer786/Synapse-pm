@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -57,7 +57,7 @@
     display: inline-flex;
     align-items: center;
     line-height: 1;
-    height: 32px;                 /* locks text height = logo height */
+    height: 32px;
 }
 .synapsepm-logo > span:not(.logo-icon) {
     color: #0B1F4D;
@@ -87,8 +87,6 @@
     object-fit: contain;
     display: block;
 }
-
-/* Size variants — add class to .synapsepm-logo when you want a different size */
 .synapsepm-logo.logo-sm { font-size: 18px; gap: 0.4rem; }
 .synapsepm-logo.logo-sm .logo-icon,
 .synapsepm-logo.logo-sm .logo-icon img { width: 26px; height: 26px; min-width: 26px; min-height: 26px; }
@@ -101,7 +99,6 @@
 .synapsepm-logo.logo-lg > span:not(.logo-icon),
 .synapsepm-logo.logo-lg strong { height: 38px; }
 
-/* Override the inline override trick that was fighting with the logo */
 .synapsepm-logo .logo-icon[style*="width"] img,
 .synapsepm-logo .logo-icon[style*="height"] img {
     width: inherit;
@@ -144,7 +141,6 @@
     .toast { position: fixed; bottom: 2rem; right: 2rem; padding: 0.75rem 1.5rem; border-radius: 0.75rem; background: #1e293b; color: white; z-index: 1100; animation: slideUp 0.3s ease; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* Video Modal - Responsive with local video support */
     .video-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(8px); z-index: 1001; display: none; align-items: center; justify-content: center; }
     .video-modal.active { display: flex; }
     .video-modal-content { background: black; border-radius: 1rem; width: 90vw; max-width: 1000px; overflow: hidden; position: relative; }
@@ -261,7 +257,6 @@
     }
     .action-buttons .btn-wrapper { width: 100%; }
 
-    /* PDF Modal */
     .pdf-modal {
         position: fixed;
         top: 0;
@@ -693,13 +688,13 @@
 </section>
 </main>
 
-<!-- ===== VIDEO MODAL - WITH LOCAL VIDEO ===== -->
+<!-- ===== VIDEO MODAL - NOW USING HUGGING FACE HOSTED VIDEO ===== -->
 <div class="video-modal" id="videoModal">
   <div class="video-modal-content">
     <button class="video-modal-close" id="closeVideoModalBtn">✕</button>
     <div class="video-container">
-      <video id="demoVideo" controls autoplay muted playsinline>
-        <source src="assets/img/Synapse-pm (prototype model).mp4" type="video/mp4">
+      <video id="demoVideo" controls autoplay muted playsinline preload="metadata" poster="assets/img/logo.png">
+        <source src="https://huggingface.co/YOUR_USERNAME/YOUR_REPO/resolve/main/Synapse-pm%20(prototype%20model).mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>
@@ -818,14 +813,14 @@
 
 <script>
 // ============================================================
-// DEMO PAGE - LOCAL VIDEO & PDF PREVIEW
+// DEMO PAGE - HUGGING FACE VIDEO & PDF PREVIEW
 // ============================================================
 
 let chart = null;
 let currentSensorData = { temp: 75, vib: 5, press: 95 };
 
 // ============================================================
-// VIDEO MODAL - LOCAL VIDEO
+// VIDEO MODAL - HF-HOSTED VIDEO
 // ============================================================
 const videoModal = document.getElementById('videoModal');
 const watchDemoBtn = document.getElementById('watchDemoBtn');
@@ -1168,7 +1163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 console.log('🚀 SynapsePM Demo Page Loaded');
-console.log('🎥 Local video: assets/img/Synapse-pm (prototype model).mp4');
+console.log('🎥 Video: hosted on Hugging Face');
 console.log('📄 PDF: assets/img/usermanual.pdf');
 </script>
 
