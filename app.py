@@ -2668,20 +2668,66 @@ def log_audit(action, rtype, rid=None, changes=None, status='success', user_id=N
 # EMAIL HELPERS
 # ============================================================
 
+import threading
+import requests as _requests
+
+# Sender identity per purpose. All must be on your verified sending domain.
+EMAIL_SENDERS = {
+    "verification": os.environ.get("MAIL_FROM_VERIFY", "SynapsePM <verify@synapsepm.us.ci>"),
+    "security":     os.environ.get("MAIL_FROM_SECURITY", "SynapsePM <security@synapsepm.us.ci>"),
+    "billing":      os.environ.get("MAIL_FROM_BILLING", "SynapsePM <billing@synapsepm.us.ci>"),
+    "alerts":       os.environ.get("MAIL_FROM_ALERTS", "SynapsePM <alerts@synapsepm.us.ci>"),
+    "support":      os.environ.get("MAIL_FROM_SUPPORT", "SynapsePM <support@synapsepm.us.ci>"),
+}
+
+def _pick_sender(subject: str, default_purpose: str = "support") -> str:
+    """Route an email to the right sender by subject keyword."""
+    s = (subject or "").lower()
+    if any(k in s for k in ("verify", "verification", "confirm your email")):
+        return EMAIL_SENDERS["verification"]
+    if any(k in s for k in ("password", "reset", "otp", "security")):
+        return EMAIL_SENDERS["security"]
+    if any(k in s for k in ("invoice", "payment", "billing", "subscription", "receipt")):
+        return EMAIL_SENDERS["billing"]
+    if any(k in s for k in ("alert", "critical", "rul", "anomaly")):
+        return EMAIL_SENDERS["alerts"]
+    return EMAIL_SENDERS.get(default_purpose, EMAIL_SENDERS["support"])
+
 def send_email(to, subject, html, text=None):
-    try:
-        if config.MAIL_SUPPRESS_SEND or not config.MAIL_USERNAME:
-            logger.info(f"[MAIL SUPPRESSED] {to}: {subject}")
-            return True
-        msg = Message(subject=subject,
-                      recipients=[to] if isinstance(to, str) else to,
-                      html=html, body=text or html)
-        mail.send(msg)
-        logger.info(f"[MAIL SENT] {to}: {subject}")
-        return True
-    except Exception as e:
-        logger.error(f"Email failed: {e}")
-        return False
+    """Send via Resend HTTP API (works on Render free tier). Non-blocking."""
+    def _send():
+        try:
+            api_key = os.environ.get("RESEND_API_KEY", "").strip()
+            if not api_key:
+                logger.warning("[EMAIL] RESEND_API_KEY missing; skipping send to %s", to)
+                return
+            sender = _pick_sender(subject)
+            payload = {
+                "from": sender,
+                "to": [to] if isinstance(to, str) else list(to),
+                "subject": subject,
+                "html": html,
+            }
+            if text:
+                payload["text"] = text
+            r = _requests.post(
+                "https://api.resend.com/emails",
+                headers={
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json",
+                },
+                json=payload,
+                timeout=(5, 15),
+            )
+            if r.status_code >= 300:
+                logger.error("[EMAIL] Resend %s: %s", r.status_code, r.text[:500])
+            else:
+                logger.info("[EMAIL SENT] %s via %s: %s", to, sender, subject)
+        except Exception as e:
+            logger.exception("[EMAIL] Send failed for %s", to)
+
+    threading.Thread(target=_send, daemon=True).start()
+    return True
 
 
 def send_verification_email(email, token, user_name='there'):
@@ -5831,7 +5877,7 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
-    mail.init_app(app)
+    # mail.init_app(app)
     compress.init_app(app)
 
     if config.ENABLE_RATE_LIMITING:
@@ -8475,8 +8521,7 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
             cap_key = f'quota:ai-org:{org.id}:{datetime.now(timezone.utc).strftime("%Y-%m-%d")}'
             try:
                 cap = int(redis_client.get(f'ratecap:org:{org.id}') or config.ORG_DAILY_AI_CAP)
-                current = int(redis_client.incrby(cap_key, int(amount))
-                )
+                current = int(redis_client.incrby(cap_key, int(amount)))
                 redis_client.expire(cap_key, 172800)
                 if current > cap:
                     redis_client.decrby(cap_key, int(amount))
