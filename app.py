@@ -9314,9 +9314,13 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
         }), 200
 
     def _payment_idempotency_record(user, body):
-        raw_key = (request.headers.get('Idempotency-Key') or '').strip()
-        if not raw_key:
-            return None, jerr('Idempotency-Key header is required for checkout requests.', 400)
+    raw_key = (request.headers.get('Idempotency-Key') or '').strip()
+    if not raw_key:
+        # Fallback: derive a stable per-user+plan key so an old frontend that
+        # does not send the header still gets idempotent behaviour.
+        import hashlib as _hl
+        seed = f"{user.id}:{body.get('plan_id','')}:{body.get('gateway','paddle')}"
+        raw_key = 'auto-' + _hl.sha256(seed.encode()).hexdigest()[:40]
         if len(raw_key) < 8 or len(raw_key) > 128 or not re.fullmatch(r'[A-Za-z0-9._:-]+', raw_key):
             return None, jerr('Idempotency-Key must be 8–128 safe characters.', 400)
         request_hash = hashlib.sha256(json.dumps(body, sort_keys=True, separators=(',', ':'), default=str).encode()).hexdigest()
