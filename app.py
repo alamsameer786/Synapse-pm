@@ -1294,7 +1294,10 @@ class User(TimestampMixin, db.Model):
             'display_name': self.display_name,
             'full_name': f"{self.first_name or ''} {self.last_name or ''}".strip(),
             'job_title': self.job_title, 'department': self.department, 'phone': self.phone,
-            'avatar_url': self.avatar_url, 'role': self.role,
+            'avatar_url': (
+              self.avatar_url if (self.avatar_url or '').startswith(('http://', 'https://'))
+              else (f"{config.APP_URL.rstrip('/')}{self.avatar_url}" if self.avatar_url else None)
+            ),
             'permissions': self.permissions or {}, 'plan': self.plan, 'status': self.status,
             'is_active': self.is_active, 'is_verified': self.is_verified,
             'is_locked': self.is_locked, 'is_mfa_enabled': self.is_mfa_enabled,
