@@ -9317,8 +9317,8 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
         }), 200
 
     def _payment_idempotency_record(user, body):
-    raw_key = (request.headers.get('Idempotency-Key') or '').strip()
-    if not raw_key:
+      raw_key = (request.headers.get('Idempotency-Key') or '').strip()
+      if not raw_key:
         # Fallback: derive a stable per-user+plan key so an old frontend that
         # does not send the header still gets idempotent behaviour.
         import hashlib as _hl
