@@ -1107,7 +1107,7 @@
       const provider = sessionStorage.getItem('oauth_provider');
 
       if (code && provider) {
-        fetch(`/api/v1/auth/${encodeURIComponent(provider)}/callback`, {
+          fetch(`https://api.synapsepm.us.ci/api/v1/auth/${encodeURIComponent(provider)}/callback`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           credentials: 'same-origin',
