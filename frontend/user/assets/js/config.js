@@ -6,7 +6,7 @@
 const CONFIG = {
     // API Configuration
     API: {
-        BASE_URL: 'https://api.synapsepm.com/v1',
+        BASE_URL: 'https://api.synapsepm.us.ci',
         TIMEOUT: 30000, // 30 seconds
         RETRY_ATTEMPTS: 3,
         RETRY_DELAY: 1000, // 1 second
