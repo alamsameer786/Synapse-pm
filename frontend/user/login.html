@@ -805,7 +805,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================================
     // CONFIG
     // ============================================================
-    const API_BASE = '/api/v1/auth';
+    const API_BASE = 'https://api.synapsepm.us.ci/api/v1/auth';
 
     const STORAGE_KEYS = [
         'synapse_token', 'synapse_user', 'synapse_refresh', 'synapse_tenant',
@@ -1889,7 +1889,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================================
     async function startOAuth(provider) {
         try {
-            const response = await fetch(`/api/v1/auth/${encodeURIComponent(provider)}`, {
+            const response = await fetch(`https://api.synapsepm.us.ci/api/v1/auth/${encodeURIComponent(provider)}`, {
                 method: 'GET',
                 headers: { 'Accept': 'application/json' },
                 credentials: 'same-origin'
@@ -1950,7 +1950,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (params.has('oauth_code') && oauthCode) {
             try {
-                const { data } = await apiRequest(`${API_BASE}/oauth/exchange`, {
+        fetch(`https://api.synapsepm.us.ci/api/v1/auth/${encodeURIComponent(provider)}/callback`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ code: oauthCode })
