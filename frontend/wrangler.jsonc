@@ -8,7 +8,7 @@
     "API_ORIGIN": "https://api.synapsepm.us.ci"
   },
   "assets": {
-    "directory": "./user",
+    "directory": "./",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     "run_worker_first": ["/api/*"]
