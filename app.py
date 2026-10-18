@@ -9320,7 +9320,8 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
     def _payment_idempotency_record(user, body):
       raw_key = (request.headers.get('Idempotency-Key') or '').strip()
       if not raw_key:
-        # Fallback: derive a stable key if frontend doesn't send it
+        # Fallback: derive a stable per-user+plan key so an old frontend that
+        # does not send the header still gets idempotent behaviour.
         import hashlib as _hl
         seed = f"{user.id}:{body.get('plan_id','')}:{body.get('gateway','paddle')}"
         raw_key = 'auto-' + _hl.sha256(seed.encode()).hexdigest()[:40]
@@ -9343,7 +9344,7 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
             return None, jerr('A checkout with this idempotency key is already in progress.', 409)
         if record.status == 'failed' and record.response_payload is not None:
             return (record.response_payload, int(record.status_code or 409)), None
-    else:
+      else:
         record = PaymentIdempotency(key=storage_key, user_id=user.id, request_hash=request_hash, status='processing')
         db.session.add(record)
         try:
@@ -9354,8 +9355,7 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
             if existing and existing.status == 'completed' and existing.response_payload is not None:
                 return (existing.response_payload, int(existing.status_code or 200)), None
             return None, jerr('A checkout with this idempotency key is already in progress.', 409)
-    return record, None
-
+      return record, None
     def _payment_idempotency_finish(record, payload, status_code, success):
         if not isinstance(record, PaymentIdempotency):
             return
