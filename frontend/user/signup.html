@@ -1011,7 +1011,7 @@
           password: els.password.value
         };
 
-        const response = await fetch('https://api.synapsepm.us.ci/api/v1/auth/register', {
+        const response = await fetch('/api/v1/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           credentials: 'same-origin',
@@ -1073,7 +1073,7 @@
         hideAlerts();
 
         try {
-          const resp = await fetch(`https://api.synapsepm.us.ci/api/v1/auth/${encodeURIComponent(provider)}`, {
+          const resp = await fetch(`/api/v1/auth/${encodeURIComponent(provider)}`, {
             method: 'GET',
             headers: { 'Accept': 'application/json' },
             credentials: 'same-origin'
