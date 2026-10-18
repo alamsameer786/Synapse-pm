@@ -2955,6 +2955,7 @@ def login_required(f):
             allowed_mfa_paths = {
                 '/api/v1/auth/mfa/setup', '/api/v1/auth/mfa/verify',
                 '/api/v1/auth/mfa/status', '/api/v1/auth/logout',
+                '/api/v1/auth/me', '/api/v1/user/2fa/status',
             }
             if request.path not in allowed_mfa_paths:
                 return jsonify({'success': False, 'error': 'Super-admin MFA setup is required.',
@@ -5461,7 +5462,7 @@ def _auto_alert(machine, prediction, result):
                     role='org_admin', is_active=True
                 ).first()
             if owner and owner.email:
-                if config.MAIL_SUPPRESS_SEND or not config.MAIL_USERNAME:
+                if not os.environ.get('RESEND_API_KEY'):
                     email_result = {'sent': False, 'reason': 'suppressed',
                                     'recipient': owner.email}
                     logger.info(f"[EMAIL SUPPRESSED] would send to {owner.email}")
@@ -9319,45 +9320,41 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
     def _payment_idempotency_record(user, body):
       raw_key = (request.headers.get('Idempotency-Key') or '').strip()
       if not raw_key:
-        # Fallback: derive a stable per-user+plan key so an old frontend that
-        # does not send the header still gets idempotent behaviour.
+        # Fallback: derive a stable key if frontend doesn't send it
         import hashlib as _hl
         seed = f"{user.id}:{body.get('plan_id','')}:{body.get('gateway','paddle')}"
         raw_key = 'auto-' + _hl.sha256(seed.encode()).hexdigest()[:40]
-        if len(raw_key) < 8 or len(raw_key) > 128 or not re.fullmatch(r'[A-Za-z0-9._:-]+', raw_key):
-            return None, jerr('Idempotency-Key must be 8–128 safe characters.', 400)
-        request_hash = hashlib.sha256(json.dumps(body, sort_keys=True, separators=(',', ':'), default=str).encode()).hexdigest()
-        storage_key = hashlib.sha256(f'{user.id}:{raw_key}'.encode()).hexdigest()
-        record = PaymentIdempotency.query.filter_by(key=storage_key).first()
-        now = datetime.now(timezone.utc)
-        if record:
-            if str(record.user_id) != str(user.id) or record.request_hash != request_hash:
-                return None, jerr('Idempotency key was already used for a different request.', 409)
-            age = (now - ensure_aware(record.created_at)).total_seconds() if record.created_at else 0
-            if record.status == 'processing' and age > 900:
-                record.status = 'failed'
-                record.response_payload = {'success': False, 'error': 'Previous checkout attempt expired; use a new idempotency key.'}
-                record.status_code = 409
-                db.session.commit()
-            if record.status == 'completed' and record.response_payload is not None:
-                return (record.response_payload, int(record.status_code or 200)), None
-            if record.status == 'processing':
-                return None, jerr('A checkout with this idempotency key is already in progress.', 409)
-            if record.status == 'failed' and record.response_payload is not None:
-                return (record.response_payload, int(record.status_code or 409)), None
-        else:
-            record = PaymentIdempotency(key=storage_key, user_id=user.id,
-                                        request_hash=request_hash, status='processing')
-            db.session.add(record)
-            try:
-                db.session.commit()
-            except IntegrityError:
-                db.session.rollback()
-                existing = PaymentIdempotency.query.filter_by(key=storage_key).first()
-                if existing and existing.status == 'completed' and existing.response_payload is not None:
-                    return (existing.response_payload, int(existing.status_code or 200)), None
-                return None, jerr('A checkout with this idempotency key is already in progress.', 409)
-        return record, None
+      request_hash = hashlib.sha256(json.dumps(body, sort_keys=True, separators=(',', ':'), default=str).encode()).hexdigest()
+      storage_key = hashlib.sha256(f'{user.id}:{raw_key}'.encode()).hexdigest()
+      record = PaymentIdempotency.query.filter_by(key=storage_key).first()
+      now = datetime.now(timezone.utc)
+      if record:
+        if str(record.user_id) != str(user.id) or record.request_hash != request_hash:
+            return None, jerr('Idempotency key was already used for a different request.', 409)
+        age = (now - ensure_aware(record.created_at)).total_seconds() if record.created_at else 0
+        if record.status == 'processing' and age > 900:
+            record.status = 'failed'
+            record.response_payload = {'success': False, 'error': 'Previous checkout attempt expired; use a new idempotency key.'}
+            record.status_code = 409
+            db.session.commit()
+        if record.status == 'completed' and record.response_payload is not None:
+            return (record.response_payload, int(record.status_code or 200)), None
+        if record.status == 'processing':
+            return None, jerr('A checkout with this idempotency key is already in progress.', 409)
+        if record.status == 'failed' and record.response_payload is not None:
+            return (record.response_payload, int(record.status_code or 409)), None
+    else:
+        record = PaymentIdempotency(key=storage_key, user_id=user.id, request_hash=request_hash, status='processing')
+        db.session.add(record)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            existing = PaymentIdempotency.query.filter_by(key=storage_key).first()
+            if existing and existing.status == 'completed' and existing.response_payload is not None:
+                return (existing.response_payload, int(existing.status_code or 200)), None
+            return None, jerr('A checkout with this idempotency key is already in progress.', 409)
+    return record, None
 
     def _payment_idempotency_finish(record, payload, status_code, success):
         if not isinstance(record, PaymentIdempotency):
