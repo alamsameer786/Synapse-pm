@@ -732,7 +732,7 @@
       if (!email) { showError('Please enter your email address.'); return; }
       try {
         showInfo('Sending verification email...');
-        const resp = await fetch('/api/v1/auth/resend-verification', {
+        const resp = await fetch('https://api.synapsepm.us.ci/api/v1/auth/resend-verification', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'same-origin',
@@ -1011,7 +1011,7 @@
           password: els.password.value
         };
 
-        const response = await fetch('/api/v1/auth/register', {
+        const response = await fetch('https://api.synapsepm.us.ci/api/v1/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           credentials: 'same-origin',
@@ -1073,7 +1073,7 @@
         hideAlerts();
 
         try {
-          const resp = await fetch(`/api/v1/auth/${encodeURIComponent(provider)}`, {
+          const resp = await fetch(`https://api.synapsepm.us.ci/api/v1/auth/${encodeURIComponent(provider)}`, {
             method: 'GET',
             headers: { 'Accept': 'application/json' },
             credentials: 'same-origin'
@@ -1107,7 +1107,7 @@
       const provider = sessionStorage.getItem('oauth_provider');
 
       if (code && provider) {
-          fetch(`https://api.synapsepm.us.ci/api/v1/auth/${encodeURIComponent(provider)}/callback`, {
+          fetch(`https://api.synapsepm.us.cihttps://api.synapsepm.us.ci/api/v1/auth/${encodeURIComponent(provider)}/callback`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           credentials: 'same-origin',
