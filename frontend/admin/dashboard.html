@@ -1739,12 +1739,7 @@ function fmtMoney(n) { return '$' + Number(n || 0).toLocaleString(undefined, {mi
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
-    if (!Auth.isAuthenticated) {
-        $('authModal').classList.add('active');
-        $('dashboardContent').style.display = 'none';
-        document.body.style.overflow = 'hidden';
-        return;
-    }
+    // BYPASS FRONTEND CHECK - Backend is the authority
     $('authModal').classList.remove('active');
     $('dashboardContent').style.display = 'block';
     document.body.style.overflow = '';
