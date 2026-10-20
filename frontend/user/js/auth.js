@@ -50,7 +50,7 @@
         if (typeof window !== 'undefined' && window.location && window.location.origin) {
             return _normalizeBase(window.location.origin);
         }
-        return 'http://localhost:5000';
+        return 'https://api.synapsepm.us.ci';
     }
 
     function detectWsUrl() {
