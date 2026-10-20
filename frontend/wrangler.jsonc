@@ -2,6 +2,7 @@
   "name": "synapse-pm",
   "compatibility_date": "2026-10-06",
   "assets": {
-    "directory": "./user"
+    "directory": "./",
+    "not_found_handling": "404-page"
   }
 }
