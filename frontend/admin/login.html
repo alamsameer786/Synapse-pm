@@ -216,7 +216,7 @@
     // ============================================================
 
     const LOGIN_ENDPOINT = 'https://api.synapsepm.us.ci/api/v1/auth/login';
-    const ADMIN_REDIRECT = '/admin/dashboard.html';
+    const ADMIN_REDIRECT = 'https://api.synapsepm.us.ci/admin/dashboard.html';
 
     const $ = (id) => document.getElementById(id);
 
@@ -581,7 +581,7 @@
 
         // Absolute path is intentional. Do not use data.redirect here because
         // the generic backend response may otherwise point to /dashboard.html.
-        window.location.assign(ADMIN_REDIRECT);
+        window.location.href = ADMIN_REDIRECT;
     }
 
     // ============================================================
