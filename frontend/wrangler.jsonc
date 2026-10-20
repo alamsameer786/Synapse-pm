@@ -1,7 +1,13 @@
+
 {
   "name": "synapse-pm",
   "compatibility_date": "2026-10-06",
+  "main": "frontend/worker.js",
   "assets": {
-    "directory": "./user"
+    "directory": "./frontend",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "API_ORIGIN": "https://api.synapsepm.us.ci"
   }
 }
