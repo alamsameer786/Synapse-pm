@@ -1,10 +1,10 @@
 
 {
   "name": "synapse-pm",
+  "main": "worker.js",
   "compatibility_date": "2026-10-06",
-  "main": "frontend/worker.js",
   "assets": {
-    "directory": "./frontend",
+    "directory": ".",
     "binding": "ASSETS"
   },
   "vars": {
