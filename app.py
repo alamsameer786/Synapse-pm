@@ -2697,24 +2697,27 @@ def _pick_sender(subject: str, default_purpose: str = "support") -> str:
     return EMAIL_SENDERS.get(default_purpose, EMAIL_SENDERS["support"])
 
 def send_email(to, subject, html, text=None):
-    """Send via Resend HTTP API (works on Render free tier). Non-blocking."""
+    """Send via Send.dev API."""
     def _send():
         try:
-            api_key = os.environ.get("RESEND_API_KEY", "").strip()
+            # We renamed the key to SEND_API_KEY in Render
+            api_key = os.environ.get("SEND_API_KEY", "").strip()
             if not api_key:
-                logger.warning("[EMAIL] RESEND_API_KEY missing; skipping send to %s", to)
+                logger.warning("[EMAIL] SEND_API_KEY missing; skipping send to %s", to)
                 return
-            sender = _pick_sender(subject)
+            
+            # Send.dev requires 'from' to be an object
             payload = {
-                "from": sender,
+                "from": {"email": "verify@synapsepm.us.ci", "name": "SynapsePM"},
                 "to": [to] if isinstance(to, str) else list(to),
                 "subject": subject,
                 "html": html,
             }
             if text:
                 payload["text"] = text
-            r = _requests.post(
-                "https://api.resend.com/emails",
+                
+            r = requests.post(
+                "https://api.do.dev/v1/send/emails/send",
                 headers={
                     "Authorization": f"Bearer {api_key}",
                     "Content-Type": "application/json",
@@ -2723,9 +2726,9 @@ def send_email(to, subject, html, text=None):
                 timeout=(5, 15),
             )
             if r.status_code >= 300:
-                logger.error("[EMAIL] Resend %s: %s", r.status_code, r.text[:500])
+                logger.error("[EMAIL] Send.dev failed %s: %s", r.status_code, r.text[:500])
             else:
-                logger.info("[EMAIL SENT] %s via %s: %s", to, sender, subject)
+                logger.info("[EMAIL SENT] %s via Send.dev: %s", to, subject)
         except Exception as e:
             logger.exception("[EMAIL] Send failed for %s", to)
 
