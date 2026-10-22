@@ -13,204 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
 <style>
-    * { box-sizing: border-box; }
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
-    body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
-    h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
-
-    .gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
-    .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
-    .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
-    .gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    /* ===== LOGO ===== */
-    .synapsepm-logo { font-family: "Inter","Plus Jakarta Sans",sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: 22px; line-height: 1; display: inline-flex; align-items: center; gap: 0.55rem; vertical-align: middle; }
-    .synapsepm-logo > span:not(.logo-icon), .synapsepm-logo strong { display: inline-flex; align-items: center; line-height: 1; height: 32px; }
-    .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
-    .synapsepm-logo strong { background: linear-gradient(90deg,#1557D6,#00CFE8,#12D6C5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .synapsepm-logo .logo-icon { width: 32px; height: 32px; min-width: 32px; min-height: 32px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; background: transparent !important; border-radius: 0 !important; box-shadow: none !important; }
-    .synapsepm-logo .logo-icon img { width: 32px; height: 32px; object-fit: contain; display: block; }
-
-    /* ===== SIDEBAR ===== */
-    :root { --sidebar-width: 264px; --sidebar-collapsed-width: 84px; --sidebar-border: #e2e8f0; --sidebar-bg: #ffffff; --sidebar-muted: #64748b; --sidebar-primary: #0f2b3d; --sidebar-accent: #00b4aa; --sidebar-hover: #f1f5f9; }
-    .sidebar { width: var(--sidebar-width); min-height: 100dvh; height: 100dvh; background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border); position: fixed; inset: 0 auto 0 0; z-index: 100; display: flex; flex-direction: column; overflow: visible; transition: width .28s cubic-bezier(.4,0,.2,1), transform .28s cubic-bezier(.4,0,.2,1); }
-    .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
-    .sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #fff; }
-    .sidebar-brand { min-height: 76px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; overflow: hidden; }
-    .sidebar-brand-inner { display: flex; align-items: center; gap: 10px; min-width: 0; transition: opacity .2s ease; }
-    .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon), .sidebar.collapsed .synapsepm-logo strong { display: none !important; }
-    .sidebar.collapsed .sidebar-brand { flex-direction: column; justify-content: center; align-items: center; gap: 6px; padding: 10px 0; min-height: 76px; }
-    .sidebar.collapsed .sidebar-brand-inner { opacity: 1; pointer-events: auto; width: auto; overflow: visible; justify-content: center; gap: 0; }
-    .sidebar.collapsed .synapsepm-logo { justify-content: center; }
-    .sidebar.collapsed .synapsepm-logo .logo-icon { display: inline-flex !important; opacity: 1 !important; width: 32px !important; min-width: 32px !important; height: 32px !important; min-height: 32px !important; }
-    .sidebar-toggle { width: 36px; height: 36px; border: 1px solid #dbe4ec; border-radius: 10px; background: #fff; color: #475569; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 7px rgba(15,43,61,.06); transition: background .2s,border-color .2s,color .2s,box-shadow .2s; flex-shrink: 0; padding: 0; }
-    .sidebar-toggle:hover { background: #f8fafc; color: var(--sidebar-accent); border-color: rgba(0,180,170,.45); box-shadow: 0 5px 14px rgba(15,43,61,.10); }
-    .sidebar-toggle svg { width: 18px; height: 18px; stroke: currentColor; transition: transform .3s cubic-bezier(.4,0,.2,1); }
-    .sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
-    .sidebar-nav { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 14px 10px; scrollbar-width: thin; scrollbar-color: #dbe4ec transparent; }
-    .sidebar-nav::-webkit-scrollbar { width: 4px; }
-    .sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
-    .sidebar-group { display: flex; flex-direction: column; gap: 3px; }
-    .sidebar-link { min-height: 44px; display: flex; align-items: center; gap: 12px; padding: 9px 11px; border-radius: 11px; color: var(--sidebar-muted); font-weight: 500; font-size: .875rem; line-height: 1.2; cursor: pointer; text-decoration: none; position: relative; white-space: nowrap; transition: background .18s ease, color .18s ease; }
-    .sidebar-link:hover { background: var(--sidebar-hover); color: var(--sidebar-primary); }
-    .sidebar-link.active { background: #00b4aa; color: #fff; box-shadow: 0 5px 14px rgba(0,180,170,.22); }
-    .sidebar-link .material-symbols-outlined { width: 22px; min-width: 22px; font-size: 22px; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: color .18s ease; }
-    .sidebar-link.active .material-symbols-outlined, .sidebar-link:hover .material-symbols-outlined { color: inherit; }
-    .sidebar-link .badge-count { margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; background: #f1f5f9; color: #64748b; font-size: .65rem; border-radius: 999px; font-weight: 700; }
-    .sidebar-link.active .badge-count { background: rgba(255,255,255,.22); color: #fff; }
-    .sidebar-divider { margin: 14px 4px; border-top: 1px solid #edf2f7; }
-    .sidebar.collapsed .sidebar-text, .sidebar.collapsed .sidebar-label, .sidebar.collapsed .badge-count { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
-    .sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
-    .sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
-    .sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
-    .sidebar.collapsed .sidebar-link::after { content: attr(data-tooltip); position: absolute; left: calc(100% + 10px); top: 50%; transform: translateY(-50%) translateX(-4px); opacity: 0; pointer-events: none; background: #0f2b3d; color: #fff; padding: 7px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; white-space: nowrap; box-shadow: 0 8px 20px rgba(15,43,61,.18); transition: opacity .15s,transform .15s; z-index: 250; }
-    .sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
-
-    .sidebar-user-area { flex-shrink: 0; position: relative; padding: 10px; border-top: 1px solid var(--sidebar-border); background: #fff; }
-    .user-card { min-height: 58px; display: flex; align-items: center; gap: 10px; padding: 8px; background: #f8fafc; border: 1px solid #eef2f7; border-radius: 12px; transition: all .28s cubic-bezier(.4,0,.2,1); }
-    .sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
-    .avatar-wrapper { flex-shrink: 0; position: relative; }
-    .user-card .avatar { width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .8rem; color: #fff; background: linear-gradient(135deg,#00b4aa,#009688); background-size: cover; background-position: center; cursor: pointer; position: relative; }
-    .user-card .avatar:hover { box-shadow: 0 0 0 3px rgba(0,180,170,.15); }
-    .user-card .avatar-wrapper .status-dot { position: absolute; bottom: 0; right: 0; width: 11px; height: 11px; border-radius: 50%; border: 2px solid #fff; background: #10b981; }
-    .user-card .user-details { flex: 1; min-width: 0; transition: opacity .2s ease; }
-    .sidebar.collapsed .user-card .user-details { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
-    .user-card .user-details .name { font-weight: 600; font-size: .82rem; color: #0f2b3d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .user-card .user-details .email { font-size: .68rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
-    .user-card .user-details .plan { font-size: .58rem; font-weight: 700; color: #00a79d; background: rgba(0,180,170,.08); padding: 1px 7px; border-radius: 999px; display: inline-block; margin-top: 2px; }
-
-    .profile-menu { position: absolute; left: 10px; right: 10px; bottom: calc(100% + 10px); padding: 14px; background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 18px 45px rgba(15,23,42,.16); opacity: 0; visibility: hidden; transform: translateY(8px); pointer-events: none; transition: opacity .18s ease,transform .18s ease,visibility .18s ease; z-index: 300; min-width: 276px; }
-    .sidebar.collapsed .profile-menu { left: calc(100% + 10px); right: auto; bottom: 12px; width: 300px; min-width: 300px; transform: translateY(0) translateX(-8px); }
-    .sidebar.collapsed .profile-menu.open { transform: translateY(0) translateX(0); }
-    .profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
-    .profile-menu-header { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #edf2f7; }
-    .profile-menu-avatar { width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#00b4aa,#009688); color: #fff; font-weight: 800; background-size: cover; background-position: center; }
-    .profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
-    .profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
-    .profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
-    .profile-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
-    .profile-detail-label { color: #94a3b8; }
-    .profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
-    .profile-menu-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7; }
-    .profile-action-btn { width: 100%; min-height: 40px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; color: #475569; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .18s ease; padding: 0 12px; font-family: inherit; }
-    .profile-action-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
-    .profile-action-btn.danger { border-color: #fecaca; color: #dc2626; }
-    .profile-action-btn.danger:hover { background: #fef2f2; border-color: #fca5a5; }
-
-    #mainContent { margin-left: var(--sidebar-width); min-width: 0; transition: margin-left .28s cubic-bezier(.4,0,.2,1); }
-    body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-width); }
-    .sidebar-overlay { display: none; }
-    @media (max-width: 1023px) {
-        .sidebar { width: min(310px,90vw); transform: translateX(-102%); box-shadow: none; }
-        .sidebar.mobile-open { transform: translateX(0); box-shadow: 18px 0 50px rgba(15,23,42,.18); }
-        .sidebar.collapsed { width: min(310px,90vw); }
-        .sidebar-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.42); backdrop-filter: blur(3px); z-index: 90; display: block; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease,visibility .25s ease; }
-        .sidebar-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
-        #mainContent, body.sidebar-is-collapsed #mainContent { margin-left: 0; }
-        .sidebar.collapsed .sidebar-text, .sidebar.collapsed .sidebar-label, .sidebar.collapsed .badge-count { display: block !important; opacity: 1 !important; width: auto !important; }
-        .sidebar.collapsed .sidebar-link { justify-content: flex-start; gap: 12px; padding: 9px 11px; }
-        .sidebar.collapsed .sidebar-link::after { display: none; }
-        .sidebar.collapsed .user-card .user-details { display: block !important; opacity: 1 !important; width: auto !important; }
-        .sidebar.collapsed .sidebar-brand-inner { opacity: 1 !important; width: auto !important; }
-        .sidebar.collapsed .sidebar-brand { justify-content: space-between; flex-direction: row; padding: 0 14px; }
-        .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon), .sidebar.collapsed .synapsepm-logo strong { display: inline-flex !important; }
-        .sidebar.collapsed .sidebar-toggle svg { transform: none; }
-        .sidebar.collapsed .profile-menu { left: 10px; right: 10px; bottom: calc(100% + 10px); width: auto; min-width: 0; transform: translateY(8px); }
-        .sidebar.collapsed .profile-menu.open { transform: translateY(0); }
-    }
-
-    .select-with-icon { position: relative; display: inline-block; width: 100%; }
-    .select-with-icon select { width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.75rem; background: #fff; color: #0f172a; font-size: 0.875rem; line-height: 1.25rem; appearance: none; -webkit-appearance: none; -moz-appearance: none; outline: none; cursor: pointer; font-family: inherit; transition: border-color .15s ease, box-shadow .15s ease; }
-    .select-with-icon select:focus { border-color: #00b4aa; box-shadow: 0 0 0 3px rgba(0,180,170,.12); }
-    .select-with-icon .select-arrow { position: absolute; top: 50%; right: 0.55rem; transform: translateY(-50%); pointer-events: none; color: #94a3b8; font-size: 20px; line-height: 1; }
-    @media (min-width: 640px) { .select-with-icon.w-auto-sm { width: auto; min-width: 160px; } }
-
-    .machine-card { transition: box-shadow .3s cubic-bezier(.4,0,.2,1), transform .3s cubic-bezier(.4,0,.2,1), border-color .3s ease; animation: fadeInUp .5s ease-out; background: #fff; border-radius: 1.25rem; border: 1px solid #e2e8f0; overflow: hidden; }
-    .machine-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -12px rgba(0,0,0,.12); border-color: #00b4aa; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .status-online { background: #10b98120; color: #10b981; border: 1px solid #10b98140; }
-    .status-warning { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
-    .status-critical { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
-    .status-offline { background: #6b728020; color: #6b7280; border: 1px solid #6b728040; }
-    .status-connecting { background: #3b82f620; color: #3b82f6; border: 1px solid #3b82f640; animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
-    .progress-bar { background: #e2e8f0; border-radius: 9999px; overflow: hidden; height: 6px; }
-    .progress-fill { background: linear-gradient(90deg,#00b4aa,#009688); height: 100%; border-radius: 9999px; transition: width .8s ease; }
-
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
-    .modal.active { display: flex; animation: fadeIn .2s ease-out; }
-    .modal-content { background: #fff; border-radius: 1.5rem; max-width: 100%; width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
-    @keyframes fadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
-
-    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #fff; border-radius: .75rem; padding: 1rem 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,.1); display: flex; align-items: center; gap: .75rem; z-index: 1100; animation: slideInRight .3s ease-out; border-left: 4px solid; max-width: 420px; }
-    .toast.success { border-left-color: #10b981; }
-    .toast.error { border-left-color: #ef4444; }
-    .toast.warning { border-left-color: #f59e0b; }
-    .toast.info { border-left-color: #00b4aa; }
-    @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-    .connection-option { transition: all .2s; cursor: pointer; border: 1px solid transparent; }
-    .connection-option:hover { background: #f0fdfa; border-color: #00b4aa; }
-    .connection-option.selected { border-color: #00b4aa; background: #f0fdfa; }
-    .loading-spinner { display: inline-block; width: 1.25rem; height: 1.25rem; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; margin-right: .5rem; vertical-align: middle; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .conn-step { display: flex; align-items: center; gap: .75rem; padding: .5rem 0; font-size: .85rem; color: #94a3b8; transition: color .3s ease; }
-    .conn-step.done { color: #10b981; }
-    .conn-step.active { color: #00b4aa; font-weight: 600; }
-    .conn-step.error { color: #ef4444; }
-    .conn-step .step-icon { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; flex-shrink: 0; font-size: .9rem; }
-    .conn-step.done .step-icon { background: #10b981; color: #fff; }
-    .conn-step.active .step-icon { background: #00b4aa; color: #fff; animation: pulse 1s infinite; }
-    .conn-step.error .step-icon { background: #ef4444; color: #fff; }
-
-    .code-block { background: #0f172a; color: #67e8f9; font-family: 'Monaco','Consolas',monospace; font-size: 11px; padding: 12px; border-radius: 12px; word-break: break-all; line-height: 1.5; max-height: 200px; overflow: auto; }
-    .dt-tab { padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all .2s; color: #64748b; }
-    .dt-tab:hover { background: #f1f5f9; }
-    .dt-tab.active { background: #00b4aa; color: #fff; }
-    .dt-panel { display: none; }
-    .dt-panel.active { display: block; }
-
-    .page-banner { border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.4; }
-    .page-banner.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
-    .page-banner.warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
-    .page-banner.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
-    .page-banner .banner-close { margin-left: auto; cursor: pointer; opacity: .7; }
-    .page-banner .banner-close:hover { opacity: 1; }
-
-    .live-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 700; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-    .live-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; animation: pulse 1.4s infinite; }
-
-    .conn-method-tile { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid #e2e8f0; background: #fff; cursor: pointer; transition: all .18s ease; text-align: left; }
-    .conn-method-tile:hover { border-color: #00b4aa; background: #f0fdfa; }
-    .conn-method-tile.active { border-color: #00b4aa; background: #f0fdfa; box-shadow: 0 0 0 3px rgba(0,180,170,.12); }
-    .conn-method-tile .cm-title { font-size: 12px; font-weight: 700; color: #0f172a; }
-    .conn-method-tile .cm-sub { font-size: 10px; color: #64748b; line-height: 1.25; }
-
-    .sensor-field { display: flex; flex-direction: column; gap: 4px; }
-    .sensor-field label { font-size: 11px; font-weight: 600; color: #475569; text-transform: capitalize; }
-    .sensor-field input { width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid #e2e8f0; font-size: 13px; outline: none; }
-    .sensor-field input:focus { border-color: #00b4aa; box-shadow: 0 0 0 3px rgba(0,180,170,.12); }
-    .sensor-field .hint { font-size: 10px; color: #94a3b8; }
-
-    .telemetry-row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; padding: 4px 0; border-bottom: 1px dashed #eef2f7; }
-    .telemetry-row:last-child { border-bottom: 0; }
-    .telemetry-row .k { color: #64748b; text-transform: capitalize; }
-    .telemetry-row .v { font-weight: 700; color: #0f172a; font-family: ui-monospace,SFMono-Regular,Menlo,monospace; }
-
-    .stale-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; }
-    .stale-badge.fresh { background:#ecfdf5; color:#065f46; }
-    .stale-badge.stale { background:#fef3c7; color:#92400e; }
-    .stale-badge.none  { background:#f1f5f9; color:#64748b; }
-
-    @media (max-width: 768px) {
-        .stats-grid { grid-template-columns: repeat(2,1fr) !important; gap: .75rem !important; }
-        .toolbar { flex-direction: column; align-items: stretch; }
-        .modal-content { max-width: 95%; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-        .sidebar,.sidebar-link,.sidebar-toggle,#mainContent,.sidebar-overlay,.profile-menu,.machine-card { transition: none !important; animation: none !important; }
-    }
+/* ===== PART B GOES HERE — REPLACE THIS LINE WITH THE ENTIRE STYLE BLOCK ===== */
 </style>
 </head>
 <body>
@@ -381,6 +184,7 @@
         </div>
     </div>
 
+    <!-- Grid -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div id="pageBannerHost"></div>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" id="machinesGrid">
@@ -455,7 +259,7 @@
                 <div id="manualEntryConfig" class="mb-4" style="display:none;">
                     <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1">Initial Sensor Readings <span class="text-slate-400 font-normal">(optional)</span></label>
                     <p class="text-[11px] text-slate-500 mb-2">Fields below are auto-selected based on the machine type. You can refine them in the detail view later.</p>
-                    <div id="manualFieldsHost" class="grid grid-cols-2 gap-2"></div>
+                    <div id="manualFieldsHostAdd" class="grid grid-cols-2 gap-2"></div>
                     <p class="text-[10px] text-slate-400 mt-2">Leave blank to save the machine without a first reading — it will remain <strong>offline</strong> until real data arrives.</p>
                 </div>
 
@@ -508,7 +312,6 @@
         <div class="p-4 sm:p-6">
             <p class="text-xs text-slate-500 mb-3" id="liveMachineLabel">Machine</p>
             <p class="text-sm text-slate-600 mb-5">Runs a real trained-model prediction on the interval you choose. The <strong>first result appears after the selected interval elapses</strong>; subsequent runs follow the same cadence. Results stream into the machine card, activity history, and admin dashboard.</p>
-
             <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Interval</label>
             <div class="grid grid-cols-3 gap-2 mb-5" id="liveIntervalGrid">
                 <button type="button" data-interval="1" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">1 min</button>
@@ -518,13 +321,10 @@
                 <button type="button" data-interval="60" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">60 min</button>
                 <button type="button" data-interval="0" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-red-400 hover:bg-red-50 transition text-red-600">Stop</button>
             </div>
-
             <div class="bg-slate-50 rounded-xl p-3 mb-4 text-xs text-slate-600 leading-relaxed">
                 <strong class="text-slate-800">Note:</strong> Live predictions run only while this tab is open. Each run counts against your plan quota and creates an alert row on the backend when RUL drops below 72h.
             </div>
-
             <div id="liveStatusBox" class="hidden mb-4"></div>
-
             <button type="button" id="liveStartBtn" class="w-full gradient-cta text-white px-4 py-3 rounded-xl font-semibold text-sm">Start Live Prediction</button>
         </div>
     </div>
@@ -585,7 +385,7 @@
     </div>
 </div>
 
-<!-- ============ TEST / SIMULATE MODAL (preserved from old) ============ -->
+<!-- ============ TEST / SIMULATE MODAL ============ -->
 <div class="modal" id="testModal" role="dialog" aria-modal="true">
     <div class="modal-content max-w-md w-full">
         <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
@@ -639,7 +439,7 @@
         <div class="p-4 sm:p-6">
             <p class="text-xs text-slate-500 mb-4" id="manualMachineLabel">Machine</p>
             <form id="manualReadingForm">
-                <div id="manualFieldsHost" class="grid grid-cols-2 gap-2 mb-3"></div>
+                <div id="manualFieldsHostModal" class="grid grid-cols-2 gap-2 mb-3"></div>
                 <div id="manualReadingError" class="hidden mb-3 page-banner error text-xs"></div>
                 <div class="flex gap-3">
                     <button type="button" id="cancelManualReadingBtn" class="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition text-sm">Cancel</button>
@@ -651,10 +451,532 @@
 </div>
 
 <script>
+/* ===== PART C GOES HERE — REPLACE THIS LINE WITH THE ENTIRE SCRIPT BLOCK ===== */
+</script>
+</body>
+</html>
+/* ============================================================
+   GLOBAL RESET
+   ============================================================ */
+* { box-sizing: border-box; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
+h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+
+/* ============================================================
+   GRADIENT UTILITIES
+   ============================================================ */
+.gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
+.gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+.gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+.gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ============================================================
+   SYNAPSEPM LOGO — same height in both sidebar states
+   ============================================================ */
+.synapsepm-logo {
+    font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-size: 22px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    vertical-align: middle;
+}
+.synapsepm-logo > span:not(.logo-icon),
+.synapsepm-logo strong {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    height: 32px;
+}
+.synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+.synapsepm-logo strong {
+    background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.synapsepm-logo .logo-icon {
+    width: 32px; height: 32px;
+    min-width: 32px; min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.synapsepm-logo .logo-icon img {
+    width: 32px; height: 32px;
+    object-fit: contain; display: block;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+:root {
+    --sidebar-width: 264px;
+    --sidebar-collapsed-width: 84px;
+    --sidebar-border: #e2e8f0;
+    --sidebar-bg: #ffffff;
+    --sidebar-muted: #64748b;
+    --sidebar-primary: #0f2b3d;
+    --sidebar-accent: #00b4aa;
+    --sidebar-hover: #f1f5f9;
+}
+.sidebar {
+    width: var(--sidebar-width);
+    min-height: 100dvh; height: 100dvh;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    position: fixed; inset: 0 auto 0 0; z-index: 100;
+    display: flex; flex-direction: column; overflow: visible;
+    transition: width .28s cubic-bezier(.4,0,.2,1),
+                transform .28s cubic-bezier(.4,0,.2,1);
+}
+.sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+.sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #fff; }
+.sidebar-brand {
+    min-height: 76px; padding: 0 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; overflow: hidden;
+}
+.sidebar-brand-inner {
+    display: flex; align-items: center; gap: 10px;
+    min-width: 0; transition: opacity .2s ease;
+}
+.sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+.sidebar.collapsed .synapsepm-logo strong { display: none !important; }
+.sidebar.collapsed .sidebar-brand {
+    flex-direction: column; justify-content: center;
+    align-items: center; gap: 6px; padding: 10px 0; min-height: 76px;
+}
+.sidebar.collapsed .sidebar-brand-inner {
+    opacity: 1; pointer-events: auto; width: auto;
+    overflow: visible; justify-content: center; gap: 0;
+}
+.sidebar.collapsed .synapsepm-logo { justify-content: center; }
+.sidebar.collapsed .synapsepm-logo .logo-icon {
+    display: inline-flex !important; opacity: 1 !important;
+    width: 32px !important; min-width: 32px !important;
+    height: 32px !important; min-height: 32px !important;
+}
+.sidebar.collapsed .synapsepm-logo .logo-icon img {
+    display: block !important; width: 32px !important;
+    height: 32px !important; object-fit: contain !important;
+}
+.sidebar-toggle {
+    width: 36px; height: 36px;
+    border: 1px solid #dbe4ec; border-radius: 10px;
+    background: #fff; color: #475569;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 2px 7px rgba(15,43,61,.06);
+    transition: background .2s, border-color .2s, color .2s, box-shadow .2s;
+    flex-shrink: 0; padding: 0;
+}
+.sidebar-toggle:hover {
+    background: #f8fafc; color: var(--sidebar-accent);
+    border-color: rgba(0,180,170,.45);
+    box-shadow: 0 5px 14px rgba(15,43,61,.10);
+}
+.sidebar-toggle svg {
+    width: 18px; height: 18px; stroke: currentColor;
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+.sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
+.sidebar-nav {
+    flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+    padding: 14px 10px; scrollbar-width: thin;
+    scrollbar-color: #dbe4ec transparent;
+}
+.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
+.sidebar-group-label { padding: 7px 11px 6px; }
+.sidebar-group { display: flex; flex-direction: column; gap: 3px; }
+.sidebar-link {
+    min-height: 44px; display: flex; align-items: center; gap: 12px;
+    padding: 9px 11px; border-radius: 11px;
+    color: var(--sidebar-muted); font-weight: 500; font-size: .875rem;
+    line-height: 1.2; cursor: pointer; text-decoration: none;
+    position: relative; white-space: nowrap; overflow: visible;
+    transition: background .18s ease, color .18s ease;
+}
+.sidebar-link:hover { background: var(--sidebar-hover); color: var(--sidebar-primary); }
+.sidebar-link.active { background: #00b4aa; color: #fff; box-shadow: 0 5px 14px rgba(0,180,170,.22); }
+.sidebar-link .material-symbols-outlined {
+    width: 22px; min-width: 22px; font-size: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #64748b; transition: color .18s ease;
+}
+.sidebar-link.active .material-symbols-outlined,
+.sidebar-link:hover .material-symbols-outlined { color: inherit; }
+.sidebar-link .badge-count {
+    margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #f1f5f9; color: #64748b;
+    font-size: .65rem; border-radius: 999px; font-weight: 700;
+    transition: all .2s ease;
+}
+.sidebar-link.active .badge-count { background: rgba(255,255,255,.22); color: #fff; }
+.sidebar-divider { margin: 14px 4px; border-top: 1px solid #edf2f7; }
+.sidebar-text { transition: opacity .2s ease; }
+.sidebar.collapsed .sidebar-text,
+.sidebar.collapsed .sidebar-label,
+.sidebar.collapsed .badge-count {
+    opacity: 0; pointer-events: none;
+    width: 0; overflow: hidden; display: none !important;
+}
+.sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
+.sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
+.sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
+.sidebar.collapsed .sidebar-link::after {
+    content: attr(data-tooltip);
+    position: absolute; left: calc(100% + 10px); top: 50%;
+    transform: translateY(-50%) translateX(-4px);
+    opacity: 0; pointer-events: none;
+    background: #0f2b3d; color: #fff;
+    padding: 7px 10px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; white-space: nowrap;
+    box-shadow: 0 8px 20px rgba(15,43,61,.18);
+    transition: opacity .15s, transform .15s; z-index: 250;
+}
+.sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+/* User area */
+.sidebar-user-area { flex-shrink: 0; position: relative; padding: 10px; border-top: 1px solid var(--sidebar-border); background: #fff; }
+.user-card {
+    min-height: 58px; display: flex; align-items: center; gap: 10px;
+    padding: 8px; background: #f8fafc;
+    border: 1px solid #eef2f7; border-radius: 12px;
+    transition: all .28s cubic-bezier(.4,0,.2,1);
+}
+.sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
+.avatar-wrapper { flex-shrink: 0; position: relative; }
+.user-card .avatar {
+    width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .8rem; color: #fff;
+    background: linear-gradient(135deg, #00b4aa, #009688);
+    background-size: cover; background-position: center;
+    cursor: pointer; position: relative;
+    transition: box-shadow .2s ease;
+}
+.user-card .avatar:hover { box-shadow: 0 0 0 3px rgba(0,180,170,.15); }
+.user-card .avatar-wrapper .status-dot {
+    position: absolute; bottom: 0; right: 0;
+    width: 11px; height: 11px; border-radius: 50%;
+    border: 2px solid #fff; background: #10b981;
+}
+.user-card .user-details { flex: 1; min-width: 0; transition: opacity .2s ease; }
+.sidebar.collapsed .user-card .user-details { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
+.user-card .user-details .name { font-weight: 600; font-size: .82rem; color: #0f2b3d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-card .user-details .email { font-size: .68rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+.user-card .user-details .plan { font-size: .58rem; font-weight: 700; color: #00a79d; background: rgba(0,180,170,.08); padding: 1px 7px; border-radius: 999px; display: inline-block; margin-top: 2px; }
+
+/* Profile menu */
+.profile-menu {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: calc(100% + 10px);
+    padding: 14px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 18px 45px rgba(15,23,42,.16);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+    z-index: 300;
+    min-width: 276px;
+}
+.sidebar.collapsed .profile-menu {
+    left: calc(100% + 10px);
+    right: auto;
+    bottom: 12px;
+    width: 300px;
+    min-width: 300px;
+    transform: translateY(0) translateX(-8px);
+}
+.sidebar.collapsed .profile-menu.open {
+    transform: translateY(0) translateX(0);
+}
+.profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+.profile-menu-header { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #edf2f7; }
+.profile-menu-avatar { width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00b4aa, #009688); color: #fff; font-weight: 800; background-size: cover; background-position: center; }
+.profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
+.profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
+.profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
+.profile-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
+.profile-detail-label { color: #94a3b8; }
+.profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
+.profile-menu-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7; }
+.profile-action-btn {
+    width: 100%; min-height: 40px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    border: 1px solid #e2e8f0; border-radius: 10px; background: #fff;
+    color: #475569; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .18s ease; padding: 0 12px;
+    font-family: inherit;
+}
+.profile-action-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+.profile-action-btn.danger { border-color: #fecaca; color: #dc2626; }
+.profile-action-btn.danger:hover { background: #fef2f2; border-color: #fca5a5; }
+
+/* ============================================================
+   MAIN LAYOUT + MOBILE
+   ============================================================ */
+#mainContent { margin-left: var(--sidebar-width); min-width: 0; transition: margin-left .28s cubic-bezier(.4,0,.2,1); }
+body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-width); }
+.sidebar-overlay { display: none; }
+@media (max-width: 1023px) {
+    .sidebar { width: min(310px, 90vw); transform: translateX(-102%); box-shadow: none; }
+    .sidebar.mobile-open { transform: translateX(0); box-shadow: 18px 0 50px rgba(15,23,42,.18); }
+    .sidebar.collapsed { width: min(310px, 90vw); }
+    .sidebar-overlay {
+        position: fixed; inset: 0;
+        background: rgba(15,23,42,.42); backdrop-filter: blur(3px);
+        z-index: 90; display: block;
+        opacity: 0; visibility: hidden; pointer-events: none;
+        transition: opacity .25s ease, visibility .25s ease;
+    }
+    .sidebar-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+    #mainContent, body.sidebar-is-collapsed #mainContent { margin-left: 0; }
+    .sidebar.collapsed .sidebar-text,
+    .sidebar.collapsed .sidebar-label,
+    .sidebar.collapsed .badge-count { display: block !important; opacity: 1 !important; transform: none !important; width: auto !important; }
+    .sidebar.collapsed .sidebar-link { justify-content: flex-start; gap: 12px; padding: 9px 11px; }
+    .sidebar.collapsed .sidebar-link::after { display: none; }
+    .sidebar.collapsed .user-card .user-details { display: block !important; opacity: 1 !important; width: auto !important; }
+    .sidebar.collapsed .sidebar-brand-inner { opacity: 1 !important; pointer-events: auto !important; width: auto !important; }
+    .sidebar.collapsed .sidebar-brand { justify-content: space-between; flex-direction: row; padding: 0 14px; }
+    .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+    .sidebar.collapsed .synapsepm-logo strong { display: inline-flex !important; }
+    .sidebar.collapsed .sidebar-toggle svg { transform: none; }
+    .sidebar.collapsed .profile-menu {
+        left: 10px;
+        right: 10px;
+        bottom: calc(100% + 10px);
+        width: auto;
+        min-width: 0;
+        transform: translateY(8px);
+    }
+    .sidebar.collapsed .profile-menu.open {
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   NATIVE SELECT WITH CUSTOM ARROW
+   ============================================================ */
+.select-with-icon {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+.select-with-icon select {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background: #fff;
+    color: #0f172a;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.select-with-icon select:focus {
+    border-color: #00b4aa;
+    box-shadow: 0 0 0 3px rgba(0,180,170,.12);
+}
+.select-with-icon .select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 0.55rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #94a3b8;
+    font-size: 20px;
+    line-height: 1;
+}
+@media (min-width: 640px) {
+    .select-with-icon.w-auto-sm { width: auto; min-width: 160px; }
+}
+
+/* ============================================================
+   MACHINE CARDS + STATUS
+   ============================================================ */
+.machine-card {
+    transition: box-shadow .3s cubic-bezier(.4,0,.2,1), transform .3s cubic-bezier(.4,0,.2,1), border-color .3s ease;
+    animation: fadeInUp .5s ease-out;
+    background: #fff; border-radius: 1.25rem;
+    border: 1px solid #e2e8f0; overflow: hidden;
+}
+.machine-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -12px rgba(0,0,0,.12); border-color: #00b4aa; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.status-online { background: #10b98120; color: #10b981; border: 1px solid #10b98140; }
+.status-warning { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
+.status-critical { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+.status-offline { background: #6b728020; color: #6b7280; border: 1px solid #6b728040; }
+.status-connecting { background: #3b82f620; color: #3b82f6; border: 1px solid #3b82f640; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+.progress-bar { background: #e2e8f0; border-radius: 9999px; overflow: hidden; height: 6px; }
+.progress-fill { background: linear-gradient(90deg, #00b4aa, #009688); height: 100%; border-radius: 9999px; transition: width .8s ease; }
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+.modal.active { display: flex; animation: fadeIn .2s ease-out; }
+.modal-content { background: #fff; border-radius: 1.5rem; max-width: 100%; width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
+@keyframes fadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+    position: fixed; bottom: 1.5rem; right: 1.5rem;
+    background: #fff; border-radius: .75rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,.1);
+    display: flex; align-items: center; gap: .75rem;
+    z-index: 1100; animation: slideInRight .3s ease-out;
+    border-left: 4px solid; max-width: 420px;
+}
+.toast.success { border-left-color: #10b981; }
+.toast.error { border-left-color: #ef4444; }
+.toast.warning { border-left-color: #f59e0b; }
+.toast.info { border-left-color: #00b4aa; }
+@keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* ============================================================
+   CONNECTION OPTIONS (used in simulate modal)
+   ============================================================ */
+.connection-option { transition: all .2s; cursor: pointer; border: 1px solid transparent; }
+.connection-option:hover { background: #f0fdfa; border-color: #00b4aa; }
+.connection-option.selected { border-color: #00b4aa; background: #f0fdfa; }
+.loading-spinner { display: inline-block; width: 1.25rem; height: 1.25rem; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; margin-right: .5rem; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   CONNECTION STEPS (in connecting modal)
+   ============================================================ */
+.conn-step { display: flex; align-items: center; gap: .75rem; padding: .5rem 0; font-size: .85rem; color: #94a3b8; transition: color .3s ease; }
+.conn-step.done { color: #10b981; }
+.conn-step.active { color: #00b4aa; font-weight: 600; }
+.conn-step.error { color: #ef4444; }
+.conn-step .step-icon { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; flex-shrink: 0; font-size: .9rem; }
+.conn-step.done .step-icon { background: #10b981; color: #fff; }
+.conn-step.active .step-icon { background: #00b4aa; color: #fff; animation: pulse 1s infinite; }
+.conn-step.error .step-icon { background: #ef4444; color: #fff; }
+
+/* ============================================================
+   CODE BLOCK + DETAIL TABS
+   ============================================================ */
+.code-block { background: #0f172a; color: #67e8f9; font-family: 'Monaco', 'Consolas', monospace; font-size: 11px; padding: 12px; border-radius: 12px; word-break: break-all; line-height: 1.5; max-height: 200px; overflow: auto; }
+.dt-tab { padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all .2s; color: #64748b; }
+.dt-tab:hover { background: #f1f5f9; }
+.dt-tab.active { background: #00b4aa; color: #fff; }
+.dt-panel { display: none; }
+.dt-panel.active { display: block; }
+
+/* ============================================================
+   PAGE BANNERS
+   ============================================================ */
+.page-banner { border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.4; }
+.page-banner.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.page-banner.warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+.page-banner.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+.page-banner .banner-close { margin-left: auto; cursor: pointer; opacity: .7; }
+.page-banner .banner-close:hover { opacity: 1; }
+
+/* ============================================================
+   LIVE PILL + STALE BADGE
+   ============================================================ */
+.live-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 10px; border-radius: 999px;
+    font-size: 10px; font-weight: 700;
+    background: #ecfdf5; color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+.live-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; animation: pulse 1.4s infinite; }
+
+.stale-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; }
+.stale-badge.fresh { background: #ecfdf5; color: #065f46; }
+.stale-badge.stale { background: #fef3c7; color: #92400e; }
+.stale-badge.none  { background: #f1f5f9; color: #64748b; }
+
+/* ============================================================
+   CONNECTION METHOD TILES (add machine modal)
+   ============================================================ */
+.conn-method-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    background: #fff;
+    cursor: pointer;
+    transition: all .18s ease;
+    text-align: left;
+}
+.conn-method-tile:hover { border-color: #00b4aa; background: #f0fdfa; }
+.conn-method-tile.active { border-color: #00b4aa; background: #f0fdfa; box-shadow: 0 0 0 3px rgba(0,180,170,.12); }
+.conn-method-tile .cm-title { font-size: 12px; font-weight: 700; color: #0f172a; }
+.conn-method-tile .cm-sub { font-size: 10px; color: #64748b; line-height: 1.25; }
+
+/* ============================================================
+   SENSOR FIELDS (dynamic per machine type)
+   ============================================================ */
+.sensor-field { display: flex; flex-direction: column; gap: 4px; }
+.sensor-field label { font-size: 11px; font-weight: 600; color: #475569; text-transform: capitalize; }
+.sensor-field input { width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid #e2e8f0; font-size: 13px; outline: none; }
+.sensor-field input:focus { border-color: #00b4aa; box-shadow: 0 0 0 3px rgba(0,180,170,.12); }
+.sensor-field .hint { font-size: 10px; color: #94a3b8; }
+
+/* ============================================================
+   TELEMETRY ROWS (in detail panel)
+   ============================================================ */
+.telemetry-row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; padding: 4px 0; border-bottom: 1px dashed #eef2f7; }
+.telemetry-row:last-child { border-bottom: 0; }
+.telemetry-row .k { color: #64748b; text-transform: capitalize; }
+.telemetry-row .v { font-weight: 700; color: #0f172a; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* ============================================================
+   RESPONSIVE + REDUCED MOTION
+   ============================================================ */
+@media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: .75rem !important; }
+    .toolbar { flex-direction: column; align-items: stretch; }
+    .modal-content { max-width: 95%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .sidebar, .sidebar-link, .sidebar-toggle, #mainContent, .sidebar-overlay, .profile-menu, .machine-card { transition: none !important; animation: none !important; }
+}
 /* =====================================================================
-   SYNAPSEPM MACHINES — v5.0.0
-   COMPLETE feature-complete bundle (Part 1 of 2).
-   Continues in Part 2 below.
+   SYNAPSEPM MACHINES — v5.0.0 COMPLETE JS
+   Preserves ALL original features + adds:
+   - Real connection methods (cable/mqtt/api/opcua/modbus)
+   - Type-aware manual entry fields (pump vs CT vs server, etc.)
+   - Live telemetry polling for connected machines
+   - Strict interval-based live prediction scheduling
+   - Backend sensor-contract + telemetry-status endpoints
    ===================================================================== */
 
 const API_BASE = '/api/v1';
@@ -668,7 +990,9 @@ const $ = id => document.getElementById(id);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 function escapeHtml(t) { if (t === null || t === undefined) return ''; const d = document.createElement('div'); d.textContent = String(t); return d.innerHTML; }
 
-/* ---------- sensor catalog ---------- */
+/* ============================================================
+   SENSOR CATALOG — must match backend SENSOR_CATALOG
+   ============================================================ */
 const SENSOR_CATALOG = {
     pump:        ['temperature','vibration','pressure','flow','rpm','power'],
     turbine:     ['temperature','vibration','pressure','rpm','power','oil_quality'],
@@ -697,9 +1021,13 @@ const SENSOR_LABELS = {
     disk_io:'Disk I/O (MB/s)', throughput:'Throughput (Mbps)',
     packet_loss:'Packet loss (%)', uptime_hours:'Uptime (h)',
 };
-function sensorsForType(type) { return SENSOR_CATALOG[String(type||'').toLowerCase()] || ['temperature','vibration','pressure']; }
+function sensorsForType(type) {
+    return SENSOR_CATALOG[String(type||'').toLowerCase()] || ['temperature','vibration','pressure'];
+}
 
-/* ---------- auth ---------- */
+/* ============================================================
+   AUTH
+   ============================================================ */
 function readFirst(keys) { for (const k of keys) { try { const v = localStorage.getItem(k); if (v) return v; } catch(e){} } return null; }
 function getToken() { return localStorage.getItem('synapse_token') || localStorage.getItem('synapse_admin_token') || localStorage.getItem('token') || localStorage.getItem('auth_token') || localStorage.getItem('access_token') || null; }
 function getRefreshToken() { return readFirst(REFRESH_STORAGE_KEYS); }
@@ -721,7 +1049,9 @@ const Auth = {
     }
 };
 
-/* ---------- toast / banner ---------- */
+/* ============================================================
+   TOAST + PAGE BANNER
+   ============================================================ */
 function showToast(message, type='info', duration=4000) {
     const colors = { success:'#10b981', error:'#ef4444', warning:'#f59e0b', info:'#00b4aa' };
     const icons = { success:'check_circle', error:'error', warning:'warning', info:'info' };
@@ -743,7 +1073,9 @@ function showPageBanner(message, kind='error', timeoutMs=0) {
     if (timeoutMs > 0) setTimeout(()=>{ try{banner.remove();}catch(e){} }, timeoutMs);
 }
 
-/* ---------- API client ---------- */
+/* ============================================================
+   API CLIENT (with single-flight refresh)
+   ============================================================ */
 let refreshPromise = null;
 async function performRefresh() {
     if (refreshPromise) return refreshPromise;
@@ -826,7 +1158,9 @@ const API = {
     submitManualReading(machineId, payload) { return this.request('/machines/' + encodeURIComponent(machineId) + '/sensor-data', { method:'POST', body: JSON.stringify(payload) }); },
 };
 
-/* ---------- global state ---------- */
+/* ============================================================
+   GLOBAL STATE
+   ============================================================ */
 let machines = [];
 let filteredMachines = [];
 let refreshInterval = null;
@@ -840,7 +1174,9 @@ const livePredictions = {};
 const telemetryPolling = {};
 let manualReadingMachineId = null;
 
-/* ---------- live prediction storage ---------- */
+/* ============================================================
+   LIVE PREDICTION STORAGE
+   ============================================================ */
 function loadLiveFromStorage() {
     try { const raw = localStorage.getItem(LIVE_KEY); if (!raw) return {};
         const p = JSON.parse(raw); return (p && typeof p === 'object') ? p : {}; } catch(e){ return {}; }
@@ -860,7 +1196,9 @@ function restoreLiveFromStorage() {
     });
 }
 
-/* ---------- user UI ---------- */
+/* ============================================================
+   USER UI
+   ============================================================ */
 const DOM = {
     mainSidebar: $('mainSidebar'), sidebarToggle: $('sidebarToggle'), mobileMenuToggle: $('mobileMenuToggle'), sidebarOverlay: $('sidebarOverlay'),
     userAvatar: $('userAvatar'), userAvatarText: $('userAvatarText'), userName: $('userName'), userEmail: $('userEmail'), userPlan: $('userPlan'),
@@ -869,6 +1207,7 @@ const DOM = {
     profileMenuRole: $('profileMenuRole'), profileMenuOrg: $('profileMenuOrg'), profileRoleRow: $('profileRoleRow'), profileOrgRow: $('profileOrgRow'),
     profileLogoutBtn: $('profileLogoutBtn'), profileSettingsBtn: $('profileSettingsBtn'), sidebarAlertsBadge: $('sidebarAlertsBadge'),
 };
+
 function updateUserUI() {
     const user = getUser(); if (!user) return;
     const name = user.display_name || user.full_name || user.name || user.username || (user.email||'').split('@')[0] || 'User';
@@ -898,7 +1237,9 @@ function updateUserUI() {
 window.addEventListener('storage', e => { if (e.key === 'synapse_user' || e.key === 'user') { try { const u = JSON.parse(e.newValue||'null'); if (u) updateUserUI(); } catch(e){} } });
 document.addEventListener('synapse:user-updated', () => updateUserUI());
 
-/* ---------- sidebar ---------- */
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
 let sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
 const sidebar = DOM.mainSidebar;
 const isDesktop = () => window.innerWidth >= 1024;
@@ -940,7 +1281,9 @@ function setProfileMenuOpen(open) {
 function closeProfileMenu() { setProfileMenuOpen(false); }
 function toggleProfileMenu() { setProfileMenuOpen(!DOM.profileMenu?.classList.contains('open')); }
 
-/* ---------- machine loading ---------- */
+/* ============================================================
+   MACHINE LOADING
+   ============================================================ */
 async function loadMachines(showLoader=true) {
     if (loadInFlight) return;
     if (!Auth.isAuthenticated) { const ok = await performRefresh(); if (!ok) { Auth.logout(); return; } }
@@ -994,7 +1337,9 @@ function isMachineTelemetryConnection(m) {
     return ['mqtt','api','cable','opcua','modbus','websocket','simulated'].includes(conn);
 }
 
-/* ---------- telemetry polling ---------- */
+/* ============================================================
+   TELEMETRY POLLING (per-connected-machine)
+   ============================================================ */
 function startTelemetryPoll(machineId) {
     if (telemetryPolling[machineId]) return;
     telemetryPolling[machineId] = setInterval(async () => {
@@ -1013,7 +1358,9 @@ function stopTelemetryPoll(machineId) {
     if (telemetryPolling[machineId]) { clearInterval(telemetryPolling[machineId]); delete telemetryPolling[machineId]; }
 }
 
-/* ---------- filters + render ---------- */
+/* ============================================================
+   FILTERS + RENDER
+   ============================================================ */
 function applyFiltersAndRender() {
     const searchTerm = ($('searchInput').value || '').toLowerCase().trim();
     const status = $('statusFilter').value; const type = $('typeFilter').value;
@@ -1051,13 +1398,11 @@ function renderMachines() {
         const pres = latest.pressure    != null ? latest.pressure    : m.pressure;
         const isLive = livePredictions[m.id] && livePredictions[m.id].intervalMin > 0;
         const connLabel = {mqtt:'MQTT', opcua:'OPC UA', modbus:'Modbus', api:'REST', cable:'Cable', websocket:'WS', simulated:'SIM', manual:'Manual'}[conn] || conn.toUpperCase();
-
         let staleBadge = '';
         if (m._sensorAge !== undefined && m._sensorAge !== null) {
             const fresh = m._sensorAge <= 300;
             staleBadge = `<span class="stale-badge ${fresh?'fresh':'stale'}"><span class="material-symbols-outlined" style="font-size:11px">${fresh?'bolt':'schedule'}</span>${fresh?'LIVE':'STALE'}</span>`;
         }
-
         return `
         <div class="machine-card group" data-id="${escapeHtml(m.id)}">
             <div class="p-4 sm:p-5">
@@ -1078,25 +1423,21 @@ function renderMachines() {
                     </div>
                     <span class="px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold ${statusClass(status)} flex-shrink-0">${status.toUpperCase()}</span>
                 </div>
-
                 <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-3 sm:mb-4">
                     <div class="text-center"><p class="text-[10px] sm:text-xs text-slate-400">Temp</p><p class="text-sm sm:text-lg font-bold text-slate-800">${fmt(temp,1,'°C')}</p></div>
                     <div class="text-center"><p class="text-[10px] sm:text-xs text-slate-400">Vibration</p><p class="text-sm sm:text-lg font-bold text-slate-800">${fmt(vib,2,'')}</p></div>
                     <div class="text-center"><p class="text-[10px] sm:text-xs text-slate-400">Pressure</p><p class="text-sm sm:text-lg font-bold text-slate-800">${fmt(pres,1,'')}</p></div>
                 </div>
-
                 <div class="mb-3 sm:mb-4">
                     <div class="flex justify-between text-[10px] sm:text-xs mb-1"><span class="text-slate-500">Health Score</span><span class="font-semibold ${healthNum===null?'text-slate-400':healthColor(healthNum)}">${healthNum===null?'—':healthNum+'%'}</span></div>
                     <div class="progress-bar"><div class="progress-fill" style="width: ${healthNum===null?0:Math.max(0,Math.min(100,healthNum))}%"></div></div>
                 </div>
-
                 <div class="flex items-center justify-between pt-2 sm:pt-3 border-t border-slate-100 flex-wrap gap-2">
                     <div class="flex items-center gap-1 text-[10px] sm:text-xs text-slate-400"><span class="material-symbols-outlined text-xs">schedule</span><span>${timeAgo(m.last_activity_at)}</span></div>
                     <div class="flex gap-1 items-center flex-wrap">
                         <button onclick="event.stopPropagation(); openMachineDetail('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 transition" title="Details"><span class="material-symbols-outlined text-sm">info</span></button>
                         <button onclick="event.stopPropagation(); openDeviceKeyModal('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-teal-600 transition" title="Device keys"><span class="material-symbols-outlined text-sm">vpn_key</span></button>
-                        ${isManual?`<button onclick="event.stopPropagation(); openManualReadingModal('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-teal-600 transition" title="Enter manual reading"><span class="material-symbols-outlined text-sm">edit_note</span></button>`:`
-                        <button onclick="event.stopPropagation(); simulateMachineNow('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-teal-600 transition" title="Simulate reading"><span class="material-symbols-outlined text-sm">bolt</span></button>`}
+                        ${isManual?`<button onclick="event.stopPropagation(); openManualReadingModal('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-teal-600 transition" title="Enter manual reading"><span class="material-symbols-outlined text-sm">edit_note</span></button>`:`<button onclick="event.stopPropagation(); simulateMachineNow('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-teal-600 transition" title="Simulate reading"><span class="material-symbols-outlined text-sm">bolt</span></button>`}
                         <button onclick="event.stopPropagation(); toggleMachineStatus('${escapeHtml(m.id)}')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 transition" title="Toggle status"><span class="material-symbols-outlined text-sm">power_settings_new</span></button>
                         <button onclick="event.stopPropagation(); openLiveModal('${escapeHtml(m.id)}')" class="px-2 py-1 rounded-lg text-[10px] font-semibold ${isLive?'bg-green-100 text-green-700':'bg-slate-100 text-slate-600 hover:bg-slate-200'} transition flex items-center gap-1" title="Live prediction"><span class="material-symbols-outlined text-xs">sensors</span> Live</button>
                         <button onclick="event.stopPropagation(); runPrediction('${escapeHtml(m.id)}')" class="px-2 py-1 rounded-lg text-[10px] font-semibold bg-teal-50 text-teal-700 hover:bg-teal-100 transition flex items-center gap-1" title="Predict once"><span class="material-symbols-outlined text-xs">neurology</span> Predict</button>
@@ -1110,7 +1451,9 @@ function renderMachines() {
 
 function clearFilters() { $('searchInput').value=''; $('statusFilter').value=''; $('typeFilter').value=''; applyFiltersAndRender(); }
 
-/* ---------- machine detail modal ---------- */
+/* ============================================================
+   MACHINE DETAIL MODAL
+   ============================================================ */
 function showDetailTab(name) {
     document.querySelectorAll('.dt-tab').forEach(t => t.classList.toggle('active', t.dataset.dt === name));
     document.querySelectorAll('.dt-panel').forEach(p => p.classList.remove('active'));
@@ -1288,7 +1631,6 @@ async function loadDeviceKeysIntoPanel(machineId) {
         panel.innerHTML = `<div class="text-center py-6"><p class="text-red-500 text-sm">Failed to load keys: ${escapeHtml(error.message||'unknown error')}</p><button onclick="loadDeviceKeysIntoPanel('${escapeHtml(machineId)}')" class="mt-2 text-xs text-teal-600 underline">Retry</button></div>`;
     }
 }
-
 async function createDeviceKeyInline(machineId) {
     try { const data = await API.createDeviceKey(machineId, { name: 'Device key ' + new Date().toLocaleString() }); showDeviceKeyModal(data); loadDeviceKeysIntoPanel(machineId); }
     catch(e) { showToast('Failed to create key: '+(e.message||'unknown error'), 'error'); }
@@ -1298,7 +1640,6 @@ async function revokeDeviceKeyInline(machineId, keyId) {
     try { await API.revokeDeviceKey(machineId, keyId); showToast('Device key revoked','success'); loadDeviceKeysIntoPanel(machineId); }
     catch(e) { showToast('Failed to revoke: '+(e.message||'unknown error'),'error'); }
 }
-
 async function loadSensorIntoPanel(machineId) {
     const panel = $('dtPanel-sensor-data');
     panel.innerHTML = `<div class="text-center py-6"><div class="inline-block animate-spin rounded-full h-6 w-6 border-4 border-teal-500 border-t-transparent"></div></div>`;
@@ -1311,7 +1652,6 @@ async function loadSensorIntoPanel(machineId) {
         panel.innerHTML = `<div class="text-center py-6"><p class="text-red-500 text-sm">Failed: ${escapeHtml(error.message||'unknown error')}</p><button onclick="loadSensorIntoPanel('${escapeHtml(machineId)}')" class="mt-2 text-xs text-teal-600 underline">Retry</button></div>`;
     }
 }
-
 function loadConnectionIntoPanel(machineId) {
     const m = machines.find(x => x.id === machineId); if (!m) return;
     const md = m.machine_data || {};
@@ -1327,7 +1667,6 @@ function loadConnectionIntoPanel(machineId) {
             <div class="border-t border-slate-200 pt-4"><button onclick="reverifyConnection('${escapeHtml(machineId)}')" class="w-full border border-teal-500 text-teal-600 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-teal-50 transition flex items-center justify-center gap-2"><span class="material-symbols-outlined text-base">verified</span> Verify Now</button></div>
         </div>`;
 }
-
 async function reverifyConnection(machineId) {
     const m = machines.find(x => x.id === machineId); if (!m) return;
     const md = m.machine_data || {};
@@ -1341,7 +1680,9 @@ async function reverifyConnection(machineId) {
     } catch(e) { showToast('Connection failed: '+(e.message||'unknown error'),'error',8000); }
 }
 
-/* ---------- device key modal ---------- */
+/* ============================================================
+   DEVICE KEY MODAL
+   ============================================================ */
 function showDeviceKeyModal(data) {
     const key = data.key || ''; const usage = data.usage || {};
     const modal = document.createElement('div');
@@ -1373,7 +1714,9 @@ async function openDeviceKeyModal(machineId) {
     catch(e) { showToast('Failed: '+(e.message||'unknown error'),'error'); }
 }
 
-/* ---------- toggle / simulate / delete ---------- */
+/* ============================================================
+   TOGGLE STATUS / SIMULATE / DELETE
+   ============================================================ */
 async function toggleMachineStatus(id) {
     const m = machines.find(x => x.id === id); if (!m) return;
     const md = m.machine_data || {};
@@ -1415,7 +1758,9 @@ async function deleteMachine(id) {
     catch(e) { showToast('Failed to remove: '+(e.message||'unknown error'),'error',7000); }
 }
 
-/* ---------- manual reading modal ---------- */
+/* ============================================================
+   MANUAL READING MODAL
+   ============================================================ */
 async function openManualReadingModal(machineId) {
     const m = machines.find(x => x.id === machineId); if (!m) { showToast('Machine not found','error'); return; }
     manualReadingMachineId = machineId;
@@ -1423,7 +1768,7 @@ async function openManualReadingModal(machineId) {
     let required = [];
     try { const sc = await API.getSensorContract(machineId); required = sc.required_features || []; } catch(e){}
     const set = Array.from(new Set([...required, ...typeFields]));
-    const host = $('manualFieldsHost');
+    const host = $('manualFieldsHostModal');
     host.innerHTML = set.map(f => `<div class="sensor-field"><label>${escapeHtml(SENSOR_LABELS[f]||f)}</label><input type="number" step="0.01" data-sensor="${escapeHtml(f)}" placeholder="—" autocomplete="off"></div>`).join('');
     $('manualMachineLabel').textContent = `Machine: ${m.name} (${(m.machine_type||m.type||'').toUpperCase()})`;
     $('manualReadingError').classList.add('hidden'); $('manualReadingError').textContent = '';
@@ -1433,7 +1778,7 @@ async function openManualReadingModal(machineId) {
 function closeManualReadingModal() { $('manualReadingModal').classList.remove('active'); document.body.style.overflow=''; manualReadingMachineId = null; }
 async function submitManualReading(e) {
     e.preventDefault(); if (!manualReadingMachineId) return;
-    const inputs = document.querySelectorAll('#manualFieldsHost input');
+    const inputs = document.querySelectorAll('#manualFieldsHostModal input');
     const errEl = $('manualReadingError');
     const payload = { source: 'manual', timestamp: new Date().toISOString() };
     const readings = {}; let filled = 0; let badValue = false;
@@ -1458,7 +1803,9 @@ async function submitManualReading(e) {
     }
 }
 
-/* ---------- prediction (single) ---------- */
+/* ============================================================
+   PREDICTION (single)
+   ============================================================ */
 async function runPrediction(machineId, options = {}) {
     if (!Auth.isAuthenticated) { location.replace('login.html'); return; }
     const m = machines.find(x => x.id === machineId); if (!m) { showToast('Machine not found','error'); return; }
@@ -1507,7 +1854,9 @@ async function runPrediction(machineId, options = {}) {
     }
 }
 
-/* ---------- live prediction scheduling ---------- */
+/* ============================================================
+   LIVE PREDICTION — strict interval scheduling
+   ============================================================ */
 function startLiveFor(machineId, intervalMin, silent=false) {
     if (!machineId || !Number.isFinite(Number(intervalMin)) || Number(intervalMin) <= 0) return;
     const previous = livePredictions[machineId];
@@ -1537,6 +1886,7 @@ function startLiveFor(machineId, intervalMin, silent=false) {
             if (latest) { latest.running = false; latest.nextRunAt = Date.now() + ms; updateLiveStatusBox(machineId); saveLiveToStorage(); }
         }
     };
+    // First prediction fires only AFTER the interval — matches user expectation.
     live.firstTimer = setTimeout(() => { executeScheduledPrediction(); live.timer = setInterval(executeScheduledPrediction, ms); }, ms);
     live.statusTimer = setInterval(() => updateLiveStatusBox(machineId), 1000);
     saveLiveToStorage(); applyFiltersAndRender(); updateLiveStatusBox(machineId);
@@ -1557,7 +1907,9 @@ function stopAllLivePredictions() {
     try { localStorage.removeItem(LIVE_KEY); } catch(e){}
 }
 
-/* ---------- live modal ---------- */
+/* ============================================================
+   LIVE MODAL
+   ============================================================ */
 function openLiveModal(machineId) {
     const m = machines.find(x => x.id === machineId); if (!m) return;
     $('liveMachineLabel').textContent = `Machine: ${m.name}`;
@@ -1589,10 +1941,12 @@ function updateLiveStatusBox(machineId) {
 }
 let selectedLiveInterval = 0;
 
-/* ---------- add machine (v2) ---------- */
+/* ============================================================
+   ADD MACHINE — real connection methods + type-aware manual
+   ============================================================ */
 function setAddError(message) { const el = $('addMachineError'); if (!el) return; if (!message) { el.classList.add('hidden'); el.textContent=''; return; } el.classList.remove('hidden'); el.textContent = message; }
 function renderManualFieldsForType(type) {
-    const host = $('manualFieldsHost'); if (!host) return;
+    const host = $('manualFieldsHostAdd'); if (!host) return;
     const fields = sensorsForType(type);
     if (!fields.length) { host.innerHTML = ''; return; }
     host.innerHTML = fields.map(f => `<div class="sensor-field"><label>${escapeHtml(SENSOR_LABELS[f]||f)}</label><input type="number" step="0.01" data-sensor="${escapeHtml(f)}" placeholder="—" autocomplete="off"></div>`).join('');
@@ -1624,7 +1978,7 @@ async function addMachine() {
     if (needsEndpoint && !endpoint) { setAddError(`Endpoint is required for ${connection.toUpperCase()} connections.`); showToast(`Endpoint is required for ${connection.toUpperCase()}`,'error',6000); return; }
     let initialReadings = null;
     if (connection === 'manual') {
-        const inputs = document.querySelectorAll('#manualFieldsHost input');
+        const inputs = document.querySelectorAll('#manualFieldsHostAdd input');
         const readings = {}; let count = 0;
         inputs.forEach(inp => { const v = inp.value.trim(); if (v === '') return; const n = Number(v); if (isNaN(n)) return; count++; readings[inp.dataset.sensor] = n; });
         if (count > 0) initialReadings = [readings];
@@ -1696,7 +2050,9 @@ async function addMachine() {
     }
 }
 
-/* ---------- connecting modal ---------- */
+/* ============================================================
+   CONNECTING MODAL
+   ============================================================ */
 function openConnectingModal(name) {
     $('connectTitle').textContent = 'Connecting...';
     $('connectSubtitle').textContent = `Establishing link to ${name}`;
@@ -1712,7 +2068,9 @@ function advanceConnectStep(num, state) {
 }
 function closeConnectingModal() { $('connectingModal').classList.remove('active'); document.body.style.overflow=''; }
 
-/* ---------- simulate modal (preserved) ---------- */
+/* ============================================================
+   SIMULATE MODAL — preserved from original
+   ============================================================ */
 function openTestModal() { $('testModal').classList.add('active'); document.body.style.overflow='hidden'; $('testConfig').classList.add('hidden'); testProfile = null; }
 function closeTestModal() { $('testModal').classList.remove('active'); document.body.style.overflow=''; }
 function selectTestOption(option, ev) {
@@ -1745,7 +2103,9 @@ async function runSimulatedConnection() {
     finally { btn.disabled = false; btn.textContent = orig; }
 }
 
-/* ---------- websocket ---------- */
+/* ============================================================
+   WEBSOCKET
+   ============================================================ */
 function connectWebSocket() {
     const token = getToken(); if (!token || !isTokenValid(token)) return;
     if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
@@ -1795,7 +2155,9 @@ function handleWsMessage(data) {
     }
 }
 
-/* ---------- auto refresh ---------- */
+/* ============================================================
+   AUTO REFRESH FALLBACK
+   ============================================================ */
 function startAutoRefresh() {
     if (refreshInterval) clearInterval(refreshInterval);
     refreshInterval = setInterval(() => {
@@ -1806,7 +2168,9 @@ function startAutoRefresh() {
     }, 30000);
 }
 
-/* ---------- bootstrap ---------- */
+/* ============================================================
+   BOOTSTRAP
+   ============================================================ */
 function bootstrapPage() {
     document.body.style.overflow='';
     updateUserUI();
@@ -1900,7 +2264,9 @@ window.addEventListener('beforeunload', () => {
     Object.keys(telemetryPolling).forEach(id => stopTelemetryPoll(id));
 });
 
-/* ---------- expose globals for inline HTML handlers ---------- */
+/* ============================================================
+   EXPOSE GLOBALS (needed by inline onclick= handlers)
+   ============================================================ */
 window.loadMachines = loadMachines;
 window.openMachineDetail = openMachineDetail;
 window.closeDetailModal = closeDetailModal;
@@ -1928,6 +2294,3 @@ window.showToast = showToast;
 window.openManualReadingModal = openManualReadingModal;
 window.closeManualReadingModal = closeManualReadingModal;
 window.submitManualReading = submitManualReading;
-</script>
-</body>
-</html>
