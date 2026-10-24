@@ -1,10 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>AI Predictions | SynapsePM - Predictive Maintenance</title>
-    <!-- ===== PWA META ===== -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#00b4aa">
     <meta name="color-scheme" content="light">
@@ -31,466 +30,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
     <style>
-        * { box-sizing: border-box; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
-        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
-
-        .gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
-        .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
-        .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
-        .gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        /* ============================================================
-           SYNAPSEPM LOGO — same height in both sidebar states
-           ============================================================ */
-        .synapsepm-logo {
-            font-family: "Inter", "Plus Jakarta Sans", sans-serif;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            font-size: 22px;
-            line-height: 1;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.55rem;
-            vertical-align: middle;
-        }
-        .synapsepm-logo > span:not(.logo-icon),
-        .synapsepm-logo strong {
-            display: inline-flex;
-            align-items: center;
-            line-height: 1;
-            height: 32px;
-        }
-        .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
-        .synapsepm-logo strong {
-            background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .synapsepm-logo .logo-icon {
-            width: 32px; height: 32px;
-            min-width: 32px; min-height: 32px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            background: transparent !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-        }
-        .synapsepm-logo .logo-icon img {
-            width: 32px; height: 32px;
-            object-fit: contain; display: block;
-        }
-
-        /* ============================================================
-           SIDEBAR — logo stays visible in both states
-           ============================================================ */
-        :root {
-            --sidebar-width: 264px;
-            --sidebar-collapsed-width: 84px;
-            --sidebar-border: #e2e8f0;
-            --sidebar-bg: #ffffff;
-            --sidebar-muted: #64748b;
-            --sidebar-primary: #0f2b3d;
-            --sidebar-accent: #00b4aa;
-            --sidebar-hover: #f1f5f9;
-        }
-        .sidebar {
-            width: var(--sidebar-width);
-            min-height: 100dvh; height: 100dvh;
-            background: var(--sidebar-bg);
-            border-right: 1px solid var(--sidebar-border);
-            position: fixed; inset: 0 auto 0 0; z-index: 100;
-            display: flex; flex-direction: column; overflow: visible;
-            transition: width .28s cubic-bezier(.4,0,.2,1),
-                        transform .28s cubic-bezier(.4,0,.2,1);
-        }
-        .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
-        .sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #fff; }
-        .sidebar-brand {
-            min-height: 76px; padding: 0 14px;
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 10px; overflow: hidden;
-        }
-        .sidebar-brand-inner {
-            display: flex; align-items: center; gap: 10px;
-            min-width: 0; transition: opacity .2s ease;
-        }
-        .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
-        .sidebar.collapsed .synapsepm-logo strong { display: none !important; }
-        .sidebar.collapsed .sidebar-brand {
-            flex-direction: column; justify-content: center;
-            align-items: center; gap: 6px; padding: 10px 0; min-height: 76px;
-        }
-        .sidebar.collapsed .sidebar-brand-inner {
-            opacity: 1; pointer-events: auto; width: auto;
-            overflow: visible; justify-content: center; gap: 0;
-        }
-        .sidebar.collapsed .synapsepm-logo { justify-content: center; }
-        .sidebar.collapsed .synapsepm-logo .logo-icon {
-            display: inline-flex !important; opacity: 1 !important;
-            width: 32px !important; min-width: 32px !important;
-            height: 32px !important; min-height: 32px !important;
-        }
-        .sidebar.collapsed .synapsepm-logo .logo-icon img {
-            display: block !important; width: 32px !important;
-            height: 32px !important; object-fit: contain !important;
-        }
-        .sidebar-toggle {
-            width: 36px; height: 36px;
-            border: 1px solid #dbe4ec; border-radius: 10px;
-            background: #fff; color: #475569;
-            display: inline-flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 2px 7px rgba(15,43,61,.06);
-            transition: background .2s, border-color .2s, color .2s, box-shadow .2s;
-            flex-shrink: 0; padding: 0;
-        }
-        .sidebar-toggle:hover {
-            background: #f8fafc; color: var(--sidebar-accent);
-            border-color: rgba(0,180,170,.45);
-            box-shadow: 0 5px 14px rgba(15,43,61,.10);
-        }
-        .sidebar-toggle svg {
-            width: 18px; height: 18px; stroke: currentColor;
-            transition: transform .3s cubic-bezier(.4,0,.2,1);
-        }
-        .sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
-        .sidebar-nav {
-            flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
-            padding: 14px 10px; scrollbar-width: thin;
-            scrollbar-color: #dbe4ec transparent;
-        }
-        .sidebar-nav::-webkit-scrollbar { width: 4px; }
-        .sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
-        .sidebar-group-label { padding: 7px 11px 6px; }
-        .sidebar-group { display: flex; flex-direction: column; gap: 3px; }
-        .sidebar-link {
-            min-height: 44px; display: flex; align-items: center; gap: 12px;
-            padding: 9px 11px; border-radius: 11px;
-            color: var(--sidebar-muted); font-weight: 500; font-size: .875rem;
-            line-height: 1.2; cursor: pointer; text-decoration: none;
-            position: relative; white-space: nowrap; overflow: visible;
-            transition: background .18s ease, color .18s ease;
-        }
-        .sidebar-link:hover { background: var(--sidebar-hover); color: var(--sidebar-primary); }
-        .sidebar-link.active { background: #00b4aa; color: #fff; box-shadow: 0 5px 14px rgba(0,180,170,.22); }
-        .sidebar-link .material-symbols-outlined {
-            width: 22px; min-width: 22px; font-size: 22px;
-            display: inline-flex; align-items: center; justify-content: center;
-            color: #64748b; transition: color .18s ease;
-        }
-        .sidebar-link.active .material-symbols-outlined,
-        .sidebar-link:hover .material-symbols-outlined { color: inherit; }
-        .sidebar-link .badge-count {
-            margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px;
-            display: inline-flex; align-items: center; justify-content: center;
-            background: #f1f5f9; color: #64748b;
-            font-size: .65rem; border-radius: 999px; font-weight: 700;
-            transition: all .2s ease;
-        }
-        .sidebar-link.active .badge-count { background: rgba(255,255,255,.22); color: #fff; }
-        .sidebar-divider { margin: 14px 4px; border-top: 1px solid #edf2f7; }
-        .sidebar-text { transition: opacity .2s ease; }
-        .sidebar.collapsed .sidebar-text,
-        .sidebar.collapsed .sidebar-label,
-        .sidebar.collapsed .badge-count {
-            opacity: 0; pointer-events: none;
-            width: 0; overflow: hidden; display: none !important;
-        }
-        .sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
-        .sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
-        .sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
-        .sidebar.collapsed .sidebar-link::after {
-            content: attr(data-tooltip);
-            position: absolute; left: calc(100% + 10px); top: 50%;
-            transform: translateY(-50%) translateX(-4px);
-            opacity: 0; pointer-events: none;
-            background: #0f2b3d; color: #fff;
-            padding: 7px 10px; border-radius: 8px;
-            font-size: 12px; font-weight: 600; white-space: nowrap;
-            box-shadow: 0 8px 20px rgba(15,43,61,.18);
-            transition: opacity .15s, transform .15s; z-index: 250;
-        }
-        .sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
-
-        /* User area */
-        .sidebar-user-area { flex-shrink: 0; position: relative; padding: 10px; border-top: 1px solid var(--sidebar-border); background: #fff; }
-        .user-card {
-            min-height: 58px; display: flex; align-items: center; gap: 10px;
-            padding: 8px; background: #f8fafc;
-            border: 1px solid #eef2f7; border-radius: 12px;
-            transition: all .28s cubic-bezier(.4,0,.2,1);
-        }
-        .sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
-        .avatar-wrapper { flex-shrink: 0; position: relative; }
-        .user-card .avatar {
-            width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: .8rem; color: #fff;
-            background: linear-gradient(135deg, #00b4aa, #009688);
-            background-size: cover; background-position: center;
-            cursor: pointer; position: relative;
-            transition: box-shadow .2s ease;
-        }
-        .user-card .avatar:hover { box-shadow: 0 0 0 3px rgba(0,180,170,.15); }
-        .user-card .avatar-wrapper .status-dot {
-            position: absolute; bottom: 0; right: 0;
-            width: 11px; height: 11px; border-radius: 50%;
-            border: 2px solid #fff; background: #10b981;
-        }
-        .user-card .user-details { flex: 1; min-width: 0; transition: opacity .2s ease; }
-        .sidebar.collapsed .user-card .user-details { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
-        .user-card .user-details .name { font-weight: 600; font-size: .82rem; color: #0f2b3d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-card .user-details .email { font-size: .68rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
-        .user-card .user-details .plan { font-size: .58rem; font-weight: 700; color: #00a79d; background: rgba(0,180,170,.08); padding: 1px 7px; border-radius: 999px; display: inline-block; margin-top: 2px; }
-
-        /* Profile menu */
-        .profile-menu{
-    position:absolute;
-    left:10px;
-    right:10px;
-    bottom:calc(100% + 10px);
-    padding:14px;
-    background:#fff;
-    border:1px solid #e2e8f0;
-    border-radius:14px;
-    box-shadow:0 18px 45px rgba(15,23,42,.16);
-    opacity:0;
-    visibility:hidden;
-    transform:translateY(8px);
-    pointer-events:none;
-    transition:opacity .18s ease,transform .18s ease,visibility .18s ease;
-    z-index:300;
-    min-width: 276px;
-}
-
-/* When sidebar is collapsed, expand menu to the right so content stays readable */
-.sidebar.collapsed .profile-menu {
-    left: calc(100% + 10px);
-    right: auto;
-    bottom: 12px;
-    width: 300px;
-    min-width: 300px;
-    transform: translateY(0) translateX(-8px);
-}
-
-.sidebar.collapsed .profile-menu.open {
-    transform: translateY(0) translateX(0);
-}
-        .profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
-        .profile-menu-header { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #edf2f7; }
-        .profile-menu-avatar { width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00b4aa, #009688); color: #fff; font-weight: 800; background-size: cover; background-position: center; }
-        .profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
-        .profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
-        .profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
-        .profile-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
-        .profile-detail-label { color: #94a3b8; }
-        .profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
-        .profile-menu-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7; }
-        .profile-action-btn {
-            width: 100%; min-height: 40px;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            border: 1px solid #e2e8f0; border-radius: 10px; background: #fff;
-            color: #475569; font-size: 13px; font-weight: 600;
-            cursor: pointer; transition: all .18s ease; padding: 0 12px;
-            font-family: inherit;
-        }
-        .profile-action-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
-        .profile-action-btn.danger { border-color: #fecaca; color: #dc2626; }
-        .profile-action-btn.danger:hover { background: #fef2f2; border-color: #fca5a5; }
-
-        /* Main layout */
-        #mainContent { margin-left: var(--sidebar-width); min-width: 0; transition: margin-left .28s cubic-bezier(.4,0,.2,1); }
-        body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-width); }
-        .sidebar-overlay { display: none; }
-        @media (max-width: 1023px) {
-            .sidebar { width: min(310px, 90vw); transform: translateX(-102%); box-shadow: none; }
-            .sidebar.mobile-open { transform: translateX(0); box-shadow: 18px 0 50px rgba(15,23,42,.18); }
-            .sidebar.collapsed { width: min(310px, 90vw); }
-            .sidebar-overlay {
-                position: fixed; inset: 0;
-                background: rgba(15,23,42,.42); backdrop-filter: blur(3px);
-                z-index: 90; display: block;
-                opacity: 0; visibility: hidden; pointer-events: none;
-                transition: opacity .25s ease, visibility .25s ease;
-            }
-            .sidebar-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
-            #mainContent, body.sidebar-is-collapsed #mainContent { margin-left: 0; }
-            .sidebar.collapsed .sidebar-text,
-            .sidebar.collapsed .sidebar-label,
-            .sidebar.collapsed .badge-count { display: block !important; opacity: 1 !important; transform: none !important; width: auto !important; }
-            .sidebar.collapsed .sidebar-link { justify-content: flex-start; gap: 12px; padding: 9px 11px; }
-            .sidebar.collapsed .sidebar-link::after { display: none; }
-            .sidebar.collapsed .user-card .user-details { display: block !important; opacity: 1 !important; width: auto !important; }
-            .sidebar.collapsed .sidebar-brand-inner { opacity: 1 !important; pointer-events: auto !important; width: auto !important; }
-            .sidebar.collapsed .sidebar-brand { justify-content: space-between; flex-direction: row; padding: 0 14px; }
-            .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
-            .sidebar.collapsed .synapsepm-logo strong { display: inline-flex !important; }
-            .sidebar.collapsed .sidebar-toggle svg { transform: none; }
-            @media (max-width: 1023px) {
-    /* ...existing rules... */
-
-    /* On mobile, always use the original left/right anchored layout
-       (mobile sidebar is full-width so no need to expand right) */
-    .sidebar.collapsed .profile-menu {
-        left: 10px;
-        right: 10px;
-        bottom: calc(100% + 10px);
-        width: auto;
-        min-width: 0;
-        transform: translateY(8px);
-    }
-    .sidebar.collapsed .profile-menu.open {
-        transform: translateY(0);
-    }
-}
-        }
-
-        /* ============================================================
-           FIXED: native <select> arrow overlapping text
-           ============================================================ */
-        .select-with-icon {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-        .select-with-icon select {
-            width: 100%;
-            padding: 0.5rem 2.25rem 0.5rem 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            background: #fff;
-            color: #0f172a;
-            font-size: 0.875rem;
-            line-height: 1.25rem;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            outline: none;
-            cursor: pointer;
-            font-family: inherit;
-            transition: border-color .15s ease, box-shadow .15s ease;
-        }
-        .select-with-icon select:focus {
-            border-color: #00b4aa;
-            box-shadow: 0 0 0 3px rgba(0,180,170,.12);
-        }
-        .select-with-icon .select-arrow {
-            position: absolute;
-            top: 50%;
-            right: 0.55rem;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: #94a3b8;
-            font-size: 20px;
-            line-height: 1;
-        }
-
-        /* Status pills */
-        .status-online { background: #10b98120; color: #10b981; border: 1px solid #10b98140; }
-        .status-warning { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
-        .status-critical { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
-        .status-offline { background: #6b728020; color: #6b7280; border: 1px solid #6b728040; }
-
-        .progress-bar { background: #e2e8f0; border-radius: 9999px; overflow: hidden; height: 8px; }
-        .progress-fill { background: linear-gradient(90deg, #00b4aa, #009688); height: 100%; border-radius: 9999px; transition: width 0.8s ease; }
-
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
-        .modal.active { display: flex; animation: fadeIn .2s ease-out; }
-        .modal-content { background: #fff; border-radius: 1.5rem; max-width: 100%; width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
-
-        .toast {
-            position: fixed; bottom: 1.5rem; right: 1.5rem;
-            background: #fff; border-radius: .75rem;
-            padding: 1rem 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,.1);
-            display: flex; align-items: center; gap: .75rem;
-            z-index: 1100; animation: slideInRight .3s ease-out;
-            border-left: 4px solid; max-width: 420px;
-        }
-        .toast.success { border-left-color: #10b981; }
-        .toast.error { border-left-color: #ef4444; }
-        .toast.warning { border-left-color: #f59e0b; }
-        .toast.info { border-left-color: #00b4aa; }
-        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .table-responsive table { min-width: 600px; }
-
-        .machines-list { max-height: 380px; overflow-y: auto; }
-        .machines-list::-webkit-scrollbar { width: 4px; }
-        .machines-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
-
-        .machine-item { transition: all .2s ease; cursor: pointer; }
-        .machine-item:hover { transform: translateX(4px); }
-        .machine-item.selected { border-color: #00b4aa !important; background: #00b4aa08 !important; }
-
-        .drop-zone {
-            border: 2px dashed #e2e8f0;
-            border-radius: 1rem;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            transition: all .3s;
-            cursor: pointer;
-            background: #f8fafc;
-        }
-        .drop-zone:hover { border-color: #00b4aa; background: #f0fdfa; }
-        .drop-zone.dragover { border-color: #00b4aa; background: #f0fdfa; }
-        .drop-zone .material-symbols-outlined { font-size: 2rem; color: #94a3b8; }
-        .drop-zone.uploading { opacity: .6; pointer-events: none; }
-
-        .loading-spinner {
-            display: inline-block; width: 1.25rem; height: 1.25rem;
-            border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
-            border-radius: 50%; animation: spin .8s linear infinite;
-            margin-right: .5rem; vertical-align: middle;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .page-banner { border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.4; }
-        .page-banner.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
-        .page-banner.warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
-        .page-banner.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
-        .page-banner .banner-close { margin-left: auto; cursor: pointer; opacity: .7; }
-        .page-banner .banner-close:hover { opacity: 1; }
-
-        .no-prediction-panel { background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px; padding: 16px; color: #991b1b; }
-        .no-prediction-panel .material-symbols-outlined { font-size: 28px; }
-
-        /* File chip */
-        .file-chip {
-            display: flex; align-items: center; gap: .5rem;
-            padding: .5rem .75rem;
-            background: #f0fdfa;
-            border: 1px solid #a7f3d0;
-            border-radius: .65rem;
-            font-size: .75rem;
-            color: #065f46;
-            word-break: break-all;
-        }
-        .file-chip .material-symbols-outlined { font-size: 16px; flex-shrink: 0; color: #10b981; }
-        .file-chip .chip-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
-        .file-chip .chip-size { flex-shrink: 0; color: #059669; }
-        .file-chip .chip-remove {
-            flex-shrink: 0; background: none; border: none; cursor: pointer;
-            color: #059669; padding: 0; display: flex; align-items: center;
-        }
-        .file-chip .chip-remove:hover { color: #b91c1c; }
-
-        @media (max-width: 768px) {
-            .prediction-stats { flex-direction: column; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .sidebar, .sidebar-link, .sidebar-toggle, #mainContent,
-            .sidebar-overlay, .profile-menu, .machine-item, .drop-zone { transition: none !important; }
-        }
+    /* ===== PART 2 GOES HERE — REPLACE THIS LINE WITH THE ENTIRE STYLE BLOCK ===== */
     </style>
 </head>
 <body>
@@ -510,62 +50,30 @@
                     <span>Synapse</span><strong>PM</strong>
                 </div>
             </a>
-            <button type="button" class="sidebar-toggle" id="sidebarToggle"
-                    title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
         </div>
     </div>
-
     <nav class="sidebar-nav" aria-label="Application">
         <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p>
-            </div>
-            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard" aria-label="Dashboard">
-                <span class="material-symbols-outlined" aria-hidden="true">dashboard</span>
-                <span class="sidebar-text">Dashboard</span>
-            </a>
-            <a href="machines.html" class="sidebar-link" data-tooltip="Machines" aria-label="Machines">
-                <span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span>
-                <span class="sidebar-text">Machines</span>
-            </a>
-            <a href="predictions.html" class="sidebar-link active" data-tooltip="Predictions" aria-label="Predictions" aria-current="page">
-                <span class="material-symbols-outlined" aria-hidden="true">neurology</span>
-                <span class="sidebar-text">Predictions</span>
-            </a>
-            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts" aria-label="Alerts">
-                <span class="material-symbols-outlined" aria-hidden="true">notifications_active</span>
-                <span class="sidebar-text">Alerts</span>
-                <span class="badge-count" id="sidebarAlertsBadge" aria-label="Active alerts">0</span>
-            </a>
-            <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports">
-                <span class="material-symbols-outlined" aria-hidden="true">assessment</span>
-                <span class="sidebar-text">Reports</span>
-            </a>
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p></div>
+            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard" aria-label="Dashboard"><span class="material-symbols-outlined" aria-hidden="true">dashboard</span><span class="sidebar-text">Dashboard</span></a>
+            <a href="machines.html" class="sidebar-link" data-tooltip="Machines" aria-label="Machines"><span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span><span class="sidebar-text">Machines</span></a>
+            <a href="predictions.html" class="sidebar-link active" data-tooltip="Predictions" aria-label="Predictions" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">neurology</span><span class="sidebar-text">Predictions</span></a>
+            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts" aria-label="Alerts"><span class="material-symbols-outlined" aria-hidden="true">notifications_active</span><span class="sidebar-text">Alerts</span><span class="badge-count" id="sidebarAlertsBadge" aria-label="Active alerts">0</span></a>
+            <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports"><span class="material-symbols-outlined" aria-hidden="true">assessment</span><span class="sidebar-text">Reports</span></a>
         </div>
         <div class="sidebar-divider"></div>
         <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p>
-            </div>
-            <a href="billing.html" class="sidebar-link" data-tooltip="Billing" aria-label="Billing">
-                <span class="material-symbols-outlined" aria-hidden="true">credit_card</span>
-                <span class="sidebar-text">Billing</span>
-            </a>
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p></div>
+            <a href="billing.html" class="sidebar-link" data-tooltip="Billing" aria-label="Billing"><span class="material-symbols-outlined" aria-hidden="true">credit_card</span><span class="sidebar-text">Billing</span></a>
         </div>
     </nav>
-
     <div class="sidebar-user-area">
         <div class="user-card">
             <div class="avatar-wrapper">
-                <button type="button" class="avatar" id="userAvatar"
-                        aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu">
-                    <span id="userAvatarText"></span>
-                </button>
+                <button type="button" class="avatar" id="userAvatar" aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu"><span id="userAvatarText"></span></button>
                 <div class="status-dot" aria-hidden="true"></div>
             </div>
             <div class="user-details">
@@ -574,7 +82,6 @@
                 <div class="plan" id="userPlan"></div>
             </div>
         </div>
-
         <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
             <div class="profile-menu-header">
                 <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
@@ -591,14 +98,8 @@
                 <div class="profile-detail-row" id="profileOrgRow" hidden><span class="profile-detail-label">Organization</span><span class="profile-detail-value" id="profileMenuOrg"></span></div>
             </div>
             <div class="profile-menu-actions">
-                <button type="button" class="profile-action-btn" id="profileSettingsBtn">
-                    <span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>
-                    Settings
-                </button>
-                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn">
-                    <span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>
-                    Sign out
-                </button>
+                <button type="button" class="profile-action-btn" id="profileSettingsBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>Settings</button>
+                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>Sign out</button>
             </div>
         </div>
     </div>
@@ -608,19 +109,17 @@
 <main class="flex-1 min-w-0" id="mainContent">
     <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
         <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
+            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
             <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Predictions</h1>
         </div>
         <div class="flex items-center gap-2 flex-shrink-0">
+            <span id="healthStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold" title="Backend health">● CHECKING</span>
             <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
             <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
         </div>
     </header>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <!-- Page header -->
         <div class="mb-6 sm:mb-8">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
@@ -629,7 +128,7 @@
                         <span class="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-teal-700">Backend Predictive Engine</span>
                     </div>
                     <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-headline text-slate-800">Predictive Maintenance</h1>
-                    <p class="text-slate-500 text-sm sm:text-base mt-1">Run AI predictions on connected machines or uploaded datasets — real models, real results</p>
+                    <p class="text-slate-500 text-sm sm:text-base mt-1">Real trained-model predictions on connected machines or uploaded datasets</p>
                 </div>
             </div>
         </div>
@@ -637,31 +136,19 @@
         <!-- Stats -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
             <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] sm:text-xs text-slate-500">Total Predictions</span>
-                    <span class="material-symbols-outlined text-teal-600 text-base">neurology</span>
-                </div>
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Total Predictions</span><span class="material-symbols-outlined text-teal-600 text-base">neurology</span></div>
                 <p class="text-xl sm:text-2xl font-bold text-slate-800" id="statTotal">—</p>
             </div>
             <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] sm:text-xs text-slate-500">Avg RUL (hrs)</span>
-                    <span class="material-symbols-outlined text-amber-500 text-base">schedule</span>
-                </div>
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Avg RUL (hrs)</span><span class="material-symbols-outlined text-amber-500 text-base">schedule</span></div>
                 <p class="text-xl sm:text-2xl font-bold text-amber-500" id="statAvgRul">—</p>
             </div>
             <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] sm:text-xs text-slate-500">Healthy</span>
-                    <span class="material-symbols-outlined text-green-600 text-base">check_circle</span>
-                </div>
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Healthy</span><span class="material-symbols-outlined text-green-600 text-base">check_circle</span></div>
                 <p class="text-xl sm:text-2xl font-bold text-green-600" id="statHealthy">—</p>
             </div>
             <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] sm:text-xs text-slate-500">Critical</span>
-                    <span class="material-symbols-outlined text-red-600 text-base">error</span>
-                </div>
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Critical</span><span class="material-symbols-outlined text-red-600 text-base">error</span></div>
                 <p class="text-xl sm:text-2xl font-bold text-red-600" id="statCritical">—</p>
             </div>
         </div>
@@ -708,20 +195,23 @@
                         <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.json,.txt,.dat" class="hidden">
                     </div>
 
-                    <!-- Uploaded file chip -->
                     <div id="uploadedFileChip" class="mt-3 hidden"></div>
-
-                    <!-- Upload status / errors -->
                     <div id="uploadStatus" class="mt-3 hidden"></div>
 
-                    <!-- Run prediction button -->
-                    <button id="predictFromDatasetBtn"
-                            class="w-full mt-3 gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                            disabled>
+                    <!-- Dataset profile (from /datasets/analyze) -->
+                    <div id="datasetProfile" class="mt-3 hidden"></div>
+
+                    <!-- Optional machine_key mapping -->
+                    <div id="machineKeyBlock" class="mt-3 hidden">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" for="machineKeyInput">Machine key column value (optional)</label>
+                        <input type="text" id="machineKeyInput" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-xs font-mono" placeholder="e.g., PUMP-001 — only needed if the file has many machines">
+                        <p class="text-[10px] text-slate-400 mt-1">Leave blank if the dataset contains a single machine or you want the backend to auto-select.</p>
+                    </div>
+
+                    <button id="predictFromDatasetBtn" class="w-full mt-3 gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2" disabled>
                         <span class="material-symbols-outlined text-base">neurology</span>
                         Run Prediction on Dataset
                     </button>
-
                     <p class="text-[10px] text-slate-400 mt-2 text-center">The backend will select the best compatible trained model automatically.</p>
                 </div>
 
@@ -763,18 +253,30 @@
                                 <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
                             </div>
                         </div>
-                        <button id="runPredictionMainBtn"
-                                class="w-full gradient-cta text-white py-2.5 sm:py-3 rounded-xl font-bold text-sm sm:text-base hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                        <button id="runPredictionMainBtn" class="w-full gradient-cta text-white py-2.5 sm:py-3 rounded-xl font-bold text-sm sm:text-base hover:shadow-lg transition-all flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined text-base sm:text-lg">neurology</span>
                             Run Prediction on Selected Machine
                         </button>
+                        <button id="runLivePredictionBtn" class="w-full border border-teal-500 text-teal-600 py-2 rounded-xl font-semibold text-xs hover:bg-teal-50 transition-all flex items-center justify-center gap-2" title="Run predictions on a schedule">
+                            <span class="material-symbols-outlined text-sm">sensors</span>
+                            Schedule Recurring Predictions
+                        </button>
                     </div>
+                </div>
+
+                <!-- Live Schedule status -->
+                <div id="liveScheduleBox" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm"><span class="material-symbols-outlined text-teal-600 text-base">sensors</span>Recurring Schedule</h3>
+                        <button onclick="stopLivePredictions()" class="text-xs text-red-600 font-semibold hover:underline">Stop</button>
+                    </div>
+                    <p class="text-xs text-slate-500" id="liveScheduleText">No schedule active.</p>
+                    <div class="text-[10px] text-slate-400 mt-2" id="liveScheduleMeta"></div>
                 </div>
             </div>
 
             <!-- RIGHT COLUMN -->
             <div class="lg:w-2/3 space-y-5 sm:space-y-6">
-                <!-- Current Asset Card -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="assetCard">
                     <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex flex-wrap justify-between items-center gap-2">
                         <div>
@@ -807,32 +309,37 @@
                                 <span class="font-semibold text-slate-800">Prediction Confidence</span>
                                 <span id="confidenceValue" class="text-teal-600 font-bold">—</span>
                             </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="confidenceFill" style="width: 0%"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill" id="confidenceFill" style="width: 0%"></div></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Sensor Telemetry -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
-                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-sm sm:text-base">
-                        <span class="material-symbols-outlined text-teal-600 text-base">show_chart</span>
-                        Sensor Telemetry Trends
-                    </h3>
-                    <div class="w-full overflow-x-auto">
-                        <canvas id="sensorChart" height="200" style="max-width: 100%; height: auto; min-height: 200px;"></canvas>
+                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+                            <span class="material-symbols-outlined text-teal-600 text-base">show_chart</span>
+                            Sensor Telemetry Trends
+                        </h3>
+                        <span id="chartSourceChip" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold hidden">—</span>
                     </div>
+                    <div class="w-full overflow-x-auto"><canvas id="sensorChart" height="200" style="max-width: 100%; height: auto; min-height: 200px;"></canvas></div>
                     <p class="text-[10px] text-slate-400 mt-2 text-center" id="chartEmptyNote" style="display:none;">No sensor data available — connect a machine or use a simulated device.</p>
                 </div>
 
                 <!-- Prediction Results -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5" id="predictionResults" style="display:none;">
-                    <h3 class="font-bold text-slate-800 mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
-                        <span class="material-symbols-outlined text-teal-600 text-base">neurology</span>
-                        AI Prediction Results
-                    </h3>
+                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+                            <span class="material-symbols-outlined text-teal-600 text-base">neurology</span>
+                            AI Prediction Results
+                        </h3>
+                        <button id="viewAuditBtn" class="text-xs text-slate-500 hover:text-teal-600 font-semibold hidden" onclick="toggleAuditPanel()">
+                            <span class="material-symbols-outlined text-xs align-middle">expand_more</span> Model audit
+                        </button>
+                    </div>
                     <div class="space-y-3 sm:space-y-4" id="resultsContent"></div>
+                    <div id="auditPanel" class="hidden mt-3 border-t border-slate-200 pt-3"></div>
                 </div>
 
                 <!-- AI Recommendations -->
@@ -843,9 +350,7 @@
                     </h3>
                     <div id="recommendationsList">
                         <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
-                            <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
-                                <span class="material-symbols-outlined text-slate-400 text-base">info</span>
-                            </div>
+                            <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center"><span class="material-symbols-outlined text-slate-400 text-base">info</span></div>
                             <div>
                                 <div class="font-semibold text-slate-800 text-sm">Run a prediction to see recommendations</div>
                                 <div class="text-xs text-slate-500">The backend generates actionable maintenance guidance from the prediction result.</div>
@@ -853,19 +358,45 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Optional Evaluate -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+                            <span class="material-symbols-outlined text-teal-600 text-base">verified</span>
+                            Evaluate on Labeled Data <span class="text-[10px] text-slate-400 font-normal">(optional)</span>
+                        </h3>
+                        <button onclick="toggleEvaluate()" class="text-xs text-teal-600 font-semibold hover:underline">Open</button>
+                    </div>
+                    <p class="text-xs text-slate-500">Compare prediction vs ground-truth. Requires a dataset with a target column (e.g., <code class="bg-slate-100 px-1 rounded">rul_hours</code>).</p>
+                    <div id="evaluatePanel" class="hidden mt-3 space-y-2">
+                        <label class="block text-xs font-semibold text-slate-700">Target column</label>
+                        <input type="text" id="evalTargetColumn" value="rul_hours" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-xs font-mono">
+                        <button onclick="runEvaluation()" class="w-full border border-teal-500 text-teal-600 py-2 rounded-xl font-semibold text-xs hover:bg-teal-50" id="runEvalBtn">Run Evaluation</button>
+                        <div id="evalResult" class="text-xs text-slate-600"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Prediction History -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-5 sm:mt-6" id="historySection">
-            <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex justify-between items-center">
+            <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex flex-wrap justify-between items-center gap-2">
                 <h3 class="text-white font-bold flex items-center gap-2 text-sm sm:text-base">
                     <span class="material-symbols-outlined text-teal-300 text-base">history</span>
                     Recent Predictions
                 </h3>
-                <button onclick="loadHistory()" class="text-white/80 hover:text-white" title="Refresh history" aria-label="Refresh history">
-                    <span class="material-symbols-outlined text-sm">refresh</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <div class="select-with-icon" style="min-width: 140px;">
+                        <select id="historyMachineFilter" class="text-xs" style="padding: 4px 24px 4px 8px; font-size: 11px;">
+                            <option value="">All machines</option>
+                        </select>
+                        <span class="material-symbols-outlined select-arrow" style="font-size: 16px; right: 6px;">expand_more</span>
+                    </div>
+                    <button onclick="loadHistory()" class="text-white/80 hover:text-white" title="Refresh history" aria-label="Refresh history">
+                        <span class="material-symbols-outlined text-sm">refresh</span>
+                    </button>
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="w-full">
@@ -884,28 +415,609 @@
                     </tbody>
                 </table>
             </div>
+            <div class="flex items-center justify-between px-4 py-3 border-t border-slate-200 bg-slate-50 text-xs">
+                <span class="text-slate-500" id="historyPageInfo">Page 1</span>
+                <div class="flex gap-2">
+                    <button onclick="historyPrev()" id="historyPrevBtn" class="px-3 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-white disabled:opacity-40" disabled>Prev</button>
+                    <button onclick="historyNext()" id="historyNextBtn" class="px-3 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-white disabled:opacity-40" disabled>Next</button>
+                </div>
+            </div>
         </div>
     </div>
 </main>
 
+<!-- ===== DETAIL MODAL (for history row click) ===== -->
+<div class="modal" id="predictionDetailModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-lg w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Prediction Details</h3>
+            <button onclick="closePredictionDetailModal()" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6" id="predictionDetailContent"></div>
+    </div>
+</div>
+
+<!-- ===== LIVE SCHEDULE MODAL ===== -->
+<div class="modal" id="liveScheduleModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Schedule Recurring Predictions</h3>
+            <button onclick="closeLiveScheduleModal()" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <p class="text-xs text-slate-500 mb-3" id="liveMachineLabel">Machine</p>
+            <p class="text-sm text-slate-600 mb-4">Every tick will trigger a fresh <strong>real trained-model prediction</strong> for the selected machine using the current model + horizon. The first result fires <strong>after</strong> the interval elapses. Each run counts against your plan quota.</p>
+            <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Interval</label>
+            <div class="grid grid-cols-3 gap-2 mb-4" id="liveIntervalGrid">
+                <button type="button" data-interval="1" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">1 min</button>
+                <button type="button" data-interval="5" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">5 min</button>
+                <button type="button" data-interval="15" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">15 min</button>
+                <button type="button" data-interval="30" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">30 min</button>
+                <button type="button" data-interval="60" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">60 min</button>
+                <button type="button" data-interval="0" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-red-400 hover:bg-red-50 transition text-red-600">Stop</button>
+            </div>
+            <div id="liveScheduleError" class="hidden mb-3 page-banner error text-xs"></div>
+            <button type="button" id="liveScheduleStartBtn" class="w-full gradient-cta text-white px-4 py-3 rounded-xl font-semibold text-sm">Start Schedule</button>
+        </div>
+    </div>
+</div>
+
 <script>
-// ============================================================
-// SYNAPSEPM PREDICTIONS — Production v4.0.0
-//
-// Key changes:
-//   1. Dataset upload no longer asks for a machine or type —
-//      the backend auto-selects the best compatible trained model.
-//   2. Prediction results show all real metrics returned by the
-//      backend: RUL, confidence, risk, model ID, family, processing
-//      time, uncertainty bounds, provenance, recommendations.
-//   3. Hidden '__dataset__' machine is filtered out everywhere.
-//   4. WebSocket is idempotent — prediction_created dedupes by id.
-//   5. Dropdown arrows no longer collide with text.
-//   6. Real-time sync to dashboard, admin, DB via WS.
-// ============================================================
+/* ===== PART 3 GOES HERE — REPLACE THIS LINE WITH THE ENTIRE SCRIPT BLOCK ===== */
+</script>
+</body>
+</html>
+* { box-sizing: border-box; }
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
+h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+
+.gradient-primary { background: linear-gradient(135deg, #0f2b3d 0%, #1a4a6e 100%); }
+.gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
+.gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
+.gradient-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ============================================================
+   SYNAPSEPM LOGO
+   ============================================================ */
+.synapsepm-logo {
+    font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-size: 22px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    vertical-align: middle;
+}
+.synapsepm-logo > span:not(.logo-icon),
+.synapsepm-logo strong {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    height: 32px;
+}
+.synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+.synapsepm-logo strong {
+    background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.synapsepm-logo .logo-icon {
+    width: 32px; height: 32px;
+    min-width: 32px; min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.synapsepm-logo .logo-icon img {
+    width: 32px; height: 32px;
+    object-fit: contain; display: block;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+:root {
+    --sidebar-width: 264px;
+    --sidebar-collapsed-width: 84px;
+    --sidebar-border: #e2e8f0;
+    --sidebar-bg: #ffffff;
+    --sidebar-muted: #64748b;
+    --sidebar-primary: #0f2b3d;
+    --sidebar-accent: #00b4aa;
+    --sidebar-hover: #f1f5f9;
+}
+.sidebar {
+    width: var(--sidebar-width);
+    min-height: 100dvh; height: 100dvh;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    position: fixed; inset: 0 auto 0 0; z-index: 100;
+    display: flex; flex-direction: column; overflow: visible;
+    transition: width .28s cubic-bezier(.4,0,.2,1),
+                transform .28s cubic-bezier(.4,0,.2,1);
+}
+.sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+.sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #fff; }
+.sidebar-brand {
+    min-height: 76px; padding: 0 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; overflow: hidden;
+}
+.sidebar-brand-inner {
+    display: flex; align-items: center; gap: 10px;
+    min-width: 0; transition: opacity .2s ease;
+}
+.sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+.sidebar.collapsed .synapsepm-logo strong { display: none !important; }
+.sidebar.collapsed .sidebar-brand {
+    flex-direction: column; justify-content: center;
+    align-items: center; gap: 6px; padding: 10px 0; min-height: 76px;
+}
+.sidebar.collapsed .sidebar-brand-inner {
+    opacity: 1; pointer-events: auto; width: auto;
+    overflow: visible; justify-content: center; gap: 0;
+}
+.sidebar.collapsed .synapsepm-logo { justify-content: center; }
+.sidebar.collapsed .synapsepm-logo .logo-icon {
+    display: inline-flex !important; opacity: 1 !important;
+    width: 32px !important; min-width: 32px !important;
+    height: 32px !important; min-height: 32px !important;
+}
+.sidebar.collapsed .synapsepm-logo .logo-icon img {
+    display: block !important; width: 32px !important;
+    height: 32px !important; object-fit: contain !important;
+}
+.sidebar-toggle {
+    width: 36px; height: 36px;
+    border: 1px solid #dbe4ec; border-radius: 10px;
+    background: #fff; color: #475569;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 2px 7px rgba(15,43,61,.06);
+    transition: background .2s, border-color .2s, color .2s, box-shadow .2s;
+    flex-shrink: 0; padding: 0;
+}
+.sidebar-toggle:hover {
+    background: #f8fafc; color: var(--sidebar-accent);
+    border-color: rgba(0,180,170,.45);
+    box-shadow: 0 5px 14px rgba(15,43,61,.10);
+}
+.sidebar-toggle svg {
+    width: 18px; height: 18px; stroke: currentColor;
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+.sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
+.sidebar-nav {
+    flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+    padding: 14px 10px; scrollbar-width: thin;
+    scrollbar-color: #dbe4ec transparent;
+}
+.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
+.sidebar-group-label { padding: 7px 11px 6px; }
+.sidebar-group { display: flex; flex-direction: column; gap: 3px; }
+.sidebar-link {
+    min-height: 44px; display: flex; align-items: center; gap: 12px;
+    padding: 9px 11px; border-radius: 11px;
+    color: var(--sidebar-muted); font-weight: 500; font-size: .875rem;
+    line-height: 1.2; cursor: pointer; text-decoration: none;
+    position: relative; white-space: nowrap; overflow: visible;
+    transition: background .18s ease, color .18s ease;
+}
+.sidebar-link:hover { background: var(--sidebar-hover); color: var(--sidebar-primary); }
+.sidebar-link.active { background: #00b4aa; color: #fff; box-shadow: 0 5px 14px rgba(0,180,170,.22); }
+.sidebar-link .material-symbols-outlined {
+    width: 22px; min-width: 22px; font-size: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #64748b; transition: color .18s ease;
+}
+.sidebar-link.active .material-symbols-outlined,
+.sidebar-link:hover .material-symbols-outlined { color: inherit; }
+.sidebar-link .badge-count {
+    margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #f1f5f9; color: #64748b;
+    font-size: .65rem; border-radius: 999px; font-weight: 700;
+    transition: all .2s ease;
+}
+.sidebar-link.active .badge-count { background: rgba(255,255,255,.22); color: #fff; }
+.sidebar-divider { margin: 14px 4px; border-top: 1px solid #edf2f7; }
+.sidebar-text { transition: opacity .2s ease; }
+.sidebar.collapsed .sidebar-text,
+.sidebar.collapsed .sidebar-label,
+.sidebar.collapsed .badge-count {
+    opacity: 0; pointer-events: none;
+    width: 0; overflow: hidden; display: none !important;
+}
+.sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
+.sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
+.sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
+.sidebar.collapsed .sidebar-link::after {
+    content: attr(data-tooltip);
+    position: absolute; left: calc(100% + 10px); top: 50%;
+    transform: translateY(-50%) translateX(-4px);
+    opacity: 0; pointer-events: none;
+    background: #0f2b3d; color: #fff;
+    padding: 7px 10px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; white-space: nowrap;
+    box-shadow: 0 8px 20px rgba(15,43,61,.18);
+    transition: opacity .15s, transform .15s; z-index: 250;
+}
+.sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+/* User area */
+.sidebar-user-area { flex-shrink: 0; position: relative; padding: 10px; border-top: 1px solid var(--sidebar-border); background: #fff; }
+.user-card {
+    min-height: 58px; display: flex; align-items: center; gap: 10px;
+    padding: 8px; background: #f8fafc;
+    border: 1px solid #eef2f7; border-radius: 12px;
+    transition: all .28s cubic-bezier(.4,0,.2,1);
+}
+.sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
+.avatar-wrapper { flex-shrink: 0; position: relative; }
+.user-card .avatar {
+    width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .8rem; color: #fff;
+    background: linear-gradient(135deg, #00b4aa, #009688);
+    background-size: cover; background-position: center;
+    cursor: pointer; position: relative;
+    transition: box-shadow .2s ease;
+}
+.user-card .avatar:hover { box-shadow: 0 0 0 3px rgba(0,180,170,.15); }
+.user-card .avatar-wrapper .status-dot {
+    position: absolute; bottom: 0; right: 0;
+    width: 11px; height: 11px; border-radius: 50%;
+    border: 2px solid #fff; background: #10b981;
+}
+.user-card .user-details { flex: 1; min-width: 0; transition: opacity .2s ease; }
+.sidebar.collapsed .user-card .user-details { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
+.user-card .user-details .name { font-weight: 600; font-size: .82rem; color: #0f2b3d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-card .user-details .email { font-size: .68rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+.user-card .user-details .plan { font-size: .58rem; font-weight: 700; color: #00a79d; background: rgba(0,180,170,.08); padding: 1px 7px; border-radius: 999px; display: inline-block; margin-top: 2px; }
+
+/* Profile menu */
+.profile-menu {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: calc(100% + 10px);
+    padding: 14px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 18px 45px rgba(15,23,42,.16);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+    z-index: 300;
+    min-width: 276px;
+}
+.sidebar.collapsed .profile-menu {
+    left: calc(100% + 10px);
+    right: auto;
+    bottom: 12px;
+    width: 300px;
+    min-width: 300px;
+    transform: translateY(0) translateX(-8px);
+}
+.sidebar.collapsed .profile-menu.open {
+    transform: translateY(0) translateX(0);
+}
+.profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+.profile-menu-header { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #edf2f7; }
+.profile-menu-avatar { width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00b4aa, #009688); color: #fff; font-weight: 800; background-size: cover; background-position: center; }
+.profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
+.profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
+.profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
+.profile-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
+.profile-detail-label { color: #94a3b8; }
+.profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
+.profile-menu-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7; }
+.profile-action-btn {
+    width: 100%; min-height: 40px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    border: 1px solid #e2e8f0; border-radius: 10px; background: #fff;
+    color: #475569; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .18s ease; padding: 0 12px;
+    font-family: inherit;
+}
+.profile-action-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+.profile-action-btn.danger { border-color: #fecaca; color: #dc2626; }
+.profile-action-btn.danger:hover { background: #fef2f2; border-color: #fca5a5; }
+
+/* ============================================================
+   MAIN LAYOUT
+   ============================================================ */
+#mainContent { margin-left: var(--sidebar-width); min-width: 0; transition: margin-left .28s cubic-bezier(.4,0,.2,1); }
+body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-width); }
+.sidebar-overlay { display: none; }
+@media (max-width: 1023px) {
+    .sidebar { width: min(310px, 90vw); transform: translateX(-102%); box-shadow: none; }
+    .sidebar.mobile-open { transform: translateX(0); box-shadow: 18px 0 50px rgba(15,23,42,.18); }
+    .sidebar.collapsed { width: min(310px, 90vw); }
+    .sidebar-overlay {
+        position: fixed; inset: 0;
+        background: rgba(15,23,42,.42); backdrop-filter: blur(3px);
+        z-index: 90; display: block;
+        opacity: 0; visibility: hidden; pointer-events: none;
+        transition: opacity .25s ease, visibility .25s ease;
+    }
+    .sidebar-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+    #mainContent, body.sidebar-is-collapsed #mainContent { margin-left: 0; }
+    .sidebar.collapsed .sidebar-text,
+    .sidebar.collapsed .sidebar-label,
+    .sidebar.collapsed .badge-count { display: block !important; opacity: 1 !important; transform: none !important; width: auto !important; }
+    .sidebar.collapsed .sidebar-link { justify-content: flex-start; gap: 12px; padding: 9px 11px; }
+    .sidebar.collapsed .sidebar-link::after { display: none; }
+    .sidebar.collapsed .user-card .user-details { display: block !important; opacity: 1 !important; width: auto !important; }
+    .sidebar.collapsed .sidebar-brand-inner { opacity: 1 !important; pointer-events: auto !important; width: auto !important; }
+    .sidebar.collapsed .sidebar-brand { justify-content: space-between; flex-direction: row; padding: 0 14px; }
+    .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+    .sidebar.collapsed .synapsepm-logo strong { display: inline-flex !important; }
+    .sidebar.collapsed .sidebar-toggle svg { transform: none; }
+    .sidebar.collapsed .profile-menu {
+        left: 10px;
+        right: 10px;
+        bottom: calc(100% + 10px);
+        width: auto;
+        min-width: 0;
+        transform: translateY(8px);
+    }
+    .sidebar.collapsed .profile-menu.open { transform: translateY(0); }
+}
+
+/* ============================================================
+   SELECT WITH ICON
+   ============================================================ */
+.select-with-icon { position: relative; display: inline-block; width: 100%; }
+.select-with-icon select {
+    width: 100%;
+    padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background: #fff;
+    color: #0f172a;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.select-with-icon select:focus { border-color: #00b4aa; box-shadow: 0 0 0 3px rgba(0,180,170,.12); }
+.select-with-icon .select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 0.55rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #94a3b8;
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* ============================================================
+   STATUS PILLS
+   ============================================================ */
+.status-online { background: #10b98120; color: #10b981; border: 1px solid #10b98140; }
+.status-warning { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
+.status-critical { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+.status-offline { background: #6b728020; color: #6b7280; border: 1px solid #6b728040; }
+
+/* Progress bar */
+.progress-bar { background: #e2e8f0; border-radius: 9999px; overflow: hidden; height: 8px; }
+.progress-fill { background: linear-gradient(90deg, #00b4aa, #009688); height: 100%; border-radius: 9999px; transition: width 0.8s ease; }
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+.modal.active { display: flex; animation: fadeIn .2s ease-out; }
+.modal-content { background: #fff; border-radius: 1.5rem; max-width: 100%; width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
+@keyframes fadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+    position: fixed; bottom: 1.5rem; right: 1.5rem;
+    background: #fff; border-radius: .75rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,.1);
+    display: flex; align-items: center; gap: .75rem;
+    z-index: 1100; animation: slideInRight .3s ease-out;
+    border-left: 4px solid; max-width: 420px;
+}
+.toast.success { border-left-color: #10b981; }
+.toast.error { border-left-color: #ef4444; }
+.toast.warning { border-left-color: #f59e0b; }
+.toast.info { border-left-color: #00b4aa; }
+@keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* ============================================================
+   TABLES + MACHINES LIST
+   ============================================================ */
+.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-responsive table { min-width: 600px; }
+
+.machines-list { max-height: 380px; overflow-y: auto; }
+.machines-list::-webkit-scrollbar { width: 4px; }
+.machines-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+
+.machine-item { transition: all .2s ease; cursor: pointer; }
+.machine-item:hover { transform: translateX(4px); }
+.machine-item.selected { border-color: #00b4aa !important; background: #00b4aa08 !important; }
+
+/* Clickable history row */
+.history-row { transition: background .15s ease; cursor: pointer; }
+.history-row:hover { background: #f0fdfa !important; }
+
+/* ============================================================
+   DROP ZONE
+   ============================================================ */
+.drop-zone {
+    border: 2px dashed #e2e8f0;
+    border-radius: 1rem;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    transition: all .3s;
+    cursor: pointer;
+    background: #f8fafc;
+}
+.drop-zone:hover { border-color: #00b4aa; background: #f0fdfa; }
+.drop-zone.dragover { border-color: #00b4aa; background: #f0fdfa; }
+.drop-zone .material-symbols-outlined { font-size: 2rem; color: #94a3b8; }
+.drop-zone.uploading { opacity: .6; pointer-events: none; }
+
+/* ============================================================
+   LOADING SPINNER
+   ============================================================ */
+.loading-spinner {
+    display: inline-block; width: 1.25rem; height: 1.25rem;
+    border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+    border-radius: 50%; animation: spin .8s linear infinite;
+    margin-right: .5rem; vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   PAGE BANNERS
+   ============================================================ */
+.page-banner { border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.4; }
+.page-banner.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.page-banner.warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+.page-banner.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+.page-banner.success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.page-banner .banner-close { margin-left: auto; cursor: pointer; opacity: .7; }
+.page-banner .banner-close:hover { opacity: 1; }
+
+/* ============================================================
+   NO PREDICTION PANEL
+   ============================================================ */
+.no-prediction-panel { background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px; padding: 16px; color: #991b1b; }
+.no-prediction-panel .material-symbols-outlined { font-size: 28px; }
+
+/* ============================================================
+   FILE CHIP
+   ============================================================ */
+.file-chip {
+    display: flex; align-items: center; gap: .5rem;
+    padding: .5rem .75rem;
+    background: #f0fdfa;
+    border: 1px solid #a7f3d0;
+    border-radius: .65rem;
+    font-size: .75rem;
+    color: #065f46;
+    word-break: break-all;
+}
+.file-chip .material-symbols-outlined { font-size: 16px; flex-shrink: 0; color: #10b981; }
+.file-chip .chip-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.file-chip .chip-size { flex-shrink: 0; color: #059669; }
+.file-chip .chip-remove {
+    flex-shrink: 0; background: none; border: none; cursor: pointer;
+    color: #059669; padding: 0; display: flex; align-items: center;
+}
+.file-chip .chip-remove:hover { color: #b91c1c; }
+
+/* ============================================================
+   HEALTH STATUS PILL (new)
+   ============================================================ */
+#healthStatus.healthy { background: #ecfdf5; color: #065f46; }
+#healthStatus.degraded { background: #fef3c7; color: #92400e; }
+#healthStatus.down { background: #fef2f2; color: #991b1b; }
+
+/* ============================================================
+   CHART SOURCE CHIP (new)
+   ============================================================ */
+#chartSourceChip.live { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+#chartSourceChip.manual { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+#chartSourceChip.simulated { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+#chartSourceChip.stale { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+
+/* ============================================================
+   DATASET PROFILE (new)
+   ============================================================ */
+.dataset-profile-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: #475569;
+}
+.dataset-profile-card .profile-stat {
+    display: flex; justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px dashed #eef2f7;
+}
+.dataset-profile-card .profile-stat:last-child { border-bottom: 0; }
+.dataset-profile-card .profile-stat .k { color: #64748b; }
+.dataset-profile-card .profile-stat .v { font-weight: 700; color: #0f172a; font-family: ui-monospace,SFMono-Regular,Menlo,monospace; }
+.dataset-profile-card .profile-columns { margin-top: 6px; color: #64748b; font-size: 10px; line-height: 1.4; word-break: break-word; }
+
+/* ============================================================
+   AUDIT PANEL (new)
+   ============================================================ */
+.audit-panel { font-size: 11px; color: #475569; line-height: 1.5; }
+.audit-panel .audit-row { padding: 4px 0; border-bottom: 1px dashed #eef2f7; }
+.audit-panel .audit-row:last-child { border-bottom: 0; }
+.audit-panel .audit-k { color: #94a3b8; display: inline-block; min-width: 110px; }
+.audit-panel .audit-v { font-weight: 600; color: #0f172a; font-family: ui-monospace,SFMono-Regular,Menlo,monospace; word-break: break-word; }
+.audit-panel pre { font-size: 10px; background: #0f172a; color: #67e8f9; padding: 8px; border-radius: 8px; max-height: 200px; overflow: auto; }
+
+/* ============================================================
+   LIVE SCHEDULE (new)
+   ============================================================ */
+#liveScheduleBox .live-schedule-active { color: #065f46; font-weight: 700; }
+#liveScheduleBox .live-schedule-countdown { font-family: ui-monospace,SFMono-Regular,Menlo,monospace; font-size: 13px; font-weight: 700; color: #0f172a; }
+.live-interval-btn.active { border-color: #00b4aa !important; background: #f0fdfa !important; box-shadow: 0 0 0 3px rgba(0,180,170,.12); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .prediction-stats { flex-direction: column; }
+    .history-row .hide-mobile { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .sidebar, .sidebar-link, .sidebar-toggle, #mainContent,
+    .sidebar-overlay, .profile-menu, .machine-item, .drop-zone { transition: none !important; }
+}
+/* =====================================================================
+   SYNAPSEPM PREDICTIONS PAGE — v5.0.0 PRODUCTION-READY
+   Preserves every feature of the original page + adds:
+   - X-Request-ID idempotency (no duplicate predictions on retry)
+   - 409 "already processing" handling
+   - /health boot check with live pill
+   - /datasets/analyze after upload → column/row profile
+   - machine_key + dataset_hint wiring (no __dataset__ pollution)
+   - model_selection_audit panel
+   - sensor_quality / ood_flags / uncertainty in abstention panel
+   - Structured diagnostics from /predict-debug on 422
+   - /predictions/evaluate (optional labeled-data comparison)
+   - Recurring prediction scheduler (1/5/15/30/60 min)
+   - History: machine filter + pagination + click row → detail modal
+   - Chart source chip (LIVE/MANUAL/SIMULATED/STALE)
+   ===================================================================== */
 
 const API_BASE = '/api/v1';
-const REQUEST_TIMEOUT_MS = 30000;
+const REQUEST_TIMEOUT_MS = 35000;
 const REFRESH_STORAGE_KEYS = ['synapse_refresh', 'refresh_token', 'synapse_refresh_token'];
 const AUTH_STORAGE_KEYS = [
     'synapse_token', 'synapse_user', 'synapse_refresh', 'synapse_tenant',
@@ -913,12 +1025,29 @@ const AUTH_STORAGE_KEYS = [
     'token', 'auth_token', 'access_token', 'refresh_token', 'user', 'organization'
 ];
 const DATASET_HIDDEN_NAME = '__dataset__';
+const LIVE_STATE_KEY = 'synapsepm_live_prediction_schedule_v1';
 
 const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-// ------------------------------------------------------------
-// AUTH HELPERS
-// ------------------------------------------------------------
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    const d = document.createElement('div');
+    d.textContent = String(text);
+    return d.innerHTML;
+}
+function genUuid() {
+    if (crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+/* ============================================================
+   AUTH
+   ============================================================ */
 function readFirst(keys) {
     for (const k of keys) { try { const v = localStorage.getItem(k); if (v) return v; } catch (e) {} }
     return null;
@@ -970,22 +1099,15 @@ const Auth = {
     logout() {
         this.clearStorage();
         try { sessionStorage.setItem('justLoggedOut', 'true'); } catch (e) {}
+        stopLivePredictions();
         try { if (wsConnection) wsConnection.close(1000, 'logout'); } catch (e) {}
-        if (!/login\.html/i.test(window.location.pathname)) {
-            window.location.replace('login.html');
-        }
+        if (!/login\.html/i.test(window.location.pathname)) window.location.replace('login.html');
     },
 };
 
-// ------------------------------------------------------------
-// TOAST + BANNER
-// ------------------------------------------------------------
-function escapeHtml(text) {
-    if (text === null || text === undefined) return '';
-    const d = document.createElement('div');
-    d.textContent = String(text);
-    return d.innerHTML;
-}
+/* ============================================================
+   TOAST + BANNER
+   ============================================================ */
 function showToast(message, type = 'info', duration = 4500) {
     const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#00b4aa' };
     const icons = { success: 'check_circle', error: 'error', warning: 'warning', info: 'info' };
@@ -1005,7 +1127,7 @@ function showPageBanner(message, kind = 'error', timeoutMs = 0) {
     if (!host) { if (message) showToast(message, kind, 6000); return; }
     host.innerHTML = '';
     if (!message) return;
-    const icons = { error: 'error', warning: 'warning', info: 'info' };
+    const icons = { error: 'error', warning: 'warning', info: 'info', success: 'check_circle' };
     const banner = document.createElement('div');
     banner.className = 'page-banner ' + kind;
     banner.innerHTML = `
@@ -1017,9 +1139,9 @@ function showPageBanner(message, kind = 'error', timeoutMs = 0) {
     if (timeoutMs > 0) setTimeout(() => { try { banner.remove(); } catch (e) {} }, timeoutMs);
 }
 
-// ------------------------------------------------------------
-// API CLIENT — single-flight refresh, 401 retry once
-// ------------------------------------------------------------
+/* ============================================================
+   API CLIENT — with X-Request-ID support
+   ============================================================ */
 let refreshPromise = null;
 async function performRefresh() {
     if (refreshPromise) return refreshPromise;
@@ -1080,7 +1202,7 @@ const API = {
         } catch (err) {
             clearTimeout(timer);
             if (err && err.name === 'AbortError') {
-                const e = new Error('Request timed out. Model may still be running — check history shortly.');
+                const e = new Error('Request timed out. The prediction may still be processing — check Recent Predictions.');
                 e.status = 0;
                 throw e;
             }
@@ -1112,11 +1234,16 @@ const API = {
 
         if (!response.ok) {
             const msg = (data && (data.error || data.message || data.detail)) || ('HTTP ' + response.status);
-            const err = new Error(msg); err.status = response.status; err.data = data;
+            const err = new Error(msg);
+            err.status = response.status;
+            err.data = data;
             throw err;
         }
         return data;
     },
+
+    // ---- Health
+    getHealth() { return this.request('/health'); },
 
     // ---- Machines
     getMachines() { return this.request('/machines?per_page=100'); },
@@ -1127,97 +1254,117 @@ const API = {
         return this.request('/machines/' + encodeURIComponent(machineId) + '/predict-debug', { method: 'POST' });
     },
 
-    // ---- Prediction — machine-based
-    predictMachine(machineId, model, horizon) {
+    // ---- Prediction — machine based
+    predictMachine(machineId, model, horizon, requestId) {
         const payload = { machine_id: machineId, machineId, horizon: horizon || 30 };
-        if (model && model !== 'auto') {
-            payload.model_type = model;
-            payload.model = model;
-        }
+        if (model && model !== 'auto') { payload.model_type = model; payload.model = model; }
         return this.request('/predictions/run', {
             method: 'POST',
+            headers: requestId ? { 'X-Request-ID': requestId } : {},
             body: JSON.stringify(payload),
         });
     },
 
-    // ---- Prediction — dataset-based (NO machine_id, NO machine_type)
-    // The backend's MLEngine.identify_family() picks the best compatible model.
-    predictDataset(filename, model, horizon, datasetHint) {
-        const payload = {
-            filename,
-            horizon: horizon || 30,
-        };
-        if (model && model !== 'auto') {
-            payload.model_type = model;
-        }
+    // ---- Prediction — dataset based
+    predictDataset(filename, model, horizon, datasetHint, machineKey, requestId) {
+        const payload = { filename, horizon: horizon || 30 };
+        if (model && model !== 'auto') payload.model_type = model;
         if (datasetHint) payload.dataset_hint = datasetHint;
+        if (machineKey) payload.machine_key = machineKey;
         return this.request('/predictions/predict-dataset', {
             method: 'POST',
+            headers: requestId ? { 'X-Request-ID': requestId } : {},
             body: JSON.stringify(payload),
         });
     },
 
-    getHistory(page = 1, perPage = 20) {
-        return this.request(`/predictions/history?page=${page}&per_page=${perPage}`);
+    // ---- Evaluation (requires ground-truth target column)
+    evaluate(machineId, filename, targetColumn, model, horizon, requestId) {
+        const payload = {
+            machine_id: machineId,
+            filename,
+            target_column: targetColumn || 'rul_hours',
+            horizon: horizon || 30,
+        };
+        if (model && model !== 'auto') payload.model_type = model;
+        return this.request('/predictions/evaluate', {
+            method: 'POST',
+            headers: requestId ? { 'X-Request-ID': requestId } : {},
+            body: JSON.stringify(payload),
+        });
+    },
+
+    getHistory(page = 1, perPage = 20, machineId = null) {
+        let q = `/predictions/history?page=${page}&per_page=${perPage}`;
+        if (machineId) q += '&machine_id=' + encodeURIComponent(machineId);
+        return this.request(q);
     },
     getStats() { return this.request('/predictions/stats'); },
     getAlerts() { return this.request('/alerts?status=active&per_page=50'); },
 
-    // ---- Upload
+    // ---- Upload + analyze
     uploadDataset(file) {
         const fd = new FormData();
         fd.append('file', file);
         return this.request('/datasets/upload', { method: 'POST', body: fd });
     },
+    analyzeDataset(filename) {
+        return this.request('/datasets/analyze', {
+            method: 'POST',
+            body: JSON.stringify({ filename }),
+        });
+    },
 };
 
-// ------------------------------------------------------------
-// STATE
-// ------------------------------------------------------------
+/* ============================================================
+   STATE
+   ============================================================ */
 let selectedMachine = null;
 let machines = [];
 let chart = null;
+let chartSource = null;
 let history = [];
+let historyPage = 1;
+let historyPageSize = 20;
+let historyTotal = 0;
+let historyHasNext = false;
+let historyHasPrev = false;
+let historyFilterMachineId = null;
 let wsConnection = null;
 let wsReconnectTimer = null;
 let isPredicting = false;
 let uploadedDataset = null;
+let uploadedDatasetProfile = null;
 let refreshInterval = null;
 let sensorInterval = null;
+let healthInterval = null;
 const seenPredictionIds = new Set();
 
-// ------------------------------------------------------------
-// DOM REFS
-// ------------------------------------------------------------
+// Live schedule state
+let liveSchedule = null;
+const liveScheduleTimers = { interval: null, first: null, status: null };
+let lastPredictionResponse = null;
+
+/* ============================================================
+   DOM REFS
+   ============================================================ */
 const DOM = {
-    mainSidebar: $('mainSidebar'),
-    sidebarToggle: $('sidebarToggle'),
-    mobileMenuToggle: $('mobileMenuToggle'),
-    sidebarOverlay: $('sidebarOverlay'),
-    userAvatar: $('userAvatar'),
-    userAvatarText: $('userAvatarText'),
-    userName: $('userName'),
-    userEmail: $('userEmail'),
-    userPlan: $('userPlan'),
-    profileMenu: $('profileMenu'),
-    profileMenuAvatar: $('profileMenuAvatar'),
-    profileMenuName: $('profileMenuName'),
-    profileMenuEmail: $('profileMenuEmail'),
-    profileMenuUsername: $('profileMenuUsername'),
-    profileMenuEmailDetail: $('profileMenuEmailDetail'),
-    profileMenuPlan: $('profileMenuPlan'),
-    profileMenuRole: $('profileMenuRole'),
-    profileMenuOrg: $('profileMenuOrg'),
-    profileRoleRow: $('profileRoleRow'),
-    profileOrgRow: $('profileOrgRow'),
-    profileLogoutBtn: $('profileLogoutBtn'),
-    profileSettingsBtn: $('profileSettingsBtn'),
-    sidebarAlertsBadge: $('sidebarAlertsBadge'),
+    mainSidebar: $('mainSidebar'), sidebarToggle: $('sidebarToggle'),
+    mobileMenuToggle: $('mobileMenuToggle'), sidebarOverlay: $('sidebarOverlay'),
+    userAvatar: $('userAvatar'), userAvatarText: $('userAvatarText'),
+    userName: $('userName'), userEmail: $('userEmail'), userPlan: $('userPlan'),
+    profileMenu: $('profileMenu'), profileMenuAvatar: $('profileMenuAvatar'),
+    profileMenuName: $('profileMenuName'), profileMenuEmail: $('profileMenuEmail'),
+    profileMenuUsername: $('profileMenuUsername'), profileMenuEmailDetail: $('profileMenuEmailDetail'),
+    profileMenuPlan: $('profileMenuPlan'), profileMenuRole: $('profileMenuRole'),
+    profileMenuOrg: $('profileMenuOrg'), profileRoleRow: $('profileRoleRow'),
+    profileOrgRow: $('profileOrgRow'), profileLogoutBtn: $('profileLogoutBtn'),
+    profileSettingsBtn: $('profileSettingsBtn'), sidebarAlertsBadge: $('sidebarAlertsBadge'),
 };
 
-// ------------------------------------------------------------
-// SIDEBAR
-// ------------------------------------------------------------
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
 let sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
 const sidebar = DOM.mainSidebar;
 function isDesktop() { return window.innerWidth >= 1024; }
@@ -1261,9 +1408,9 @@ function setProfileMenuOpen(open) {
 function closeProfileMenu() { setProfileMenuOpen(false); }
 function toggleProfileMenu() { setProfileMenuOpen(!DOM.profileMenu?.classList.contains('open')); }
 
-// ------------------------------------------------------------
-// USER UI
-// ------------------------------------------------------------
+/* ============================================================
+   USER UI + PROFILE SYNC
+   ============================================================ */
 function updateUserUI() {
     const user = getUser();
     if (!user) return;
@@ -1273,7 +1420,7 @@ function updateUserUI() {
     const plan = user.plan || 'Free';
     const role = user.role || '';
     const org = user.organization_name || (user.organization && user.organization.name) || user.organization || '';
-    const initials = name.split(/\s+/).filter(Boolean).map(n => n[0]).join('').slice(0,2).toUpperCase() || 'U';
+    const initials = name.split(/\s+/).filter(Boolean).map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U';
 
     DOM.userName.textContent = name;
     DOM.userEmail.textContent = email;
@@ -1307,17 +1454,47 @@ function updateUserUI() {
     }
 }
 
-// Cross-tab + same-tab user sync
 window.addEventListener('storage', (e) => {
     if (e.key === 'synapse_user' || e.key === 'user') {
-        try { const u = JSON.parse(e.newValue || 'null'); if (u) updateUserUI(); } catch {}
+        try { const u = JSON.parse(e.newValue || 'null'); if (u) updateUserUI(); } catch (e) {}
     }
 });
 document.addEventListener('synapse:user-updated', () => updateUserUI());
 
-// ------------------------------------------------------------
-// LOAD MACHINES — filter dataset-only hidden machine
-// ------------------------------------------------------------
+/* ============================================================
+   HEALTH CHECK
+   ============================================================ */
+async function checkBackendHealth() {
+    const pill = $('healthStatus');
+    if (!pill) return;
+    try {
+        const data = await API.getHealth();
+        const status = String(data.status || '').toLowerCase();
+        if (status === 'healthy') {
+            pill.textContent = '● HEALTHY';
+            pill.className = 'text-[10px] px-2 py-0.5 rounded-full healthy font-semibold';
+            pill.title = `Backend healthy · v${data.version || '?'} · ML: ${data.ml_registered || 0} registered`;
+        } else if (status === 'degraded') {
+            pill.textContent = '● DEGRADED';
+            pill.className = 'text-[10px] px-2 py-0.5 rounded-full degraded font-semibold';
+            pill.title = `Backend degraded · DB: ${data.database} · Redis: ${data.redis}`;
+            showPageBanner('Backend is degraded — predictions may fail.', 'warning', 10000);
+        } else {
+            pill.textContent = '● DOWN';
+            pill.className = 'text-[10px] px-2 py-0.5 rounded-full down font-semibold';
+            pill.title = 'Backend unreachable';
+            showPageBanner('Backend is not reachable — predictions will fail until it recovers.', 'error');
+        }
+    } catch (e) {
+        pill.textContent = '● DOWN';
+        pill.className = 'text-[10px] px-2 py-0.5 rounded-full down font-semibold';
+        pill.title = 'Backend unreachable';
+    }
+}
+
+/* ============================================================
+   MACHINES
+   ============================================================ */
 async function loadMachines() {
     if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
     try {
@@ -1325,6 +1502,7 @@ async function loadMachines() {
         const all = data.items || data.machines || [];
         machines = all.filter(m => (m.name || '') !== DATASET_HIDDEN_NAME);
         renderMachines();
+        renderHistoryMachineFilter();
         if (machines.length > 0 && !selectedMachine) selectMachine(machines[0].id);
         if (selectedMachine) {
             const still = machines.some(m => m.id === selectedMachine);
@@ -1352,7 +1530,7 @@ async function loadAlertsBadge() {
         const alerts = data.items || data.alerts || [];
         const active = alerts.filter(a => (a.status || '').toLowerCase() === 'active').length;
         if (DOM.sidebarAlertsBadge) DOM.sidebarAlertsBadge.textContent = active;
-    } catch {}
+    } catch (e) {}
 }
 
 function renderMachines() {
@@ -1393,15 +1571,27 @@ function renderMachines() {
     }).join('');
 }
 
-// ------------------------------------------------------------
-// SELECT MACHINE
-// ------------------------------------------------------------
+function renderHistoryMachineFilter() {
+    const sel = $('historyMachineFilter');
+    if (!sel) return;
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">All machines</option>' + machines.map(m =>
+        `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}</option>`
+    ).join('');
+    if (cur) sel.value = cur;
+}
+
+/* ============================================================
+   SELECT MACHINE
+   ============================================================ */
 function selectMachine(machineId) {
     selectedMachine = machineId;
     renderMachines();
     updateAssetCard();
     loadSensorChart(machineId);
     $('predictionResults').style.display = 'none';
+    $('auditPanel').classList.add('hidden');
+    $('viewAuditBtn').classList.add('hidden');
 }
 
 function updateAssetCard() {
@@ -1427,9 +1617,9 @@ function updateAssetCard() {
     else if (status === 'online') badge.className = 'px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-green-500/40 text-white';
 }
 
-// ------------------------------------------------------------
-// SENSOR CHART
-// ------------------------------------------------------------
+/* ============================================================
+   SENSOR CHART + SOURCE CHIP
+   ============================================================ */
 function initChart() {
     const el = $('sensorChart');
     if (!el) return;
@@ -1458,32 +1648,56 @@ async function loadSensorChart(machineId) {
     try {
         const data = await API.getSensorData(machineId, 20);
         const pts = data.sensor_data || data.items || [];
+        const chip = $('chartSourceChip');
         const emptyNote = $('chartEmptyNote');
+
         if (pts.length === 0) {
             chart.data.labels = [];
             chart.data.datasets[0].data = [];
             chart.data.datasets[1].data = [];
             chart.update();
             if (emptyNote) emptyNote.style.display = 'block';
+            if (chip) chip.classList.add('hidden');
             return;
         }
         if (emptyNote) emptyNote.style.display = 'none';
+
         const ordered = pts.slice().reverse();
+        const latest = ordered[ordered.length - 1];
+        const latestSource = String(latest.source || '').toLowerCase();
+        const latestTs = new Date(latest.timestamp || latest.created_at || Date.now());
+        const ageSec = Math.floor((Date.now() - latestTs.getTime()) / 1000);
+
+        if (chip) {
+            chip.classList.remove('hidden', 'live', 'manual', 'simulated', 'stale');
+            let label = 'DATA';
+            if (latestSource === 'mqtt' || latestSource === 'device_api' || latestSource === 'rest') {
+                if (ageSec <= 300) { label = '● LIVE (' + latestSource.toUpperCase() + ')'; chip.classList.add('live'); }
+                else { label = '● STALE (' + Math.floor(ageSec / 60) + 'm)'; chip.classList.add('stale'); }
+            } else if (latestSource === 'manual' || latestSource === 'manual_entry') {
+                label = '● MANUAL'; chip.classList.add('manual');
+            } else if (latestSource === 'simulation') {
+                label = '● SIMULATED'; chip.classList.add('simulated');
+            } else {
+                label = '● ' + (latestSource || 'UNKNOWN').toUpperCase();
+                chip.classList.add('stale');
+            }
+            chip.textContent = label;
+        }
+
         chart.data.labels = ordered.map((p, i) => {
             const d = new Date(p.timestamp || p.created_at);
-            return isNaN(d.getTime()) ? `#${i+1}` : d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            return isNaN(d.getTime()) ? `#${i + 1}` : d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         });
         chart.data.datasets[0].data = ordered.map(p => p.temperature != null ? Number(p.temperature) : null);
         chart.data.datasets[1].data = ordered.map(p => p.vibration != null ? Number(p.vibration) : null);
         chart.update();
-    } catch (e) {
-        // Silent
-    }
+    } catch (e) {}
 }
 
-// ------------------------------------------------------------
-// UPLOAD DATASET (no machine/type selection required)
-// ------------------------------------------------------------
+/* ============================================================
+   UPLOAD → ANALYZE FLOW
+   ============================================================ */
 const dropZone = $('dropZone');
 const fileInput = $('fileInput');
 
@@ -1503,7 +1717,7 @@ fileInput?.addEventListener('change', function () {
 
 function isAllowedDataset(file) {
     const name = (file.name || '').toLowerCase();
-    return ['.csv','.xlsx','.xls','.json','.txt','.dat'].some(ext => name.endsWith(ext));
+    return ['.csv', '.xlsx', '.xls', '.json', '.txt', '.dat'].some(ext => name.endsWith(ext));
 }
 
 async function handleFile(file) {
@@ -1518,6 +1732,7 @@ async function handleFile(file) {
     if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
 
     uploadedDataset = null;
+    uploadedDatasetProfile = null;
     dropZone.classList.add('uploading');
     $('uploadStatus').classList.remove('hidden');
     $('uploadStatus').innerHTML = `
@@ -1527,19 +1742,19 @@ async function handleFile(file) {
         </div>`;
     $('predictFromDatasetBtn').disabled = true;
     $('uploadedFileChip').classList.add('hidden');
+    $('datasetProfile').classList.add('hidden');
+    $('machineKeyBlock').classList.add('hidden');
 
     try {
         const res = await API.uploadDataset(file);
-        if (!res || !res.success) {
-            throw new Error((res && (res.error || res.message)) || 'Upload failed');
-        }
+        if (!res || !res.success) throw new Error((res && (res.error || res.message)) || 'Upload failed');
+
         uploadedDataset = {
             filename: res.filename,
             original_filename: res.original_filename,
             size_bytes: res.size_bytes,
         };
         const kb = (Number(res.size_bytes || 0) / 1024).toFixed(1);
-        // Show chip
         $('uploadedFileChip').classList.remove('hidden');
         $('uploadedFileChip').innerHTML = `
             <div class="file-chip">
@@ -1550,7 +1765,28 @@ async function handleFile(file) {
                     <span class="material-symbols-outlined" style="font-size:16px;">close</span>
                 </button>
             </div>`;
-        // Status line
+        $('uploadStatus').innerHTML = `
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-blue-50 text-blue-700 text-xs">
+                <span class="material-symbols-outlined text-sm animate-spin">refresh</span>
+                <span>Analyzing dataset structure...</span>
+            </div>`;
+
+        // Profile the dataset via the backend
+        try {
+            const profileRes = await API.analyzeDataset(res.filename);
+            uploadedDatasetProfile = profileRes.profile || {};
+            renderDatasetProfile(uploadedDatasetProfile);
+        } catch (pe) {
+            // Profile is optional; upload succeeded, so enable prediction
+            uploadedDatasetProfile = null;
+            $('datasetProfile').classList.add('hidden');
+        }
+
+        // If the dataset has a likely machine_id column with multiple values, ask for a machine_key
+        if (uploadedDatasetProfile && hasMultipleMachineKeys(uploadedDatasetProfile)) {
+            $('machineKeyBlock').classList.remove('hidden');
+        }
+
         $('uploadStatus').innerHTML = `
             <div class="flex items-center gap-2 p-2 rounded-lg bg-green-50 text-green-700 text-xs">
                 <span class="material-symbols-outlined text-sm">check_circle</span>
@@ -1573,18 +1809,51 @@ async function handleFile(file) {
     }
 }
 
+function hasMultipleMachineKeys(profile) {
+    const cols = (profile.column_names || []).map(c => String(c).toLowerCase());
+    return cols.some(c => ['machine_id', 'unit_id', 'asset_id', 'engine_id', 'equipment_id'].includes(c));
+}
+
+function renderDatasetProfile(profile) {
+    const host = $('datasetProfile');
+    if (!host) return;
+    const rows = profile.rows ?? '?';
+    const columns = profile.column_names || [];
+    const numeric = profile.numeric_columns || [];
+    const missing = profile.missing_values || {};
+    const missingCount = Object.keys(missing).length;
+
+    host.classList.remove('hidden');
+    host.innerHTML = `
+        <div class="dataset-profile-card">
+            <div class="profile-stat"><span class="k">Rows</span><span class="v">${Number(rows).toLocaleString()}</span></div>
+            <div class="profile-stat"><span class="k">Columns</span><span class="v">${columns.length}</span></div>
+            <div class="profile-stat"><span class="k">Numeric columns</span><span class="v">${numeric.length}</span></div>
+            <div class="profile-stat"><span class="k">Columns with missing</span><span class="v">${missingCount}</span></div>
+            <div class="profile-columns">
+                <strong>Columns:</strong> ${columns.slice(0, 20).map(c => escapeHtml(c)).join(', ')}${columns.length > 20 ? ` … (+${columns.length - 20})` : ''}
+            </div>
+            ${missingCount > 0 ? `<div class="profile-columns" style="margin-top:4px;color:#92400e;">
+                <strong>Missing:</strong> ${Object.entries(missing).slice(0, 8).map(([k, v]) => `${escapeHtml(k)} (${v})`).join(', ')}${missingCount > 8 ? ' …' : ''}
+            </div>` : ''}
+        </div>`;
+}
+
 function clearUploadedDataset() {
     uploadedDataset = null;
+    uploadedDatasetProfile = null;
     fileInput.value = '';
     $('uploadedFileChip').classList.add('hidden');
     $('uploadStatus').classList.add('hidden');
+    $('datasetProfile').classList.add('hidden');
+    $('machineKeyBlock').classList.add('hidden');
     $('predictFromDatasetBtn').disabled = true;
     $('predictionResults').style.display = 'none';
 }
 
-// ------------------------------------------------------------
-// PREDICTION RESULT RENDERING — full real backend data
-// ------------------------------------------------------------
+/* ============================================================
+   PREDICTION NORMALIZATION
+   ============================================================ */
 function normalizePredictionResponse(res) {
     if (!res) return {};
     const p = res.prediction || res || {};
@@ -1599,11 +1868,14 @@ function normalizePredictionResponse(res) {
         model_version: p.model_version || intel.model_version || null,
         model_id: p.model_id || intel.model_id || null,
         dataset_family: intel.dataset_family || p.dataset_family || null,
+        family_score: intel.family_score ?? p.family_score ?? null,
+        family_candidates: intel.family_candidates || p.family_candidates || [],
         processing_time_ms: p.processing_time_ms ?? intel.processing_time_ms ?? null,
         uncertainty_lower: intel.uncertainty_lower ?? p.uncertainty_lower ?? null,
         uncertainty_upper: intel.uncertainty_upper ?? p.uncertainty_upper ?? null,
         uncertainty_source: intel.uncertainty_source ?? p.uncertainty_source ?? null,
         sensor_quality: intel.sensor_quality ?? p.sensor_quality ?? null,
+        sensor_quality_flags: intel.sensor_quality_flags || p.sensor_quality_flags || [],
         prediction_trust: intel.prediction_trust ?? p.prediction_trust ?? null,
         ood_flags: intel.ood_flags || p.ood_flags || [],
         feature_provenance: intel.feature_provenance || p.feature_provenance || null,
@@ -1611,27 +1883,60 @@ function normalizePredictionResponse(res) {
         fallback: !!intel.fallback,
         fallback_reason: intel.fallback_reason || p.fallback_reason || null,
         horizon: intel.horizon || p.horizon || 30,
+        request_id: res.request_id || p.request_id || null,
+        alert_created: res.alert_created || null,
+        model_selection: intel.model_selection || {},
+        raw_intel: intel,
         raw: p,
+        raw_response: res,
     };
 }
 
-function renderPredictionUnavailable(message, statusCode) {
+/* ============================================================
+   ABSTENTION PANEL (structured diagnostics on 422)
+   ============================================================ */
+function renderPredictionUnavailable(message, statusCode, details) {
     const resultsDiv = $('predictionResults');
     const resultsContent = $('resultsContent');
     resultsDiv.style.display = 'block';
     const is422 = statusCode === 422;
-    const title = is422 ? 'Prediction unavailable' : 'Prediction failed';
-    const subtitle = is422
-        ? 'The backend could not produce a prediction with the currently loaded production model(s).'
-        : 'The backend returned an error. See details below.';
+
+    let detailBlock = '';
+    if (details && typeof details === 'object') {
+        const rows = [];
+        if (details.code) rows.push({ label: 'Code', value: details.code });
+        if (details.registered_models != null) rows.push({ label: 'Registered models', value: details.registered_models });
+        if (details.registered_families != null) rows.push({ label: 'Registered families', value: details.registered_families });
+        if (Array.isArray(details.incoming_columns) && details.incoming_columns.length) {
+            rows.push({ label: 'Incoming columns', value: details.incoming_columns.slice(0, 10).join(', ') + (details.incoming_columns.length > 10 ? ` … (+${details.incoming_columns.length - 10})` : '') });
+        }
+        if (Array.isArray(details.top_family_candidates) && details.top_family_candidates.length) {
+            rows.push({ label: 'Top families', value: details.top_family_candidates.map(c => `${c.family} (${Number(c.score).toFixed(2)})`).join(', ') });
+        }
+        if (Array.isArray(details.model_attempts) && details.model_attempts.length) {
+            const first = details.model_attempts[0];
+            if (first.reason) rows.push({ label: 'First failure', value: `${first.model_id || '?'} → ${first.reason}` });
+        }
+        if (rows.length) {
+            detailBlock = `<div class="mt-3 bg-slate-50 rounded-lg p-3 text-xs">
+                ${rows.map(r => `<div class="audit-row"><span class="audit-k">${escapeHtml(r.label)}</span><span class="audit-v">${escapeHtml(String(r.value))}</span></div>`).join('')}
+            </div>`;
+        }
+        // Save for the audit panel
+        if (details.code) lastPredictionResponse = { abstained: true, details };
+    }
+
     resultsContent.innerHTML = `
         <div class="no-prediction-panel">
             <div class="flex items-start gap-3">
                 <span class="material-symbols-outlined">error</span>
                 <div class="flex-1">
-                    <p class="font-bold text-base">${escapeHtml(title)}</p>
-                    <p class="text-sm mt-1">${escapeHtml(subtitle)}</p>
+                    <p class="font-bold text-base">${is422 ? 'Prediction unavailable' : 'Prediction failed'}</p>
+                    <p class="text-sm mt-1">${is422
+                        ? 'The backend could not produce a prediction with the currently loaded production model(s). This is an honest abstention — no fake result was generated.'
+                        : 'The backend returned an error. See details below.'}</p>
                     <p class="text-xs mt-2 font-mono break-words" style="background: rgba(153,27,27,.06); padding: 8px; border-radius: 8px;">${escapeHtml(message)}</p>
+                    ${detailBlock}
                 </div>
             </div>
         </div>`;
@@ -1645,10 +1950,15 @@ function renderPredictionUnavailable(message, statusCode) {
                 <div class="text-xs text-amber-700">Recommendations require a successful prediction.</div>
             </div>
         </div>`;
+    $('viewAuditBtn').classList.add('hidden');
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+/* ============================================================
+   RESULT DISPLAY
+   ============================================================ */
 function displayPredictionResults(result) {
+    lastPredictionResponse = result;
     const resultsDiv = $('predictionResults');
     const resultsContent = $('resultsContent');
     resultsDiv.style.display = 'block';
@@ -1658,7 +1968,6 @@ function displayPredictionResults(result) {
     const confidence = result.confidence != null ? Number(result.confidence) : null;
     const status = result.status || 'prediction_available';
 
-    // Hero metrics
     $('rulValue').textContent = rulHours != null ? rulHours.toFixed(1) : '—';
     $('rulUnit').textContent = rulHours != null ? 'HRS' : '—';
     const failureProb = result.failure_probability != null
@@ -1708,16 +2017,17 @@ function displayPredictionResults(result) {
             </div>`;
     }
 
-    // Detail grid with all real metrics
+    // Detail tiles
     const details = [];
     if (result.model_id) details.push({ label: 'Model ID', value: result.model_id });
     if (result.model_type && result.model_type !== result.model_id) details.push({ label: 'Model type', value: result.model_type });
     if (result.model_version) details.push({ label: 'Version', value: 'v' + result.model_version });
-    if (result.dataset_family) details.push({ label: 'Dataset family', value: result.dataset_family });
+    if (result.dataset_family) details.push({ label: 'Dataset family', value: result.dataset_family + (result.family_score != null ? ` (${Number(result.family_score).toFixed(2)})` : '') });
     if (result.risk_level) details.push({ label: 'Risk level', value: result.risk_level });
     if (result.processing_time_ms != null) details.push({ label: 'Processing time', value: Number(result.processing_time_ms).toFixed(0) + ' ms' });
     if (result.sensor_quality != null) details.push({ label: 'Sensor quality', value: (Number(result.sensor_quality) * 100).toFixed(0) + '%' });
     if (result.prediction_trust) details.push({ label: 'Trust', value: result.prediction_trust });
+    if (result.request_id) details.push({ label: 'Request ID', value: String(result.request_id).slice(0, 8) });
 
     const uncertaintyBlock = (result.uncertainty_lower != null && result.uncertainty_upper != null) ? `
         <div class="bg-slate-50 rounded-xl p-3 sm:p-4 mt-3">
@@ -1732,10 +2042,16 @@ function displayPredictionResults(result) {
             <ul class="text-xs text-amber-800 list-disc pl-4">${result.ood_flags.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul>
         </div>` : '';
 
+    const qualityFlagsBlock = (result.sensor_quality_flags && result.sensor_quality_flags.length > 0) ? `
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 mt-3">
+            <p class="text-[10px] text-blue-700 font-semibold mb-1">Sensor quality notes</p>
+            <ul class="text-xs text-blue-800 list-disc pl-4">${result.sensor_quality_flags.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul>
+        </div>` : '';
+
     const fallbackBlock = result.fallback ? `
         <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mt-3">
-            <p class="text-xs font-semibold text-amber-800">⚠ Diagnostic estimate</p>
-            <p class="text-xs text-amber-700 mt-1">${escapeHtml(result.fallback_reason || 'No compatible trained model was used.')}</p>
+            <p class="text-xs font-semibold text-amber-800">⚠ Diagnostic estimate — no validated trained model used</p>
+            <p class="text-xs text-amber-700 mt-1">${escapeHtml(result.fallback_reason || 'No compatible trained model was used for this result.')}</p>
         </div>` : '';
 
     const statusTheme = status === 'critical' ? { bg: '#fef2f2', text: '#7f1d1d' }
@@ -1767,12 +2083,13 @@ function displayPredictionResults(result) {
                 ${details.map(d => `
                     <div class="bg-slate-50 rounded-lg p-2">
                         <p class="text-[10px] text-slate-400">${escapeHtml(d.label)}</p>
-                        <p class="text-xs font-semibold text-slate-800 truncate">${escapeHtml(String(d.value))}</p>
+                        <p class="text-xs font-semibold text-slate-800 truncate" title="${escapeHtml(String(d.value))}">${escapeHtml(String(d.value))}</p>
                     </div>`).join('')}
             </div>` : ''}
 
         ${uncertaintyBlock}
         ${oodBlock}
+        ${qualityFlagsBlock}
         ${fallbackBlock}
 
         <div class="mt-3 p-3 rounded-xl" style="background:${statusTheme.bg};">
@@ -1785,15 +2102,56 @@ function displayPredictionResults(result) {
         <div class="mt-2 text-[10px] text-slate-400 break-words">
             ${result.fallback ? '<span class="font-semibold text-amber-600">⚠ diagnostic estimate</span>' : '<span class="font-semibold text-green-600">✓ trained model</span>'}
             • Horizon: ${Number(result.horizon || 30)} days
-        </div>
-    `;
+        </div>`;
+
+    // Show audit button if we have model_selection data
+    const audit = result.model_selection || {};
+    if (audit && (audit.selected_model || audit.mode)) {
+        $('viewAuditBtn').classList.remove('hidden');
+    }
 
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ------------------------------------------------------------
-// DIAGNOSIS ON FAILURE
-// ------------------------------------------------------------
+/* ============================================================
+   AUDIT PANEL
+   ============================================================ */
+function toggleAuditPanel() {
+    const panel = $('auditPanel');
+    if (!panel) return;
+    if (!panel.classList.contains('hidden')) {
+        panel.classList.add('hidden');
+        $('viewAuditBtn').innerHTML = '<span class="material-symbols-outlined text-xs align-middle">expand_more</span> Model audit';
+        return;
+    }
+    const res = lastPredictionResponse;
+    if (!res) return;
+    const audit = res.model_selection || {};
+    const raw = res.raw_intel || {};
+    const rows = [];
+    if (audit.mode) rows.push({ k: 'Selection mode', v: audit.mode });
+    if (audit.selected_model) rows.push({ k: 'Selected model', v: audit.selected_model });
+    if (audit.family) rows.push({ k: 'Family', v: audit.family });
+    if (res.family_score != null) rows.push({ k: 'Family score', v: Number(res.family_score).toFixed(3) });
+    if (res.family_candidates && res.family_candidates.length) {
+        rows.push({ k: 'Top families', v: res.family_candidates.slice(0, 5).map(c => `${c.family} (${Number(c.score).toFixed(2)})`).join(', ') });
+    }
+    if (raw.fallback != null) rows.push({ k: 'Fallback', v: raw.fallback ? 'yes' : 'no' });
+    if (res.prediction_trust) rows.push({ k: 'Trust', v: res.prediction_trust });
+
+    panel.innerHTML = `
+        <div class="audit-panel">
+            ${rows.map(r => `<div class="audit-row"><span class="audit-k">${escapeHtml(r.k)}</span><span class="audit-v">${escapeHtml(String(r.v))}</span></div>`).join('')}
+            <p class="mt-2 mb-1 text-[10px] text-slate-500 uppercase tracking-wide font-bold">Full intelligence payload</p>
+            <pre>${escapeHtml(JSON.stringify(raw, null, 2).slice(0, 4000))}</pre>
+        </div>`;
+    panel.classList.remove('hidden');
+    $('viewAuditBtn').innerHTML = '<span class="material-symbols-outlined text-xs align-middle">expand_less</span> Hide audit';
+}
+
+/* ============================================================
+   DIAGNOSIS ON FAILURE
+   ============================================================ */
 async function showDiagnosisOnFailure(machineId, fallbackMsg) {
     try {
         const res = await API.predictDebug(machineId);
@@ -1804,15 +2162,15 @@ async function showDiagnosisOnFailure(machineId, fallbackMsg) {
         if (top) detail += `\nClosest family: ${top.family} (score ${Number(top.score).toFixed(2)})`;
         const firstFail = attempts.find(a => a.status && a.status !== 'COMPATIBLE');
         if (firstFail) detail += `\nModel: ${firstFail.model_id || '?'}\nReason: ${firstFail.reason || firstFail.status}`;
-        renderPredictionUnavailable(detail, 422);
+        renderPredictionUnavailable(detail, 422, d);
     } catch (e) {
-        renderPredictionUnavailable(fallbackMsg, 422);
+        renderPredictionUnavailable(fallbackMsg, 422, null);
     }
 }
 
-// ------------------------------------------------------------
-// RUN PREDICTION ON SELECTED MACHINE
-// ------------------------------------------------------------
+/* ============================================================
+   RUN PREDICTION — MACHINE
+   ============================================================ */
 async function runPrediction() {
     if (isPredicting) return;
     if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
@@ -1822,6 +2180,7 @@ async function runPrediction() {
 
     const model = $('aiModel').value;
     const horizon = parseInt($('predictionHorizon').value) || 30;
+    const requestId = genUuid();
 
     const btn = $('runPredictionMainBtn');
     const original = btn.innerHTML;
@@ -1830,7 +2189,10 @@ async function runPrediction() {
     btn.innerHTML = '<span class="loading-spinner"></span> Running prediction...';
 
     try {
-        const res = await API.predictMachine(selectedMachine, model, horizon);
+        const res = await API.predictMachine(selectedMachine, model, horizon, requestId);
+        if (res && res.idempotent_replay) {
+            showToast('This exact request already completed — showing stored result.', 'info', 4000);
+        }
         const u = normalizePredictionResponse(res);
         displayPredictionResults(u);
         await loadHistory();
@@ -1843,8 +2205,16 @@ async function runPrediction() {
         setTimeout(loadMachines, 800);
     } catch (error) {
         const msg = error.message || 'unknown error';
-        if (error.status === 422) {
-            await showDiagnosisOnFailure(selectedMachine, msg);
+        if (error.status === 409) {
+            showToast('Another tab is already running this prediction — checking result...', 'info', 5000);
+            setTimeout(loadHistory, 2500);
+        } else if (error.status === 422) {
+            const details = error.data && (error.data.details || error.data);
+            if (details && typeof details === 'object' && (details.code || details.registered_models != null)) {
+                renderPredictionUnavailable(msg, 422, details);
+            } else {
+                await showDiagnosisOnFailure(selectedMachine, msg);
+            }
             showToast('Prediction unavailable — see diagnostics below', 'warning', 8000);
         } else if (error.status === 429) {
             showToast('Quota reached — ' + msg, 'warning', 7000);
@@ -1858,23 +2228,36 @@ async function runPrediction() {
     }
 }
 
-// ------------------------------------------------------------
-// RUN PREDICTION ON UPLOADED DATASET — no machine/type selection
-// ------------------------------------------------------------
-$('predictFromDatasetBtn').addEventListener('click', async function () {
+/* ============================================================
+   RUN PREDICTION — DATASET
+   ============================================================ */
+async function runDatasetPrediction() {
     if (!uploadedDataset) { showToast('Please upload a dataset first', 'warning'); return; }
     if (!Auth.isAuthenticated) { window.location.replace('login.html'); return; }
+    if (isPredicting) return;
 
     const model = $('aiModel').value;
     const horizon = parseInt($('predictionHorizon').value) || 30;
+    const machineKey = ($('machineKeyInput').value || '').trim() || null;
+    const datasetHint = (uploadedDataset.original_filename || '')
+        .replace(/\.[^.]+$/, '')
+        .replace(/[^a-zA-Z0-9_]+/g, '_')
+        .toLowerCase() || null;
+    const requestId = genUuid();
 
-    const btn = this;
+    const btn = $('predictFromDatasetBtn');
     const original = btn.innerHTML;
+    isPredicting = true;
     btn.disabled = true;
     btn.innerHTML = '<span class="loading-spinner"></span> Running on dataset...';
 
     try {
-        const res = await API.predictDataset(uploadedDataset.filename, model, horizon, null);
+        const res = await API.predictDataset(
+            uploadedDataset.filename, model, horizon, datasetHint, machineKey, requestId
+        );
+        if (res && res.idempotent_replay) {
+            showToast('This exact request already completed — showing stored result.', 'info', 4000);
+        }
         const u = normalizePredictionResponse(res);
         displayPredictionResults(u);
         await loadHistory();
@@ -1884,33 +2267,242 @@ $('predictFromDatasetBtn').addEventListener('click', async function () {
             setTimeout(() => showToast(`⚠️ Alert: ${res.alert_created.title}`, 'warning', 6000), 1200);
             loadAlertsBadge();
         }
-        // Do NOT call loadMachines() here — dataset prediction shouldn't create a visible machine row.
     } catch (error) {
         const msg = error.message || 'unknown error';
-        if (error.status === 422) {
-            renderPredictionUnavailable(msg, 422);
+        if (error.status === 409) {
+            showToast('Another tab is already running this prediction — checking result...', 'info', 5000);
+            setTimeout(loadHistory, 2500);
+        } else if (error.status === 422) {
+            const details = error.data && (error.data.details || error.data);
+            renderPredictionUnavailable(msg, 422, details && typeof details === 'object' ? details : null);
             showToast('Prediction unavailable — the backend could not match a compatible trained model', 'warning', 8000);
         } else if (error.status === 429) {
             showToast('Quota reached — ' + msg, 'warning', 7000);
         } else {
-            renderPredictionUnavailable(msg, error.status || 0);
+            renderPredictionUnavailable(msg, error.status || 0, null);
             showToast('Prediction failed: ' + msg, 'error', 8000);
         }
+    } finally {
+        isPredicting = false;
+        btn.disabled = false;
+        btn.innerHTML = original;
+    }
+}
+
+/* ============================================================
+   EVALUATION
+   ============================================================ */
+function toggleEvaluate() {
+    const p = $('evaluatePanel');
+    if (!p) return;
+    p.classList.toggle('hidden');
+}
+
+async function runEvaluation() {
+    if (!uploadedDataset) { showToast('Please upload a dataset first', 'warning'); return; }
+    if (!selectedMachine) { showToast('Select a machine to associate the evaluation with', 'warning'); return; }
+    const targetColumn = ($('evalTargetColumn').value || 'rul_hours').trim();
+    const model = $('aiModel').value;
+    const horizon = parseInt($('predictionHorizon').value) || 30;
+    const requestId = genUuid();
+
+    const btn = $('runEvalBtn');
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Evaluating...';
+    $('evalResult').innerHTML = '';
+
+    try {
+        const res = await API.evaluate(selectedMachine, uploadedDataset.filename, targetColumn, model, horizon, requestId);
+        const pred = res.predicted_rul != null ? Number(res.predicted_rul).toFixed(2) : '—';
+        const actual = res.actual_rul != null ? Number(res.actual_rul).toFixed(2) : '—';
+        const absErr = res.absolute_error != null ? Number(res.absolute_error).toFixed(2) : '—';
+        const signErr = res.signed_error != null ? Number(res.signed_error).toFixed(2) : '—';
+        $('evalResult').innerHTML = `
+            <div class="bg-slate-50 rounded-xl p-3 mt-2">
+                <div class="profile-stat"><span class="k">Predicted RUL</span><span class="v">${pred} h</span></div>
+                <div class="profile-stat"><span class="k">Actual RUL</span><span class="v">${actual} h</span></div>
+                <div class="profile-stat"><span class="k">Absolute error</span><span class="v">${absErr} h</span></div>
+                <div class="profile-stat"><span class="k">Signed error</span><span class="v">${signErr} h</span></div>
+                <div class="profile-stat"><span class="k">Model</span><span class="v">${escapeHtml(res.model_id || '—')}</span></div>
+            </div>`;
+        showToast('Evaluation complete', 'success');
+    } catch (error) {
+        $('evalResult').innerHTML = `<div class="text-red-600 text-xs mt-2">${escapeHtml(error.message || 'Evaluation failed')}</div>`;
+        showToast('Evaluation failed: ' + (error.message || 'unknown error'), 'error', 6000);
     } finally {
         btn.disabled = false;
         btn.innerHTML = original;
     }
-});
+}
 
-// ------------------------------------------------------------
-// HISTORY
-// ------------------------------------------------------------
+/* ============================================================
+   LIVE SCHEDULE
+   ============================================================ */
+function loadLiveFromStorage() {
+    try {
+        const raw = localStorage.getItem(LIVE_STATE_KEY);
+        if (!raw) return null;
+        const s = JSON.parse(raw);
+        if (s && s.machineId && s.intervalMin > 0) return s;
+    } catch (e) {}
+    return null;
+}
+function saveLiveToStorage() {
+    try {
+        if (liveSchedule && liveSchedule.machineId && liveSchedule.intervalMin > 0) {
+            localStorage.setItem(LIVE_STATE_KEY, JSON.stringify({
+                machineId: liveSchedule.machineId,
+                intervalMin: liveSchedule.intervalMin,
+                startedAt: liveSchedule.startedAt,
+            }));
+        } else {
+            localStorage.removeItem(LIVE_STATE_KEY);
+        }
+    } catch (e) {}
+}
+
+function openLiveScheduleModal() {
+    if (!selectedMachine) { showToast('Select a machine first', 'warning'); return; }
+    const m = machines.find(x => x.id === selectedMachine);
+    if (!m) return;
+    $('liveMachineLabel').textContent = `Machine: ${m.name}`;
+    $('liveScheduleError').classList.add('hidden');
+    $('liveScheduleError').textContent = '';
+    const current = liveSchedule && liveSchedule.machineId === selectedMachine ? liveSchedule.intervalMin : 0;
+    document.querySelectorAll('#liveIntervalGrid .live-interval-btn').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.interval, 10) === current);
+    });
+    $('liveScheduleStartBtn').textContent = current > 0 ? 'Update Schedule' : 'Start Schedule';
+    $('liveScheduleModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeLiveScheduleModal() {
+    $('liveScheduleModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+let selectedLiveInterval = 0;
+function startLivePredictions(intervalMin) {
+    if (!selectedMachine) return;
+    const m = machines.find(x => x.id === selectedMachine);
+    if (!m) return;
+    if (intervalMin <= 0) { stopLivePredictions(); return; }
+
+    stopLivePredictions();
+    const ms = intervalMin * 60 * 1000;
+    const now = Date.now();
+    liveSchedule = {
+        machineId: selectedMachine,
+        intervalMin: intervalMin,
+        startedAt: now,
+        nextRunAt: now + ms,
+        lastRunAt: null,
+        running: false,
+        consecutiveFailures: 0,
+        lastResult: null,
+    };
+    saveLiveToStorage();
+    renderLiveScheduleBox();
+
+    const tick = async () => {
+        if (!liveSchedule) return;
+        if (liveSchedule.running) return;
+        if (!Auth.isAuthenticated) { stopLivePredictions(); return; }
+        liveSchedule.running = true;
+        renderLiveScheduleBox();
+        try {
+            const model = $('aiModel').value;
+            const horizon = parseInt($('predictionHorizon').value) || 30;
+            const requestId = genUuid();
+            const res = await API.predictMachine(liveSchedule.machineId, model, horizon, requestId);
+            const u = normalizePredictionResponse(res);
+            liveSchedule.lastResult = u;
+            liveSchedule.lastRunAt = Date.now();
+            liveSchedule.consecutiveFailures = 0;
+            if (selectedMachine === liveSchedule.machineId) {
+                displayPredictionResults(u);
+            }
+            await loadHistory();
+            await loadStats();
+            if (res.alert_created) loadAlertsBadge();
+        } catch (error) {
+            liveSchedule.consecutiveFailures = (liveSchedule.consecutiveFailures || 0) + 1;
+            if (liveSchedule.consecutiveFailures >= 3) {
+                const reason = error.message || 'unknown error';
+                stopLivePredictions();
+                showToast(`Live schedule stopped after 3 consecutive failures: ${reason}`, 'warning', 8000);
+                return;
+            }
+            if (error.status === 429) {
+                stopLivePredictions();
+                showToast('Live schedule stopped — quota reached.', 'warning', 8000);
+                return;
+            }
+        } finally {
+            if (liveSchedule) {
+                liveSchedule.running = false;
+                liveSchedule.nextRunAt = Date.now() + ms;
+                saveLiveToStorage();
+                renderLiveScheduleBox();
+            }
+        }
+    };
+
+    // First prediction fires ONLY after the interval — matches user expectation.
+    liveScheduleTimers.first = setTimeout(() => {
+        tick();
+        liveScheduleTimers.interval = setInterval(tick, ms);
+    }, ms);
+    liveScheduleTimers.status = setInterval(renderLiveScheduleBox, 1000);
+    showToast(`Recurring predictions scheduled for ${m.name}. First run in ${intervalMin} min(s). Keep this tab open.`, 'success', 7000);
+}
+
+function stopLivePredictions() {
+    if (liveScheduleTimers.first) { clearTimeout(liveScheduleTimers.first); liveScheduleTimers.first = null; }
+    if (liveScheduleTimers.interval) { clearInterval(liveScheduleTimers.interval); liveScheduleTimers.interval = null; }
+    if (liveScheduleTimers.status) { clearInterval(liveScheduleTimers.status); liveScheduleTimers.status = null; }
+    liveSchedule = null;
+    saveLiveToStorage();
+    renderLiveScheduleBox();
+}
+
+function renderLiveScheduleBox() {
+    const box = $('liveScheduleBox');
+    if (!box) return;
+    if (!liveSchedule) { box.classList.add('hidden'); return; }
+    box.classList.remove('hidden');
+    const remainingMs = Math.max(0, (liveSchedule.nextRunAt || 0) - Date.now());
+    const remainingSec = Math.ceil(remainingMs / 1000);
+    const remainingLabel = `${Math.floor(remainingSec / 60)}m ${String(remainingSec % 60).padStart(2, '0')}s`;
+    const m = machines.find(x => x.id === liveSchedule.machineId);
+    $('liveScheduleText').innerHTML = liveSchedule.running
+        ? '<span class="live-schedule-active">Running prediction…</span>'
+        : `Next run in <span class="live-schedule-countdown">${remainingLabel}</span>`;
+    $('liveScheduleMeta').innerHTML = `
+        Machine: ${escapeHtml(m ? m.name : liveSchedule.machineId)} ·
+        Interval: ${liveSchedule.intervalMin} min ·
+        Last run: ${liveSchedule.lastRunAt ? new Date(liveSchedule.lastRunAt).toLocaleTimeString() : '—'}
+        ${liveSchedule.lastResult && liveSchedule.lastResult.rul_hours != null
+            ? ` · Last RUL: ${Number(liveSchedule.lastResult.rul_hours).toFixed(1)}h`
+            : ''}`;
+}
+
+/* ============================================================
+   HISTORY
+   ============================================================ */
 async function loadHistory() {
     if (!Auth.isAuthenticated) return;
     try {
-        const data = await API.getHistory(1, 20);
+        const machineFilter = historyFilterMachineId || null;
+        const data = await API.getHistory(historyPage, historyPageSize, machineFilter);
         history = data.items || data.predictions || [];
+        historyTotal = data.total || history.length;
+        historyPage = data.page || historyPage;
+        historyHasNext = !!data.has_next;
+        historyHasPrev = !!data.has_prev;
         renderHistory();
+        updateHistoryPagination();
         history.forEach(p => {
             const id = p.uuid || p.id;
             if (id) seenPredictionIds.add(String(id));
@@ -1920,6 +2512,25 @@ async function loadHistory() {
         history = [];
         renderHistory(error);
     }
+}
+
+function updateHistoryPagination() {
+    const info = $('historyPageInfo');
+    if (info) info.textContent = `Page ${historyPage} · ${historyTotal} total`;
+    const prev = $('historyPrevBtn');
+    const next = $('historyNextBtn');
+    if (prev) prev.disabled = !historyHasPrev;
+    if (next) next.disabled = !historyHasNext;
+}
+function historyPrev() {
+    if (!historyHasPrev) return;
+    historyPage = Math.max(1, historyPage - 1);
+    loadHistory();
+}
+function historyNext() {
+    if (!historyHasNext) return;
+    historyPage++;
+    loadHistory();
 }
 
 function renderHistory(error) {
@@ -1939,14 +2550,14 @@ function renderHistory(error) {
     const statusClass = s => s === 'critical' ? 'status-critical'
                           : s === 'warning' ? 'status-warning'
                           : 'status-online';
-    tbody.innerHTML = history.slice(0, 10).map(p => {
+    tbody.innerHTML = history.map((p, idx) => {
         const date = new Date(p.created_at || p.timestamp || Date.now());
         const machineName = p.machine_name || p.machineName || 'Dataset';
         const rulHours = p.rul_hours ?? p.rul ?? 0;
         const status = p.status || 'unknown';
         const model = p.model_type || p.modelUsed || '—';
         return `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
+            <tr class="history-row border-b border-slate-100" onclick="openPredictionDetail(${idx})">
                 <td class="px-3 py-2 sm:py-3 text-[10px] sm:text-xs font-medium text-slate-800 truncate">${escapeHtml(machineName)}</td>
                 <td class="px-3 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold">${Number(rulHours).toFixed(1)}</td>
                 <td class="px-3 py-2 sm:py-3 text-[10px] sm:text-xs">${p.confidence != null ? Number(p.confidence).toFixed(1) + '%' : '—'}</td>
@@ -1957,9 +2568,53 @@ function renderHistory(error) {
     }).join('');
 }
 
-// ------------------------------------------------------------
-// STATS
-// ------------------------------------------------------------
+function openPredictionDetail(index) {
+    const p = history[index];
+    if (!p) return;
+    const modal = $('predictionDetailModal');
+    const content = $('predictionDetailContent');
+    const rows = [];
+    const push = (k, v) => { if (v != null && v !== '') rows.push({ k, v: String(v) }); };
+    push('Machine', p.machine_name || p.machineName || 'Dataset');
+    push('Created', p.created_at ? new Date(p.created_at).toLocaleString() : '—');
+    push('RUL (hours)', p.rul_hours != null ? Number(p.rul_hours).toFixed(2) : null);
+    push('Confidence', p.confidence != null ? Number(p.confidence).toFixed(2) + '%' : null);
+    push('Status', p.status);
+    push('Risk level', p.risk_level);
+    push('Model type', p.model_type);
+    push('Model version', p.model_version);
+    push('Dataset family', p.dataset_family);
+    push('Processing time', p.processing_time_ms != null ? Number(p.processing_time_ms).toFixed(0) + ' ms' : null);
+    push('Sensor quality', p.sensor_quality != null ? (Number(p.sensor_quality) * 100).toFixed(0) + '%' : null);
+    push('Trust', p.prediction_trust);
+    push('Request ID', p.request_id);
+
+    const recs = Array.isArray(p.recommendations) ? p.recommendations : [];
+    const recBlock = recs.length
+        ? `<div class="mt-3"><p class="text-[10px] text-slate-500 uppercase font-bold mb-1">Recommendations</p>
+           <ul class="text-xs text-slate-700 list-disc pl-4">${recs.map(r => {
+               const t = typeof r === 'string' ? r : (r.text || r.message || '');
+               return `<li>${escapeHtml(t)}</li>`;
+           }).join('')}</ul></div>`
+        : '';
+
+    content.innerHTML = `
+        <div class="space-y-2">
+            ${rows.map(r => `<div class="profile-stat"><span class="k">${escapeHtml(r.k)}</span><span class="v">${escapeHtml(r.v)}</span></div>`).join('')}
+        </div>
+        ${recBlock}
+        <button onclick="closePredictionDetailModal()" class="w-full mt-4 gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm">Close</button>`;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closePredictionDetailModal() {
+    $('predictionDetailModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+/* ============================================================
+   STATS
+   ============================================================ */
 async function loadStats() {
     try {
         const data = await API.getStats();
@@ -1970,13 +2625,13 @@ async function loadStats() {
         $('statHealthy').textContent = bd.healthy || bd.normal || 0;
         $('statCritical').textContent = bd.critical || 0;
     } catch (e) {
-        ['statTotal','statAvgRul','statHealthy','statCritical'].forEach(id => { $(id).textContent = '—'; });
+        ['statTotal', 'statAvgRul', 'statHealthy', 'statCritical'].forEach(id => { $(id).textContent = '—'; });
     }
 }
 
-// ------------------------------------------------------------
-// WEBSOCKET — realtime + idempotent
-// ------------------------------------------------------------
+/* ============================================================
+   WEBSOCKET
+   ============================================================ */
 function connectWebSocket() {
     const token = getToken();
     if (!token || !isTokenValid(token)) return;
@@ -1991,9 +2646,7 @@ function connectWebSocket() {
             const el = $('wsStatus');
             if (el) { el.textContent = '● LIVE'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 font-semibold'; }
         };
-        wsConnection.onmessage = (event) => {
-            try { handleWsMessage(JSON.parse(event.data)); } catch (e) {}
-        };
+        wsConnection.onmessage = (event) => { try { handleWsMessage(JSON.parse(event.data)); } catch (e) {} };
         wsConnection.onclose = (evt) => {
             const el = $('wsStatus');
             if (el) { el.textContent = '● SYNC'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold'; }
@@ -2010,6 +2663,9 @@ function connectWebSocket() {
 function handleWsMessage(data) {
     if (!data || !data.type) return;
     switch (data.type) {
+        case 'auth_success':
+            $('modeBadge').textContent = data.realtime ? 'Live' : 'Polling';
+            break;
         case 'prediction_created': {
             const p = data.prediction || {};
             const id = p.uuid || p.id;
@@ -2023,7 +2679,7 @@ function handleWsMessage(data) {
         }
         case 'alert_created':
             loadAlertsBadge();
-            if (data.alert && ['critical','warning'].includes(data.alert.severity)) {
+            if (data.alert && ['critical', 'warning'].includes(data.alert.severity)) {
                 showToast(`⚠️ ${data.alert.title}`, 'warning', 6000);
             }
             break;
@@ -2040,6 +2696,7 @@ function handleWsMessage(data) {
                     machines.unshift(data.machine);
                     renderMachines();
                 }
+                renderHistoryMachineFilter();
             }
             break;
         case 'machine_created':
@@ -2049,6 +2706,7 @@ function handleWsMessage(data) {
             if (data.machine_id) {
                 machines = machines.filter(m => m.id !== data.machine_id);
                 renderMachines();
+                renderHistoryMachineFilter();
                 if (selectedMachine === data.machine_id) { selectedMachine = null; updateAssetCard(); }
             }
             break;
@@ -2057,11 +2715,12 @@ function handleWsMessage(data) {
                 try {
                     const current = getUser();
                     if (!current || current.id === data.user.id) {
-                        localStorage.setItem('synapse_user', JSON.stringify({ ...(current || {}), ...data.user }));
-                        localStorage.setItem('user', JSON.stringify({ ...(current || {}), ...data.user }));
+                        const merged = { ...(current || {}), ...data.user };
+                        localStorage.setItem('synapse_user', JSON.stringify(merged));
+                        localStorage.setItem('user', JSON.stringify(merged));
                         updateUserUI();
                     }
-                } catch {}
+                } catch (e) {}
             }
             break;
         case 'ping':
@@ -2070,9 +2729,9 @@ function handleWsMessage(data) {
     }
 }
 
-// ------------------------------------------------------------
-// WIRE UP
-// ------------------------------------------------------------
+/* ============================================================
+   WIRE UP
+   ============================================================ */
 DOM.sidebarToggle?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleSidebar(); });
 DOM.mobileMenuToggle?.addEventListener('click', openMobileSidebar);
 DOM.sidebarOverlay?.addEventListener('click', closeMobileSidebar);
@@ -2090,6 +2749,8 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
         closeProfileMenu();
         if (!isDesktop() && sidebar.classList.contains('mobile-open')) closeMobileSidebar();
+        closeLiveScheduleModal();
+        closePredictionDetailModal();
     }
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); runPrediction(); }
 });
@@ -2097,6 +2758,14 @@ document.addEventListener('click', e => {
     if (DOM.profileMenu?.classList.contains('open')
         && !DOM.profileMenu.contains(e.target)
         && !DOM.userAvatar?.contains(e.target)) closeProfileMenu();
+});
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', function (e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
 });
 
 let resizeTimer;
@@ -2108,9 +2777,40 @@ window.addEventListener('resize', () => {
     }, 80);
 });
 
-// ------------------------------------------------------------
-// INIT
-// ------------------------------------------------------------
+$('predictFromDatasetBtn')?.addEventListener('click', runDatasetPrediction);
+$('runPredictionMainBtn')?.addEventListener('click', runPrediction);
+$('runLivePredictionBtn')?.addEventListener('click', openLiveScheduleModal);
+
+$('historyMachineFilter')?.addEventListener('change', function () {
+    historyFilterMachineId = this.value || null;
+    historyPage = 1;
+    loadHistory();
+});
+
+// Live interval buttons
+document.querySelectorAll('#liveIntervalGrid .live-interval-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        selectedLiveInterval = parseInt(btn.dataset.interval, 10) || 0;
+        document.querySelectorAll('#liveIntervalGrid .live-interval-btn').forEach(b => b.classList.remove('active'));
+        if (selectedLiveInterval > 0) btn.classList.add('active');
+        $('liveScheduleStartBtn').textContent = selectedLiveInterval === 0 ? 'Stop Schedule' : 'Start Schedule';
+    });
+});
+$('liveScheduleStartBtn')?.addEventListener('click', () => {
+    if (!selectedMachine) { $('liveScheduleError').textContent = 'Select a machine first.'; $('liveScheduleError').classList.remove('hidden'); return; }
+    if (selectedLiveInterval === 0) {
+        stopLivePredictions();
+        showToast('Recurring predictions stopped', 'info');
+        closeLiveScheduleModal();
+        return;
+    }
+    startLivePredictions(selectedLiveInterval);
+    closeLiveScheduleModal();
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
 document.addEventListener('DOMContentLoaded', async () => {
     if (!Auth.isAuthenticated) {
         const ok = await performRefresh();
@@ -2122,11 +2822,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateSidebarUI();
     initChart();
 
-    await Promise.allSettled([loadMachines(), loadHistory(), loadStats()]);
+    await Promise.allSettled([checkBackendHealth(), loadMachines(), loadHistory(), loadStats()]);
     connectWebSocket();
 
-    $('runPredictionBtn')?.addEventListener('click', runPrediction);
-    $('runPredictionMainBtn')?.addEventListener('click', runPrediction);
+    // Restore any saved live schedule (from localStorage)
+    const saved = loadLiveFromStorage();
+    if (saved && saved.machineId && saved.intervalMin > 0) {
+        // Restore on the next tick if the machine is still present
+        const found = machines.find(m => m.id === saved.machineId);
+        if (found) {
+            selectedMachine = saved.machineId;
+            renderMachines();
+            updateAssetCard();
+            startLivePredictions(saved.intervalMin);
+            showToast('Restored recurring prediction schedule', 'info', 4000);
+        }
+    }
 
     refreshInterval = setInterval(() => {
         if (!Auth.isAuthenticated) return;
@@ -2142,22 +2853,42 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (wsConnection && wsConnection.readyState === WebSocket.OPEN) return;
         if (selectedMachine) loadSensorChart(selectedMachine);
     }, 12000);
+
+    healthInterval = setInterval(() => {
+        if (!Auth.isAuthenticated) return;
+        if (document.visibilityState !== 'visible') return;
+        checkBackendHealth();
+    }, 60000);
 });
 
 window.addEventListener('beforeunload', () => {
     if (refreshInterval) clearInterval(refreshInterval);
     if (sensorInterval) clearInterval(sensorInterval);
-    try { if (wsConnection) wsConnection.close(1000, 'unload'); } catch {}
+    if (healthInterval) clearInterval(healthInterval);
+    stopLivePredictions();
+    try { if (wsConnection) wsConnection.close(1000, 'unload'); } catch (e) {}
 });
 
-// ------------------------------------------------------------
-// EXPOSE
-// ------------------------------------------------------------
+/* ============================================================
+   EXPOSE GLOBALS
+   ============================================================ */
 window.selectMachine = selectMachine;
 window.runPrediction = runPrediction;
+window.runDatasetPrediction = runDatasetPrediction;
+window.runEvaluation = runEvaluation;
+window.toggleEvaluate = toggleEvaluate;
+window.openPredictionDetail = openPredictionDetail;
+window.closePredictionDetailModal = closePredictionDetailModal;
+window.toggleAuditPanel = toggleAuditPanel;
+window.openLiveScheduleModal = openLiveScheduleModal;
+window.closeLiveScheduleModal = closeLiveScheduleModal;
+window.startLivePredictions = startLivePredictions;
+window.stopLivePredictions = stopLivePredictions;
 window.loadMachines = loadMachines;
 window.loadHistory = loadHistory;
 window.loadStats = loadStats;
+window.historyPrev = historyPrev;
+window.historyNext = historyNext;
 window.clearUploadedDataset = clearUploadedDataset;
 window.toggleSidebar = toggleSidebar;
 window.closeMobileSidebar = closeMobileSidebar;
@@ -2165,6 +2896,3 @@ window.openMobileSidebar = openMobileSidebar;
 window.toggleProfileMenu = toggleProfileMenu;
 window.closeProfileMenu = closeProfileMenu;
 window.showToast = showToast;
-</script>
-</body>
-</html>
