@@ -1,10 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Admin Dashboard | SynapsePM</title>
-    <!-- ===== PWA META ===== -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#00b4aa">
     <meta name="color-scheme" content="light">
@@ -25,7 +24,6 @@
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="icon" type="image/png" href="/assets/img/logo.png" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -38,65 +36,39 @@
     .gradient-cta { background: linear-gradient(135deg, #00b4aa 0%, #009688 100%); }
     .gradient-cta:hover { background: linear-gradient(135deg, #009688 0%, #00796b 100%); }
 
-    /* ============================================================
-       SYNAPSEPM LOGO
-       ============================================================ */
+    /* Logo */
     .synapsepm-logo {
         font-family: "Inter", sans-serif;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        font-size: 22px;
-        line-height: 1;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.55rem;
-        vertical-align: middle;
+        font-weight: 800; letter-spacing: -0.03em;
+        font-size: 22px; line-height: 1;
+        display: inline-flex; align-items: center; gap: 0.55rem; vertical-align: middle;
     }
     .synapsepm-logo > span:not(.logo-icon),
     .synapsepm-logo strong {
-        display: inline-flex;
-        align-items: center;
-        line-height: 1;
-        height: 32px;
+        display: inline-flex; align-items: center; line-height: 1; height: 32px;
     }
     .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
     .synapsepm-logo strong {
         background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .synapsepm-logo .logo-icon {
-        width: 32px; height: 32px;
-        min-width: 32px; min-height: 32px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
+        width: 32px; height: 32px; min-width: 32px; min-height: 32px;
+        display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .synapsepm-logo .logo-icon img {
-        width: 32px; height: 32px;
-        object-fit: contain; display: block;
-    }
+    .synapsepm-logo .logo-icon img { width: 32px; height: 32px; object-fit: contain; display: block; }
 
     :root{--sidebar-width:264px;--sidebar-collapsed-width:84px;--sidebar-border:#e2e8f0}
 
-    /* ============================================================
-       SIDEBAR
-       ============================================================ */
+    /* Sidebar */
     .sidebar {
-        width: var(--sidebar-width);
-        min-height: 100dvh; height: 100dvh;
-        background: #fff;
-        border-right: 1px solid var(--sidebar-border);
-        position: fixed; inset: 0 auto 0 0;
-        z-index: 100;
-        display: flex; flex-direction: column;
-        overflow: visible;
+        width: var(--sidebar-width); min-height: 100dvh; height: 100dvh;
+        background: #fff; border-right: 1px solid var(--sidebar-border);
+        position: fixed; inset: 0 auto 0 0; z-index: 100;
+        display: flex; flex-direction: column; overflow: visible;
         transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
-
     .sidebar-header { flex-shrink: 0; border-bottom: 1px solid var(--sidebar-border); background: #fff; }
     .sidebar-brand {
         min-height: 76px; padding: 0 14px;
@@ -104,10 +76,7 @@
         overflow: hidden;
         transition: padding 0.28s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .sidebar-brand-inner {
-        display: flex; align-items: center; gap: 10px;
-        min-width: 0; text-decoration: none;
-    }
+    .sidebar-brand-inner { display: flex; align-items: center; gap: 10px; min-width: 0; text-decoration: none; }
     .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
     .sidebar.collapsed .synapsepm-logo strong { display: none !important; }
     .sidebar.collapsed .sidebar-brand {
@@ -115,26 +84,20 @@
         gap: 6px; padding: 10px 0; min-height: 76px;
     }
     .sidebar.collapsed .sidebar-brand-inner { justify-content: center; gap: 0; }
-
     .sidebar-toggle {
-        width: 36px; height: 36px;
-        border: 1px solid #dbe4ec; border-radius: 10px;
+        width: 36px; height: 36px; border: 1px solid #dbe4ec; border-radius: 10px;
         background: #fff; color: #475569;
         display: inline-flex; align-items: center; justify-content: center;
         cursor: pointer; box-shadow: 0 2px 7px rgba(15,43,61,0.06);
         transition: all 0.2s ease; flex-shrink: 0; padding: 0;
     }
     .sidebar-toggle:hover { background: #f8fafc; color: #00b4aa; border-color: rgba(0,180,170,0.45); }
-    .sidebar-toggle svg {
-        width: 18px; height: 18px; stroke: currentColor;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .sidebar-toggle svg { width: 18px; height: 18px; stroke: currentColor; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     .sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
 
     .sidebar-nav {
         flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
-        padding: 14px 10px;
-        scrollbar-width: thin; scrollbar-color: #dbe4ec transparent;
+        padding: 14px 10px; scrollbar-width: thin; scrollbar-color: #dbe4ec transparent;
     }
     .sidebar-nav::-webkit-scrollbar { width: 4px; }
     .sidebar-nav::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
@@ -145,8 +108,8 @@
 
     .sidebar-link {
         min-height: 44px; display: flex; align-items: center; gap: 12px;
-        padding: 9px 11px; border-radius: 11px;
-        color: #64748b; font-weight: 500; font-size: 0.875rem;
+        padding: 9px 11px; border-radius: 11px; color: #64748b;
+        font-weight: 500; font-size: 0.875rem;
         transition: background 0.18s, color 0.18s;
         cursor: pointer; text-decoration: none;
         position: relative; white-space: nowrap;
@@ -161,8 +124,8 @@
     .sidebar-link.active .material-symbols-outlined,
     .sidebar-link:hover .material-symbols-outlined { color: inherit; }
     .sidebar-link .badge-count {
-        margin-left: auto; min-width: 22px; height: 22px;
-        padding: 0 6px; display: inline-flex; align-items: center; justify-content: center;
+        margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px;
+        display: inline-flex; align-items: center; justify-content: center;
         background: #f1f5f9; color: #64748b;
         font-size: 0.65rem; border-radius: 999px; font-weight: 700;
     }
@@ -175,9 +138,7 @@
     .sidebar-text { transition: opacity 0.2s; }
     .sidebar.collapsed .sidebar-text,
     .sidebar.collapsed .sidebar-label,
-    .sidebar.collapsed .badge-count {
-        opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important;
-    }
+    .sidebar.collapsed .badge-count { opacity: 0; pointer-events: none; width: 0; overflow: hidden; display: none !important; }
     .sidebar.collapsed .sidebar-nav { padding-left: 8px; padding-right: 8px; }
     .sidebar.collapsed .sidebar-link { justify-content: center; gap: 0; padding: 9px 7px; }
     .sidebar.collapsed .sidebar-link .material-symbols-outlined { width: 24px; min-width: 24px; font-size: 23px; }
@@ -186,21 +147,17 @@
         position: absolute; left: calc(100% + 10px); top: 50%;
         transform: translateY(-50%) translateX(-4px);
         opacity: 0; pointer-events: none;
-        background: #0f2b3d; color: #fff; padding: 7px 10px;
-        border-radius: 8px; font-size: 12px; font-weight: 600;
-        white-space: nowrap; box-shadow: 0 8px 20px rgba(15,43,61,0.18);
+        background: #0f2b3d; color: #fff; padding: 7px 10px; border-radius: 8px;
+        font-size: 12px; font-weight: 600; white-space: nowrap;
+        box-shadow: 0 8px 20px rgba(15,43,61,0.18);
         transition: opacity 0.15s, transform 0.15s; z-index: 250;
     }
     .sidebar.collapsed .sidebar-link:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
 
-    .sidebar-user-area {
-        flex-shrink: 0; position: relative;
-        padding: 10px; border-top: 1px solid var(--sidebar-border); background: #fff;
-    }
+    .sidebar-user-area { flex-shrink: 0; position: relative; padding: 10px; border-top: 1px solid var(--sidebar-border); background: #fff; }
     .user-card {
-        min-height: 58px; display: flex; align-items: center; gap: 10px;
-        padding: 8px; background: #f8fafc;
-        border: 1px solid #eef2f7; border-radius: 12px;
+        min-height: 58px; display: flex; align-items: center; gap: 10px; padding: 8px;
+        background: #f8fafc; border: 1px solid #eef2f7; border-radius: 12px;
         transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .sidebar.collapsed .user-card { justify-content: center; padding: 8px 5px; background: transparent; border-color: transparent; }
@@ -235,54 +192,39 @@
         border-radius: 999px; display: inline-block; margin-top: 2px;
     }
 
-    /* Profile dropdown — expands RIGHT when collapsed */
     .profile-menu {
         position: absolute; left: 10px; right: 10px; bottom: calc(100% + 10px);
-        padding: 14px; background: #fff;
-        border: 1px solid #e2e8f0; border-radius: 14px;
+        padding: 14px; background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
         box-shadow: 0 18px 45px rgba(15,23,42,0.16);
-        opacity: 0; visibility: hidden;
-        transform: translateY(8px); pointer-events: none;
+        opacity: 0; visibility: hidden; transform: translateY(8px); pointer-events: none;
         transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
         z-index: 300; min-width: 276px;
     }
     .profile-menu.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
     .sidebar.collapsed .profile-menu {
-        left: calc(100% + 10px); right: auto;
-        bottom: 12px; width: 300px; min-width: 300px;
+        left: calc(100% + 10px); right: auto; bottom: 12px;
+        width: 300px; min-width: 300px;
         transform: translateY(0) translateX(-8px);
     }
     .sidebar.collapsed .profile-menu.open { transform: translateY(0) translateX(0); }
-
-    .profile-menu-header {
-        display: flex; align-items: center; gap: 10px;
-        padding-bottom: 12px; border-bottom: 1px solid #edf2f7;
-    }
+    .profile-menu-header { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #edf2f7; }
     .profile-menu-avatar {
-        width: 42px; height: 42px; flex: 0 0 42px;
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        background: linear-gradient(135deg, #00b4aa, #009688);
-        color: #fff; font-weight: 800;
+        width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        background: linear-gradient(135deg, #00b4aa, #009688); color: #fff; font-weight: 800;
         background-size: cover; background-position: center;
     }
     .profile-menu-name { font-weight: 700; color: #0f2b3d; font-size: 14px; }
     .profile-menu-email { color: #64748b; font-size: 12px; margin-top: 2px; word-break: break-word; }
     .profile-menu-details { padding: 12px 0; display: grid; gap: 8px; }
-    .profile-detail-row {
-        display: flex; align-items: center; justify-content: space-between;
-        gap: 12px; font-size: 12px;
-    }
+    .profile-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
     .profile-detail-label { color: #94a3b8; }
     .profile-detail-value { color: #334155; font-weight: 600; text-align: right; word-break: break-word; }
-    .profile-menu-actions {
-        display: flex; flex-direction: column; gap: 6px;
-        margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7;
-    }
+    .profile-menu-actions { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #edf2f7; }
     .profile-action-btn {
         width: 100%; min-height: 40px;
         display: flex; align-items: center; justify-content: center; gap: 8px;
-        border: 1px solid #e2e8f0; border-radius: 10px;
-        background: #fff; color: #475569;
+        border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; color: #475569;
         font-size: 13px; font-weight: 600; cursor: pointer;
         transition: all 0.18s; padding: 0 12px; font-family: inherit;
     }
@@ -323,16 +265,14 @@
         }
     }
 
-    /* ===== TOAST ===== */
+    /* Toast */
     .toast {
         position: fixed; bottom: 1.5rem; right: 1.5rem;
-        background: #fff; border-radius: 0.75rem;
-        padding: 0.85rem 1.25rem;
+        background: #fff; border-radius: 0.75rem; padding: 0.85rem 1.25rem;
         box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
         display: flex; align-items: center; gap: 0.75rem;
         z-index: 1100; animation: slideInRight 0.3s ease-out;
-        border-left: 4px solid; max-width: 400px;
-        font-size: 0.85rem;
+        border-left: 4px solid; max-width: 400px; font-size: 0.85rem;
     }
     .toast.success { border-left-color: #10b981; }
     .toast.error { border-left-color: #ef4444; }
@@ -340,7 +280,7 @@
     .toast.info { border-left-color: #00b4aa; }
     @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-    /* ===== MODAL ===== */
+    /* Modal */
     .modal {
         display: none; position: fixed; inset: 0;
         background: rgba(15,23,42,0.5); backdrop-filter: blur(4px);
@@ -348,9 +288,8 @@
     }
     .modal.active { display: flex; animation: fadeIn 0.2s ease; }
     .modal-content {
-        background: #fff; border-radius: 1.5rem;
-        max-width: 100%; width: 520px; max-height: 90vh;
-        overflow-y: auto; position: relative;
+        background: #fff; border-radius: 1.5rem; max-width: 100%;
+        width: 520px; max-height: 90vh; overflow-y: auto; position: relative;
     }
     .modal-content.wide { width: 780px; }
     @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
@@ -401,8 +340,7 @@
         padding: 4px 10px; border-radius: 6px;
         font-size: 0.7rem; font-weight: 600;
         cursor: pointer; transition: all 0.15s;
-        background: transparent; border: none; font-family: inherit;
-        text-decoration: none;
+        background: transparent; border: none; font-family: inherit; text-decoration: none;
     }
     .action-btn:hover { background: #f1f5f9; }
     .action-btn.teal { color: #0d9488; }
@@ -413,14 +351,87 @@
 
     .detail-row {
         display: flex; justify-content: space-between; gap: 12px;
-        padding: 8px 0; border-bottom: 1px solid #f1f5f9;
-        font-size: 0.82rem;
+        padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.82rem;
     }
     .detail-row:last-child { border-bottom: none; }
     .detail-label { color: #64748b; }
     .detail-value { color: #0f2b3d; font-weight: 600; text-align: right; word-break: break-word; }
 
     .chart-wrap { position: relative; height: 220px; width: 100%; }
+
+    /* v7 additions */
+    .pagination-bar {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 8px; padding: 12px 16px; border-top: 1px solid #e2e8f0;
+        background: #f8fafc; font-size: 12px; color: #64748b;
+        flex-wrap: wrap;
+    }
+    .pagination-bar button {
+        min-width: 32px; height: 32px; padding: 0 10px;
+        border: 1px solid #e2e8f0; border-radius: 8px;
+        background: white; color: #475569; font-weight: 600; font-size: 12px;
+        cursor: pointer; transition: all 0.15s;
+    }
+    .pagination-bar button:hover:not(:disabled) { background: #f1f5f9; border-color: #cbd5e1; }
+    .pagination-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .pagination-bar .page-size-select {
+        padding: 4px 24px 4px 8px; border: 1px solid #e2e8f0; border-radius: 8px;
+        font-size: 12px; appearance: none; cursor: pointer; font-family: inherit;
+        background: white; min-width: 80px;
+    }
+
+    .search-input {
+        padding: 6px 12px 6px 32px;
+        border: 1px solid #e2e8f0; border-radius: 10px;
+        font-size: 12px; outline: none; background: white;
+        width: 100%; max-width: 260px; font-family: inherit;
+        transition: all 0.15s;
+    }
+    .search-input:focus { border-color: #00b4aa; box-shadow: 0 0 0 3px rgba(0,180,170,0.12); }
+
+    /* Live activity feed */
+    .live-feed {
+        max-height: 480px; overflow-y: auto;
+        background: white; border-radius: 16px; border: 1px solid #e2e8f0;
+    }
+    .live-feed::-webkit-scrollbar { width: 6px; }
+    .live-feed::-webkit-scrollbar-thumb { background: #dbe4ec; border-radius: 999px; }
+    .feed-item {
+        display: flex; gap: 12px; padding: 10px 16px;
+        border-bottom: 1px solid #f1f5f9;
+        animation: feedIn 0.3s ease;
+    }
+    .feed-item:last-child { border-bottom: none; }
+    @keyframes feedIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+    .feed-icon {
+        width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center; font-size: 16px;
+    }
+    .feed-body { flex: 1; min-width: 0; }
+    .feed-text { font-size: 12px; color: #0f2b3d; font-weight: 500; word-wrap: break-word; }
+    .feed-meta { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+
+    .ws-banner {
+        display: none; padding: 8px 16px;
+        background: #fef3c7; color: #92400e;
+        border-bottom: 1px solid #fde68a; font-size: 12px;
+        text-align: center; font-weight: 600;
+    }
+    .ws-banner.active { display: block; }
+
+    .table-error-banner {
+        padding: 16px; text-align: center; color: #991b1b;
+        background: #fef2f2; border: 1px solid #fecaca;
+        border-radius: 8px; margin: 12px;
+    }
+
+    .export-btn {
+        display: inline-flex; align-items: center; gap: 4px;
+        padding: 6px 12px; border: 1px solid #e2e8f0; border-radius: 8px;
+        background: white; color: #475569; font-size: 11px; font-weight: 600;
+        cursor: pointer; transition: all 0.15s; font-family: inherit;
+    }
+    .export-btn:hover { background: #f8fafc; border-color: #00b4aa; color: #00b4aa; }
 </style>
 </head>
 <body>
@@ -463,7 +474,7 @@
             <a href="#" onclick="showSection('dashboard'); return false;" class="sidebar-brand-inner">
                 <div class="synapsepm-logo">
                     <span class="logo-icon">
-                        <img src="https://api.synapsepm.us.ci/assets/img/logo.png" ...> alt="SynapsePM"
+                        <img src="/assets/img/logo.png" alt="SynapsePM"
                              onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>admin_panel_settings</span>'">
                     </span>
                     <span>Synapse</span><strong>PM</strong>
@@ -478,7 +489,6 @@
     </div>
 
     <nav class="sidebar-nav">
-        <!-- OVERVIEW -->
         <div class="sidebar-group">
             <div class="sidebar-group-label sidebar-text">
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Overview</p>
@@ -486,6 +496,11 @@
             <a href="#" onclick="showSection('dashboard'); return false;" class="sidebar-link active" data-section="dashboard" data-tooltip="Dashboard">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a href="#" onclick="showSection('liveFeed'); return false;" class="sidebar-link" data-section="liveFeed" data-tooltip="Live Feed">
+                <span class="material-symbols-outlined">bolt</span>
+                <span class="sidebar-text">Live Feed</span>
+                <span class="badge-count" id="sidebarFeedBadge" style="background:#00b4aa;color:#fff;">0</span>
             </a>
             <a href="#" onclick="showSection('users'); return false;" class="sidebar-link" data-section="users" data-tooltip="Users">
                 <span class="material-symbols-outlined">people</span>
@@ -501,7 +516,6 @@
 
         <div class="sidebar-divider"></div>
 
-        <!-- MONITORING -->
         <div class="sidebar-group">
             <div class="sidebar-group-label sidebar-text">
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Monitoring</p>
@@ -521,7 +535,6 @@
                 <span class="sidebar-text">Reports</span>
                 <span class="badge-count" id="sidebarReportsBadge">0</span>
             </a>
-            <!-- ===== CHANGED: Download → Install Software ===== -->
             <a href="#" onclick="showSection('downloads'); return false;" class="sidebar-link" data-section="downloads" data-tooltip="Install Software">
                 <span class="material-symbols-outlined">install_desktop</span>
                 <span class="sidebar-text">Install Software</span>
@@ -535,7 +548,6 @@
 
         <div class="sidebar-divider"></div>
 
-        <!-- BUSINESS -->
         <div class="sidebar-group">
             <div class="sidebar-group-label sidebar-text">
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Business</p>
@@ -553,7 +565,6 @@
 
         <div class="sidebar-divider"></div>
 
-        <!-- SYSTEM -->
         <div class="sidebar-group">
             <div class="sidebar-group-label sidebar-text">
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">System</p>
@@ -565,7 +576,6 @@
         </div>
     </nav>
 
-    <!-- USER AREA -->
     <div class="sidebar-user-area">
         <div class="user-card">
             <div class="avatar-wrapper">
@@ -642,6 +652,12 @@
         </div>
     </header>
 
+    <!-- v7: WS disconnected banner -->
+    <div id="wsBanner" class="ws-banner">
+        <span class="material-symbols-outlined text-sm align-middle">wifi_off</span>
+        Real-time disconnected — data will refresh every 30s. <button onclick="reconnectWebSocket()" class="underline font-bold">Reconnect now</button>
+    </div>
+
     <div class="p-4 sm:p-6 max-w-7xl mx-auto">
 
       <!-- ============ DASHBOARD ============ -->
@@ -671,7 +687,6 @@
             </div>
         </div>
 
-        <!-- Stat cards -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div class="stat-card bg-white rounded-xl border border-slate-200 p-4">
                 <div class="flex justify-between items-start">
@@ -777,15 +792,11 @@
         <div class="grid lg:grid-cols-2 gap-5 mb-6">
             <div class="bg-white rounded-2xl border p-5">
                 <h3 class="font-bold text-slate-800 mb-3">User Growth (Last 30 Days)</h3>
-                <div class="chart-wrap">
-                    <canvas id="userGrowthChart"></canvas>
-                </div>
+                <div class="chart-wrap"><canvas id="userGrowthChart"></canvas></div>
             </div>
             <div class="bg-white rounded-2xl border p-5">
                 <h3 class="font-bold text-slate-800 mb-3">Prediction Activity (Last 30 Days)</h3>
-                <div class="chart-wrap">
-                    <canvas id="adminTrendChart"></canvas>
-                </div>
+                <div class="chart-wrap"><canvas id="adminTrendChart"></canvas></div>
             </div>
         </div>
 
@@ -800,6 +811,31 @@
         </div>
       </div>
 
+      <!-- ============ LIVE FEED (NEW) ============ -->
+      <div id="liveFeedSection" style="display: none;">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Live Activity Feed</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Every user & system event appears here in real time — last 200 events</p>
+            </div>
+            <div class="flex gap-2">
+                <select id="liveFeedFilter" onchange="renderLiveFeed()" class="text-xs border rounded-lg px-3 py-1.5 bg-white">
+                    <option value="all">All events</option>
+                    <option value="user">Users</option>
+                    <option value="machine">Machines</option>
+                    <option value="prediction">Predictions</option>
+                    <option value="alert">Alerts</option>
+                    <option value="report">Reports</option>
+                    <option value="download">Installs</option>
+                </select>
+                <button onclick="clearLiveFeed()" class="text-xs border rounded-lg px-3 py-1.5 bg-white hover:bg-slate-50">Clear</button>
+            </div>
+        </div>
+        <div class="live-feed" id="liveFeed">
+            <div class="px-5 py-8 text-center text-slate-500 text-sm">Waiting for events…</div>
+        </div>
+      </div>
+
       <!-- ============ USERS ============ -->
       <div id="usersSection" style="display: none;">
         <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
@@ -807,9 +843,13 @@
                 <h2 class="text-xl font-bold text-slate-800">Users</h2>
                 <p class="text-xs text-slate-500 mt-0.5">All registered accounts — signup, login, plan, activity</p>
             </div>
-            <button onclick="openUserModal()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">add</span> Add User
-            </button>
+            <div class="flex gap-2 flex-wrap">
+                <input type="text" id="usersSearch" class="search-input" placeholder="Search by name or email…" oninput="renderUsers()">
+                <button onclick="exportUsersCSV()" class="export-btn"><span class="material-symbols-outlined text-sm">download</span> Export</button>
+                <button onclick="openUserModal()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">add</span> Add User
+                </button>
+            </div>
         </div>
         <div class="bg-white rounded-2xl border overflow-hidden">
             <div class="overflow-x-auto">
@@ -829,6 +869,7 @@
                     <tbody id="usersTableBody"></tbody>
                 </table>
             </div>
+            <div class="pagination-bar" id="usersPagination"></div>
         </div>
       </div>
 
@@ -839,9 +880,12 @@
                 <h2 class="text-xl font-bold text-slate-800">Machines</h2>
                 <p class="text-xs text-slate-500 mt-0.5">All connected machines across users — view, block, or remove</p>
             </div>
-            <button onclick="openMachineModal()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">add</span> Add Machine
-            </button>
+            <div class="flex gap-2 flex-wrap">
+                <input type="text" id="machinesSearch" class="search-input" placeholder="Search by name or owner…" oninput="renderMachines()">
+                <button onclick="openMachineModal()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">add</span> Add Machine
+                </button>
+            </div>
         </div>
         <div class="bg-white rounded-2xl border overflow-hidden">
             <div class="overflow-x-auto">
@@ -860,6 +904,7 @@
                     <tbody id="machinesTableBody"></tbody>
                 </table>
             </div>
+            <div class="pagination-bar" id="machinesPagination"></div>
         </div>
       </div>
 
@@ -870,9 +915,12 @@
                 <h2 class="text-xl font-bold text-slate-800">Predictions History</h2>
                 <p class="text-xs text-slate-500 mt-0.5">Every prediction run by users — machines &amp; datasets</p>
             </div>
-            <button onclick="loadPredictions()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
-            </button>
+            <div class="flex gap-2 flex-wrap">
+                <input type="text" id="predictionsSearch" class="search-input" placeholder="Search machine, user, model…" oninput="renderPredictions()">
+                <button onclick="loadPredictions()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                </button>
+            </div>
         </div>
         <div class="bg-white rounded-2xl border overflow-hidden">
             <div class="overflow-x-auto">
@@ -892,6 +940,7 @@
                     <tbody id="predictionsTableBody"></tbody>
                 </table>
             </div>
+            <div class="pagination-bar" id="predictionsPagination"></div>
         </div>
       </div>
 
@@ -902,9 +951,12 @@
                 <h2 class="text-xl font-bold text-slate-800">Alerts History</h2>
                 <p class="text-xs text-slate-500 mt-0.5">Every alert generated — with email notification status</p>
             </div>
-            <button onclick="loadAlerts()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
-            </button>
+            <div class="flex gap-2 flex-wrap">
+                <input type="text" id="alertsSearch" class="search-input" placeholder="Search alert, user, machine…" oninput="renderAlerts()">
+                <button onclick="loadAlerts()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                </button>
+            </div>
         </div>
         <div class="bg-white rounded-2xl border overflow-hidden">
             <div class="overflow-x-auto">
@@ -924,6 +976,7 @@
                     <tbody id="alertsTableBody"></tbody>
                 </table>
             </div>
+            <div class="pagination-bar" id="alertsPagination"></div>
         </div>
       </div>
 
@@ -934,9 +987,12 @@
                 <h2 class="text-xl font-bold text-slate-800">Reports History</h2>
                 <p class="text-xs text-slate-500 mt-0.5">All reports generated and downloaded by users</p>
             </div>
-            <button onclick="loadReports()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
-            </button>
+            <div class="flex gap-2 flex-wrap">
+                <input type="text" id="reportsSearch" class="search-input" placeholder="Search reports…" oninput="renderReports()">
+                <button onclick="loadReports()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                </button>
+            </div>
         </div>
         <div class="bg-white rounded-2xl border overflow-hidden">
             <div class="overflow-x-auto">
@@ -955,19 +1011,23 @@
                     <tbody id="reportsTableBody"></tbody>
                 </table>
             </div>
+            <div class="pagination-bar" id="reportsPagination"></div>
         </div>
       </div>
 
-      <!-- ============ INSTALL SOFTWARE (was Downloads) ============ -->
+      <!-- ============ INSTALL SOFTWARE ============ -->
       <div id="downloadsSection" style="display: none;">
         <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
             <div>
                 <h2 class="text-xl font-bold text-slate-800">Install Software</h2>
                 <p class="text-xs text-slate-500 mt-0.5">App installs &amp; native downloads — per user and platform</p>
             </div>
-            <button onclick="refreshDownloads()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
-            </button>
+            <div class="flex gap-2 flex-wrap">
+                <button onclick="exportDownloadsCSV()" class="export-btn"><span class="material-symbols-outlined text-sm">download</span> Export</button>
+                <button onclick="refreshDownloads()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                </button>
+            </div>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 mb-6">
@@ -976,7 +1036,7 @@
                     <div class="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
                         <span class="material-symbols-outlined text-teal-600">download</span>
                     </div>
-                    <div><p class="text-[10px] text-slate-500 font-bold uppercase">Total Installs</p><p class="text-xl font-bold text-slate-800" id="totalDownloads">0</p></div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase">Total</p><p class="text-xl font-bold text-slate-800" id="totalDownloads">0</p></div>
                 </div>
             </div>
             <div class="bg-white rounded-xl border p-4">
@@ -1019,7 +1079,6 @@
                     <div><p class="text-[10px] text-slate-500 font-bold uppercase">iOS</p><p class="text-xl font-bold text-indigo-600" id="iosDownloads">0</p></div>
                 </div>
             </div>
-            <!-- NEW: PWA installs tile -->
             <div class="bg-white rounded-xl border p-4">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-lg bg-violet-50 flex items-center justify-center">
@@ -1032,9 +1091,7 @@
 
         <div class="bg-white rounded-2xl border p-5 mb-6">
             <h3 class="font-bold text-slate-800 mb-3">Install &amp; Download Trends (Last 30 Days)</h3>
-            <div class="chart-wrap">
-                <canvas id="downloadTrendChart"></canvas>
-            </div>
+            <div class="chart-wrap"><canvas id="downloadTrendChart"></canvas></div>
         </div>
 
         <div class="bg-white rounded-2xl border overflow-hidden">
@@ -1066,6 +1123,7 @@
                     <tbody id="downloadsTableBody"></tbody>
                 </table>
             </div>
+            <div class="pagination-bar" id="downloadsPagination"></div>
         </div>
       </div>
 
@@ -1076,9 +1134,12 @@
                 <h2 class="text-xl font-bold text-slate-800">Activity Log</h2>
                 <p class="text-xs text-slate-500 mt-0.5">Every action performed by users and admins</p>
             </div>
-            <button onclick="loadActivities()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
-            </button>
+            <div class="flex gap-2 flex-wrap">
+                <input type="text" id="activitiesSearch" class="search-input" placeholder="Search activities…" oninput="renderActivities()">
+                <button onclick="loadActivities()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                </button>
+            </div>
         </div>
         <div class="bg-white rounded-2xl border overflow-hidden">
             <div class="overflow-x-auto">
@@ -1095,6 +1156,7 @@
                     <tbody id="activitiesTableBody"></tbody>
                 </table>
             </div>
+            <div class="pagination-bar" id="activitiesPagination"></div>
         </div>
       </div>
 
@@ -1105,9 +1167,13 @@
                 <h2 class="text-xl font-bold text-slate-800">Billing &amp; Plans</h2>
                 <p class="text-xs text-slate-500 mt-0.5">All user subscriptions and payment history</p>
             </div>
-            <button onclick="loadBilling()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">refresh</span> Refresh
-            </button>
+            <div class="flex gap-2 flex-wrap">
+                <input type="text" id="billingSearch" class="search-input" placeholder="Search by user or plan…" oninput="renderBilling()">
+                <button onclick="exportBillingCSV()" class="export-btn"><span class="material-symbols-outlined text-sm">download</span> Export</button>
+                <button onclick="loadBilling()" class="gradient-cta text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                </button>
+            </div>
         </div>
 
         <div class="grid sm:grid-cols-3 gap-4 mb-5">
@@ -1144,6 +1210,7 @@
                     <tbody id="billingTableBody"></tbody>
                 </table>
             </div>
+            <div class="pagination-bar" id="billingPagination"></div>
         </div>
       </div>
 
@@ -1175,6 +1242,7 @@
                     <tbody id="customPlansTableBody"></tbody>
                 </table>
             </div>
+            <div class="pagination-bar" id="customPlansPagination"></div>
         </div>
       </div>
 
@@ -1225,47 +1293,31 @@
             </div>
         </div>
 
-        <!-- SECURITY / MFA -->
         <div class="grid md:grid-cols-2 gap-5 mt-5">
             <div class="bg-white rounded-2xl border p-6">
                 <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
                     <span class="material-symbols-outlined text-teal-600">security</span> Two-Factor Authentication
                 </h3>
-
                 <div class="flex items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
                     <div class="min-w-0">
                         <p class="font-semibold text-slate-800 text-sm">Status</p>
                         <p class="text-xs text-slate-500 mt-0.5" id="adminMfaStatusText">Loading…</p>
                     </div>
-                    <span id="adminMfaStatusBadge"
-                          class="px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-600 flex-shrink-0">
-                        Checking…
-                    </span>
+                    <span id="adminMfaStatusBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-600 flex-shrink-0">Checking…</span>
                 </div>
-
                 <div class="mt-4 space-y-2">
-                    <button type="button" id="adminEnableMfaBtn"
-                            class="w-full gradient-cta text-white px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined text-base">lock_open</span>
-                        Enable 2FA
+                    <button type="button" id="adminEnableMfaBtn" class="w-full gradient-cta text-white px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-base">lock_open</span> Enable 2FA
                     </button>
-                    <button type="button" id="adminDisableMfaBtn"
-                            class="w-full border border-red-300 text-red-600 px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-red-50 transition flex items-center justify-center gap-2"
-                            style="display:none;">
-                        <span class="material-symbols-outlined text-base">lock</span>
-                        Disable 2FA
+                    <button type="button" id="adminDisableMfaBtn" class="w-full border border-red-300 text-red-600 px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-red-50 transition flex items-center justify-center gap-2" style="display:none;">
+                        <span class="material-symbols-outlined text-base">lock</span> Disable 2FA
                     </button>
-                    <button type="button" id="adminRegenBackupBtn"
-                            class="w-full border border-slate-200 text-slate-700 px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-50 transition flex items-center justify-center gap-2"
-                            style="display:none;">
-                        <span class="material-symbols-outlined text-base">key</span>
-                        Regenerate Backup Codes
+                    <button type="button" id="adminRegenBackupBtn" class="w-full border border-slate-200 text-slate-700 px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-50 transition flex items-center justify-center gap-2" style="display:none;">
+                        <span class="material-symbols-outlined text-base">key</span> Regenerate Backup Codes
                     </button>
                 </div>
-
                 <div class="mt-4 p-3 rounded-xl bg-blue-50 border border-blue-100 text-xs text-blue-800">
-                    <strong>Required for super-admins.</strong> Without MFA the backend returns
-                    <code>403</code> on every admin endpoint and shows a forced-enrollment prompt on login.
+                    <strong>Required for super-admins.</strong> Without MFA the backend returns <code>403</code> on every admin endpoint and shows a forced-enrollment prompt on login.
                 </div>
             </div>
 
@@ -1281,7 +1333,6 @@
             </div>
         </div>
 
-        <!-- MFA Setup Modal -->
         <div class="modal" id="adminMfaSetupModal" role="dialog" aria-modal="true" aria-hidden="true">
             <div class="modal-content max-w-md w-full">
                 <div class="gradient-primary px-6 py-4 rounded-t-3xl flex justify-between items-center">
@@ -1289,40 +1340,23 @@
                     <button type="button" id="adminCloseMfaSetupBtn" class="text-white/80 hover:text-white text-2xl leading-none">&times;</button>
                 </div>
                 <div class="p-6">
-                    <p class="text-sm text-slate-600 mb-4">
-                        Scan this QR code with Google Authenticator, Authy, or 1Password.
-                        Then enter the 6-digit code to confirm.
-                    </p>
-
+                    <p class="text-sm text-slate-600 mb-4">Scan this QR code with Google Authenticator, Authy, or 1Password. Then enter the 6-digit code to confirm.</p>
                     <div class="flex justify-center p-4 bg-slate-50 rounded-xl mb-4">
-                        <img id="adminMfaQrImg" src="" alt="QR Code"
-                             class="w-[200px] h-[200px] rounded-lg">
+                        <img id="adminMfaQrImg" src="" alt="QR Code" class="w-[200px] h-[200px] rounded-lg">
                     </div>
-
                     <p class="text-xs text-slate-500 mb-1">Or enter this secret manually:</p>
-                    <div class="font-mono text-xs bg-slate-100 px-3 py-2 rounded-lg break-all mb-4"
-                         id="adminMfaSecret">—</div>
-
-                    <label class="block text-xs font-semibold text-slate-700 mb-1" for="adminMfaCodeInput">
-                        Verification Code
-                    </label>
-                    <input type="text" id="adminMfaCodeInput" maxlength="6" inputmode="numeric"
-                           pattern="[0-9]{6}" placeholder="123456"
-                           class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm tracking-widest text-center font-mono">
-
+                    <div class="font-mono text-xs bg-slate-100 px-3 py-2 rounded-lg break-all mb-4" id="adminMfaSecret">—</div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1" for="adminMfaCodeInput">Verification Code</label>
+                    <input type="text" id="adminMfaCodeInput" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" placeholder="123456" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm tracking-widest text-center font-mono">
                     <div id="adminMfaSetupError" class="hidden mt-3 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg p-2"></div>
-
                     <div class="flex gap-3 mt-5">
-                        <button type="button" id="adminCancelMfaBtn"
-                                class="flex-1 border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl font-semibold text-sm hover:bg-slate-50">Cancel</button>
-                        <button type="button" id="adminConfirmMfaBtn"
-                                class="flex-1 gradient-cta text-white px-4 py-2.5 rounded-xl font-semibold text-sm">Verify & Enable</button>
+                        <button type="button" id="adminCancelMfaBtn" class="flex-1 border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl font-semibold text-sm hover:bg-slate-50">Cancel</button>
+                        <button type="button" id="adminConfirmMfaBtn" class="flex-1 gradient-cta text-white px-4 py-2.5 rounded-xl font-semibold text-sm">Verify & Enable</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Backup Codes Modal -->
         <div class="modal" id="adminBackupCodesModal" role="dialog" aria-modal="true" aria-hidden="true">
             <div class="modal-content max-w-md w-full">
                 <div class="gradient-primary px-6 py-4 rounded-t-3xl flex justify-between items-center">
@@ -1333,12 +1367,8 @@
                     <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl mb-4 text-xs text-amber-800">
                         ⚠️ Save these now. Each code can be used once. They will not be shown again.
                     </div>
-                    <div id="adminBackupCodesGrid"
-                         class="grid grid-cols-2 gap-2 font-mono text-xs bg-slate-50 rounded-lg p-4"></div>
-                    <button type="button" id="adminCopyBackupBtn"
-                            class="w-full mt-4 gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm">
-                        Copy Codes
-                    </button>
+                    <div id="adminBackupCodesGrid" class="grid grid-cols-2 gap-2 font-mono text-xs bg-slate-50 rounded-lg p-4"></div>
+                    <button type="button" id="adminCopyBackupBtn" class="w-full mt-4 gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm">Copy Codes</button>
                 </div>
             </div>
         </div>
@@ -1350,8 +1380,6 @@
 </div>
 
 <!-- ============ MODALS ============ -->
-
-<!-- Details Modal -->
 <div class="modal" id="detailsModal">
     <div class="modal-content wide">
         <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
@@ -1362,7 +1390,6 @@
     </div>
 </div>
 
-<!-- User Modal -->
 <div class="modal" id="userModal">
     <div class="modal-content">
         <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
@@ -1403,7 +1430,6 @@
     </div>
 </div>
 
-<!-- Machine Modal -->
 <div class="modal" id="machineModal">
     <div class="modal-content">
         <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
@@ -1434,7 +1460,6 @@
     </div>
 </div>
 
-<!-- Avatar Modal -->
 <div class="modal" id="avatarModal">
     <div class="modal-content">
         <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
@@ -1460,7 +1485,6 @@
     </div>
 </div>
 
-<!-- Shutdown Modal -->
 <div class="modal" id="shutdownModal">
     <div class="modal-content">
         <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
@@ -1488,7 +1512,6 @@
     </div>
 </div>
 
-<!-- Bring Online Modal -->
 <div class="modal" id="onlineModal">
     <div class="modal-content">
         <div class="gradient-primary px-6 py-4 rounded-t-2xl flex justify-between items-center">
@@ -1516,17 +1539,21 @@
 </div>
 
 <script>
+/* ===== PART 2 GOES HERE — auth, API, state, loaders, renderers ===== */
+</script>
+</body>
+</html>
 // ============================================================
-// SYNAPSEPM ADMIN DASHBOARD v6.0
-// - "Download" section renamed to "Install Software"
-// - Now tracks PWA (app) installs alongside native downloads
-// - All other features preserved (MFA, shutdown, WS, charts, etc.)
+// SYNAPSEPM ADMIN DASHBOARD v7.0.0 — PART 2 of 3
+// Auth, API client (X-Request-ID), state, loaders, renderers
 // ============================================================
 
-const API_BASE_URL = 'https://api.synapsepm.us.ci/api/v1';
+// v7 FIX #1: Use same-origin API (was hardcoded to https://api.synapsepm.us.ci)
+const API_BASE_URL = window.location.origin + '/api/v1';
 const REQUEST_TIMEOUT_MS = 45000;
 const REFRESH_STORAGE_KEYS = ['synapse_refresh', 'refresh_token', 'synapse_refresh_token'];
 
+// ---- State ----
 let users = [];
 let machines = [];
 let predictions = [];
@@ -1548,7 +1575,24 @@ let wsReconnectTimer = null;
 let wsReconnectAttempt = 0;
 let refreshPromise = null;
 
-// ---------- TOKEN / AUTH ----------
+// v7: Live feed state
+let liveFeedEvents = [];
+const MAX_FEED_EVENTS = 200;
+
+// v7: Pagination state per table
+const paginationState = {
+    users: { page: 1, pageSize: 50 },
+    machines: { page: 1, pageSize: 50 },
+    predictions: { page: 1, pageSize: 50 },
+    alerts: { page: 1, pageSize: 50 },
+    reports: { page: 1, pageSize: 50 },
+    downloads: { page: 1, pageSize: 50 },
+    activities: { page: 1, pageSize: 50 },
+    billing: { page: 1, pageSize: 50 },
+    customPlans: { page: 1, pageSize: 50 }
+};
+
+// ---- Auth helpers ----
 function getToken() {
     return localStorage.getItem('synapse_admin_token')
         || localStorage.getItem('synapse_token')
@@ -1590,6 +1634,14 @@ function isTokenValid(token) {
         if (!payload.exp) return true;
         return payload.exp > Math.floor(Date.now() / 1000) + 5;
     } catch (e) { return false; }
+}
+function genUuid() {
+    if (crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
 
 async function performRefresh() {
@@ -1642,6 +1694,8 @@ const Auth = {
     }
 };
 
+// ---- API client ----
+// v7 FIX #3: Send X-Request-ID on mutations for idempotency
 const API = {
     async fetch(endpoint, options = {}, _retried = false) {
         const token = getToken();
@@ -1658,6 +1712,12 @@ const API = {
             headers['Content-Type'] = 'application/json';
         }
         headers['Authorization'] = 'Bearer ' + token;
+
+        // v7: Add X-Request-ID on mutations
+        const method = (options.method || 'GET').toUpperCase();
+        if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method) && !headers['X-Request-ID']) {
+            headers['X-Request-ID'] = genUuid();
+        }
 
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -1707,6 +1767,7 @@ const API = {
     }
 };
 
+// ---- Helpers ----
 const $ = id => document.getElementById(id);
 const escapeHtml = (text) => {
     if (text === null || text === undefined) return '';
@@ -1733,11 +1794,21 @@ function showToast(message, type = 'info', duration = 4000) {
 function fmtDate(d) { if (!d) return '—'; try { return new Date(d).toLocaleDateString(); } catch { return '—'; } }
 function fmtDateTime(d) { if (!d) return '—'; try { return new Date(d).toLocaleString(); } catch { return '—'; } }
 function fmtMoney(n) { return '$' + Number(n || 0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}); }
+function fmtTimeAgo(d) {
+    if (!d) return '—';
+    try {
+        const ms = Date.now() - new Date(d).getTime();
+        if (isNaN(ms)) return '—';
+        const s = Math.floor(ms / 1000);
+        if (s < 60) return s + 's ago';
+        if (s < 3600) return Math.floor(s/60) + 'm ago';
+        if (s < 86400) return Math.floor(s/3600) + 'h ago';
+        if (s < 2592000) return Math.floor(s/86400) + 'd ago';
+        return new Date(d).toLocaleDateString();
+    } catch (e) { return '—'; }
+}
 
-// ============================================================
-// INIT
-// ============================================================
-
+// ---- Init ----
 document.addEventListener('DOMContentLoaded', async () => {
     if (!Auth.isAuthenticated) {
         $('authModal').classList.add('active');
@@ -1762,10 +1833,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateAdminInfo(Auth.user);
     initCharts();
     initEventListeners();
+    updateSystemStatusUI();
     loadAllData();
     loadSystemStatus();
     startAutoRefresh();
     connectWebSocket();
+
+    // v7: close WS + intervals on unload
+    window.addEventListener('beforeunload', () => {
+        if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+        try { if (wsConnection) wsConnection.close(1000, 'unload'); } catch (e) {}
+    });
 });
 
 window.addEventListener('storage', (e) => {
@@ -1774,10 +1852,7 @@ window.addEventListener('storage', (e) => {
     }
 });
 
-// ============================================================
-// ADMIN INFO
-// ============================================================
-
+// ---- Admin info ----
 function updateAdminInfo(user) {
     if (!user) return;
     const name = user.name || user.display_name || user.full_name
@@ -1823,11 +1898,12 @@ function updateAdminInfo(user) {
 function adminLogout() { Auth.logout(); }
 
 // ============================================================
-// DATA LOADERS
+// LOADERS — v7: per-call error handling, no blanket failures
 // ============================================================
 
 async function loadAllData() {
     if (!Auth.isAuthenticated) return;
+    // v7 FIX #4: load all sections with individual error handling
     await Promise.allSettled([
         loadUsers(),
         loadMachines(),
@@ -1850,10 +1926,13 @@ async function loadUsers() {
         users = data.users || data.items || [];
         renderUsers();
         renderRecentUsers();
-        const b = $('sidebarUsersBadge'); if (b) b.textContent = users.length;
+        updateBadge('sidebarUsersBadge', users.length);
     } catch (e) {
         console.warn('loadUsers:', e.message);
-        users = []; renderUsers(); renderRecentUsers();
+        if (e.status === 401) return;
+        users = [];
+        renderUsers(e);
+        renderRecentUsers();
     }
 }
 
@@ -1862,10 +1941,12 @@ async function loadMachines() {
         const data = await API.fetch('/admin/machines?per_page=500');
         machines = data.machines || data.items || [];
         renderMachines();
-        const b = $('sidebarMachinesBadge'); if (b) b.textContent = machines.length;
+        updateBadge('sidebarMachinesBadge', machines.length);
     } catch (e) {
         console.warn('loadMachines:', e.message);
-        machines = []; renderMachines();
+        if (e.status === 401) return;
+        machines = [];
+        renderMachines(e);
     }
 }
 
@@ -1875,10 +1956,12 @@ async function loadPredictions() {
         predictions = data.predictions || data.items || [];
         dashboardStats.model_stats = data.model_stats || {};
         renderPredictions();
-        const b = $('sidebarPredictionsBadge'); if (b) b.textContent = predictions.length;
+        updateBadge('sidebarPredictionsBadge', predictions.length);
     } catch (e) {
         console.warn('loadPredictions:', e.message);
-        predictions = []; renderPredictions();
+        if (e.status === 401) return;
+        predictions = [];
+        renderPredictions(e);
     }
 }
 
@@ -1888,10 +1971,12 @@ async function loadAlerts() {
         alerts = data.alerts || data.items || [];
         renderAlerts();
         const active = alerts.filter(a => a.status === 'active').length;
-        const b = $('sidebarAlertsBadge'); if (b) b.textContent = active;
+        updateBadge('sidebarAlertsBadge', active);
     } catch (e) {
         console.warn('loadAlerts:', e.message);
-        alerts = []; renderAlerts();
+        if (e.status === 401) return;
+        alerts = [];
+        renderAlerts(e);
     }
 }
 
@@ -1900,10 +1985,12 @@ async function loadReports() {
         const data = await API.fetch('/reports?per_page=500');
         reports = data.reports || data.items || [];
         renderReports();
-        const b = $('sidebarReportsBadge'); if (b) b.textContent = reports.length;
+        updateBadge('sidebarReportsBadge', reports.length);
     } catch (e) {
         console.warn('loadReports:', e.message);
-        reports = []; renderReports();
+        if (e.status === 401) return;
+        reports = [];
+        renderReports(e);
     }
 }
 
@@ -1913,10 +2000,13 @@ async function loadDownloads() {
         downloads = data.downloads || data.items || [];
         renderDownloads();
         updateDownloadStats();
-        const b = $('sidebarDownloadsBadge'); if (b) b.textContent = downloads.length;
+        updateBadge('sidebarDownloadsBadge', downloads.length);
     } catch (e) {
         console.warn('loadDownloads:', e.message);
-        downloads = []; renderDownloads(); updateDownloadStats();
+        if (e.status === 401) return;
+        downloads = [];
+        renderDownloads(e);
+        updateDownloadStats();
     }
 }
 
@@ -1927,7 +2017,9 @@ async function loadActivities() {
         renderActivities();
     } catch (e) {
         console.warn('loadActivities:', e.message);
-        activities = []; renderActivities();
+        if (e.status === 401) return;
+        activities = [];
+        renderActivities(e);
     }
 }
 
@@ -1940,7 +2032,10 @@ async function loadBilling() {
         updateBillingStats();
     } catch (e) {
         console.warn('loadBilling:', e.message);
-        subscriptions = []; renderBilling(); updateBillingStats();
+        if (e.status === 401) return;
+        subscriptions = [];
+        renderBilling(e);
+        updateBillingStats();
     }
 }
 
@@ -1950,10 +2045,12 @@ async function loadEnterpriseRequests() {
         enterpriseRequests = data.requests || data.items || [];
         renderEnterpriseRequests();
         const pending = enterpriseRequests.filter(r => r.status === 'pending').length;
-        const b = $('sidebarCustomPlansBadge'); if (b) b.textContent = pending;
+        updateBadge('sidebarCustomPlansBadge', pending);
     } catch (e) {
         console.warn('loadEnterpriseRequests:', e.message);
-        enterpriseRequests = []; renderEnterpriseRequests();
+        if (e.status === 401) return;
+        enterpriseRequests = [];
+        renderEnterpriseRequests(e);
     }
 }
 
@@ -1974,29 +2071,120 @@ async function loadSystemStatus() {
     try {
         const data = await API.fetch('/admin/system/status');
         isSystemOnline = data.online !== false;
-        updateSystemStatusUI();
     } catch (e) {
         isSystemOnline = true;
-        updateSystemStatusUI();
     }
+    // v7 FIX #13: always call updateSystemStatusUI even on fetch failure
+    updateSystemStatusUI();
+}
+
+function updateBadge(id, value) {
+    const el = $(id);
+    if (el) el.textContent = value;
 }
 
 // ============================================================
-// RENDERERS
+// RENDERERS — v7: search, pagination, error banners
 // ============================================================
 
-function renderUsers() {
+function renderTableError(colspan, error) {
+    return `<tr class="empty-state-row"><td colspan="${colspan}">
+        <div class="table-error-banner">
+            <p class="font-semibold">Could not load data</p>
+            <p class="text-xs mt-1">${escapeHtml(error.message || 'Unknown error')}</p>
+            <button onclick="loadAllData()" class="mt-3 px-4 py-1.5 rounded-lg bg-red-600 text-white text-xs font-semibold">Retry</button>
+        </div>
+    </td></tr>`;
+}
+
+function renderEmpty(colspan, message) {
+    return `<tr class="empty-state-row"><td colspan="${colspan}">${message}</td></tr>`;
+}
+
+// v7: pagination helper
+function paginate(items, state) {
+    const { page, pageSize } = state;
+    const total = items.length;
+    const pages = Math.max(1, Math.ceil(total / pageSize));
+    const current = Math.min(page, pages);
+    const start = (current - 1) * pageSize;
+    const slice = items.slice(start, start + pageSize);
+    return { slice, total, pages, current, start, end: Math.min(start + pageSize, total) };
+}
+
+function renderPagination(hostId, state, onPageChange) {
+    const host = $(hostId);
+    if (!host) return;
+    const { total, pages, current, pageSize, start, end } = state.lastPage;
+    host.innerHTML = `
+        <div class="flex items-center gap-2">
+            <span>Showing <strong>${start + 1}–${end}</strong> of <strong>${total}</strong></span>
+            <select class="page-size-select" onchange="changePageSize('${onPageChange.key}', this.value)">
+                <option value="20" ${pageSize===20?'selected':''}>20 / page</option>
+                <option value="50" ${pageSize===50?'selected':''}>50 / page</option>
+                <option value="100" ${pageSize===100?'selected':''}>100 / page</option>
+                <option value="200" ${pageSize===200?'selected':''}>200 / page</option>
+            </select>
+        </div>
+        <div class="flex items-center gap-1">
+            <button onclick="goToPage('${onPageChange.key}', 1)" ${current<=1?'disabled':''} title="First">«</button>
+            <button onclick="goToPage('${onPageChange.key}', ${current-1})" ${current<=1?'disabled':''} title="Previous">‹</button>
+            <span class="px-3">Page <strong>${current}</strong> of ${pages}</span>
+            <button onclick="goToPage('${onPageChange.key}', ${current+1})" ${current>=pages?'disabled':''} title="Next">›</button>
+            <button onclick="goToPage('${onPageChange.key}', ${pages})" ${current>=pages?'disabled':''} title="Last">»</button>
+        </div>
+    `;
+}
+
+window.changePageSize = function(key, value) {
+    paginationState[key].pageSize = parseInt(value) || 50;
+    paginationState[key].page = 1;
+    rerenderSection(key);
+};
+
+window.goToPage = function(key, page) {
+    paginationState[key].page = Math.max(1, page);
+    rerenderSection(key);
+};
+
+function rerenderSection(key) {
+    const map = {
+        users: renderUsers, machines: renderMachines,
+        predictions: renderPredictions, alerts: renderAlerts,
+        reports: renderReports, downloads: renderDownloads,
+        activities: renderActivities, billing: renderBilling,
+        customPlans: renderEnterpriseRequests
+    };
+    if (map[key]) map[key]();
+}
+
+// ---- USERS ----
+function renderUsers(error) {
     const tbody = $('usersTableBody');
     if (!tbody) return;
-    if (!users.length) {
-        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="8">No users yet — they'll appear here as soon as they register.</td></tr>`;
+    if (error) { tbody.innerHTML = renderTableError(8, error); return; }
+    const search = ($('usersSearch')?.value || '').toLowerCase().trim();
+    let filtered = users;
+    if (search) {
+        filtered = users.filter(u => {
+            const hay = [u.display_name, u.full_name, u.name, u.username, u.email]
+                .filter(Boolean).join(' ').toLowerCase();
+            return hay.includes(search);
+        });
+    }
+    if (!filtered.length) {
+        tbody.innerHTML = renderEmpty(8, search ? 'No users match your search.' : "No users yet — they'll appear here as soon as they register.");
+        paginationState.users.lastPage = { total:0, pages:1, current:1, start:0, end:0, pageSize: paginationState.users.pageSize };
+        renderPagination('usersPagination', paginationState.users, { key: 'users' });
         return;
     }
+    const page = paginate(filtered, paginationState.users);
+    paginationState.users.lastPage = { ...page, pageSize: paginationState.users.pageSize };
     const planColors = {
         free: 'pill-slate', starter: 'pill-blue',
         professional: 'pill-purple', business: 'pill-amber', enterprise: 'pill-green'
     };
-    tbody.innerHTML = users.map(u => {
+    tbody.innerHTML = page.slice.map(u => {
         const name = u.display_name || u.full_name || u.name || u.username || 'User';
         const plan = (u.plan || 'free').toLowerCase();
         const planCls = planColors[plan] || 'pill-slate';
@@ -2006,7 +2194,7 @@ function renderUsers() {
         return `
         <tr>
             <td class="font-medium text-slate-800">${escapeHtml(name)}</td>
-            <td>${escapeHtml(u.email)}</td>
+            <td>${escapeHtml(u.email || '—')}</td>
             <td><span class="pill ${statusCls}">${escapeHtml(status)}</span></td>
             <td><span class="pill ${planCls}" style="text-transform:capitalize;">${escapeHtml(plan)}</span></td>
             <td>${machineCount}</td>
@@ -2019,6 +2207,7 @@ function renderUsers() {
             </td>
         </tr>`;
     }).join('');
+    renderPagination('usersPagination', paginationState.users, { key: 'users' });
 }
 
 function renderRecentUsers() {
@@ -2037,7 +2226,7 @@ function renderRecentUsers() {
                 <div class="w-9 h-9 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold text-sm">${escapeHtml((name[0] || 'U').toUpperCase())}</div>
                 <div>
                     <p class="text-sm font-medium text-slate-800">${escapeHtml(name)}</p>
-                    <p class="text-xs text-slate-500">${escapeHtml(u.email)}</p>
+                    <p class="text-xs text-slate-500">${escapeHtml(u.email || '')}</p>
                 </div>
             </div>
             <span class="text-xs text-slate-400">${fmtDate(u.created_at)}</span>
@@ -2045,15 +2234,30 @@ function renderRecentUsers() {
     }).join('');
 }
 
-function renderMachines() {
+// ---- MACHINES ----
+function renderMachines(error) {
     const tbody = $('machinesTableBody');
     if (!tbody) return;
-    if (!machines.length) {
-        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="7">No machines yet — they appear as users connect them.</td></tr>`;
+    if (error) { tbody.innerHTML = renderTableError(7, error); return; }
+    const search = ($('machinesSearch')?.value || '').toLowerCase().trim();
+    let filtered = machines;
+    if (search) {
+        filtered = machines.filter(m => {
+            const hay = [m.name, m.owner_name, m.owner, m.location, m.type, m.machine_type]
+                .filter(Boolean).join(' ').toLowerCase();
+            return hay.includes(search);
+        });
+    }
+    if (!filtered.length) {
+        tbody.innerHTML = renderEmpty(7, search ? 'No machines match your search.' : 'No machines yet — they appear as users connect them.');
+        paginationState.machines.lastPage = { total:0, pages:1, current:1, start:0, end:0, pageSize: paginationState.machines.pageSize };
+        renderPagination('machinesPagination', paginationState.machines, { key: 'machines' });
         return;
     }
+    const page = paginate(filtered, paginationState.machines);
+    paginationState.machines.lastPage = { ...page, pageSize: paginationState.machines.pageSize };
     const statusColors = { online: 'pill-green', warning: 'pill-amber', critical: 'pill-red', offline: 'pill-slate', blocked: 'pill-red' };
-    tbody.innerHTML = machines.map(m => {
+    tbody.innerHTML = page.slice.map(m => {
         const family = (m.machine_data && m.machine_data.dataset_family) || m.dataset_family || '—';
         const health = Number(m.health || 0);
         const healthColor = health > 70 ? 'text-green-600' : health > 40 ? 'text-amber-600' : 'text-red-600';
@@ -2073,17 +2277,33 @@ function renderMachines() {
             </td>
         </tr>`;
     }).join('');
+    renderPagination('machinesPagination', paginationState.machines, { key: 'machines' });
 }
 
-function renderPredictions() {
+// ---- PREDICTIONS ----
+function renderPredictions(error) {
     const tbody = $('predictionsTableBody');
     if (!tbody) return;
-    if (!predictions.length) {
-        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="8">No predictions yet — every prediction run by users appears here.</td></tr>`;
+    if (error) { tbody.innerHTML = renderTableError(8, error); return; }
+    const search = ($('predictionsSearch')?.value || '').toLowerCase().trim();
+    let filtered = predictions;
+    if (search) {
+        filtered = predictions.filter(p => {
+            const hay = [p.machine_name, p.machine_id, p.owner_name, p.owner, p.user_email, p.model_type, p.status]
+                .filter(Boolean).join(' ').toLowerCase();
+            return hay.includes(search);
+        });
+    }
+    if (!filtered.length) {
+        tbody.innerHTML = renderEmpty(8, search ? 'No predictions match your search.' : 'No predictions yet — every prediction run by users appears here.');
+        paginationState.predictions.lastPage = { total:0, pages:1, current:1, start:0, end:0, pageSize: paginationState.predictions.pageSize };
+        renderPagination('predictionsPagination', paginationState.predictions, { key: 'predictions' });
         return;
     }
+    const page = paginate(filtered, paginationState.predictions);
+    paginationState.predictions.lastPage = { ...page, pageSize: paginationState.predictions.pageSize };
     const statusColors = { good: 'pill-green', healthy: 'pill-green', warning: 'pill-amber', critical: 'pill-red' };
-    tbody.innerHTML = predictions.map(p => {
+    tbody.innerHTML = page.slice.map(p => {
         const rul = Number(p.rul_hours ?? p.rul ?? 0);
         const conf = p.confidence != null ? Number(p.confidence) : null;
         const source = p.model_selection_audit && p.model_selection_audit.mode
@@ -2101,17 +2321,33 @@ function renderPredictions() {
             <td>${fmtDateTime(p.created_at)}</td>
         </tr>`;
     }).join('');
+    renderPagination('predictionsPagination', paginationState.predictions, { key: 'predictions' });
 }
 
-function renderAlerts() {
+// ---- ALERTS ----
+function renderAlerts(error) {
     const tbody = $('alertsTableBody');
     if (!tbody) return;
-    if (!alerts.length) {
-        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="8">No alerts yet — critical predictions generate them automatically.</td></tr>`;
+    if (error) { tbody.innerHTML = renderTableError(8, error); return; }
+    const search = ($('alertsSearch')?.value || '').toLowerCase().trim();
+    let filtered = alerts;
+    if (search) {
+        filtered = alerts.filter(a => {
+            const hay = [a.title, a.message, a.user_name, a.user, a.user_email, a.machine_name, a.machine, a.severity]
+                .filter(Boolean).join(' ').toLowerCase();
+            return hay.includes(search);
+        });
+    }
+    if (!filtered.length) {
+        tbody.innerHTML = renderEmpty(8, search ? 'No alerts match your search.' : 'No alerts yet — critical predictions generate them automatically.');
+        paginationState.alerts.lastPage = { total:0, pages:1, current:1, start:0, end:0, pageSize: paginationState.alerts.pageSize };
+        renderPagination('alertsPagination', paginationState.alerts, { key: 'alerts' });
         return;
     }
+    const page = paginate(filtered, paginationState.alerts);
+    paginationState.alerts.lastPage = { ...page, pageSize: paginationState.alerts.pageSize };
     const sevColors = { critical: 'pill-red', high: 'pill-amber', warning: 'pill-amber', info: 'pill-blue' };
-    tbody.innerHTML = alerts.map(a => {
+    tbody.innerHTML = page.slice.map(a => {
         const email = a.email_status || {};
         const emailSent = email.sent === true;
         const emailReason = email.sent === false ? (email.reason || 'not sent') : '—';
@@ -2128,16 +2364,32 @@ function renderAlerts() {
             <td><span class="pill ${a.status === 'active' ? 'pill-red' : 'pill-green'}">${escapeHtml(a.status || 'active')}</span></td>
         </tr>`;
     }).join('');
+    renderPagination('alertsPagination', paginationState.alerts, { key: 'alerts' });
 }
 
-function renderReports() {
+// ---- REPORTS ----
+function renderReports(error) {
     const tbody = $('reportsTableBody');
     if (!tbody) return;
-    if (!reports.length) {
-        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="7">No reports generated yet.</td></tr>`;
+    if (error) { tbody.innerHTML = renderTableError(7, error); return; }
+    const search = ($('reportsSearch')?.value || '').toLowerCase().trim();
+    let filtered = reports;
+    if (search) {
+        filtered = reports.filter(r => {
+            const hay = [r.name, r.user_name, r.user_email, r.user_id, r.type, r.format]
+                .filter(Boolean).join(' ').toLowerCase();
+            return hay.includes(search);
+        });
+    }
+    if (!filtered.length) {
+        tbody.innerHTML = renderEmpty(7, search ? 'No reports match your search.' : 'No reports generated yet.');
+        paginationState.reports.lastPage = { total:0, pages:1, current:1, start:0, end:0, pageSize: paginationState.reports.pageSize };
+        renderPagination('reportsPagination', paginationState.reports, { key: 'reports' });
         return;
     }
-    tbody.innerHTML = reports.map(r => `
+    const page = paginate(filtered, paginationState.reports);
+    paginationState.reports.lastPage = { ...page, pageSize: paginationState.reports.pageSize };
+    tbody.innerHTML = page.slice.map(r => `
         <tr>
             <td class="font-medium text-slate-800 max-w-xs truncate">${escapeHtml(r.name || 'Untitled')}</td>
             <td>${escapeHtml(r.user_name || r.user_email || r.user_id || '—')}</td>
@@ -2148,24 +2400,37 @@ function renderReports() {
             <td>${fmtDateTime(r.created_at)}</td>
         </tr>
     `).join('');
+    renderPagination('reportsPagination', paginationState.reports, { key: 'reports' });
 }
 
-// ============================================================
-// INSTALL SOFTWARE renderer — handles both app installs + native downloads
-// ============================================================
-function renderDownloads() {
+// ---- DOWNLOADS ----
+function renderDownloads(error) {
     const tbody = $('downloadsTableBody');
     if (!tbody) return;
-    if (!downloads.length) {
-        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="6">No installs or downloads yet — they'll appear here as soon as a user installs the app or downloads a native installer.</td></tr>`;
+    if (error) { tbody.innerHTML = renderTableError(6, error); return; }
+    // v7 FIX #16: use data attributes, not DOM text parsing
+    const filter = $('downloadPlatformFilter')?.value || 'all';
+    let filtered = downloads;
+    if (filter === 'pwa') {
+        filtered = downloads.filter(d => d.type === 'app_install');
+    } else if (filter === 'native') {
+        filtered = downloads.filter(d => d.type !== 'app_install');
+    } else if (filter !== 'all') {
+        filtered = downloads.filter(d => (d.platform || '').toLowerCase() === filter && d.type !== 'app_install');
+    }
+    if (!filtered.length) {
+        tbody.innerHTML = renderEmpty(6, 'No installs or downloads match the current filter.');
+        paginationState.downloads.lastPage = { total:0, pages:1, current:1, start:0, end:0, pageSize: paginationState.downloads.pageSize };
+        renderPagination('downloadsPagination', paginationState.downloads, { key: 'downloads' });
         return;
     }
+    const page = paginate(filtered, paginationState.downloads);
+    paginationState.downloads.lastPage = { ...page, pageSize: paginationState.downloads.pageSize };
     const platformColors = {
         windows: 'pill-blue', macos: 'pill-slate', linux: 'pill-amber',
-        android: 'pill-green', ios: 'pill-purple',
-        web: 'pill-violet'
+        android: 'pill-green', ios: 'pill-purple', web: 'pill-violet'
     };
-    tbody.innerHTML = downloads.map(d => {
+    tbody.innerHTML = page.slice.map(d => {
         const p = (d.platform || 'unknown').toLowerCase();
         const isPWA = d.type === 'app_install';
         const methodLabel = isPWA ? 'Installed App' : 'Native Download';
@@ -2180,16 +2445,32 @@ function renderDownloads() {
             <td>${fmtDateTime(d.created_at)}</td>
         </tr>`;
     }).join('');
+    renderPagination('downloadsPagination', paginationState.downloads, { key: 'downloads' });
 }
 
-function renderActivities() {
+// ---- ACTIVITIES ----
+function renderActivities(error) {
     const tbody = $('activitiesTableBody');
     if (!tbody) return;
-    if (!activities.length) {
-        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="5">No activity yet.</td></tr>`;
+    if (error) { tbody.innerHTML = renderTableError(5, error); return; }
+    const search = ($('activitiesSearch')?.value || '').toLowerCase().trim();
+    let filtered = activities;
+    if (search) {
+        filtered = activities.filter(a => {
+            const hay = [a.action, a.target, a.resource_type, a.admin_name, a.admin, a.ip_address]
+                .filter(Boolean).join(' ').toLowerCase();
+            return hay.includes(search);
+        });
+    }
+    if (!filtered.length) {
+        tbody.innerHTML = renderEmpty(5, search ? 'No activities match your search.' : 'No activity yet.');
+        paginationState.activities.lastPage = { total:0, pages:1, current:1, start:0, end:0, pageSize: paginationState.activities.pageSize };
+        renderPagination('activitiesPagination', paginationState.activities, { key: 'activities' });
         return;
     }
-    tbody.innerHTML = activities.map(a => `
+    const page = paginate(filtered, paginationState.activities);
+    paginationState.activities.lastPage = { ...page, pageSize: paginationState.activities.pageSize };
+    tbody.innerHTML = page.slice.map(a => `
         <tr>
             <td class="font-medium text-slate-700" style="text-transform:capitalize;">${escapeHtml((a.action || 'event').replace(/_/g, ' '))}</td>
             <td>${escapeHtml(a.target || a.resource_type || '—')}</td>
@@ -2198,21 +2479,37 @@ function renderActivities() {
             <td>${fmtDateTime(a.created_at)}</td>
         </tr>
     `).join('');
+    renderPagination('activitiesPagination', paginationState.activities, { key: 'activities' });
 }
 
-function renderBilling() {
+// ---- BILLING ----
+function renderBilling(error) {
     const tbody = $('billingTableBody');
     if (!tbody) return;
-    if (!subscriptions.length) {
-        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="6">No subscriptions yet.</td></tr>`;
+    if (error) { tbody.innerHTML = renderTableError(6, error); return; }
+    const search = ($('billingSearch')?.value || '').toLowerCase().trim();
+    let filtered = subscriptions;
+    if (search) {
+        filtered = subscriptions.filter(s => {
+            const hay = [s.user_name, s.user, s.plan, s.status]
+                .filter(Boolean).join(' ').toLowerCase();
+            return hay.includes(search);
+        });
+    }
+    if (!filtered.length) {
+        tbody.innerHTML = renderEmpty(6, search ? 'No subscriptions match your search.' : 'No subscriptions yet.');
+        paginationState.billing.lastPage = { total:0, pages:1, current:1, start:0, end:0, pageSize: paginationState.billing.pageSize };
+        renderPagination('billingPagination', paginationState.billing, { key: 'billing' });
         return;
     }
+    const page = paginate(filtered, paginationState.billing);
+    paginationState.billing.lastPage = { ...page, pageSize: paginationState.billing.pageSize };
     const statusColors = {
         active: 'pill-green', completed: 'pill-green',
         trialing: 'pill-amber', pending: 'pill-amber',
         canceled: 'pill-red', expired: 'pill-red', failed: 'pill-red'
     };
-    tbody.innerHTML = subscriptions.map(s => `
+    tbody.innerHTML = page.slice.map(s => `
         <tr>
             <td class="font-medium text-slate-800">${escapeHtml(s.user_name || s.user || '—')}</td>
             <td><span class="pill pill-purple" style="text-transform:capitalize;">${escapeHtml(s.plan || '—')}</span></td>
@@ -2227,22 +2524,29 @@ function renderBilling() {
             </td>
         </tr>
     `).join('');
+    renderPagination('billingPagination', paginationState.billing, { key: 'billing' });
 }
 
-function renderEnterpriseRequests() {
+// ---- CUSTOM PLANS ----
+function renderEnterpriseRequests(error) {
     const tbody = $('customPlansTableBody');
     if (!tbody) return;
+    if (error) { tbody.innerHTML = renderTableError(7, error); return; }
     if (!enterpriseRequests.length) {
-        tbody.innerHTML = `<tr class="empty-state-row"><td colspan="7">No custom plan requests yet.</td></tr>`;
+        tbody.innerHTML = renderEmpty(7, 'No custom plan requests yet.');
+        paginationState.customPlans.lastPage = { total:0, pages:1, current:1, start:0, end:0, pageSize: paginationState.customPlans.pageSize };
+        renderPagination('customPlansPagination', paginationState.customPlans, { key: 'customPlans' });
         return;
     }
+    const page = paginate(enterpriseRequests, paginationState.customPlans);
+    paginationState.customPlans.lastPage = { ...page, pageSize: paginationState.customPlans.pageSize };
     const statusColors = {
         pending: 'pill-amber', contacted: 'pill-blue',
         negotiating: 'pill-purple', approved: 'pill-green',
         won: 'pill-green', rejected: 'pill-red',
         lost: 'pill-red', archived: 'pill-slate'
     };
-    tbody.innerHTML = enterpriseRequests.map(r => `
+    tbody.innerHTML = page.slice.map(r => `
         <tr>
             <td class="font-medium text-slate-800">${escapeHtml(r.company || '—')}</td>
             <td>${escapeHtml(r.full_name || '—')}</td>
@@ -2259,6 +2563,7 @@ function renderEnterpriseRequests() {
             </td>
         </tr>
     `).join('');
+    renderPagination('customPlansPagination', paginationState.customPlans, { key: 'customPlans' });
 }
 
 // ============================================================
@@ -2289,11 +2594,9 @@ function updateStats() {
 }
 
 function updateDownloadStats() {
-    // Only count native downloads in the platform tiles; PWA installs separately
     const nativeOnly = downloads.filter(d => d.type !== 'app_install');
     const pwaOnly = downloads.filter(d => d.type === 'app_install');
     const get = p => nativeOnly.filter(d => (d.platform || '').toLowerCase() === p).length;
-
     $('totalDownloads').textContent = downloads.length;
     $('windowsDownloads').textContent = get('windows');
     $('macDownloads').textContent = get('macos');
@@ -2302,7 +2605,6 @@ function updateDownloadStats() {
     $('iosDownloads').textContent = get('ios');
     const pwaEl = $('pwaInstallsCount');
     if (pwaEl) pwaEl.textContent = pwaOnly.length;
-
     updateDownloadChart();
 }
 
@@ -2352,6 +2654,58 @@ function updateSystemStatusUI() {
 }
 
 // ============================================================
+// CSV EXPORT
+// ============================================================
+
+function downloadCSV(rows, filename) {
+    if (!rows.length) { showToast('Nothing to export', 'info'); return; }
+    const headers = Object.keys(rows[0]);
+    const csv = [headers.join(',')]
+        .concat(rows.map(r => headers.map(h => {
+            const v = r[h] == null ? '' : String(r[h]);
+            return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+        }).join(',')))
+        .join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    showToast(`Exported ${rows.length} rows`, 'success');
+}
+
+window.exportUsersCSV = function() {
+    const rows = users.map(u => ({
+        id: u.id, name: u.display_name || u.full_name || u.name || u.username,
+        email: u.email, plan: u.plan, status: u.is_active === false ? 'inactive' : (u.status || 'active'),
+        role: u.role, verified: u.is_verified ? 'yes' : 'no',
+        created_at: u.created_at, last_login_at: u.last_login_at
+    }));
+    downloadCSV(rows, `users-${new Date().toISOString().slice(0,10)}.csv`);
+};
+
+window.exportBillingCSV = function() {
+    const rows = subscriptions.map(s => ({
+        user: s.user_name || s.user, plan: s.plan, amount: s.amount,
+        currency: s.currency || 'USD', status: s.status, created_at: s.created_at
+    }));
+    downloadCSV(rows, `billing-${new Date().toISOString().slice(0,10)}.csv`);
+};
+
+window.exportDownloadsCSV = function() {
+    const rows = downloads.map(d => ({
+        user: d.user_name || d.user, platform: d.platform, method: d.type === 'app_install' ? 'installed_app' : 'native_download',
+        version: d.version, ip: d.ip_address, created_at: d.created_at
+    }));
+    downloadCSV(rows, `installs-${new Date().toISOString().slice(0,10)}.csv`);
+};
+
+// ============================================================
+// CONTINUES IN PART 3 — charts, WS, live feed, MFA, shutdown, init
+// ============================================================
+            // ============================================================
 // CHARTS
 // ============================================================
 
@@ -2366,6 +2720,7 @@ function initCharts() {
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#e2e8f0' } }, x: { grid: { display: false } } } }
         });
     }
+
     const trendCtx = $('adminTrendChart');
     if (trendCtx) {
         adminTrendChart = new Chart(trendCtx.getContext('2d'), {
@@ -2374,6 +2729,7 @@ function initCharts() {
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#e2e8f0' } }, x: { grid: { display: false } } } }
         });
     }
+
     const downloadCtx = $('downloadTrendChart');
     if (downloadCtx) {
         downloadTrendChart = new Chart(downloadCtx.getContext('2d'), {
@@ -2418,12 +2774,12 @@ function updateCharts() {
     if (userGrowthChart) {
         userGrowthChart.data.labels = labels;
         userGrowthChart.data.datasets[0].data = buildDailyCounts(users, days);
-        userGrowthChart.update();
+        userGrowthChart.update('none');
     }
     if (adminTrendChart) {
         adminTrendChart.data.labels = labels;
         adminTrendChart.data.datasets[0].data = buildDailyCounts(predictions, days);
-        adminTrendChart.update();
+        adminTrendChart.update('none');
     }
 }
 
@@ -2442,7 +2798,7 @@ function updateDownloadChart() {
             downloads.filter(d => (d.platform || '').toLowerCase() === p), days
         );
     });
-    downloadTrendChart.update();
+    downloadTrendChart.update('none');
 }
 
 // ============================================================
@@ -2455,10 +2811,18 @@ function showSection(section) {
         if (el.id.endsWith('Section')) el.style.display = 'none';
     });
     const map = {
-        dashboard: 'dashboardSection', users: 'usersSection', machines: 'machinesSection',
-        predictions: 'predictionsSection', alerts: 'alertsSection', reports: 'reportsSection',
-        downloads: 'downloadsSection', activities: 'activitiesSection',
-        billing: 'billingSection', customPlans: 'customPlansSection', settings: 'settingsSection'
+        dashboard: 'dashboardSection',
+        liveFeed: 'liveFeedSection',
+        users: 'usersSection',
+        machines: 'machinesSection',
+        predictions: 'predictionsSection',
+        alerts: 'alertsSection',
+        reports: 'reportsSection',
+        downloads: 'downloadsSection',
+        activities: 'activitiesSection',
+        billing: 'billingSection',
+        customPlans: 'customPlansSection',
+        settings: 'settingsSection'
     };
     const targetId = map[section];
     if (targetId && $(targetId)) $(targetId).style.display = 'block';
@@ -2467,12 +2831,407 @@ function showSection(section) {
     document.querySelector(`.sidebar-link[data-section="${section}"]`)?.classList.add('active');
 
     const titles = {
-        dashboard: 'Admin Dashboard', users: 'Users', machines: 'Machines',
-        predictions: 'Predictions History', alerts: 'Alerts History', reports: 'Reports History',
-        downloads: 'Install Software', activities: 'Activity Log',
-        billing: 'Billing & Plans', customPlans: 'Custom Plan Requests', settings: 'System Settings'
+        dashboard: 'Admin Dashboard',
+        liveFeed: 'Live Activity Feed',
+        users: 'Users',
+        machines: 'Machines',
+        predictions: 'Predictions History',
+        alerts: 'Alerts History',
+        reports: 'Reports History',
+        downloads: 'Install Software',
+        activities: 'Activity Log',
+        billing: 'Billing & Plans',
+        customPlans: 'Custom Plan Requests',
+        settings: 'System Settings'
     };
     $('pageTitle').textContent = titles[section] || 'Admin Dashboard';
+
+    // Lazy-render sections on first visit
+    if (section === 'liveFeed') renderLiveFeed();
+    if (section === 'users') renderUsers();
+    if (section === 'machines') renderMachines();
+    if (section === 'predictions') renderPredictions();
+    if (section === 'alerts') renderAlerts();
+    if (section === 'reports') renderReports();
+    if (section === 'downloads') renderDownloads();
+    if (section === 'activities') renderActivities();
+    if (section === 'billing') renderBilling();
+    if (section === 'customPlans') renderEnterpriseRequests();
+
+    // Close mobile sidebar
+    if (window.innerWidth < 1024) closeMobileSidebar();
+}
+
+// ============================================================
+// LIVE FEED (v7)
+// ============================================================
+
+const FEED_ICONS = {
+    user: { icon: 'person_add', bg: 'bg-teal-50', fg: 'text-teal-600' },
+    machine: { icon: 'precision_manufacturing', bg: 'bg-blue-50', fg: 'text-blue-600' },
+    prediction: { icon: 'neurology', bg: 'bg-purple-50', fg: 'text-purple-600' },
+    alert: { icon: 'notifications_active', bg: 'bg-red-50', fg: 'text-red-500' },
+    report: { icon: 'assessment', bg: 'bg-amber-50', fg: 'text-amber-600' },
+    download: { icon: 'install_desktop', bg: 'bg-indigo-50', fg: 'text-indigo-600' },
+    billing: { icon: 'credit_card', bg: 'bg-green-50', fg: 'text-green-600' },
+    system: { icon: 'settings', bg: 'bg-slate-100', fg: 'text-slate-600' }
+};
+
+function pushLiveFeedEvent(type, text, meta) {
+    liveFeedEvents.unshift({
+        id: genUuid(),
+        type,
+        text,
+        meta: meta || '',
+        ts: Date.now()
+    });
+    if (liveFeedEvents.length > MAX_FEED_EVENTS) {
+        liveFeedEvents = liveFeedEvents.slice(0, MAX_FEED_EVENTS);
+    }
+    const badge = $('sidebarFeedBadge');
+    if (badge) {
+        const n = parseInt(badge.textContent || '0', 10) + 1;
+        badge.textContent = n > 99 ? '99+' : n;
+    }
+    if (currentSection === 'liveFeed') renderLiveFeed();
+}
+
+function renderLiveFeed() {
+    const container = $('liveFeed');
+    if (!container) return;
+    const filter = $('liveFeedFilter')?.value || 'all';
+    let filtered = liveFeedEvents;
+    if (filter !== 'all') filtered = liveFeedEvents.filter(e => e.type === filter);
+    if (!filtered.length) {
+        container.innerHTML = `
+            <div class="px-5 py-10 text-center text-slate-500 text-sm">
+                <span class="material-symbols-outlined text-3xl text-slate-300 block mb-2">bolt</span>
+                ${filter === 'all' ? 'Waiting for events… (events appear here in real time)' : 'No events match this filter.'}
+            </div>`;
+        return;
+    }
+    container.innerHTML = filtered.map(e => {
+        const style = FEED_ICONS[e.type] || FEED_ICONS.system;
+        return `
+            <div class="feed-item">
+                <div class="feed-icon ${style.bg}">
+                    <span class="material-symbols-outlined ${style.fg}">${style.icon}</span>
+                </div>
+                <div class="feed-body">
+                    <div class="feed-text">${escapeHtml(e.text)}</div>
+                    ${e.meta ? `<div class="feed-meta">${escapeHtml(e.meta)}</div>` : ''}
+                    <div class="feed-meta">${fmtTimeAgo(e.ts)}</div>
+                </div>
+            </div>`;
+    }).join('');
+}
+
+function clearLiveFeed() {
+    liveFeedEvents = [];
+    const badge = $('sidebarFeedBadge');
+    if (badge) badge.textContent = '0';
+    renderLiveFeed();
+    showToast('Live feed cleared', 'info');
+}
+
+// ============================================================
+// WEBSOCKET — real-time updates + live feed
+// ============================================================
+
+function setWsStatus(connected) {
+    const el = $('wsStatus');
+    if (el) {
+        if (connected) {
+            el.textContent = '● LIVE';
+            el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700';
+        } else {
+            el.textContent = '●';
+            el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500';
+        }
+    }
+    // v7 FIX #8: Show reconnect banner when disconnected
+    const banner = $('wsBanner');
+    if (banner) {
+        if (connected) banner.classList.remove('active');
+        else banner.classList.add('active');
+    }
+}
+
+function connectWebSocket() {
+    const token = getToken();
+    if (!token || !isTokenValid(token)) return;
+    if (wsConnection && (wsConnection.readyState === WebSocket.OPEN || wsConnection.readyState === WebSocket.CONNECTING)) return;
+
+    try {
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = `${proto}//${window.location.host}/ws/admin?token=${encodeURIComponent(token)}`;
+        wsConnection = new WebSocket(url);
+
+        wsConnection.onopen = () => {
+            wsReconnectAttempt = 0;
+            setWsStatus(true);
+            loadAllData();
+        };
+        wsConnection.onmessage = (event) => {
+            try { handleWsMessage(JSON.parse(event.data)); } catch (e) {}
+        };
+        wsConnection.onclose = (evt) => {
+            setWsStatus(false);
+            if (evt && evt.code === 1008) {
+                // Auth failure — don't retry, force re-login
+                setTimeout(() => {
+                    if (!isTokenValid(getToken())) {
+                        clearAuth();
+                        window.location.replace('login.html');
+                    }
+                }, 1500);
+                return;
+            }
+            if (isTokenValid(getToken())) {
+                if (wsReconnectTimer) clearTimeout(wsReconnectTimer);
+                const attempt = Math.min(8, wsReconnectAttempt);
+                wsReconnectAttempt = attempt + 1;
+                const delay = Math.min(60000, 1000 * (2 ** attempt)) + Math.floor(Math.random() * 500);
+                wsReconnectTimer = setTimeout(connectWebSocket, delay);
+            }
+        };
+        wsConnection.onerror = () => setWsStatus(false);
+    } catch (e) {}
+}
+
+window.reconnectWebSocket = function() {
+    try { if (wsConnection) wsConnection.close(); } catch (e) {}
+    wsConnection = null;
+    wsReconnectAttempt = 0;
+    connectWebSocket();
+};
+
+function handleWsMessage(data) {
+    if (!data || !data.type) return;
+    switch (data.type) {
+        case 'user_created': {
+            if (data.user) {
+                const idx = users.findIndex(u => u.id === data.user.id);
+                if (idx >= 0) users[idx] = data.user;
+                else users.unshift(data.user);
+                renderUsers();
+                renderRecentUsers();
+                // v7 FIX #7: immediate badge update
+                updateBadge('sidebarUsersBadge', users.length);
+                pushLiveFeedEvent('user', `New user registered: ${data.user.email || data.user.username || 'unknown'}`,
+                    `Role: ${data.user.role || 'user'}`);
+                showToast(`New user: ${data.user.email || ''}`, 'success');
+                updateStats();
+                updateCharts();
+            }
+            break;
+        }
+        case 'user_updated': {
+            if (data.user) {
+                const idx = users.findIndex(u => u.id === data.user.id);
+                if (idx >= 0) users[idx] = { ...users[idx], ...data.user };
+                else users.unshift(data.user);
+                renderUsers();
+                pushLiveFeedEvent('user', `User updated: ${data.user.email || data.user.username || 'unknown'}`,
+                    `Plan: ${data.user.plan || 'free'}, role: ${data.user.role || 'user'}`);
+                if (data.user.id === Auth.user?.id) {
+                    try {
+                        localStorage.setItem('synapse_admin_user', JSON.stringify(data.user));
+                        localStorage.setItem('synapse_user', JSON.stringify(data.user));
+                    } catch {}
+                    updateAdminInfo(data.user);
+                }
+                updateStats();
+            }
+            break;
+        }
+        case 'user_deleted': {
+            if (data.user_id) {
+                users = users.filter(u => u.id !== data.user_id);
+                renderUsers();
+                renderRecentUsers();
+                updateBadge('sidebarUsersBadge', users.length);
+                pushLiveFeedEvent('user', `User removed`, `ID: ${data.user_id.slice(-8)}`);
+                updateStats();
+            }
+            break;
+        }
+        case 'machine_created': {
+            if (data.machine) {
+                const idx = machines.findIndex(m => m.id === data.machine.id);
+                if (idx >= 0) machines[idx] = data.machine;
+                else machines.unshift(data.machine);
+                renderMachines();
+                updateBadge('sidebarMachinesBadge', machines.length);
+                pushLiveFeedEvent('machine', `New machine: ${data.machine.name || 'unnamed'}`,
+                    `Type: ${data.machine.type || data.machine.machine_type || 'general'}, status: ${data.machine.status || 'offline'}`);
+                showToast(`New machine: ${data.machine.name || ''}`, 'success');
+                updateStats();
+            }
+            break;
+        }
+        case 'machine_updated': {
+            if (data.machine) {
+                const idx = machines.findIndex(m => m.id === data.machine.id);
+                if (idx >= 0) machines[idx] = { ...machines[idx], ...data.machine };
+                else machines.unshift(data.machine);
+                renderMachines();
+                if (data.machine.status === 'critical' || data.machine.status === 'warning') {
+                    pushLiveFeedEvent('machine', `${data.machine.name || 'Machine'} → ${data.machine.status.toUpperCase()}`,
+                        `Health: ${data.machine.health || 0}%`);
+                }
+                updateStats();
+            }
+            break;
+        }
+        case 'sensor_update':
+            if (data.machine) {
+                const idx = machines.findIndex(m => m.id === data.machine.id);
+                if (idx >= 0) {
+                    machines[idx] = { ...machines[idx], ...data.machine };
+                    if (currentSection === 'machines') renderMachines();
+                }
+            }
+            break;
+        case 'machine_deleted': {
+            if (data.machine_id) {
+                const m = machines.find(x => x.id === data.machine_id);
+                machines = machines.filter(x => x.id !== data.machine_id);
+                renderMachines();
+                updateBadge('sidebarMachinesBadge', machines.length);
+                pushLiveFeedEvent('machine', `Machine removed: ${m?.name || data.machine_id.slice(-8)}`, '');
+                updateStats();
+            }
+            break;
+        }
+        case 'prediction_created': {
+            if (data.prediction) {
+                const idx = predictions.findIndex(p => p.id === data.prediction.id);
+                if (idx >= 0) predictions[idx] = data.prediction;
+                else predictions.unshift(data.prediction);
+                renderPredictions();
+                updateBadge('sidebarPredictionsBadge', predictions.length);
+                const rul = data.prediction.rul_hours != null ? Number(data.prediction.rul_hours).toFixed(1) + 'h' : 'n/a';
+                const conf = data.prediction.confidence != null ? Number(data.prediction.confidence).toFixed(0) + '%' : 'n/a';
+                pushLiveFeedEvent('prediction', `Prediction · ${data.prediction.machine_name || 'machine'}`,
+                    `RUL ${rul} · Confidence ${conf} · Model: ${data.prediction.model_type || '?'}`);
+                showToast(`New prediction: ${data.prediction.machine_name || ''}`, 'info');
+                updateStats();
+                updateCharts();
+            }
+            break;
+        }
+        case 'alert_created': {
+            if (data.alert) {
+                const idx = alerts.findIndex(a => a.id === data.alert.id);
+                if (idx >= 0) alerts[idx] = data.alert;
+                else alerts.unshift(data.alert);
+                renderAlerts();
+                // v7 FIX #7: immediate badge update
+                const active = alerts.filter(a => a.status === 'active').length;
+                updateBadge('sidebarAlertsBadge', active);
+                const sev = (data.alert.severity || 'info').toUpperCase();
+                pushLiveFeedEvent('alert', `${sev} alert: ${data.alert.title || data.alert.message || ''}`,
+                    `Machine: ${data.alert.machine_name || data.alert.machine_id || '?'}`);
+                showToast(`${sev} alert: ${data.alert.title || ''}`, 'warning');
+                updateStats();
+            }
+            break;
+        }
+        case 'alert_updated':
+        case 'alerts_marked_read': {
+            if (data.alert) {
+                const idx = alerts.findIndex(a => a.id === data.alert.id);
+                if (idx >= 0) alerts[idx] = { ...alerts[idx], ...data.alert };
+            }
+            renderAlerts();
+            const active = alerts.filter(a => a.status === 'active').length;
+            updateBadge('sidebarAlertsBadge', active);
+            updateStats();
+            break;
+        }
+        case 'report_created': {
+            if (data.report) {
+                const idx = reports.findIndex(r => r.id === data.report.id);
+                if (idx >= 0) reports[idx] = data.report;
+                else reports.unshift(data.report);
+                renderReports();
+                updateBadge('sidebarReportsBadge', reports.length);
+                pushLiveFeedEvent('report', `New report: ${data.report.name || 'untitled'}`,
+                    `Format: ${(data.report.format || 'txt').toUpperCase()}`);
+                showToast(`New report: ${data.report.name || ''}`, 'info');
+                updateStats();
+            }
+            break;
+        }
+        case 'download_created': {
+            if (data.download) {
+                downloads.unshift(data.download);
+                renderDownloads();
+                updateDownloadStats();
+                updateBadge('sidebarDownloadsBadge', downloads.length);
+                const isPWA = data.download.type === 'app_install';
+                const who = data.download.user_name || 'A user';
+                const plat = data.download.platform || 'unknown';
+                pushLiveFeedEvent('download', isPWA
+                    ? `${who} installed SynapsePM on ${plat}`
+                    : `${who} downloaded ${plat} installer`,
+                    `IP: ${data.download.ip_address || '—'}`);
+                showToast(isPWA
+                    ? `${who} installed the app on ${plat}`
+                    : `${who} downloaded the ${plat} installer`, 'success');
+            }
+            break;
+        }
+        case 'enterprise_request_created': {
+            if (data.request) {
+                enterpriseRequests.unshift(data.request);
+                renderEnterpriseRequests();
+                const pending = enterpriseRequests.filter(r => r.status === 'pending').length;
+                updateBadge('sidebarCustomPlansBadge', pending);
+                pushLiveFeedEvent('billing', `New custom plan request: ${data.request.company || 'unknown'}`,
+                    `Contact: ${data.request.email || '—'}`);
+                showToast(`New custom plan: ${data.request.company || ''}`, 'success');
+            }
+            break;
+        }
+        case 'enterprise_request_updated':
+            if (data.request) {
+                const idx = enterpriseRequests.findIndex(r => (r.uuid || r.id) === (data.request.uuid || data.request.id));
+                if (idx >= 0) enterpriseRequests[idx] = data.request;
+                renderEnterpriseRequests();
+            }
+            break;
+        case 'billing_updated': {
+            loadBilling();
+            loadUsers();
+            pushLiveFeedEvent('billing', `Billing updated`,
+                data.organization?.plan ? `Plan: ${data.organization.plan}` : '');
+            break;
+        }
+        case 'activity_created': {
+            if (data.activity) {
+                activities.unshift(data.activity);
+                if (currentSection === 'activities') renderActivities();
+            }
+            break;
+        }
+        case 'system_status_changed': {
+            isSystemOnline = data.online !== false;
+            updateSystemStatusUI();
+            pushLiveFeedEvent('system', `System ${data.online ? 'ONLINE' : 'OFFLINE'}`,
+                data.online ? 'Access restored for all users' : 'All user access suspended');
+            showToast(`System ${data.online ? 'online' : 'offline'}`, data.online ? 'success' : 'warning');
+            break;
+        }
+        case 'settings_updated':
+            loadSettings();
+            break;
+        case 'ping':
+            try { wsConnection?.send(JSON.stringify({ type: 'pong' })); } catch (e) {}
+            break;
+    }
+    updateStats();
 }
 
 // ============================================================
@@ -2501,6 +3260,8 @@ function viewUserDetails(id) {
         d.type === 'app_install' &&
         (d.user_name === (u.display_name || u.name) || d.user_id === u.id)
     ).length;
+    // v7 FIX #12: show — when login_count is null, not 0
+    const loginCount = u.login_count != null ? u.login_count : '—';
     const html = `
         ${row('Name', u.display_name || u.full_name || u.name || u.username)}
         ${row('Email', u.email)}
@@ -2516,7 +3277,7 @@ function viewUserDetails(id) {
         ${row('App Installs (PWA)', pwaInstalls)}
         ${row('Last Login', fmtDateTime(u.last_login_at))}
         ${row('Last Login IP', u.last_login_ip)}
-        ${row('Login Count', u.login_count || 0)}
+        ${row('Login Count', loginCount)}
         ${row('Created', fmtDateTime(u.created_at))}
     `;
     openDetailsModal(`User — ${u.email || u.username || ''}`, html);
@@ -2782,123 +3543,6 @@ async function saveThresholds() {
 }
 
 // ============================================================
-// WEBSOCKET
-// ============================================================
-
-function connectWebSocket() {
-    const token = getToken();
-    if (!token || !isTokenValid(token)) return;
-    if (wsConnection && (wsConnection.readyState === WebSocket.OPEN || wsConnection.readyState === WebSocket.CONNECTING)) return;
-
-    try {
-        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const url = `${proto}//${window.location.host}/ws/admin?token=${encodeURIComponent(token)}`;
-        wsConnection = new WebSocket(url);
-
-        wsConnection.onopen = () => {
-            wsReconnectAttempt = 0;
-            const el = $('wsStatus');
-            if (el) { el.textContent = '● LIVE'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700'; }
-            loadAllData();
-        };
-        wsConnection.onmessage = (event) => {
-            try { handleWsMessage(JSON.parse(event.data)); } catch (e) {}
-        };
-        wsConnection.onclose = (evt) => {
-            const el = $('wsStatus');
-            if (el) { el.textContent = '●'; el.className = 'text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500'; }
-            if (evt && evt.code === 1008) return;
-            if (isTokenValid(getToken())) {
-                if (wsReconnectTimer) clearTimeout(wsReconnectTimer);
-                const attempt = Math.min(8, wsReconnectAttempt);
-                wsReconnectAttempt = attempt + 1;
-                const delay = Math.min(60000, 1000 * (2 ** attempt)) + Math.floor(Math.random() * 500);
-                wsReconnectTimer = setTimeout(connectWebSocket, delay);
-            }
-        };
-        wsConnection.onerror = () => {};
-    } catch (e) {}
-}
-
-function handleWsMessage(data) {
-    if (!data || !data.type) return;
-    switch (data.type) {
-        case 'user_created':
-            loadUsers();
-            showToast(`New user: ${data.user?.email || ''}`, 'success');
-            break;
-        case 'user_updated':
-        case 'user_deleted':
-            loadUsers();
-            break;
-        case 'machine_created':
-            loadMachines();
-            showToast(`New machine: ${data.machine?.name || ''}`, 'success');
-            break;
-        case 'machine_updated':
-        case 'machine_deleted':
-            loadMachines();
-            break;
-        case 'sensor_update':
-            loadMachines();
-            break;
-        case 'prediction_created':
-            loadPredictions();
-            showToast(`New prediction: ${data.prediction?.machine_name || ''}`, 'info');
-            break;
-        case 'alert_created':
-            loadAlerts();
-            showToast(`New alert: ${data.alert?.title || ''}`, 'warning');
-            break;
-        case 'alert_updated':
-        case 'alerts_marked_read':
-            loadAlerts();
-            break;
-        case 'report_created':
-            loadReports();
-            showToast(`New report: ${data.report?.name || ''}`, 'info');
-            break;
-        case 'download_created':
-            loadDownloads();
-            {
-                const isPWA = data.download?.type === 'app_install';
-                const who = data.download?.user_name || 'A user';
-                const plat = data.download?.platform || 'unknown';
-                const msg = isPWA
-                    ? `${who} installed SynapsePM on ${plat}`
-                    : `${who} downloaded the ${plat} installer`;
-                showToast(msg, 'success');
-            }
-            break;
-        case 'enterprise_request_created':
-            loadEnterpriseRequests();
-            showToast(`New custom plan: ${data.request?.company || ''}`, 'success');
-            break;
-        case 'enterprise_request_updated':
-            loadEnterpriseRequests();
-            break;
-        case 'billing_updated':
-            loadBilling();
-            loadUsers();
-            break;
-        case 'activity_created':
-            loadActivities();
-            break;
-        case 'system_status_changed':
-            isSystemOnline = data.online !== false;
-            updateSystemStatusUI();
-            break;
-        case 'settings_updated':
-            loadSettings();
-            break;
-        case 'ping':
-            try { wsConnection?.send(JSON.stringify({ type: 'pong' })); } catch {}
-            break;
-    }
-    updateStats();
-}
-
-// ============================================================
 // AUTO REFRESH
 // ============================================================
 
@@ -2920,23 +3564,20 @@ function refreshDashboard() {
 
 function refreshDownloads() { loadDownloads(); showToast('Install history refreshed', 'success'); }
 
-function filterDownloads() {
-    const filter = $('downloadPlatformFilter').value;
-    document.querySelectorAll('#downloadsTableBody tr').forEach(row => {
-        if (filter === 'all') { row.style.display = ''; return; }
-        const method = row.querySelector('td:nth-child(3)')?.textContent?.toLowerCase() || '';
-        if (filter === 'pwa') {
-            row.style.display = method.includes('installed app') ? '' : 'none';
-            return;
-        }
-        if (filter === 'native') {
-            row.style.display = method.includes('native') ? '' : 'none';
-            return;
-        }
-        const platform = row.querySelector('td:nth-child(2)')?.textContent?.toLowerCase() || '';
-        row.style.display = platform.includes(filter) ? '' : 'none';
-    });
+function filterDownloads() { renderDownloads(); }
+
+function closeMobileSidebar() {
+    $('mainSidebar')?.classList.remove('mobile-open');
+    $('sidebarOverlay')?.classList.remove('active');
+    document.body.style.overflow = '';
 }
+function openMobileSidebar() {
+    $('mainSidebar')?.classList.add('mobile-open');
+    $('sidebarOverlay')?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAuthModal() { $('authModal').classList.remove('active'); }
 
 // ============================================================
 // EVENT LISTENERS
@@ -2960,7 +3601,6 @@ function initEventListeners() {
     $('sidebarToggle')?.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const scrollY = window.scrollY;
         if (window.innerWidth >= 1024) {
             isCollapsed = !isCollapsed;
             localStorage.setItem('admin_sidebar_collapsed', String(isCollapsed));
@@ -2968,7 +3608,6 @@ function initEventListeners() {
         } else {
             openMobileSidebar();
         }
-        window.scrollTo(0, scrollY);
     });
 
     $('mobileMenuToggle')?.addEventListener('click', openMobileSidebar);
@@ -3159,6 +3798,7 @@ function initEventListeners() {
             $('systemOfflineOverlay').classList.add('active');
             closeShutdownModal();
             showToast('System offline — users now see 404', 'warning', 6000);
+            pushLiveFeedEvent('system', 'System OFFLINE', 'All user access suspended');
         } catch (err) {
             if (errEl) { errEl.textContent = err.message || 'Shutdown failed'; errEl.classList.remove('hidden'); }
             showToast('Error: ' + err.message, 'error', 5000);
@@ -3184,6 +3824,7 @@ function initEventListeners() {
             $('systemOfflineOverlay').classList.remove('active');
             closeBringOnlineModal();
             showToast('System online — users restored', 'success');
+            pushLiveFeedEvent('system', 'System ONLINE', 'Access restored for all users');
         } catch (err) {
             if (errEl) { errEl.textContent = err.message || 'Restore failed'; errEl.classList.remove('hidden'); }
             showToast('Error: ' + err.message, 'error', 5000);
@@ -3193,62 +3834,10 @@ function initEventListeners() {
     });
 }
 
-function openMobileSidebar() {
-    $('mainSidebar')?.classList.add('mobile-open');
-    $('sidebarOverlay')?.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-function closeMobileSidebar() {
-    $('mainSidebar')?.classList.remove('mobile-open');
-    $('sidebarOverlay')?.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-function closeAuthModal() { $('authModal').classList.remove('active'); }
-
-// ============================================================
-// GLOBAL EXPORTS
-// ============================================================
-
-window.showSection = showSection;
-window.confirmShutdown = confirmShutdown;
-window.openBringOnlineModal = openBringOnlineModal;
-window.closeShutdownModal = closeShutdownModal;
-window.closeBringOnlineModal = closeBringOnlineModal;
-window.openAvatarUpload = openAvatarUpload;
-window.closeAvatarModal = closeAvatarModal;
-window.openUserModal = openUserModal;
-window.closeUserModal = closeUserModal;
-window.editUser = editUser;
-window.deleteUser = deleteUser;
-window.viewUserDetails = viewUserDetails;
-window.openMachineModal = openMachineModal;
-window.closeMachineModal = closeMachineModal;
-window.deleteMachine = deleteMachine;
-window.toggleBlockMachine = toggleBlockMachine;
-window.viewMachineDetails = viewMachineDetails;
-window.viewEnterpriseRequest = viewEnterpriseRequest;
-window.approveEnterpriseRequest = approveEnterpriseRequest;
-window.rejectEnterpriseRequest = rejectEnterpriseRequest;
-window.changePlan = changePlan;
-window.cancelSub = cancelSub;
-window.saveSettings = saveSettings;
-window.saveThresholds = saveThresholds;
-window.refreshDownloads = refreshDownloads;
-window.filterDownloads = filterDownloads;
-window.loadReports = loadReports;
-window.loadPredictions = loadPredictions;
-window.loadAlerts = loadAlerts;
-window.loadActivities = loadActivities;
-window.loadBilling = loadBilling;
-window.loadEnterpriseRequests = loadEnterpriseRequests;
-window.adminLogout = adminLogout;
-window.closeAuthModal = closeAuthModal;
-window.closeDetailsModal = closeDetailsModal;
-
 // ============================================================
 // ADMIN MFA MANAGEMENT
 // ============================================================
+
 (function () {
     'use strict';
 
@@ -3284,35 +3873,42 @@ window.closeDetailsModal = closeDetailsModal;
             const disableBtn = document.getElementById('adminDisableMfaBtn');
             const regenBtn = document.getElementById('adminRegenBackupBtn');
 
+            if (!badge || !text) return;
+
             if (enabled) {
                 badge.textContent = 'Enabled';
                 badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 flex-shrink-0';
                 text.textContent = 'Your account is protected by TOTP.';
-                enableBtn.style.display = 'none';
-                disableBtn.style.display = 'flex';
-                regenBtn.style.display = 'flex';
+                if (enableBtn) enableBtn.style.display = 'none';
+                if (disableBtn) disableBtn.style.display = 'flex';
+                if (regenBtn) regenBtn.style.display = 'flex';
             } else {
                 badge.textContent = 'Disabled';
                 badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 flex-shrink-0';
                 text.textContent = 'Enable 2FA to protect your admin account.';
-                enableBtn.style.display = 'flex';
-                disableBtn.style.display = 'none';
-                regenBtn.style.display = 'none';
+                if (enableBtn) enableBtn.style.display = 'flex';
+                if (disableBtn) disableBtn.style.display = 'none';
+                if (regenBtn) regenBtn.style.display = 'none';
             }
         } catch (e) {
-            document.getElementById('adminMfaStatusText').textContent = 'Could not check status.';
+            const text = document.getElementById('adminMfaStatusText');
+            if (text) text.textContent = 'Could not check status.';
         }
     }
 
     async function openMfaSetup() {
         const errEl = document.getElementById('adminMfaSetupError');
-        errEl.classList.add('hidden');
+        if (errEl) errEl.classList.add('hidden');
+
+        // v7 FIX #15: clear stale QR image before showing
+        const img = document.getElementById('adminMfaQrImg');
+        if (img) img.src = 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f8fafc" width="200" height="200"/></svg>');
+
         try {
             const { ok, data } = await adminFetch('/api/v1/auth/mfa/setup', { method: 'POST' });
             if (!ok) throw new Error((data && (data.error || data.message)) || 'Setup failed');
             adminMfaSetupData = data;
 
-            const img = document.getElementById('adminMfaQrImg');
             if (data.qr_code) img.src = data.qr_code;
             else if (data.provisioning_uri)
                 img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(data.provisioning_uri);
@@ -3329,11 +3925,10 @@ window.closeDetailsModal = closeDetailsModal;
     async function confirmMfaSetup() {
         const code = document.getElementById('adminMfaCodeInput').value.trim();
         const errEl = document.getElementById('adminMfaSetupError');
-        errEl.classList.add('hidden');
+        if (errEl) errEl.classList.add('hidden');
 
         if (!/^\d{6}$/.test(code)) {
-            errEl.textContent = 'Enter a valid 6-digit code.';
-            errEl.classList.remove('hidden');
+            if (errEl) { errEl.textContent = 'Enter a valid 6-digit code.'; errEl.classList.remove('hidden'); }
             return;
         }
 
@@ -3364,9 +3959,9 @@ window.closeDetailsModal = closeDetailsModal;
                 alert('✅ 2FA enabled.');
             }
             loadAdminMfaStatus();
+            pushLiveFeedEvent('system', 'Admin 2FA enabled', 'Account secured with TOTP');
         } catch (err) {
-            errEl.textContent = err.message || 'Verification failed.';
-            errEl.classList.remove('hidden');
+            if (errEl) { errEl.textContent = err.message || 'Verification failed.'; errEl.classList.remove('hidden'); }
         } finally {
             btn.disabled = false;
             btn.textContent = orig;
@@ -3384,6 +3979,7 @@ window.closeDetailsModal = closeDetailsModal;
             if (!ok || !data || !data.success) throw new Error((data && (data.error || data.message)) || 'Failed');
             alert('2FA disabled.');
             loadAdminMfaStatus();
+            pushLiveFeedEvent('system', 'Admin 2FA disabled', '');
         } catch (err) {
             alert('Could not disable 2FA: ' + err.message);
         }
@@ -3412,6 +4008,7 @@ window.closeDetailsModal = closeDetailsModal;
         try {
             const { ok, data } = await adminFetch('/api/v1/auth/sessions');
             const list = document.getElementById('adminSessionsList');
+            if (!list) return;
             if (!ok || !data || !Array.isArray(data.sessions)) {
                 list.innerHTML = '<div class="text-center py-6 text-xs text-slate-400">Session info unavailable.</div>';
                 return;
@@ -3465,6 +4062,48 @@ window.closeDetailsModal = closeDetailsModal;
         loadAdminSessions();
     }
 })();
-</script>
-</body>
-</html>
+
+// ============================================================
+// GLOBAL EXPORTS — all functions used by inline onclick handlers
+// ============================================================
+
+window.showSection = showSection;
+window.confirmShutdown = confirmShutdown;
+window.openBringOnlineModal = openBringOnlineModal;
+window.closeShutdownModal = closeShutdownModal;
+window.closeBringOnlineModal = closeBringOnlineModal;
+window.openAvatarUpload = openAvatarUpload;
+window.closeAvatarModal = closeAvatarModal;
+window.openUserModal = openUserModal;
+window.closeUserModal = closeUserModal;
+window.editUser = editUser;
+window.deleteUser = deleteUser;
+window.viewUserDetails = viewUserDetails;
+window.openMachineModal = openMachineModal;
+window.closeMachineModal = closeMachineModal;
+window.deleteMachine = deleteMachine;
+window.toggleBlockMachine = toggleBlockMachine;
+window.viewMachineDetails = viewMachineDetails;
+window.viewEnterpriseRequest = viewEnterpriseRequest;
+window.approveEnterpriseRequest = approveEnterpriseRequest;
+window.rejectEnterpriseRequest = rejectEnterpriseRequest;
+window.changePlan = changePlan;
+window.cancelSub = cancelSub;
+window.saveSettings = saveSettings;
+window.saveThresholds = saveThresholds;
+window.refreshDownloads = refreshDownloads;
+window.filterDownloads = filterDownloads;
+window.loadReports = loadReports;
+window.loadPredictions = loadPredictions;
+window.loadAlerts = loadAlerts;
+window.loadActivities = loadActivities;
+window.loadBilling = loadBilling;
+window.loadEnterpriseRequests = loadEnterpriseRequests;
+window.adminLogout = adminLogout;
+window.closeAuthModal = closeAuthModal;
+window.closeDetailsModal = closeDetailsModal;
+window.clearLiveFeed = clearLiveFeed;
+window.reconnectWebSocket = reconnectWebSocket;
+window.openMobileSidebar = openMobileSidebar;
+window.closeMobileSidebar = closeMobileSidebar;
+window.refreshDashboard = refreshDashboard;
