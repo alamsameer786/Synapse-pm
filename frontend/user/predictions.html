@@ -30,444 +30,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
     <style>
-    /* ===== PART 2 GOES HERE — REPLACE THIS LINE WITH THE ENTIRE STYLE BLOCK ===== */
-    </style>
-</head>
-<body>
-
-<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
-
-<!-- ===== SIDEBAR ===== -->
-<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
-    <div class="sidebar-header">
-        <div class="sidebar-brand">
-            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
-                <div class="synapsepm-logo">
-                    <span class="logo-icon">
-                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
-                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
-                    </span>
-                    <span>Synapse</span><strong>PM</strong>
-                </div>
-            </a>
-            <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-        </div>
-    </div>
-    <nav class="sidebar-nav" aria-label="Application">
-        <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p></div>
-            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard" aria-label="Dashboard"><span class="material-symbols-outlined" aria-hidden="true">dashboard</span><span class="sidebar-text">Dashboard</span></a>
-            <a href="machines.html" class="sidebar-link" data-tooltip="Machines" aria-label="Machines"><span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span><span class="sidebar-text">Machines</span></a>
-            <a href="predictions.html" class="sidebar-link active" data-tooltip="Predictions" aria-label="Predictions" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">neurology</span><span class="sidebar-text">Predictions</span></a>
-            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts" aria-label="Alerts"><span class="material-symbols-outlined" aria-hidden="true">notifications_active</span><span class="sidebar-text">Alerts</span><span class="badge-count" id="sidebarAlertsBadge" aria-label="Active alerts">0</span></a>
-            <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports"><span class="material-symbols-outlined" aria-hidden="true">assessment</span><span class="sidebar-text">Reports</span></a>
-        </div>
-        <div class="sidebar-divider"></div>
-        <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p></div>
-            <a href="billing.html" class="sidebar-link" data-tooltip="Billing" aria-label="Billing"><span class="material-symbols-outlined" aria-hidden="true">credit_card</span><span class="sidebar-text">Billing</span></a>
-        </div>
-    </nav>
-    <div class="sidebar-user-area">
-        <div class="user-card">
-            <div class="avatar-wrapper">
-                <button type="button" class="avatar" id="userAvatar" aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu"><span id="userAvatarText"></span></button>
-                <div class="status-dot" aria-hidden="true"></div>
-            </div>
-            <div class="user-details">
-                <div class="name" id="userName"></div>
-                <div class="email" id="userEmail"></div>
-                <div class="plan" id="userPlan"></div>
-            </div>
-        </div>
-        <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
-            <div class="profile-menu-header">
-                <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
-                <div class="min-w-0">
-                    <div class="profile-menu-name" id="profileMenuName"></div>
-                    <div class="profile-menu-email" id="profileMenuEmail"></div>
-                </div>
-            </div>
-            <div class="profile-menu-details">
-                <div class="profile-detail-row"><span class="profile-detail-label">Username</span><span class="profile-detail-value" id="profileMenuUsername"></span></div>
-                <div class="profile-detail-row"><span class="profile-detail-label">Email</span><span class="profile-detail-value" id="profileMenuEmailDetail"></span></div>
-                <div class="profile-detail-row"><span class="profile-detail-label">Plan</span><span class="profile-detail-value" id="profileMenuPlan"></span></div>
-                <div class="profile-detail-row" id="profileRoleRow" hidden><span class="profile-detail-label">Role</span><span class="profile-detail-value" id="profileMenuRole"></span></div>
-                <div class="profile-detail-row" id="profileOrgRow" hidden><span class="profile-detail-label">Organization</span><span class="profile-detail-value" id="profileMenuOrg"></span></div>
-            </div>
-            <div class="profile-menu-actions">
-                <button type="button" class="profile-action-btn" id="profileSettingsBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>Settings</button>
-                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>Sign out</button>
-            </div>
-        </div>
-    </div>
-</aside>
-
-<!-- ===== MAIN ===== -->
-<main class="flex-1 min-w-0" id="mainContent">
-    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
-        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
-            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Predictions</h1>
-        </div>
-        <div class="flex items-center gap-2 flex-shrink-0">
-            <span id="healthStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold" title="Backend health">● CHECKING</span>
-            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
-            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
-        </div>
-    </header>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div class="mb-6 sm:mb-8">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 mb-3">
-                        <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
-                        <span class="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-teal-700">Backend Predictive Engine</span>
-                    </div>
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-headline text-slate-800">Predictive Maintenance</h1>
-                    <p class="text-slate-500 text-sm sm:text-base mt-1">Real trained-model predictions on connected machines or uploaded datasets</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stats -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Total Predictions</span><span class="material-symbols-outlined text-teal-600 text-base">neurology</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="statTotal">—</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Avg RUL (hrs)</span><span class="material-symbols-outlined text-amber-500 text-base">schedule</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-amber-500" id="statAvgRul">—</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Healthy</span><span class="material-symbols-outlined text-green-600 text-base">check_circle</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-green-600" id="statHealthy">—</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Critical</span><span class="material-symbols-outlined text-red-600 text-base">error</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-red-600" id="statCritical">—</p>
-            </div>
-        </div>
-
-        <div id="pageBannerHost"></div>
-
-        <div class="flex flex-col lg:flex-row gap-5 sm:gap-6">
-            <!-- LEFT COLUMN -->
-            <div class="lg:w-1/3 space-y-5 sm:space-y-6">
-                <!-- Connected Machines -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                    <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex justify-between items-center">
-                        <h3 class="text-white font-bold flex items-center gap-2 text-sm sm:text-base">
-                            <span class="material-symbols-outlined text-teal-300 text-base">precision_manufacturing</span>
-                            Connected Machines
-                        </h3>
-                        <button onclick="loadMachines()" class="text-white/80 hover:text-white" title="Refresh" aria-label="Refresh machines">
-                            <span class="material-symbols-outlined text-sm">refresh</span>
-                        </button>
-                    </div>
-                    <div class="p-3 sm:p-4">
-                        <div class="machines-list space-y-2" id="machinesList">
-                            <div class="animate-pulse space-y-2">
-                                <div class="h-14 bg-slate-100 rounded-xl"></div>
-                                <div class="h-14 bg-slate-100 rounded-xl"></div>
-                                <div class="h-14 bg-slate-100 rounded-xl"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Upload Dataset -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
-                    <h3 class="font-bold text-slate-800 mb-1 flex items-center gap-2 text-sm sm:text-base">
-                        <span class="material-symbols-outlined text-teal-600 text-base">upload_file</span>
-                        Upload Dataset
-                    </h3>
-                    <p class="text-xs text-slate-500 mb-3">Upload a CSV, Excel, JSON, or TXT file. The backend picks the best trained model automatically — no manual selection needed.</p>
-
-                    <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Upload dataset">
-                        <span class="material-symbols-outlined">cloud_upload</span>
-                        <p class="text-sm text-slate-600 mt-2">Drop your dataset here</p>
-                        <p class="text-xs text-slate-400">or click to browse</p>
-                        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.json,.txt,.dat" class="hidden">
-                    </div>
-
-                    <div id="uploadedFileChip" class="mt-3 hidden"></div>
-                    <div id="uploadStatus" class="mt-3 hidden"></div>
-
-                    <!-- Dataset profile (from /datasets/analyze) -->
-                    <div id="datasetProfile" class="mt-3 hidden"></div>
-
-                    <!-- Optional machine_key mapping -->
-                    <div id="machineKeyBlock" class="mt-3 hidden">
-                        <label class="block text-xs font-semibold text-slate-700 mb-1" for="machineKeyInput">Machine key column value (optional)</label>
-                        <input type="text" id="machineKeyInput" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-xs font-mono" placeholder="e.g., PUMP-001 — only needed if the file has many machines">
-                        <p class="text-[10px] text-slate-400 mt-1">Leave blank if the dataset contains a single machine or you want the backend to auto-select.</p>
-                    </div>
-
-                    <button id="predictFromDatasetBtn" class="w-full mt-3 gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2" disabled>
-                        <span class="material-symbols-outlined text-base">neurology</span>
-                        Run Prediction on Dataset
-                    </button>
-                    <p class="text-[10px] text-slate-400 mt-2 text-center">The backend will select the best compatible trained model automatically.</p>
-                </div>
-
-                <!-- Prediction Controls -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
-                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-sm sm:text-base">
-                        <span class="material-symbols-outlined text-teal-600 text-base">tune</span>
-                        Prediction Settings
-                    </h3>
-                    <div class="space-y-3 sm:space-y-4">
-                        <div>
-                            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="aiModel">AI Model</label>
-                            <div class="select-with-icon">
-                                <select id="aiModel">
-                                    <option value="auto" selected>Auto (backend picks best model)</option>
-                                    <option value="lstm">LSTM Neural Network</option>
-                                    <option value="transformer">Transformer Model</option>
-                                    <option value="xgboost">XGBoost Ensemble</option>
-                                    <option value="lightgbm">LightGBM</option>
-                                    <option value="catboost">CatBoost</option>
-                                    <option value="random_forest">Random Forest</option>
-                                    <option value="gradient_boosting">Gradient Boosting</option>
-                                    <option value="svm">SVM</option>
-                                    <option value="neural_network">Neural Network</option>
-                                </select>
-                                <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
-                            </div>
-                            <p class="text-[10px] text-slate-400 mt-1">Auto is recommended. The backend only uses validated production models.</p>
-                        </div>
-                        <div>
-                            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="predictionHorizon">Prediction Horizon</label>
-                            <div class="select-with-icon">
-                                <select id="predictionHorizon">
-                                    <option value="7">Next 7 days</option>
-                                    <option value="30" selected>Next 30 days</option>
-                                    <option value="90">Next 90 days</option>
-                                    <option value="365">Next year</option>
-                                </select>
-                                <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
-                            </div>
-                        </div>
-                        <button id="runPredictionMainBtn" class="w-full gradient-cta text-white py-2.5 sm:py-3 rounded-xl font-bold text-sm sm:text-base hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-base sm:text-lg">neurology</span>
-                            Run Prediction on Selected Machine
-                        </button>
-                        <button id="runLivePredictionBtn" class="w-full border border-teal-500 text-teal-600 py-2 rounded-xl font-semibold text-xs hover:bg-teal-50 transition-all flex items-center justify-center gap-2" title="Run predictions on a schedule">
-                            <span class="material-symbols-outlined text-sm">sensors</span>
-                            Schedule Recurring Predictions
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Live Schedule status -->
-                <div id="liveScheduleBox" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 hidden">
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm"><span class="material-symbols-outlined text-teal-600 text-base">sensors</span>Recurring Schedule</h3>
-                        <button onclick="stopLivePredictions()" class="text-xs text-red-600 font-semibold hover:underline">Stop</button>
-                    </div>
-                    <p class="text-xs text-slate-500" id="liveScheduleText">No schedule active.</p>
-                    <div class="text-[10px] text-slate-400 mt-2" id="liveScheduleMeta"></div>
-                </div>
-            </div>
-
-            <!-- RIGHT COLUMN -->
-            <div class="lg:w-2/3 space-y-5 sm:space-y-6">
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="assetCard">
-                    <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex flex-wrap justify-between items-center gap-2">
-                        <div>
-                            <p class="text-[10px] sm:text-xs text-white/70">Currently Analyzing</p>
-                            <h3 class="text-base sm:text-lg md:text-xl font-bold text-white" id="selectedMachineName">--</h3>
-                            <p class="text-[10px] sm:text-xs text-white/50" id="selectedMachineId">Select a machine or upload a dataset to begin</p>
-                        </div>
-                        <span class="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-white/20 text-white" id="healthBadge">---</span>
-                    </div>
-                    <div class="p-4 sm:p-5">
-                        <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
-                            <div class="bg-slate-50 p-3 sm:p-4 rounded-xl">
-                                <p class="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mb-1">Failure Probability</p>
-                                <div class="flex items-end gap-1 sm:gap-2">
-                                    <span class="text-xl sm:text-2xl md:text-3xl font-bold text-red-600" id="failureProbability">—</span>
-                                    <span class="material-symbols-outlined text-red-600 text-base">trending_up</span>
-                                </div>
-                                <p class="text-[10px] text-slate-400 mt-1" id="failureProbNote">from latest prediction</p>
-                            </div>
-                            <div class="bg-slate-800 p-3 sm:p-4 rounded-xl text-white">
-                                <p class="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider mb-1">Remaining Useful Life</p>
-                                <div class="flex items-end gap-1 sm:gap-2">
-                                    <span class="text-xl sm:text-2xl md:text-3xl font-bold" id="rulValue">—</span>
-                                    <span class="text-[10px] sm:text-xs" id="rulUnit">HRS</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex flex-wrap justify-between text-xs sm:text-sm mb-1 gap-2">
-                                <span class="font-semibold text-slate-800">Prediction Confidence</span>
-                                <span id="confidenceValue" class="text-teal-600 font-bold">—</span>
-                            </div>
-                            <div class="progress-bar"><div class="progress-fill" id="confidenceFill" style="width: 0%"></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sensor Telemetry -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
-                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
-                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
-                            <span class="material-symbols-outlined text-teal-600 text-base">show_chart</span>
-                            Sensor Telemetry Trends
-                        </h3>
-                        <span id="chartSourceChip" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold hidden">—</span>
-                    </div>
-                    <div class="w-full overflow-x-auto"><canvas id="sensorChart" height="200" style="max-width: 100%; height: auto; min-height: 200px;"></canvas></div>
-                    <p class="text-[10px] text-slate-400 mt-2 text-center" id="chartEmptyNote" style="display:none;">No sensor data available — connect a machine or use a simulated device.</p>
-                </div>
-
-                <!-- Prediction Results -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5" id="predictionResults" style="display:none;">
-                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
-                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
-                            <span class="material-symbols-outlined text-teal-600 text-base">neurology</span>
-                            AI Prediction Results
-                        </h3>
-                        <button id="viewAuditBtn" class="text-xs text-slate-500 hover:text-teal-600 font-semibold hidden" onclick="toggleAuditPanel()">
-                            <span class="material-symbols-outlined text-xs align-middle">expand_more</span> Model audit
-                        </button>
-                    </div>
-                    <div class="space-y-3 sm:space-y-4" id="resultsContent"></div>
-                    <div id="auditPanel" class="hidden mt-3 border-t border-slate-200 pt-3"></div>
-                </div>
-
-                <!-- AI Recommendations -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
-                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-sm sm:text-base">
-                        <span class="material-symbols-outlined text-teal-600 text-base">lightbulb</span>
-                        AI Recommendations
-                    </h3>
-                    <div id="recommendationsList">
-                        <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
-                            <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center"><span class="material-symbols-outlined text-slate-400 text-base">info</span></div>
-                            <div>
-                                <div class="font-semibold text-slate-800 text-sm">Run a prediction to see recommendations</div>
-                                <div class="text-xs text-slate-500">The backend generates actionable maintenance guidance from the prediction result.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Optional Evaluate -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
-                    <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
-                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
-                            <span class="material-symbols-outlined text-teal-600 text-base">verified</span>
-                            Evaluate on Labeled Data <span class="text-[10px] text-slate-400 font-normal">(optional)</span>
-                        </h3>
-                        <button onclick="toggleEvaluate()" class="text-xs text-teal-600 font-semibold hover:underline">Open</button>
-                    </div>
-                    <p class="text-xs text-slate-500">Compare prediction vs ground-truth. Requires a dataset with a target column (e.g., <code class="bg-slate-100 px-1 rounded">rul_hours</code>).</p>
-                    <div id="evaluatePanel" class="hidden mt-3 space-y-2">
-                        <label class="block text-xs font-semibold text-slate-700">Target column</label>
-                        <input type="text" id="evalTargetColumn" value="rul_hours" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-xs font-mono">
-                        <button onclick="runEvaluation()" class="w-full border border-teal-500 text-teal-600 py-2 rounded-xl font-semibold text-xs hover:bg-teal-50" id="runEvalBtn">Run Evaluation</button>
-                        <div id="evalResult" class="text-xs text-slate-600"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Prediction History -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-5 sm:mt-6" id="historySection">
-            <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex flex-wrap justify-between items-center gap-2">
-                <h3 class="text-white font-bold flex items-center gap-2 text-sm sm:text-base">
-                    <span class="material-symbols-outlined text-teal-300 text-base">history</span>
-                    Recent Predictions
-                </h3>
-                <div class="flex items-center gap-2">
-                    <div class="select-with-icon" style="min-width: 140px;">
-                        <select id="historyMachineFilter" class="text-xs" style="padding: 4px 24px 4px 8px; font-size: 11px;">
-                            <option value="">All machines</option>
-                        </select>
-                        <span class="material-symbols-outlined select-arrow" style="font-size: 16px; right: 6px;">expand_more</span>
-                    </div>
-                    <button onclick="loadHistory()" class="text-white/80 hover:text-white" title="Refresh history" aria-label="Refresh history">
-                        <span class="material-symbols-outlined text-sm">refresh</span>
-                    </button>
-                </div>
-            </div>
-            <div class="table-responsive">
-                <table class="w-full">
-                    <thead class="bg-slate-50">
-                        <tr>
-                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Machine</th>
-                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">RUL (hrs)</th>
-                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Confidence</th>
-                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Model</th>
-                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Status</th>
-                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historyTable">
-                        <tr><td colspan="6" class="text-center py-6 text-slate-500 text-xs sm:text-sm">Loading predictions...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="flex items-center justify-between px-4 py-3 border-t border-slate-200 bg-slate-50 text-xs">
-                <span class="text-slate-500" id="historyPageInfo">Page 1</span>
-                <div class="flex gap-2">
-                    <button onclick="historyPrev()" id="historyPrevBtn" class="px-3 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-white disabled:opacity-40" disabled>Prev</button>
-                    <button onclick="historyNext()" id="historyNextBtn" class="px-3 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-white disabled:opacity-40" disabled>Next</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
-
-<!-- ===== DETAIL MODAL (for history row click) ===== -->
-<div class="modal" id="predictionDetailModal" role="dialog" aria-modal="true">
-    <div class="modal-content max-w-lg w-full">
-        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white">Prediction Details</h3>
-            <button onclick="closePredictionDetailModal()" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
-        </div>
-        <div class="p-4 sm:p-6" id="predictionDetailContent"></div>
-    </div>
-</div>
-
-<!-- ===== LIVE SCHEDULE MODAL ===== -->
-<div class="modal" id="liveScheduleModal" role="dialog" aria-modal="true">
-    <div class="modal-content max-w-md w-full">
-        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white">Schedule Recurring Predictions</h3>
-            <button onclick="closeLiveScheduleModal()" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
-        </div>
-        <div class="p-4 sm:p-6">
-            <p class="text-xs text-slate-500 mb-3" id="liveMachineLabel">Machine</p>
-            <p class="text-sm text-slate-600 mb-4">Every tick will trigger a fresh <strong>real trained-model prediction</strong> for the selected machine using the current model + horizon. The first result fires <strong>after</strong> the interval elapses. Each run counts against your plan quota.</p>
-            <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Interval</label>
-            <div class="grid grid-cols-3 gap-2 mb-4" id="liveIntervalGrid">
-                <button type="button" data-interval="1" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">1 min</button>
-                <button type="button" data-interval="5" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">5 min</button>
-                <button type="button" data-interval="15" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">15 min</button>
-                <button type="button" data-interval="30" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">30 min</button>
-                <button type="button" data-interval="60" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">60 min</button>
-                <button type="button" data-interval="0" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-red-400 hover:bg-red-50 transition text-red-600">Stop</button>
-            </div>
-            <div id="liveScheduleError" class="hidden mb-3 page-banner error text-xs"></div>
-            <button type="button" id="liveScheduleStartBtn" class="w-full gradient-cta text-white px-4 py-3 rounded-xl font-semibold text-sm">Start Schedule</button>
-        </div>
-    </div>
-</div>
-
-<script>
-/* ===== PART 3 GOES HERE — REPLACE THIS LINE WITH THE ENTIRE SCRIPT BLOCK ===== */
-</script>
-</body>
-</html>
-* { box-sizing: border-box; }
+        * { box-sizing: border-box; }
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     vertical-align: middle;
@@ -999,23 +562,438 @@ body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-wi
     .sidebar, .sidebar-link, .sidebar-toggle, #mainContent,
     .sidebar-overlay, .profile-menu, .machine-item, .drop-zone { transition: none !important; }
 }
-/* =====================================================================
-   SYNAPSEPM PREDICTIONS PAGE — v5.0.0 PRODUCTION-READY
-   Preserves every feature of the original page + adds:
-   - X-Request-ID idempotency (no duplicate predictions on retry)
-   - 409 "already processing" handling
-   - /health boot check with live pill
-   - /datasets/analyze after upload → column/row profile
-   - machine_key + dataset_hint wiring (no __dataset__ pollution)
-   - model_selection_audit panel
-   - sensor_quality / ood_flags / uncertainty in abstention panel
-   - Structured diagnostics from /predict-debug on 422
-   - /predictions/evaluate (optional labeled-data comparison)
-   - Recurring prediction scheduler (1/5/15/30/60 min)
-   - History: machine filter + pagination + click row → detail modal
-   - Chart source chip (LIVE/MANUAL/SIMULATED/STALE)
-   ===================================================================== */
+    </style>
+</head>
+<body>
 
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
+                <div class="synapsepm-logo">
+                    <span class="logo-icon">
+                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
+                    </span>
+                    <span>Synapse</span><strong>PM</strong>
+                </div>
+            </a>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+        </div>
+    </div>
+    <nav class="sidebar-nav" aria-label="Application">
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p></div>
+            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard" aria-label="Dashboard"><span class="material-symbols-outlined" aria-hidden="true">dashboard</span><span class="sidebar-text">Dashboard</span></a>
+            <a href="machines.html" class="sidebar-link" data-tooltip="Machines" aria-label="Machines"><span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span><span class="sidebar-text">Machines</span></a>
+            <a href="predictions.html" class="sidebar-link active" data-tooltip="Predictions" aria-label="Predictions" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">neurology</span><span class="sidebar-text">Predictions</span></a>
+            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts" aria-label="Alerts"><span class="material-symbols-outlined" aria-hidden="true">notifications_active</span><span class="sidebar-text">Alerts</span><span class="badge-count" id="sidebarAlertsBadge" aria-label="Active alerts">0</span></a>
+            <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports"><span class="material-symbols-outlined" aria-hidden="true">assessment</span><span class="sidebar-text">Reports</span></a>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p></div>
+            <a href="billing.html" class="sidebar-link" data-tooltip="Billing" aria-label="Billing"><span class="material-symbols-outlined" aria-hidden="true">credit_card</span><span class="sidebar-text">Billing</span></a>
+        </div>
+    </nav>
+    <div class="sidebar-user-area">
+        <div class="user-card">
+            <div class="avatar-wrapper">
+                <button type="button" class="avatar" id="userAvatar" aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu"><span id="userAvatarText"></span></button>
+                <div class="status-dot" aria-hidden="true"></div>
+            </div>
+            <div class="user-details">
+                <div class="name" id="userName"></div>
+                <div class="email" id="userEmail"></div>
+                <div class="plan" id="userPlan"></div>
+            </div>
+        </div>
+        <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
+            <div class="profile-menu-header">
+                <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
+                <div class="min-w-0">
+                    <div class="profile-menu-name" id="profileMenuName"></div>
+                    <div class="profile-menu-email" id="profileMenuEmail"></div>
+                </div>
+            </div>
+            <div class="profile-menu-details">
+                <div class="profile-detail-row"><span class="profile-detail-label">Username</span><span class="profile-detail-value" id="profileMenuUsername"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Email</span><span class="profile-detail-value" id="profileMenuEmailDetail"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Plan</span><span class="profile-detail-value" id="profileMenuPlan"></span></div>
+                <div class="profile-detail-row" id="profileRoleRow" hidden><span class="profile-detail-label">Role</span><span class="profile-detail-value" id="profileMenuRole"></span></div>
+                <div class="profile-detail-row" id="profileOrgRow" hidden><span class="profile-detail-label">Organization</span><span class="profile-detail-value" id="profileMenuOrg"></span></div>
+            </div>
+            <div class="profile-menu-actions">
+                <button type="button" class="profile-action-btn" id="profileSettingsBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>Settings</button>
+                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>Sign out</button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="flex-1 min-w-0" id="mainContent">
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
+            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Predictions</h1>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <span id="healthStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold" title="Backend health">● CHECKING</span>
+            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
+            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div class="mb-6 sm:mb-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 mb-3">
+                        <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                        <span class="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-teal-700">Backend Predictive Engine</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-headline text-slate-800">Predictive Maintenance</h1>
+                    <p class="text-slate-500 text-sm sm:text-base mt-1">Real trained-model predictions on connected machines or uploaded datasets</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Total Predictions</span><span class="material-symbols-outlined text-teal-600 text-base">neurology</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="statTotal">—</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Avg RUL (hrs)</span><span class="material-symbols-outlined text-amber-500 text-base">schedule</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-amber-500" id="statAvgRul">—</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Healthy</span><span class="material-symbols-outlined text-green-600 text-base">check_circle</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-green-600" id="statHealthy">—</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Critical</span><span class="material-symbols-outlined text-red-600 text-base">error</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-red-600" id="statCritical">—</p>
+            </div>
+        </div>
+
+        <div id="pageBannerHost"></div>
+
+        <div class="flex flex-col lg:flex-row gap-5 sm:gap-6">
+            <!-- LEFT COLUMN -->
+            <div class="lg:w-1/3 space-y-5 sm:space-y-6">
+                <!-- Connected Machines -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex justify-between items-center">
+                        <h3 class="text-white font-bold flex items-center gap-2 text-sm sm:text-base">
+                            <span class="material-symbols-outlined text-teal-300 text-base">precision_manufacturing</span>
+                            Connected Machines
+                        </h3>
+                        <button onclick="loadMachines()" class="text-white/80 hover:text-white" title="Refresh" aria-label="Refresh machines">
+                            <span class="material-symbols-outlined text-sm">refresh</span>
+                        </button>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <div class="machines-list space-y-2" id="machinesList">
+                            <div class="animate-pulse space-y-2">
+                                <div class="h-14 bg-slate-100 rounded-xl"></div>
+                                <div class="h-14 bg-slate-100 rounded-xl"></div>
+                                <div class="h-14 bg-slate-100 rounded-xl"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload Dataset -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <h3 class="font-bold text-slate-800 mb-1 flex items-center gap-2 text-sm sm:text-base">
+                        <span class="material-symbols-outlined text-teal-600 text-base">upload_file</span>
+                        Upload Dataset
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-3">Upload a CSV, Excel, JSON, or TXT file. The backend picks the best trained model automatically — no manual selection needed.</p>
+
+                    <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Upload dataset">
+                        <span class="material-symbols-outlined">cloud_upload</span>
+                        <p class="text-sm text-slate-600 mt-2">Drop your dataset here</p>
+                        <p class="text-xs text-slate-400">or click to browse</p>
+                        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.json,.txt,.dat" class="hidden">
+                    </div>
+
+                    <div id="uploadedFileChip" class="mt-3 hidden"></div>
+                    <div id="uploadStatus" class="mt-3 hidden"></div>
+
+                    <!-- Dataset profile (from /datasets/analyze) -->
+                    <div id="datasetProfile" class="mt-3 hidden"></div>
+
+                    <!-- Optional machine_key mapping -->
+                    <div id="machineKeyBlock" class="mt-3 hidden">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" for="machineKeyInput">Machine key column value (optional)</label>
+                        <input type="text" id="machineKeyInput" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-xs font-mono" placeholder="e.g., PUMP-001 — only needed if the file has many machines">
+                        <p class="text-[10px] text-slate-400 mt-1">Leave blank if the dataset contains a single machine or you want the backend to auto-select.</p>
+                    </div>
+
+                    <button id="predictFromDatasetBtn" class="w-full mt-3 gradient-cta text-white py-2.5 rounded-xl font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2" disabled>
+                        <span class="material-symbols-outlined text-base">neurology</span>
+                        Run Prediction on Dataset
+                    </button>
+                    <p class="text-[10px] text-slate-400 mt-2 text-center">The backend will select the best compatible trained model automatically.</p>
+                </div>
+
+                <!-- Prediction Controls -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-sm sm:text-base">
+                        <span class="material-symbols-outlined text-teal-600 text-base">tune</span>
+                        Prediction Settings
+                    </h3>
+                    <div class="space-y-3 sm:space-y-4">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="aiModel">AI Model</label>
+                            <div class="select-with-icon">
+                                <select id="aiModel">
+                                    <option value="auto" selected>Auto (backend picks best model)</option>
+                                    <option value="lstm">LSTM Neural Network</option>
+                                    <option value="transformer">Transformer Model</option>
+                                    <option value="xgboost">XGBoost Ensemble</option>
+                                    <option value="lightgbm">LightGBM</option>
+                                    <option value="catboost">CatBoost</option>
+                                    <option value="random_forest">Random Forest</option>
+                                    <option value="gradient_boosting">Gradient Boosting</option>
+                                    <option value="svm">SVM</option>
+                                    <option value="neural_network">Neural Network</option>
+                                </select>
+                                <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400 mt-1">Auto is recommended. The backend only uses validated production models.</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="predictionHorizon">Prediction Horizon</label>
+                            <div class="select-with-icon">
+                                <select id="predictionHorizon">
+                                    <option value="7">Next 7 days</option>
+                                    <option value="30" selected>Next 30 days</option>
+                                    <option value="90">Next 90 days</option>
+                                    <option value="365">Next year</option>
+                                </select>
+                                <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                            </div>
+                        </div>
+                        <button id="runPredictionMainBtn" class="w-full gradient-cta text-white py-2.5 sm:py-3 rounded-xl font-bold text-sm sm:text-base hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-base sm:text-lg">neurology</span>
+                            Run Prediction on Selected Machine
+                        </button>
+                        <button id="runLivePredictionBtn" class="w-full border border-teal-500 text-teal-600 py-2 rounded-xl font-semibold text-xs hover:bg-teal-50 transition-all flex items-center justify-center gap-2" title="Run predictions on a schedule">
+                            <span class="material-symbols-outlined text-sm">sensors</span>
+                            Schedule Recurring Predictions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Schedule status -->
+                <div id="liveScheduleBox" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm"><span class="material-symbols-outlined text-teal-600 text-base">sensors</span>Recurring Schedule</h3>
+                        <button onclick="stopLivePredictions()" class="text-xs text-red-600 font-semibold hover:underline">Stop</button>
+                    </div>
+                    <p class="text-xs text-slate-500" id="liveScheduleText">No schedule active.</p>
+                    <div class="text-[10px] text-slate-400 mt-2" id="liveScheduleMeta"></div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="lg:w-2/3 space-y-5 sm:space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="assetCard">
+                    <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex flex-wrap justify-between items-center gap-2">
+                        <div>
+                            <p class="text-[10px] sm:text-xs text-white/70">Currently Analyzing</p>
+                            <h3 class="text-base sm:text-lg md:text-xl font-bold text-white" id="selectedMachineName">--</h3>
+                            <p class="text-[10px] sm:text-xs text-white/50" id="selectedMachineId">Select a machine or upload a dataset to begin</p>
+                        </div>
+                        <span class="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-white/20 text-white" id="healthBadge">---</span>
+                    </div>
+                    <div class="p-4 sm:p-5">
+                        <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                            <div class="bg-slate-50 p-3 sm:p-4 rounded-xl">
+                                <p class="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mb-1">Failure Probability</p>
+                                <div class="flex items-end gap-1 sm:gap-2">
+                                    <span class="text-xl sm:text-2xl md:text-3xl font-bold text-red-600" id="failureProbability">—</span>
+                                    <span class="material-symbols-outlined text-red-600 text-base">trending_up</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-1" id="failureProbNote">from latest prediction</p>
+                            </div>
+                            <div class="bg-slate-800 p-3 sm:p-4 rounded-xl text-white">
+                                <p class="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider mb-1">Remaining Useful Life</p>
+                                <div class="flex items-end gap-1 sm:gap-2">
+                                    <span class="text-xl sm:text-2xl md:text-3xl font-bold" id="rulValue">—</span>
+                                    <span class="text-[10px] sm:text-xs" id="rulUnit">HRS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap justify-between text-xs sm:text-sm mb-1 gap-2">
+                                <span class="font-semibold text-slate-800">Prediction Confidence</span>
+                                <span id="confidenceValue" class="text-teal-600 font-bold">—</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-fill" id="confidenceFill" style="width: 0%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sensor Telemetry -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+                            <span class="material-symbols-outlined text-teal-600 text-base">show_chart</span>
+                            Sensor Telemetry Trends
+                        </h3>
+                        <span id="chartSourceChip" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold hidden">—</span>
+                    </div>
+                    <div class="w-full overflow-x-auto"><canvas id="sensorChart" height="200" style="max-width: 100%; height: auto; min-height: 200px;"></canvas></div>
+                    <p class="text-[10px] text-slate-400 mt-2 text-center" id="chartEmptyNote" style="display:none;">No sensor data available — connect a machine or use a simulated device.</p>
+                </div>
+
+                <!-- Prediction Results -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5" id="predictionResults" style="display:none;">
+                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+                            <span class="material-symbols-outlined text-teal-600 text-base">neurology</span>
+                            AI Prediction Results
+                        </h3>
+                        <button id="viewAuditBtn" class="text-xs text-slate-500 hover:text-teal-600 font-semibold hidden" onclick="toggleAuditPanel()">
+                            <span class="material-symbols-outlined text-xs align-middle">expand_more</span> Model audit
+                        </button>
+                    </div>
+                    <div class="space-y-3 sm:space-y-4" id="resultsContent"></div>
+                    <div id="auditPanel" class="hidden mt-3 border-t border-slate-200 pt-3"></div>
+                </div>
+
+                <!-- AI Recommendations -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-sm sm:text-base">
+                        <span class="material-symbols-outlined text-teal-600 text-base">lightbulb</span>
+                        AI Recommendations
+                    </h3>
+                    <div id="recommendationsList">
+                        <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                            <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center"><span class="material-symbols-outlined text-slate-400 text-base">info</span></div>
+                            <div>
+                                <div class="font-semibold text-slate-800 text-sm">Run a prediction to see recommendations</div>
+                                <div class="text-xs text-slate-500">The backend generates actionable maintenance guidance from the prediction result.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional Evaluate -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5">
+                    <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+                            <span class="material-symbols-outlined text-teal-600 text-base">verified</span>
+                            Evaluate on Labeled Data <span class="text-[10px] text-slate-400 font-normal">(optional)</span>
+                        </h3>
+                        <button onclick="toggleEvaluate()" class="text-xs text-teal-600 font-semibold hover:underline">Open</button>
+                    </div>
+                    <p class="text-xs text-slate-500">Compare prediction vs ground-truth. Requires a dataset with a target column (e.g., <code class="bg-slate-100 px-1 rounded">rul_hours</code>).</p>
+                    <div id="evaluatePanel" class="hidden mt-3 space-y-2">
+                        <label class="block text-xs font-semibold text-slate-700">Target column</label>
+                        <input type="text" id="evalTargetColumn" value="rul_hours" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-xs font-mono">
+                        <button onclick="runEvaluation()" class="w-full border border-teal-500 text-teal-600 py-2 rounded-xl font-semibold text-xs hover:bg-teal-50" id="runEvalBtn">Run Evaluation</button>
+                        <div id="evalResult" class="text-xs text-slate-600"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prediction History -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-5 sm:mt-6" id="historySection">
+            <div class="gradient-primary px-4 sm:px-5 py-3 sm:py-4 flex flex-wrap justify-between items-center gap-2">
+                <h3 class="text-white font-bold flex items-center gap-2 text-sm sm:text-base">
+                    <span class="material-symbols-outlined text-teal-300 text-base">history</span>
+                    Recent Predictions
+                </h3>
+                <div class="flex items-center gap-2">
+                    <div class="select-with-icon" style="min-width: 140px;">
+                        <select id="historyMachineFilter" class="text-xs" style="padding: 4px 24px 4px 8px; font-size: 11px;">
+                            <option value="">All machines</option>
+                        </select>
+                        <span class="material-symbols-outlined select-arrow" style="font-size: 16px; right: 6px;">expand_more</span>
+                    </div>
+                    <button onclick="loadHistory()" class="text-white/80 hover:text-white" title="Refresh history" aria-label="Refresh history">
+                        <span class="material-symbols-outlined text-sm">refresh</span>
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="w-full">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Machine</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">RUL (hrs)</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Confidence</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Model</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Status</th>
+                            <th class="px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-slate-800">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTable">
+                        <tr><td colspan="6" class="text-center py-6 text-slate-500 text-xs sm:text-sm">Loading predictions...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex items-center justify-between px-4 py-3 border-t border-slate-200 bg-slate-50 text-xs">
+                <span class="text-slate-500" id="historyPageInfo">Page 1</span>
+                <div class="flex gap-2">
+                    <button onclick="historyPrev()" id="historyPrevBtn" class="px-3 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-white disabled:opacity-40" disabled>Prev</button>
+                    <button onclick="historyNext()" id="historyNextBtn" class="px-3 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-white disabled:opacity-40" disabled>Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- ===== DETAIL MODAL (for history row click) ===== -->
+<div class="modal" id="predictionDetailModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-lg w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Prediction Details</h3>
+            <button onclick="closePredictionDetailModal()" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6" id="predictionDetailContent"></div>
+    </div>
+</div>
+
+<!-- ===== LIVE SCHEDULE MODAL ===== -->
+<div class="modal" id="liveScheduleModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Schedule Recurring Predictions</h3>
+            <button onclick="closeLiveScheduleModal()" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <p class="text-xs text-slate-500 mb-3" id="liveMachineLabel">Machine</p>
+            <p class="text-sm text-slate-600 mb-4">Every tick will trigger a fresh <strong>real trained-model prediction</strong> for the selected machine using the current model + horizon. The first result fires <strong>after</strong> the interval elapses. Each run counts against your plan quota.</p>
+            <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Interval</label>
+            <div class="grid grid-cols-3 gap-2 mb-4" id="liveIntervalGrid">
+                <button type="button" data-interval="1" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">1 min</button>
+                <button type="button" data-interval="5" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">5 min</button>
+                <button type="button" data-interval="15" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">15 min</button>
+                <button type="button" data-interval="30" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">30 min</button>
+                <button type="button" data-interval="60" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">60 min</button>
+                <button type="button" data-interval="0" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-red-400 hover:bg-red-50 transition text-red-600">Stop</button>
+            </div>
+            <div id="liveScheduleError" class="hidden mb-3 page-banner error text-xs"></div>
+            <button type="button" id="liveScheduleStartBtn" class="w-full gradient-cta text-white px-4 py-3 rounded-xl font-semibold text-sm">Start Schedule</button>
+        </div>
+    </div>
+</div>
+
+<script>
 const API_BASE = '/api/v1';
 const REQUEST_TIMEOUT_MS = 35000;
 const REFRESH_STORAGE_KEYS = ['synapse_refresh', 'refresh_token', 'synapse_refresh_token'];
@@ -2896,3 +2874,6 @@ window.openMobileSidebar = openMobileSidebar;
 window.toggleProfileMenu = toggleProfileMenu;
 window.closeProfileMenu = closeProfileMenu;
 window.showToast = showToast;
+</script>
+</body>
+</html>
