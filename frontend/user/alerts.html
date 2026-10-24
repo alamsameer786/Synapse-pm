@@ -29,271 +29,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
 <style>
-/* ===== PART 2 GOES HERE — REPLACE THIS LINE WITH THE ENTIRE STYLE BLOCK ===== */
-</style>
-</head>
-<body>
-
-<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
-
-<!-- ===== SIDEBAR ===== -->
-<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
-    <div class="sidebar-header">
-        <div class="sidebar-brand">
-            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
-                <div class="synapsepm-logo">
-                    <span class="logo-icon">
-                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
-                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
-                    </span>
-                    <span>Synapse</span><strong>PM</strong>
-                </div>
-            </a>
-            <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-        </div>
-    </div>
-    <nav class="sidebar-nav" aria-label="Application">
-        <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p></div>
-            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard" aria-label="Dashboard"><span class="material-symbols-outlined" aria-hidden="true">dashboard</span><span class="sidebar-text">Dashboard</span></a>
-            <a href="machines.html" class="sidebar-link" data-tooltip="Machines" aria-label="Machines"><span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span><span class="sidebar-text">Machines</span></a>
-            <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions" aria-label="Predictions"><span class="material-symbols-outlined" aria-hidden="true">neurology</span><span class="sidebar-text">Predictions</span></a>
-            <a href="alerts.html" class="sidebar-link active" data-tooltip="Alerts" aria-label="Alerts" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">notifications_active</span><span class="sidebar-text">Alerts</span><span class="badge-count" id="sidebarAlertsBadge" aria-label="Unread active alerts">0</span></a>
-            <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports"><span class="material-symbols-outlined" aria-hidden="true">assessment</span><span class="sidebar-text">Reports</span></a>
-        </div>
-        <div class="sidebar-divider"></div>
-        <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p></div>
-            <a href="billing.html" class="sidebar-link" data-tooltip="Billing" aria-label="Billing"><span class="material-symbols-outlined" aria-hidden="true">credit_card</span><span class="sidebar-text">Billing</span></a>
-        </div>
-    </nav>
-    <div class="sidebar-user-area">
-        <div class="user-card">
-            <div class="avatar-wrapper">
-                <button type="button" class="avatar" id="userAvatar" aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu"><span id="userAvatarText" class="avatar-initial"></span></button>
-                <div class="status-dot" id="userStatusDot" aria-hidden="true"></div>
-            </div>
-            <div class="user-details">
-                <div class="name" id="userName"></div>
-                <div class="email" id="userEmail"></div>
-                <div class="plan" id="userPlan"></div>
-            </div>
-        </div>
-        <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
-            <div class="profile-menu-header">
-                <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
-                <div class="min-w-0">
-                    <div class="profile-menu-name" id="profileMenuName"></div>
-                    <div class="profile-menu-email" id="profileMenuEmail"></div>
-                </div>
-            </div>
-            <div class="profile-menu-details">
-                <div class="profile-detail-row"><span class="profile-detail-label">Username</span><span class="profile-detail-value" id="profileMenuUsername"></span></div>
-                <div class="profile-detail-row"><span class="profile-detail-label">Email</span><span class="profile-detail-value" id="profileMenuEmailDetail"></span></div>
-                <div class="profile-detail-row"><span class="profile-detail-label">Plan</span><span class="profile-detail-value" id="profileMenuPlan"></span></div>
-                <div class="profile-detail-row" id="profileRoleRow" hidden><span class="profile-detail-label">Role</span><span class="profile-detail-value" id="profileMenuRole"></span></div>
-                <div class="profile-detail-row" id="profileOrgRow" hidden><span class="profile-detail-label">Organization</span><span class="profile-detail-value" id="profileMenuOrg"></span></div>
-            </div>
-            <div class="profile-menu-actions">
-                <button type="button" class="profile-action-btn" id="profileSettingsBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>Settings</button>
-                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>Sign out</button>
-            </div>
-        </div>
-    </div>
-</aside>
-
-<!-- ===== MAIN ===== -->
-<main class="flex-1 min-w-0" id="mainContent">
-    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
-        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
-            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Alerts</h1>
-        </div>
-        <div class="flex items-center gap-2 flex-shrink-0">
-            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
-            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
-        </div>
-    </header>
-
-    <!-- Hero -->
-    <div class="bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="material-symbols-outlined text-teal-600 text-lg">notifications_active</span>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-teal-600">Alert Center</span>
-                    </div>
-                    <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Active Alerts</h1>
-                    <p class="text-slate-500 text-sm mt-0.5">Real-time alerts from trained-model predictions and sensor thresholds — Red &middot; Yellow &middot; Green zones</p>
-                </div>
-                <div class="flex gap-2 flex-wrap">
-                    <button id="groupToggleBtn" class="border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-semibold hover:bg-slate-50 transition text-sm flex items-center gap-2">
-                        <span class="material-symbols-outlined text-base">category</span>
-                        <span id="groupToggleLabel">Group by zone</span>
-                    </button>
-                    <button id="muteAlarmBtn" class="border border-amber-300 bg-amber-50 text-amber-700 px-4 py-2 rounded-xl font-semibold hover:bg-amber-100 transition text-sm flex items-center gap-2" title="Silence the alarm until you unmute or resolve all criticals">
-                        <span class="material-symbols-outlined text-base" id="muteAlarmIcon">volume_up</span>
-                        <span id="muteAlarmLabel">Mute alarm</span>
-                    </button>
-                    <button id="markAllReadBtn" class="border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-semibold hover:bg-slate-50 transition text-sm flex items-center gap-2">
-                        <span class="material-symbols-outlined text-base">done_all</span>
-                        Mark all read
-                    </button>
-                    <button id="refreshBtn" class="border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-semibold hover:bg-slate-50 transition text-sm flex items-center gap-2">
-                        <span class="material-symbols-outlined text-base">refresh</span>
-                        Refresh
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Total Alerts</span><span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">notifications_active</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="totalAlerts">0</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-red-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-red-600 font-semibold">🔴 Red Zone</span><span class="material-symbols-outlined text-red-600 text-base sm:text-lg">error</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-red-600" id="criticalAlerts">0</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-amber-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-amber-600 font-semibold">🟡 Yellow Zone</span><span class="material-symbols-outlined text-amber-500 text-base sm:text-lg">warning</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-amber-500" id="warningAlerts">0</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-green-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-green-600 font-semibold">🟢 Green Zone</span><span class="material-symbols-outlined text-green-600 text-base sm:text-lg">check_circle</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-green-600" id="resolvedAlerts">0</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- All-clear banner (green zone when no active alerts) -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div id="allClearBanner" class="hidden rounded-2xl border-2 border-green-300 bg-gradient-to-br from-green-50 to-emerald-50 p-5 flex items-center gap-4">
-            <div class="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-white text-3xl">check_circle</span>
-            </div>
-            <div class="min-w-0 flex-1">
-                <p class="font-bold text-green-900 text-base sm:text-lg">All clear — everything is healthy</p>
-                <p class="text-sm text-green-700 mt-0.5" id="allClearSubtitle">No active alerts. All monitored machines are within normal parameters.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
-        <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5">
-            <div class="flex flex-col lg:flex-row gap-3">
-                <div class="relative flex-1 min-w-[200px]">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-base">search</span>
-                    <input type="text" id="searchInput" placeholder="Search by title, message, machine..." class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm">
-                </div>
-                <div class="select-with-icon w-full lg:w-auto">
-                    <select id="severityFilter" aria-label="Filter by severity">
-                        <option value="">All severities</option>
-                        <option value="critical">🔴 Critical (Red)</option>
-                        <option value="warning">🟡 Warning (Yellow)</option>
-                        <option value="info">🟢 Info (Green)</option>
-                    </select>
-                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
-                </div>
-                <div class="select-with-icon w-full lg:w-auto">
-                    <select id="statusFilter" aria-label="Filter by status">
-                        <option value="">All statuses</option>
-                        <option value="active">Active only</option>
-                        <option value="resolved">Resolved only</option>
-                    </select>
-                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
-                </div>
-                <div class="select-with-icon w-full lg:w-auto">
-                    <select id="sourceFilter" aria-label="Filter by source">
-                        <option value="">All sources</option>
-                        <option value="ml_model">ML model</option>
-                        <option value="sensor">Sensor rule</option>
-                        <option value="rule">Threshold rule</option>
-                        <option value="user">User</option>
-                    </select>
-                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
-                </div>
-                <div class="select-with-icon w-full lg:w-auto">
-                    <select id="machineFilter" aria-label="Filter by machine">
-                        <option value="">All machines</option>
-                    </select>
-                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bulk action bar -->
-    <div id="bulkBar" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3">
-        <div class="bg-slate-900 text-white rounded-xl px-4 py-2.5 flex flex-wrap items-center gap-3">
-            <span class="text-xs font-semibold"><span id="bulkCount">0</span> selected</span>
-            <div class="flex gap-2 ml-auto flex-wrap">
-                <button onclick="bulkMarkRead()" class="px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-xs font-semibold flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">done</span> Mark read
-                </button>
-                <button onclick="bulkResolve()" class="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-xs font-semibold flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">check_circle</span> Resolve
-                </button>
-                <button onclick="bulkMute()" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-xs font-semibold flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">volume_off</span> Mute
-                </button>
-                <button onclick="clearSelection()" class="px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-xs font-semibold">Clear</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Alerts list -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div id="alertsContainer" class="space-y-3" aria-busy="false">
-            <div class="bg-white rounded-2xl border border-slate-200 p-5">
-                <div class="flex gap-4">
-                    <div class="skel w-10 h-10 rounded-xl flex-shrink-0"></div>
-                    <div class="flex-1">
-                        <div class="skel h-4 w-48 mb-2"></div>
-                        <div class="skel h-3 w-full mb-1"></div>
-                        <div class="skel h-3 w-2/3"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-2xl border border-slate-200 p-5">
-                <div class="flex gap-4">
-                    <div class="skel w-10 h-10 rounded-xl flex-shrink-0"></div>
-                    <div class="flex-1">
-                        <div class="skel h-4 w-56 mb-2"></div>
-                        <div class="skel h-3 w-full mb-1"></div>
-                        <div class="skel h-3 w-1/2"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
-
-<!-- ===== ALERT DETAIL MODAL ===== -->
-<div class="modal" id="alertDetailModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-content">
-        <div class="gradient-primary px-5 sm:px-6 py-4 rounded-t-3xl flex justify-between items-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white truncate" id="detailAlertTitle">Alert Details</h3>
-            <button id="closeDetailModal" class="text-white/80 hover:text-white text-2xl leading-none" aria-label="Close">&times;</button>
-        </div>
-        <div class="p-5 sm:p-6" id="detailContent"></div>
-    </div>
-</div>
-
-<script>
-/* ===== PART 3 GOES HERE — REPLACE THIS LINE WITH THE ENTIRE SCRIPT BLOCK ===== */
-</script>
-</body>
-</html>
-* { box-sizing: border-box; }
+    * { box-sizing: border-box; }
 .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
 body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
 h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
@@ -973,7 +709,266 @@ body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-wi
         animation: none !important;
     }
 }
-/* =====================================================================
+</style>
+</head>
+<body>
+
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
+                <div class="synapsepm-logo">
+                    <span class="logo-icon">
+                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
+                    </span>
+                    <span>Synapse</span><strong>PM</strong>
+                </div>
+            </a>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+        </div>
+    </div>
+    <nav class="sidebar-nav" aria-label="Application">
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p></div>
+            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard" aria-label="Dashboard"><span class="material-symbols-outlined" aria-hidden="true">dashboard</span><span class="sidebar-text">Dashboard</span></a>
+            <a href="machines.html" class="sidebar-link" data-tooltip="Machines" aria-label="Machines"><span class="material-symbols-outlined" aria-hidden="true">precision_manufacturing</span><span class="sidebar-text">Machines</span></a>
+            <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions" aria-label="Predictions"><span class="material-symbols-outlined" aria-hidden="true">neurology</span><span class="sidebar-text">Predictions</span></a>
+            <a href="alerts.html" class="sidebar-link active" data-tooltip="Alerts" aria-label="Alerts" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">notifications_active</span><span class="sidebar-text">Alerts</span><span class="badge-count" id="sidebarAlertsBadge" aria-label="Unread active alerts">0</span></a>
+            <a href="reports.html" class="sidebar-link" data-tooltip="Reports" aria-label="Reports"><span class="material-symbols-outlined" aria-hidden="true">assessment</span><span class="sidebar-text">Reports</span></a>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p></div>
+            <a href="billing.html" class="sidebar-link" data-tooltip="Billing" aria-label="Billing"><span class="material-symbols-outlined" aria-hidden="true">credit_card</span><span class="sidebar-text">Billing</span></a>
+        </div>
+    </nav>
+    <div class="sidebar-user-area">
+        <div class="user-card">
+            <div class="avatar-wrapper">
+                <button type="button" class="avatar" id="userAvatar" aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu"><span id="userAvatarText" class="avatar-initial"></span></button>
+                <div class="status-dot" id="userStatusDot" aria-hidden="true"></div>
+            </div>
+            <div class="user-details">
+                <div class="name" id="userName"></div>
+                <div class="email" id="userEmail"></div>
+                <div class="plan" id="userPlan"></div>
+            </div>
+        </div>
+        <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
+            <div class="profile-menu-header">
+                <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
+                <div class="min-w-0">
+                    <div class="profile-menu-name" id="profileMenuName"></div>
+                    <div class="profile-menu-email" id="profileMenuEmail"></div>
+                </div>
+            </div>
+            <div class="profile-menu-details">
+                <div class="profile-detail-row"><span class="profile-detail-label">Username</span><span class="profile-detail-value" id="profileMenuUsername"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Email</span><span class="profile-detail-value" id="profileMenuEmailDetail"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Plan</span><span class="profile-detail-value" id="profileMenuPlan"></span></div>
+                <div class="profile-detail-row" id="profileRoleRow" hidden><span class="profile-detail-label">Role</span><span class="profile-detail-value" id="profileMenuRole"></span></div>
+                <div class="profile-detail-row" id="profileOrgRow" hidden><span class="profile-detail-label">Organization</span><span class="profile-detail-value" id="profileMenuOrg"></span></div>
+            </div>
+            <div class="profile-menu-actions">
+                <button type="button" class="profile-action-btn" id="profileSettingsBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>Settings</button>
+                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>Sign out</button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="flex-1 min-w-0" id="mainContent">
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
+            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Alerts</h1>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
+            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="material-symbols-outlined text-teal-600 text-lg">notifications_active</span>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-teal-600">Alert Center</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Active Alerts</h1>
+                    <p class="text-slate-500 text-sm mt-0.5">Real-time alerts from trained-model predictions and sensor thresholds — Red &middot; Yellow &middot; Green zones</p>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <button id="groupToggleBtn" class="border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-semibold hover:bg-slate-50 transition text-sm flex items-center gap-2">
+                        <span class="material-symbols-outlined text-base">category</span>
+                        <span id="groupToggleLabel">Group by zone</span>
+                    </button>
+                    <button id="muteAlarmBtn" class="border border-amber-300 bg-amber-50 text-amber-700 px-4 py-2 rounded-xl font-semibold hover:bg-amber-100 transition text-sm flex items-center gap-2" title="Silence the alarm until you unmute or resolve all criticals">
+                        <span class="material-symbols-outlined text-base" id="muteAlarmIcon">volume_up</span>
+                        <span id="muteAlarmLabel">Mute alarm</span>
+                    </button>
+                    <button id="markAllReadBtn" class="border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-semibold hover:bg-slate-50 transition text-sm flex items-center gap-2">
+                        <span class="material-symbols-outlined text-base">done_all</span>
+                        Mark all read
+                    </button>
+                    <button id="refreshBtn" class="border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-semibold hover:bg-slate-50 transition text-sm flex items-center gap-2">
+                        <span class="material-symbols-outlined text-base">refresh</span>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Total Alerts</span><span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">notifications_active</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="totalAlerts">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-red-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-red-600 font-semibold">🔴 Red Zone</span><span class="material-symbols-outlined text-red-600 text-base sm:text-lg">error</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-red-600" id="criticalAlerts">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-amber-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-amber-600 font-semibold">🟡 Yellow Zone</span><span class="material-symbols-outlined text-amber-500 text-base sm:text-lg">warning</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-amber-500" id="warningAlerts">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-green-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-green-600 font-semibold">🟢 Green Zone</span><span class="material-symbols-outlined text-green-600 text-base sm:text-lg">check_circle</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-green-600" id="resolvedAlerts">0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- All-clear banner (green zone when no active alerts) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div id="allClearBanner" class="hidden rounded-2xl border-2 border-green-300 bg-gradient-to-br from-green-50 to-emerald-50 p-5 flex items-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-white text-3xl">check_circle</span>
+            </div>
+            <div class="min-w-0 flex-1">
+                <p class="font-bold text-green-900 text-base sm:text-lg">All clear — everything is healthy</p>
+                <p class="text-sm text-green-700 mt-0.5" id="allClearSubtitle">No active alerts. All monitored machines are within normal parameters.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5">
+            <div class="flex flex-col lg:flex-row gap-3">
+                <div class="relative flex-1 min-w-[200px]">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-base">search</span>
+                    <input type="text" id="searchInput" placeholder="Search by title, message, machine..." class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm">
+                </div>
+                <div class="select-with-icon w-full lg:w-auto">
+                    <select id="severityFilter" aria-label="Filter by severity">
+                        <option value="">All severities</option>
+                        <option value="critical">🔴 Critical (Red)</option>
+                        <option value="warning">🟡 Warning (Yellow)</option>
+                        <option value="info">🟢 Info (Green)</option>
+                    </select>
+                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                </div>
+                <div class="select-with-icon w-full lg:w-auto">
+                    <select id="statusFilter" aria-label="Filter by status">
+                        <option value="">All statuses</option>
+                        <option value="active">Active only</option>
+                        <option value="resolved">Resolved only</option>
+                    </select>
+                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                </div>
+                <div class="select-with-icon w-full lg:w-auto">
+                    <select id="sourceFilter" aria-label="Filter by source">
+                        <option value="">All sources</option>
+                        <option value="ml_model">ML model</option>
+                        <option value="sensor">Sensor rule</option>
+                        <option value="rule">Threshold rule</option>
+                        <option value="user">User</option>
+                    </select>
+                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                </div>
+                <div class="select-with-icon w-full lg:w-auto">
+                    <select id="machineFilter" aria-label="Filter by machine">
+                        <option value="">All machines</option>
+                    </select>
+                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk action bar -->
+    <div id="bulkBar" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3">
+        <div class="bg-slate-900 text-white rounded-xl px-4 py-2.5 flex flex-wrap items-center gap-3">
+            <span class="text-xs font-semibold"><span id="bulkCount">0</span> selected</span>
+            <div class="flex gap-2 ml-auto flex-wrap">
+                <button onclick="bulkMarkRead()" class="px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-xs font-semibold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">done</span> Mark read
+                </button>
+                <button onclick="bulkResolve()" class="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-xs font-semibold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">check_circle</span> Resolve
+                </button>
+                <button onclick="bulkMute()" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-xs font-semibold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">volume_off</span> Mute
+                </button>
+                <button onclick="clearSelection()" class="px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-xs font-semibold">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alerts list -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div id="alertsContainer" class="space-y-3" aria-busy="false">
+            <div class="bg-white rounded-2xl border border-slate-200 p-5">
+                <div class="flex gap-4">
+                    <div class="skel w-10 h-10 rounded-xl flex-shrink-0"></div>
+                    <div class="flex-1">
+                        <div class="skel h-4 w-48 mb-2"></div>
+                        <div class="skel h-3 w-full mb-1"></div>
+                        <div class="skel h-3 w-2/3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-5">
+                <div class="flex gap-4">
+                    <div class="skel w-10 h-10 rounded-xl flex-shrink-0"></div>
+                    <div class="flex-1">
+                        <div class="skel h-4 w-56 mb-2"></div>
+                        <div class="skel h-3 w-full mb-1"></div>
+                        <div class="skel h-3 w-1/2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- ===== ALERT DETAIL MODAL ===== -->
+<div class="modal" id="alertDetailModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content">
+        <div class="gradient-primary px-5 sm:px-6 py-4 rounded-t-3xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white truncate" id="detailAlertTitle">Alert Details</h3>
+            <button id="closeDetailModal" class="text-white/80 hover:text-white text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-5 sm:p-6" id="detailContent"></div>
+    </div>
+</div>
+
+<script>
+
    SYNAPSEPM ALERTS PAGE — v5.0.0 PRODUCTION-READY
    Preserves every feature of the original page + adds:
    - 3-tier zone bucketing (Red / Yellow / Green)
@@ -2476,3 +2471,6 @@ window.openMobileSidebar = openMobileSidebar;
 window.toggleProfileMenu = toggleProfileMenu;
 window.closeProfileMenu = closeProfileMenu;
 window.handleLogout = Auth.logout.bind(Auth);
+</script>
+</body>
+</html>
