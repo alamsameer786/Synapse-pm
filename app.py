@@ -357,6 +357,7 @@ class Config:
         'http://localhost:3000,http://127.0.0.1:5000,http://localhost:8080,'
         'http://127.0.0.1:8080,http://localhost:8000,http://127.0.0.1:8000'
     ).split(',')
+    CORS_ORIGINS = [origin.strip().rstrip('/') for origin in CORS_ORIGINS if origin.strip()]
 
     JWT_ACCESS_EXPIRY_MINUTES = int(os.environ.get('JWT_ACCESS_EXPIRY_MINUTES', 600))
     JWT_REFRESH_EXPIRY_DAYS = int(os.environ.get('JWT_REFRESH_EXPIRY_DAYS', 30))
@@ -596,6 +597,14 @@ class Config:
 
 
 config = Config()
+
+# Render ephemeral filesystem safety: /data is persistent only when a disk is
+# explicitly mounted in the Render service settings. Never assume it exists.
+if os.environ.get('RENDER'):
+    for _var in ('MODEL_RELEASE_ZIP', 'ML_MODEL_PATH', 'UPLOAD_FOLDER', 'DOWNLOAD_FOLDER'):
+        _value = os.environ.get(_var, '').strip()
+        if _value.startswith('/data/') and not Path('/data').exists():
+            logger.warning('%s=%s points to /data, but /data is not mounted; configure a Render Persistent Disk or use an ephemeral path.', _var, _value)
 
 
 def validate_config():
@@ -1717,8 +1726,14 @@ class Alert(TimestampMixin, db.Model):
     email_status = db.Column(JSONType, nullable=True)
 
     def to_dict(self):
+        try:
+            _machine = db.session.get(Machine, self.machine_id) if self.machine_id else None
+            _machine_name = _machine.name if _machine else None
+        except Exception:
+            _machine_name = None
         return json_safe({
             'id': self.id, 'uuid': self.uuid, 'machine_id': self.machine_id,
+            'machine_name': _machine_name,
             'organization_id': self.organization_id,
             'title': self.title, 'message': self.message, 'severity': self.severity,
             'category': self.category, 'source': self.source, 'status': self.status,
@@ -3177,14 +3192,39 @@ def start_mqtt_subscriber(app):
         else:
             logger.error(f"MQTT connect failed: rc={rc}")
 
+    reconnect_lock = threading.Lock()
+    reconnect_state = {'scheduled': False}
+
     def on_disconnect(client, userdata, rc):
         logger.warning(f"MQTT disconnected: rc={rc}")
-        if rc != 0:
+        if rc == 0:
+            return
+        # Do not sleep or reconnect inside Paho's callback thread. Schedule one
+        # bounded exponential-backoff loop and let Paho's network loop continue.
+        with reconnect_lock:
+            if reconnect_state['scheduled']:
+                return
+            reconnect_state['scheduled'] = True
+
+        def _reconnect_with_backoff():
             try:
-                time.sleep(5)
-                client.reconnect()
-            except Exception as e:
-                logger.error(f"MQTT reconnect failed: {e}")
+                for delay in (5, 10, 30, 60, 120, 300):
+                    stop_event = globals().get('_cleanup_stop')
+                    if stop_event is not None and stop_event.is_set():
+                        return
+                    time.sleep(delay)
+                    try:
+                        client.reconnect()
+                        logger.info('MQTT reconnect requested after %ss backoff', delay)
+                        return
+                    except Exception as exc:
+                        logger.warning('MQTT reconnect attempt failed after %ss: %s', delay, exc)
+                logger.error('MQTT reconnect attempts exhausted; Paho may retry on its own.')
+            finally:
+                with reconnect_lock:
+                    reconnect_state['scheduled'] = False
+
+        threading.Thread(target=_reconnect_with_backoff, name='mqtt-reconnect', daemon=True).start()
 
     def on_message(client, userdata, msg):
         with app.app_context():
@@ -3299,6 +3339,31 @@ TARGET_LEAKAGE_COLUMNS = {
     'failure_event', 'failure_probability', 'target', 'label',
     'health_score', 'degradation_stage'
 }
+
+# Machine-type sensor fields used by the frontend contract. These describe
+# possible telemetry fields; they do not synthesize readings or replace a model.
+SENSOR_CATALOG = {
+    'pump': ['temperature', 'vibration', 'pressure', 'flow', 'rpm', 'power'],
+    'turbine': ['temperature', 'vibration', 'pressure', 'rpm', 'power', 'oil_quality'],
+    'compressor': ['temperature', 'vibration', 'pressure', 'flow', 'power'],
+    'motor': ['temperature', 'vibration', 'current', 'rpm', 'power'],
+    'generator': ['temperature', 'vibration', 'voltage', 'current', 'power'],
+    'ct': ['temperature', 'pressure', 'tube_current', 'anode_rotation_speed'],
+    'mri': ['temperature', 'pressure', 'helium_level', 'gradient_stability'],
+    'xray': ['temperature', 'pressure', 'tube_voltage', 'tube_current'],
+    'ultrasound': ['temperature', 'pressure', 'probe_cycles'],
+    'ventilator': ['temperature', 'pressure', 'flow', 'tidal_volume'],
+    'ecg': ['temperature', 'signal_quality'],
+    'laptop': ['temperature', 'fan_rpm', 'cpu_load', 'battery_health'],
+    'server': ['temperature', 'fan_rpm', 'cpu_load', 'memory_usage', 'disk_io'],
+    'network': ['temperature', 'throughput', 'packet_loss', 'uptime_hours'],
+}
+
+def sensor_catalog_for(machine_type):
+    return SENSOR_CATALOG.get(
+        str(machine_type or '').strip().lower(),
+        ['temperature', 'vibration', 'pressure']
+    )
 
 UNIT_CONVERSIONS = {
     ('pressure_psi', 'pressure_bar'): 1.0 / 14.5037738,
@@ -4867,6 +4932,30 @@ class MLEngine:
 
 ml_engine = MLEngine()
 
+# Startup smoke test: exercise model deserialization without preventing the web
+# service from starting if an optional artifact is invalid. Real prediction
+# endpoints still fail closed rather than substituting heuristic predictions.
+def _hf_model_smoke_test():
+    if not ml_engine.models:
+        logger.error('NO MODELS LOADED — check HF_MODEL_REPO, HF_MODEL_FILENAME, HF_TOKEN and ML_MODEL_PATH.')
+        return
+    attempted = min(10, len(ml_engine.models))
+    loaded, failed = 0, []
+    for model_id in list(ml_engine.models)[:attempted]:
+        try:
+            ml_engine.load_model(model_id)
+            loaded += 1
+        except Exception as exc:
+            failed.append((model_id, str(exc)[:200]))
+    logger.info('Model smoke test: %s/%s registered models loaded', loaded, attempted)
+    for model_id, error in failed:
+        logger.warning('Model smoke test failed for %s: %s', model_id, error)
+
+try:
+    _hf_model_smoke_test()
+except Exception:
+    logger.exception('Model smoke test failed unexpectedly; app startup will continue.')
+
 
 # ============================================================
 # MODEL REGISTRY FACADE
@@ -6147,11 +6236,13 @@ def create_app():
 
     @app.route('/health')
     def health():
+        """Liveness endpoint: don't let model cold-start trigger Render restart loops."""
         try:
             db.session.execute(text('SELECT 1'))
             db_ok = True
-        except Exception:
+        except Exception as exc:
             db_ok = False
+            logger.warning('Health database check failed: %s', exc)
         redis_ok = False
         if redis_client:
             try:
@@ -6160,7 +6251,7 @@ def create_app():
             except Exception:
                 pass
         models_ready = bool(ml_engine.production_ids) if config.MODEL_REQUIRE_VALIDATED else bool(ml_engine.models)
-        status = 'healthy' if db_ok and models_ready else 'degraded'
+        status = 'unhealthy' if not db_ok else ('healthy' if models_ready else 'starting')
         mail_mode = ('suppressed' if config.MAIL_SUPPRESS_SEND or not config.MAIL_USERNAME else 'live')
         return jsonify({
             'status': status, 'version': config.APP_VERSION,
@@ -6173,7 +6264,16 @@ def create_app():
             'ml_families': len(ml_engine.all_by_family),
             'payment_gateways': payment_processor.get_gateways(),
             'payment_status': payment_processor.gateway_status(),
-        }), (200 if status == 'healthy' else 503)
+        }), (503 if not db_ok else 200)
+
+    @app.route('/health/ready')
+    def health_ready():
+        """Readiness details; reports model loading separately from process liveness."""
+        if not ml_engine.models:
+            return jsonify({'ready': False, 'reason': 'models_downloading_or_not_registered', 'models': 0}), 200
+        if config.MODEL_REQUIRE_VALIDATED and not ml_engine.production_ids:
+            return jsonify({'ready': False, 'reason': 'no_validated_models', 'models': len(ml_engine.models)}), 200
+        return jsonify({'ready': True, 'models': len(ml_engine.models), 'production_models': len(ml_engine.production_ids)}), 200
 
     @app.route('/health/deep')
     def health_deep():
@@ -7789,6 +7889,65 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
         ).first_or_404()
         return jsonify({'success': True, 'machine': m.to_dict()}), 200
 
+    @machines_bp.route('/<machine_id>/sensor-contract', methods=['GET'])
+    @login_required
+    def machine_sensor_contract(machine_id):
+        machine_id = _uuid_or_404(machine_id, 'machine_id')
+        m = Machine.query.filter_by(
+            id=machine_id, organization_id=g.organization.id, is_deleted=False
+        ).first_or_404()
+        family = (m.machine_data or {}).get('dataset_family')
+        model_pool = (
+            ml_engine.by_family.get(family, [])
+            if getattr(config, 'MODEL_REQUIRE_VALIDATED', False)
+            else ml_engine.all_by_family.get(family, [])
+        ) if family else []
+        model_info = next((
+            ml_engine.models[key] for key in model_pool
+            if key in ml_engine.models and ml_engine.models[key].get('features')
+        ), None)
+        fallback = sensor_catalog_for(m.machine_type)
+        return jsonify({
+            'success': True,
+            'machine_id': str(m.id),
+            'machine_type': m.machine_type,
+            'dataset_family': family,
+            'required_features': model_info.get('features') if model_info else fallback,
+            'sequence_length': int((model_info or {}).get('sequence_length') or 1),
+            'training_ranges': (model_info or {}).get('training_ranges') or {},
+            'has_trained_model': bool(model_info),
+            'fallback_catalog': fallback,
+        }), 200
+
+    @machines_bp.route('/<machine_id>/telemetry-status', methods=['GET'])
+    @login_required
+    def machine_telemetry_status(machine_id):
+        machine_id = _uuid_or_404(machine_id, 'machine_id')
+        m = Machine.query.filter_by(
+            id=machine_id, organization_id=g.organization.id, is_deleted=False
+        ).first_or_404()
+        latest = (
+            SensorData.query.filter_by(machine_id=m.id)
+            .order_by(SensorData.created_at.desc()).first()
+        )
+        age_seconds = None
+        if latest and latest.created_at:
+            try:
+                age_seconds = max(
+                    0.0,
+                    (datetime.now(timezone.utc) - ensure_aware(latest.created_at)).total_seconds()
+                )
+            except Exception:
+                age_seconds = None
+        return jsonify({
+            'success': True,
+            'machine': m.to_dict(),
+            'latest': latest.to_dict() if latest else None,
+            'age_seconds': age_seconds,
+            'is_live': bool(age_seconds is not None and age_seconds <= 300),
+            'telemetry_state': (m.machine_data or {}).get('telemetry_state'),
+        }), 200
+
     @machines_bp.route('/<machine_id>', methods=['PUT'])
     @login_required
     def update_machine(machine_id):
@@ -7911,11 +8070,65 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
             verification['ok'] = True
             verification['waiting_for_telemetry'] = True
             verification['message'] = 'Device API configured. Create a per-machine device key and POST real sensor readings to this machine sensor-data endpoint. The machine remains offline until a valid reading arrives.'
+        elif connection in ('cable', 'modbus', 'opcua', 'websocket'):
+            # This verifies TCP reachability only; it is not a Modbus/OPC-UA/
+            # WebSocket protocol handshake and never claims telemetry is live.
+            host = None
+            port = None
+            try:
+                if '://' in endpoint:
+                    parsed_endpoint = urlparse(endpoint)
+                    host = parsed_endpoint.hostname
+                    port = parsed_endpoint.port
+                elif ':' in endpoint:
+                    host, port_text = endpoint.rsplit(':', 1)
+                    port = int(port_text)
+                default_ports = {
+                    'modbus': 502, 'opcua': 4840, 'websocket': 443, 'cable': 502
+                }
+                if not port:
+                    port = default_ports.get(connection)
+                if host:
+                    host = host.strip().strip('[]')
+            except (TypeError, ValueError):
+                host, port = None, None
+            if not host or not port or not (1 <= int(port) <= 65535):
+                return jerr(
+                    f'{connection.upper()} requires a reachable host:port endpoint.',
+                    400, verification=verification,
+                    supported_connections=['manual', 'mqtt', 'api', 'cable', 'modbus', 'opcua', 'websocket']
+                )
+            try:
+                # Refuse loopback/link-local/private literal IPs to avoid exposing
+                # internal services through user-controlled connection checks.
+                import ipaddress
+                try:
+                    ip = ipaddress.ip_address(host)
+                    if not ip.is_global:
+                        raise ValueError('Private, loopback, and link-local IPs are not allowed.')
+                except ValueError as ip_error:
+                    if 'not allowed' in str(ip_error):
+                        raise
+                with socket.create_connection((host, int(port)), timeout=5):
+                    pass
+                verification['ok'] = True
+                verification['waiting_for_telemetry'] = True
+                verification['message'] = (
+                    f'TCP endpoint {host}:{port} is reachable. This is not a protocol '
+                    f'handshake; the machine remains offline until real telemetry arrives.'
+                )
+            except Exception as exc:
+                logger.info('Machine TCP endpoint check failed for machine=%s method=%s: %s',
+                            m.id, connection, type(exc).__name__)
+                verification['ok'] = False
+                verification['message'] = f'Could not verify the configured TCP endpoint ({type(exc).__name__}).'
+                return jerr(verification['message'], 502, verification=verification)
         else:
-            supported = 'manual, mqtt, api'
+            supported = 'manual, mqtt, api, cable, modbus, opcua, websocket'
             return jerr(
-                f'{connection.upper()} is not enabled in this deployment. Supported production modes are: {supported}. Refusing to report a port-only check as a real connection.',
-                501, verification=verification, supported_connections=['manual', 'mqtt', 'api']
+                f'{connection.upper()} is not enabled in this deployment. Supported connection modes are: {supported}.',
+                501, verification=verification,
+                supported_connections=['manual', 'mqtt', 'api', 'cable', 'modbus', 'opcua', 'websocket']
             )
 
         # Never mark a network integration online merely because configuration
@@ -7927,17 +8140,17 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
                 recent_sensor = (datetime.now(timezone.utc) - ensure_aware(latest_sensor.created_at)).total_seconds() <= 300
             except Exception:
                 recent_sensor = False
-        m.status = 'online' if connection in ('mqtt', 'api') and recent_sensor else 'offline'
+        m.status = 'online' if connection in ('mqtt', 'api', 'cable', 'modbus', 'opcua', 'websocket') and recent_sensor else 'offline'
         m.machine_data = {
             **(m.machine_data or {}),
             'connection': connection,
             'endpoint': None,
             'simulated': False,
-            'telemetry_state': 'receiving' if recent_sensor else ('awaiting_first_reading' if connection in ('mqtt', 'api') else 'manual_validation'),
+            'telemetry_state': 'receiving' if recent_sensor else ('awaiting_first_reading' if connection in ('mqtt', 'api', 'cable', 'modbus', 'opcua', 'websocket') else 'manual_validation'),
             'verified_at': verification['checked_at'],
             'last_verification': verification,
         }
-        if connection in ('mqtt', 'api') and recent_sensor:
+        if connection in ('mqtt', 'api', 'cable', 'modbus', 'opcua', 'websocket') and recent_sensor:
             verification['waiting_for_telemetry'] = False
             verification['message'] = 'Connection settings checked; recent real sensor telemetry exists.'
         supplied_sensors = data.get('sensors') or data.get('sensor_schema') or {}
@@ -9255,25 +9468,45 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
         return jsonify({'success': True, **result}), 200
 
     def _usage_resp():
-        preds = Prediction.query.join(Machine).filter(
-            Machine.organization_id == g.organization.id
-        ).count()
-        ddir = Path(config.UPLOAD_FOLDER) / f'org_{g.organization.id}' / 'datasets'
-        sb = sum(p.stat().st_size for p in ddir.rglob('*') if p.is_file()) if ddir.exists() else 0
-        api_calls = None
+        org = g.organization
+        plan = config.PLANS.get(str(org.plan or 'free').lower(), config.PLANS['free'])
+        preds_query = Prediction.query.join(Machine).filter(Machine.organization_id == org.id)
+        preds_all_time = preds_query.count()
+        period = str(plan.get('prediction_period', 'month')).lower()
+        now = datetime.now(timezone.utc)
+        period_key = now.strftime('%Y-%m-%d' if period == 'day' else '%Y-%m')
+        max_pred = plan.get('max_predictions')
+        current_preds = None
         if redis_client:
             try:
-                api_calls = int(redis_client.get(
-                    f"usage:api:{g.organization.id}:{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
-                ) or 0)
+                current_preds = int(redis_client.get(f'quota:pred:{org.id}:{period}:{period_key}') or 0)
             except Exception:
-                pass
+                current_preds = None
+        if current_preds is None:
+            period_start = now.replace(hour=0, minute=0, second=0, microsecond=0) if period == 'day' else now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+            current_preds = preds_query.filter(Prediction.created_at >= period_start).count()
+        ddir = Path(config.UPLOAD_FOLDER) / f'org_{org.id}' / 'datasets'
+        try:
+            sb = sum(f.stat().st_size for f in ddir.rglob('*') if f.is_file()) if ddir.exists() else 0
+        except OSError:
+            sb = 0
+        api_calls = 0
+        if redis_client:
+            try:
+                api_calls = int(redis_client.get(f"usage:api:guard:{org.id}:{now.strftime('%Y-%m-%d')}") or redis_client.get(f"usage:api:{org.id}:{now.strftime('%Y-%m-%d')}") or 0)
+            except Exception:
+                api_calls = 0
+        machine_count = Machine.query.filter_by(organization_id=org.id, is_deleted=False).filter(Machine.name != '__dataset__').count()
         return jsonify({
-            'success': True,
+            'success': True, 'plan': org.plan, 'plan_name': plan.get('name'),
             'usage': {
-                'api_calls': api_calls, 'predictions': preds,
-                'storage_used_bytes': sb,
-                'storage_used_gb': round(sb / (1024 ** 3), 6)
+                'api_calls': api_calls, 'api_calls_limit': plan.get('max_api_calls', 0),
+                'predictions': current_preds, 'predictions_limit': max_pred if max_pred is not None else 'Unlimited',
+                'predictions_period': period, 'predictions_period_key': period_key,
+                'predictions_all_time': preds_all_time,
+                'machines': machine_count, 'machines_limit': getattr(org, 'max_machines', plan.get('max_machines')),
+                'storage_used_bytes': sb, 'storage_used_gb': round(sb / (1024 ** 3), 6),
+                'storage_limit_gb': float(getattr(org, 'max_storage_gb', 0) or 0)
             }
         }), 200
 
@@ -10140,6 +10373,84 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
 
     app.register_blueprint(tenants_bp)
 
+    # Public operational status page. Exposes aggregate health only, never secrets.
+    @app.route('/status')
+    def status_page():
+        try:
+            db.session.execute(text('SELECT 1'))
+            db_ok = True
+        except Exception:
+            db_ok = False
+        redis_ok = False
+        if redis_client:
+            try:
+                redis_ok = bool(redis_client.ping())
+            except Exception:
+                pass
+        model_count = len(ml_engine.models)
+        production_count = len(ml_engine.production_ids)
+        try:
+            total_predictions = Prediction.query.count() if db_ok else 0
+        except Exception:
+            total_predictions = 0
+        status_html = f"""<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Status | {config.APP_NAME}</title>
+        <style>body{{font-family:system-ui,sans-serif;background:#0f2b3d;color:#fff;margin:0;padding:3rem 1rem}}main{{max-width:620px;margin:auto;background:#fff;color:#0f172a;border-radius:18px;padding:2rem}}.row{{display:flex;justify-content:space-between;padding:.8rem 0;border-bottom:1px solid #e2e8f0}}.dot{{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px}}.up{{background:#10b981}}.warn{{background:#f59e0b}}.down{{background:#ef4444}}</style></head><body><main><h1>{config.APP_NAME} status</h1><p>Updated {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</p>
+        <div class="row"><span><i class="dot {'up' if db_ok else 'down'}"></i>Database</span><b>{'Operational' if db_ok else 'Down'}</b></div>
+        <div class="row"><span><i class="dot {'up' if redis_ok else 'warn'}"></i>Realtime cache</span><b>{'Operational' if redis_ok else 'Degraded / not configured'}</b></div>
+        <div class="row"><span><i class="dot {'up' if model_count else 'warn'}"></i>ML models</span><b>{model_count} registered · {production_count} production-ready</b></div>
+        <div class="row"><span>Stored predictions</span><b>{total_predictions:,}</b></div><p>v{config.APP_VERSION}</p></main></body></html>"""
+        return Response(status_html, mimetype='text/html')
+
+    @app.route('/api/v1/demo/seed', methods=['POST'])
+    @login_required
+    def seed_demo():
+        """Idempotent sample data endpoint restricted to the explicit demo account."""
+        if (getattr(g.user, 'email', '') or '').strip().lower() != 'demo@synapsepm.com':
+            return jerr('Demo seeding is restricted to the demo account.', 403)
+        org = g.organization
+        existing = Machine.query.filter_by(organization_id=org.id, is_deleted=False).filter(Machine.name != '__dataset__').count()
+        if existing >= 3:
+            return jsonify({'success': True, 'message': 'Demo already seeded', 'machines': existing}), 200
+        specs = [
+            {'name': 'Pump P-201', 'type': 'pump', 'location': 'Plant A, Line 1', 'health': 82, 'status': 'online'},
+            {'name': 'Turbine T-105', 'type': 'turbine', 'location': 'Plant A, Line 2', 'health': 54, 'status': 'warning'},
+            {'name': 'Compressor C-330', 'type': 'compressor', 'location': 'Plant B, Bay 4', 'health': 91, 'status': 'online'},
+        ]
+        created = []
+        try:
+            for spec in specs:
+                m = Machine(name=spec['name'], machine_type=spec['type'], location=spec['location'],
+                            status=spec['status'], health=spec['health'], organization_id=org.id,
+                            owner_id=g.user.id, machine_data={'dataset_family': spec['type'], 'connection': 'manual'})
+                db.session.add(m)
+                db.session.flush()
+                created.append(m)
+                for i in range(20):
+                    rul = max(5.0, (240 if spec['status'] == 'online' else 36) - i * 3)
+                    risk = 'critical' if rul < 24 else ('warning' if rul < 72 else 'low')
+                    db.session.add(Prediction(request_id=f'demo-{m.id}-{i}-{uuid.uuid4().hex[:8]}',
+                        machine_id=m.id, organization_id=org.id, user_id=g.user.id, rul_hours=rul,
+                        confidence=float(max(60, min(99, 85 + random.randint(-8, 10)))), status='critical' if risk == 'critical' else ('warning' if risk == 'warning' else 'healthy'),
+                        model_type='demo_sample', model_version='demo-1', risk_level=risk,
+                        risk_score=max(0.0, min(100.0, 100.0 - rul / 240.0 * 100.0)),
+                        recommendations=['Sample data only: run a real model prediction before acting on this result.'],
+                        source='demo', created_at=datetime.now(timezone.utc) - timedelta(days=i)))
+                for i in range(3 if spec['status'] == 'warning' else 1):
+                    sev = 'critical' if spec['status'] == 'warning' and i == 0 else 'warning'
+                    db.session.add(Alert(machine_id=m.id, organization_id=org.id, title=f"{m.name}: {sev.upper()} demo alert",
+                        message='Sample alert generated by demo seeding; not a live sensor event.', severity=sev,
+                        category='demo', source='demo', status='active', email_status={'sent': False, 'reason': 'demo sample; no email sent'}))
+            db.session.commit()
+            try:
+                broadcast_both('machine_created', {'machine': created[0].to_dict()}, org_id=org.id)
+            except Exception:
+                logger.debug('Demo realtime broadcast unavailable', exc_info=True)
+            return jsonify({'success': True, 'message': 'Demo sample data created; it is not real inference.', 'machines': [m.to_dict() for m in created]}), 201
+        except Exception as exc:
+            db.session.rollback()
+            logger.exception('Demo seed failed')
+            return jerr('Could not seed demo data.', 500)
+
     # ============================================================
     # REPORTS — REAL DATA GENERATION
     # ============================================================
@@ -10179,6 +10490,30 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
         lines.append('=' * 78)
         lines.append('')
 
+        # Bulk prefetch for all machines to avoid two SQL queries per machine.
+        machine_ids_list = [m.id for m in machines]
+        all_preds_by_machine = {}
+        all_alerts_by_machine = {}
+        if machine_ids_list:
+            pq_bulk = Prediction.query.filter(Prediction.machine_id.in_(machine_ids_list))
+            if dt_from:
+                pq_bulk = pq_bulk.filter(Prediction.created_at >= dt_from)
+            if dt_to:
+                pq_bulk = pq_bulk.filter(Prediction.created_at <= dt_to)
+            for _p in pq_bulk.order_by(Prediction.created_at.desc()).all():
+                bucket = all_preds_by_machine.setdefault(_p.machine_id, [])
+                if len(bucket) < 20:
+                    bucket.append(_p)
+            aq_bulk = Alert.query.filter(Alert.machine_id.in_(machine_ids_list))
+            if dt_from:
+                aq_bulk = aq_bulk.filter(Alert.created_at >= dt_from)
+            if dt_to:
+                aq_bulk = aq_bulk.filter(Alert.created_at <= dt_to)
+            for _a in aq_bulk.order_by(Alert.created_at.desc()).all():
+                bucket = all_alerts_by_machine.setdefault(_a.machine_id, [])
+                if len(bucket) < 20:
+                    bucket.append(_a)
+
         grand_total_alerts = 0
         grand_critical = 0
         grand_avg_rul = 0
@@ -10197,36 +10532,52 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
             lines.append(f'  Pressure        : {m.pressure or 0:.1f}')
             lines.append('')
 
-            pq = Prediction.query.filter_by(machine_id=m.id)
-            if dt_from:
-                pq = pq.filter(Prediction.created_at >= dt_from)
-            if dt_to:
-                pq = pq.filter(Prediction.created_at <= dt_to)
-            preds = pq.order_by(Prediction.created_at.desc()).limit(20).all()
-
-            aq = Alert.query.filter_by(machine_id=m.id)
-            if dt_from:
-                aq = aq.filter(Alert.created_at >= dt_from)
-            if dt_to:
-                aq = aq.filter(Alert.created_at <= dt_to)
-            alerts = aq.order_by(Alert.created_at.desc()).limit(20).all()
+            preds = all_preds_by_machine.get(m.id, [])
+            alerts = all_alerts_by_machine.get(m.id, [])
 
             if preds:
                 latest = preds[0]
-                avg_conf = sum(p.confidence for p in preds) / len(preds)
-                avg_rul = sum(p.rul_hours for p in preds) / len(preds)
-                grand_avg_rul += avg_rul
-                grand_count += 1
+                confidence_values = [
+                    float(p.confidence) for p in preds if p.confidence is not None
+                ]
+                rul_values = [
+                    float(p.rul_hours) for p in preds if p.rul_hours is not None
+                ]
+                avg_conf = (
+                    sum(confidence_values) / len(confidence_values)
+                    if confidence_values else None
+                )
+                avg_rul = sum(rul_values) / len(rul_values) if rul_values else None
+                if avg_rul is not None:
+                    grand_avg_rul += avg_rul
+                    grand_count += 1
+                latest_rul = float(latest.rul_hours) if latest.rul_hours is not None else None
+                risk = str(latest.risk_level or 'unknown').lower()
                 lines.append(f'  PREDICTIONS ({len(preds)} records)')
-                lines.append(f'    Latest RUL     : {latest.rul_hours:.1f} hours')
-                lines.append(f'    Latest Model   : {latest.model_type} v{latest.model_version or "?"}')
-                lines.append(f'    Avg Confidence : {avg_conf:.1f}%')
-                lines.append(f'    Avg RUL (20)   : {avg_rul:.1f} hours')
-                lines.append(f'    Risk Level     : {latest.risk_level or "n/a"}')
+                lines.append(f'    Latest RUL     : {latest_rul:.1f} hours' if latest_rul is not None
+                             else '    Latest RUL     : unavailable')
+                lines.append(f'    Latest Model   : {latest.model_type or "unknown"} v{latest.model_version or "?"}')
+                lines.append(f'    Avg Confidence : {avg_conf:.1f}%' if avg_conf is not None
+                             else '    Avg Confidence : unavailable')
+                lines.append(f'    Avg RUL (20)   : {avg_rul:.1f} hours' if avg_rul is not None
+                             else '    Avg RUL (20)   : unavailable')
+                lines.append(f'    Risk Level     : {risk}')
+                lines.append(f'    Health Score   : {m.health if m.health is not None else "unavailable"}%')
+                if risk in ('critical', 'high') or (latest_rul is not None and latest_rul < 24):
+                    recommendation = 'Inspect immediately; plan controlled shutdown and maintenance.'
+                elif risk in ('warning', 'medium') or (latest_rul is not None and latest_rul < 72):
+                    recommendation = 'Schedule maintenance soon and monitor sensor trends closely.'
+                else:
+                    recommendation = 'Continue monitoring; follow the manufacturer maintenance schedule.'
+                lines.append(f'    Recommendation : {recommendation}')
                 lines.append('    Recent predictions:')
                 for p in preds[:5]:
-                    lines.append(f'      • {p.created_at.strftime("%Y-%m-%d %H:%M")} — '
-                                 f'RUL {p.rul_hours:.1f}h ({p.confidence:.0f}% conf)')
+                    p_rul = float(p.rul_hours) if p.rul_hours is not None else None
+                    p_conf = float(p.confidence) if p.confidence is not None else None
+                    stamp = p.created_at.strftime("%Y-%m-%d %H:%M") if p.created_at else 'unknown time'
+                    rul_text = f'{p_rul:.1f}h' if p_rul is not None else 'RUL unavailable'
+                    conf_text = f'{p_conf:.0f}% conf' if p_conf is not None else 'confidence unavailable'
+                    lines.append(f'      • {stamp} — {rul_text} ({conf_text})')
                 lines.append('')
             else:
                 lines.append('  PREDICTIONS: No predictions in scope.')
@@ -10260,7 +10611,7 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
         return '\n'.join(lines)
 
     def _save_report(report, content):
-        d = Path(config.DOWNLOAD_FOLDER) / 'reports'
+        d = (Path(config.DOWNLOAD_FOLDER).expanduser().resolve() / 'reports').resolve()
         d.mkdir(parents=True, exist_ok=True)
         fmt = (report.format or 'pdf').lower()
         fn = f"report_{report.uuid}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.{fmt}"
@@ -10269,7 +10620,7 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
             if not REPORTLAB_AVAILABLE:
                 fp = fp.with_suffix('.txt')
                 fp.write_text(content, encoding='utf-8')
-                return str(fp)
+                return str(fp.resolve())
             doc = SimpleDocTemplate(
                 str(fp), pagesize=A4,
                 rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36
@@ -10289,7 +10640,7 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
             fp.write_text(json.dumps({'report': content}, indent=2), encoding='utf-8')
         else:
             fp.write_text(content, encoding='utf-8')
-        return str(fp)
+        return str(fp.resolve())
 
     rp_bp = Blueprint('reports', __name__, url_prefix='/api/v1/reports')
 
@@ -10382,8 +10733,38 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
             r = Report.query.filter_by(uuid=rid).first_or_404()
         else:
             r = Report.query.filter_by(uuid=rid, organization_id=g.organization.id).first_or_404()
-        if not r.file_path or not os.path.exists(r.file_path):
-            return jerr('File not found.', 404)
+        if str(r.status or '').lower() in ('pending', 'generating'):
+            return jerr('Report is still generating. Retry shortly.', 425,
+                        report_status=r.status, retry_after_seconds=5)
+
+        # Try the stored absolute path, then known report-folder candidates.
+        # Restrict candidate resolution to the configured download/report folders.
+        download_root = Path(config.DOWNLOAD_FOLDER).expanduser().resolve()
+        report_root = (download_root / 'reports').resolve()
+        candidates = []
+        if r.file_path:
+            stored = Path(r.file_path).expanduser()
+            candidates.append(stored.resolve() if stored.is_absolute()
+                             else (project_root / stored).resolve())
+            candidates.append((report_root / stored.name).resolve())
+            candidates.append((download_root / stored.name).resolve())
+        existing_path = None
+        for candidate in candidates:
+            try:
+                if candidate.is_file() and (
+                    candidate == report_root or report_root in candidate.parents
+                    or candidate == download_root or download_root in candidate.parents
+                ):
+                    existing_path = candidate
+                    break
+            except (OSError, ValueError):
+                continue
+        if existing_path is None:
+            logger.warning('Report file missing: report_uuid=%s status=%s stored_path=%s',
+                           r.uuid, r.status, r.file_path)
+            return jerr('Report file not found on server. Regenerate the report.', 404,
+                        report_status=r.status)
+        r.file_path = str(existing_path)
         r.download_count = (r.download_count or 0) + 1
         db.session.add(Download(
             user_id=g.user.id, organization_id=r.organization_id,
@@ -10403,8 +10784,8 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
         ext = (r.format or 'pdf').lower()
         mime = ('application/pdf' if ext == 'pdf'
                 else ('application/json' if ext == 'json' else 'text/plain'))
-        return send_file(r.file_path, as_attachment=True,
-                         download_name=os.path.basename(r.file_path),
+        return send_file(str(existing_path), as_attachment=True,
+                         download_name=os.path.basename(str(existing_path)),
                          mimetype=mime, conditional=True, max_age=0)
 
     @rp_bp.route('/downloads', methods=['GET'])
@@ -10472,7 +10853,7 @@ self.addEventListener('message', (event) => { if (event.data && event.data.type 
     def adm_stats():
         global_admin = g.user.role in ('super_admin', 'admin')
         users_q = User.query if global_admin else User.query.filter_by(organization_id=g.organization.id)
-        machines_q = Machine.query.filter_by(is_deleted=False).filter(Machine.name != '__dataset__')
+        machines_q = Machine.query.filter(Machine.is_deleted.is_(False), Machine.name != '__dataset__')
         predictions_q = Prediction.query
         reports_q = Report.query
         downloads_q = Download.query
