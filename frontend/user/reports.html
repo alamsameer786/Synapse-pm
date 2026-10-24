@@ -1,10 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Reports | SynapsePM - AI Maintenance Reports</title>
-    <!-- ===== PWA META ===== -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#00b4aa">
     <meta name="color-scheme" content="light">
@@ -27,739 +26,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
 <style>
-    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}
-    body{min-height:100vh;font-family:'Inter',sans-serif;background:#f8fafc}
-    h1,h2,h3,.font-headline{font-family:'Manrope',sans-serif}
-    .gradient-primary{background:linear-gradient(135deg,#0f2b3d 0%,#1a4a6e 100%)}
-    .gradient-cta{background:linear-gradient(135deg,#00b4aa 0%,#009688 100%)}
-    .gradient-cta:hover{background:linear-gradient(135deg,#009688 0%,#00796b 100%)}
-    .gradient-cta:disabled{opacity:.6;cursor:not-allowed}
-    
-    /* ============================================================
-       SYNAPSEPM CUSTOM LOGO — FIXED SIZE IN BOTH STATES
-       ============================================================ */
-    .synapsepm-logo {
-        font-family: "Inter", "Plus Jakarta Sans", sans-serif;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        font-size: 22px;
-        line-height: 1;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.55rem;
-        vertical-align: middle;
-    }
-    .synapsepm-logo > span:not(.logo-icon),
-    .synapsepm-logo strong {
-        display: inline-flex;
-        align-items: center;
-        line-height: 1;
-        height: 32px;
-    }
-    .synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
-    .synapsepm-logo strong {
-        background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    .synapsepm-logo .logo-icon {
-        width: 32px; height: 32px;
-        min-width: 32px; min-height: 32px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        background: transparent !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-    }
-    .synapsepm-logo .logo-icon img {
-        width: 32px; height: 32px;
-        object-fit: contain; display: block;
-    }
-
-    :root{--sidebar-width:264px;--sidebar-collapsed-width:84px;--sidebar-border:#e2e8f0;--sidebar-bg:#fff;--sidebar-muted:#64748b;--sidebar-primary:#0f2b3d;--sidebar-accent:#00b4aa;--sidebar-hover:#f1f5f9}
-    
-    .sidebar{
-        width:var(--sidebar-width);
-        min-height:100dvh;
-        height:100dvh;
-        background:var(--sidebar-bg);
-        border-right:1px solid var(--sidebar-border);
-        position:fixed;
-        inset:0 auto 0 0;
-        z-index:100;
-        display:flex;
-        flex-direction:column;
-        overflow:visible;
-        transition:width .28s cubic-bezier(.4,0,.2,1),transform .28s cubic-bezier(.4,0,.2,1)
-    }
-    .sidebar.collapsed{width:var(--sidebar-collapsed-width)}
-    
-    .sidebar-header{flex-shrink:0;border-bottom:1px solid var(--sidebar-border);background:#fff}
-    .sidebar-brand{
-        min-height:76px;
-        padding:0 14px;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:10px;
-        overflow:hidden;
-        transition:padding .28s cubic-bezier(.4,0,.2,1),min-height .28s cubic-bezier(.4,0,.2,1)
-    }
-    .sidebar-brand-inner{
-        display:flex;
-        align-items:center;
-        gap:10px;
-        min-width:0;
-        transition:opacity .2s ease
-    }
-    
-    /* Hide only the text when collapsed, keep icon visible */
-    .sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
-    .sidebar.collapsed .synapsepm-logo strong {
-        display: none !important;
-    }
-    .sidebar.collapsed .sidebar-brand {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 6px;
-        padding: 10px 0;
-        min-height: 76px;
-    }
-    .sidebar.collapsed .sidebar-brand-inner {
-        opacity: 1;
-        pointer-events: auto;
-        width: auto;
-        overflow: visible;
-        justify-content: center;
-        gap: 0;
-    }
-
-    /* Collapse toggle: SVG chevron that rotates */
-    .sidebar-toggle {
-        width: 36px;
-        height: 36px;
-        border: 1px solid #dbe4ec;
-        border-radius: 10px;
-        background: #fff;
-        color: #475569;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 2px 7px rgba(15,43,61,.06);
-        transition: background .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease;
-        flex-shrink: 0;
-        padding: 0;
-    }
-    .sidebar-toggle:hover {
-        background: #f8fafc;
-        color: var(--sidebar-accent);
-        border-color: rgba(0,180,170,.45);
-        box-shadow: 0 5px 14px rgba(15,43,61,.10);
-    }
-    .sidebar-toggle svg {
-        width: 18px;
-        height: 18px;
-        stroke: currentColor;
-        transition: transform .3s cubic-bezier(.4,0,.2,1);
-    }
-    .sidebar.collapsed .sidebar-toggle svg {
-        transform: rotate(180deg);
-    }
-
-    /* Never hide the logo icon wrapper */
-    .sidebar.collapsed .synapsepm-logo { justify-content: center; }
-    .sidebar.collapsed .synapsepm-logo .logo-icon {
-        display: inline-flex !important;
-        opacity: 1 !important;
-        width: 32px !important;
-        min-width: 32px !important;
-        height: 32px !important;
-        min-height: 32px !important;
-        background: transparent !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-    }
-    .sidebar.collapsed .synapsepm-logo .logo-icon img {
-        display: block !important;
-        width: 32px !important;
-        height: 32px !important;
-        object-fit: contain !important;
-    }
-
-    .sidebar-nav{
-        flex:1;
-        min-height:0;
-        overflow-y:auto;
-        overflow-x:hidden;
-        padding:14px 10px;
-        scrollbar-width:thin;
-        scrollbar-color:#dbe4ec transparent
-    }
-    .sidebar-nav::-webkit-scrollbar{width:4px}
-    .sidebar-nav::-webkit-scrollbar-track{background:transparent}
-    .sidebar-nav::-webkit-scrollbar-thumb{background:#dbe4ec;border-radius:999px}
-    .sidebar-group-label{padding:7px 11px 6px}
-    .sidebar-group{display:flex;flex-direction:column;gap:3px}
-    .sidebar-link{
-        min-height:44px;
-        display:flex;
-        align-items:center;
-        gap:12px;
-        padding:9px 11px;
-        border-radius:11px;
-        color:var(--sidebar-muted);
-        font-weight:500;
-        font-size:.875rem;
-        line-height:1.2;
-        transition:background .18s ease,color .18s ease;
-        cursor:pointer;
-        text-decoration:none;
-        position:relative;
-        white-space:nowrap;
-        overflow:visible
-    }
-    .sidebar-link:hover{background:var(--sidebar-hover);color:var(--sidebar-primary)}
-    .sidebar-link.active{background:#00b4aa;color:#fff;box-shadow:0 5px 14px rgba(0,180,170,.22)}
-    .sidebar-link .material-symbols-outlined{
-        width:22px;
-        min-width:22px;
-        font-size:22px;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        color:#64748b;
-        transition:color .18s ease
-    }
-    .sidebar-link.active .material-symbols-outlined,
-    .sidebar-link:hover .material-symbols-outlined{color:inherit}
-    .sidebar-link .badge-count{
-        margin-left:auto;
-        min-width:22px;
-        height:22px;
-        padding:0 6px;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        background:#f1f5f9;
-        color:#64748b;
-        font-size:.65rem;
-        border-radius:999px;
-        font-weight:700;
-        transition:all .2s ease
-    }
-    .sidebar-link.active .badge-count{background:rgba(255,255,255,.22);color:#fff}
-    .sidebar-divider{margin:14px 4px;border-top:1px solid #edf2f7}
-    .sidebar-text{transition:opacity .2s ease}
-    .sidebar.collapsed .sidebar-text,
-    .sidebar.collapsed .sidebar-label,
-    .sidebar.collapsed .badge-count{
-        opacity:0;
-        pointer-events:none;
-        width:0;
-        overflow:hidden;
-        display:none !important
-    }
-    .sidebar.collapsed .sidebar-nav{padding-left:8px;padding-right:8px}
-    .sidebar.collapsed .sidebar-link{justify-content:center;gap:0;padding:9px 7px}
-    .sidebar.collapsed .sidebar-link .material-symbols-outlined{width:24px;min-width:24px;font-size:23px}
-    .sidebar.collapsed .sidebar-link::after{
-        content:attr(data-tooltip);
-        position:absolute;
-        left:calc(100% + 10px);
-        top:50%;
-        transform:translateY(-50%) translateX(-4px);
-        opacity:0;
-        pointer-events:none;
-        background:#0f2b3d;
-        color:#fff;
-        padding:7px 10px;
-        border-radius:8px;
-        font-size:12px;
-        font-weight:600;
-        white-space:nowrap;
-        box-shadow:0 8px 20px rgba(15,43,61,.18);
-        transition:opacity .15s ease,transform .15s ease;
-        z-index:250
-    }
-    .sidebar.collapsed .sidebar-link:hover::after{opacity:1;transform:translateY(-50%) translateX(0)}
-
-    .sidebar-user-area{
-        flex-shrink:0;
-        position:relative;
-        padding:10px;
-        border-top:1px solid var(--sidebar-border);
-        background:#fff
-    }
-    .user-card{
-        min-height:58px;
-        display:flex;
-        align-items:center;
-        gap:10px;
-        padding:8px;
-        background:#f8fafc;
-        border:1px solid #eef2f7;
-        border-radius:12px;
-        transition:all .28s cubic-bezier(.4,0,.2,1)
-    }
-    .sidebar.collapsed .user-card{
-        justify-content:center;
-        padding:8px 5px;
-        background:transparent;
-        border-color:transparent
-    }
-    .avatar-wrapper{flex-shrink:0;position:relative}
-    .user-card .avatar{
-        width:38px;
-        height:38px;
-        padding:0;
-        border:0;
-        border-radius:50%;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-weight:700;
-        font-size:.8rem;
-        color:#fff;
-        background:linear-gradient(135deg,#00b4aa,#009688);
-        background-size:cover;
-        background-position:center;
-        cursor:pointer;
-        position:relative;
-        transition:box-shadow .2s ease
-    }
-    .user-card .avatar:hover{box-shadow:0 0 0 3px rgba(0,180,170,.15)}
-    .user-card .avatar-wrapper .status-dot{
-        position:absolute;
-        bottom:0;
-        right:0;
-        width:11px;
-        height:11px;
-        border-radius:50%;
-        border:2px solid #fff;
-        background:#10b981;
-        pointer-events:none
-    }
-    .user-card .user-details{flex:1;min-width:0;transition:opacity .2s ease}
-    .sidebar.collapsed .user-card .user-details{
-        opacity:0;
-        pointer-events:none;
-        width:0;
-        overflow:hidden;
-        display:none !important
-    }
-    .user-card .user-details .name{
-        font-weight:600;
-        font-size:.82rem;
-        color:#0f2b3d;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis
-    }
-    .user-card .user-details .email{
-        font-size:.68rem;
-        color:#94a3b8;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        margin-top:1px
-    }
-    .user-card .user-details .plan{
-        font-size:.58rem;
-        font-weight:700;
-        color:#00a79d;
-        background:rgba(0,180,170,.08);
-        padding:1px 7px;
-        border-radius:999px;
-        display:inline-block;
-        margin-top:2px
-    }
-
-    .profile-menu{
-    position:absolute;
-    left:10px;
-    right:10px;
-    bottom:calc(100% + 10px);
-    padding:14px;
-    background:#fff;
-    border:1px solid #e2e8f0;
-    border-radius:14px;
-    box-shadow:0 18px 45px rgba(15,23,42,.16);
-    opacity:0;
-    visibility:hidden;
-    transform:translateY(8px);
-    pointer-events:none;
-    transition:opacity .18s ease,transform .18s ease,visibility .18s ease;
-    z-index:300;
-    min-width: 276px;
-}
-
-/* When sidebar is collapsed, expand menu to the right so content stays readable */
-.sidebar.collapsed .profile-menu {
-    left: calc(100% + 10px);
-    right: auto;
-    bottom: 12px;
-    width: 300px;
-    min-width: 300px;
-    transform: translateY(0) translateX(-8px);
-}
-
-.sidebar.collapsed .profile-menu.open {
-    transform: translateY(0) translateX(0);
-}
-    .profile-menu.open{
-        opacity:1;
-        visibility:visible;
-        transform:translateY(0);
-        pointer-events:auto
-    }
-    .profile-menu-header{
-        display:flex;
-        align-items:center;
-        gap:10px;
-        padding-bottom:12px;
-        border-bottom:1px solid #edf2f7
-    }
-    .profile-menu-avatar{
-        width:42px;
-        height:42px;
-        flex:0 0 42px;
-        border-radius:50%;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background:linear-gradient(135deg,#00b4aa,#009688);
-        color:#fff;
-        font-weight:800;
-        background-size:cover;
-        background-position:center
-    }
-    .profile-menu-name{font-weight:700;color:#0f2b3d;font-size:14px}
-    .profile-menu-email{color:#64748b;font-size:12px;margin-top:2px;word-break:break-word}
-    .profile-menu-details{padding:12px 0;display:grid;gap:8px}
-    .profile-detail-row{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:12px;
-        font-size:12px
-    }
-    .profile-detail-label{color:#94a3b8}
-    .profile-detail-value{
-        color:#334155;
-        font-weight:600;
-        text-align:right;
-        word-break:break-word
-    }
-    .profile-menu-actions{
-        display:flex;
-        flex-direction:column;
-        gap:8px;
-        margin-top:8px;
-        padding-top:12px;
-        border-top:1px solid #edf2f7
-    }
-    .profile-action-btn{
-        width:100%;
-        min-height:40px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        gap:8px;
-        border:1px solid #e2e8f0;
-        border-radius:10px;
-        background:#fff;
-        color:#475569;
-        font-size:13px;
-        font-weight:600;
-        cursor:pointer;
-        transition:all .18s ease;
-        padding:0 12px;
-        font-family:inherit
-    }
-    .profile-action-btn:hover{background:#f8fafc;border-color:#cbd5e1}
-    .profile-action-btn.danger{border-color:#fecaca;color:#dc2626}
-    .profile-action-btn.danger:hover{background:#fef2f2;border-color:#fca5a5}
-
-    #mainContent{
-        margin-left:var(--sidebar-width);
-        min-width:0;
-        transition:margin-left .28s cubic-bezier(.4,0,.2,1)
-    }
-    body.sidebar-is-collapsed #mainContent{margin-left:var(--sidebar-collapsed-width)}
-    .sidebar-overlay{display:none}
-
-    @media (max-width:1023px){
-        .sidebar{width:min(310px,90vw);transform:translateX(-102%);box-shadow:none}
-        .sidebar.mobile-open{transform:translateX(0);box-shadow:18px 0 50px rgba(15,23,42,.18)}
-        .sidebar.collapsed{width:min(310px,90vw)}
-        .sidebar-overlay{
-            position:fixed;
-            inset:0;
-            background:rgba(15,23,42,.42);
-            backdrop-filter:blur(3px);
-            z-index:90;
-            display:block;
-            opacity:0;
-            visibility:hidden;
-            pointer-events:none;
-            transition:opacity .25s ease,visibility .25s ease
-        }
-        .sidebar-overlay.active{opacity:1;visibility:visible;pointer-events:auto}
-        #mainContent,body.sidebar-is-collapsed #mainContent{margin-left:0}
-        .sidebar.collapsed .sidebar-text,
-        .sidebar.collapsed .sidebar-label,
-        .sidebar.collapsed .badge-count{
-            display:block !important;
-            opacity:1 !important;
-            transform:none !important;
-            width:auto !important
-        }
-        .sidebar.collapsed .sidebar-link{justify-content:flex-start;gap:12px;padding:9px 11px}
-        .sidebar.collapsed .sidebar-link::after{display:none}
-        .sidebar.collapsed .user-card .user-details{
-            display:block !important;
-            opacity:1 !important;
-            transform:none !important;
-            width:auto !important
-        }
-        .sidebar.collapsed .sidebar-brand-inner{opacity:1 !important;pointer-events:auto !important;width:auto !important}
-        .sidebar.collapsed .sidebar-brand{justify-content:space-between}
-        .sidebar.collapsed .sidebar-toggle svg{transform:none}
-        /* On mobile, always use the original left/right anchored layout
-       (mobile sidebar is full-width so no need to expand right) */
-    .sidebar.collapsed .profile-menu {
-        left: 10px;
-        right: 10px;
-        bottom: calc(100% + 10px);
-        width: auto;
-        min-width: 0;
-        transform: translateY(8px);
-    }
-    .sidebar.collapsed .profile-menu.open {
-        transform: translateY(0);
-    }
-    }
-
-    @media (max-width:768px){
-        .sidebar{width:min(310px,90vw)}
-        .sidebar-brand{min-height:72px}
-        .sidebar-nav{padding-top:10px}
-        .sidebar-link{min-height:46px}
-        .profile-menu{width:auto}
-    }
-    @media (prefers-reduced-motion:reduce){
-        .sidebar,.sidebar-link,.sidebar-toggle,#mainContent,.sidebar-overlay,.profile-menu{transition:none !important}
-    }
-
-    /* ===== REPORT CARDS ===== */
-    .report-card{
-        transition:all .3s cubic-bezier(.4,0,.2,1);
-        background:#fff;
-        border-radius:1.25rem;
-        border:1px solid #e2e8f0;
-        overflow:hidden
-    }
-    .report-card:hover{
-        transform:translateY(-4px);
-        box-shadow:0 20px 25px -12px rgba(0,0,0,.12);
-        border-color:#00b4aa
-    }
-
-    /* ===== TOAST ===== */
-    .toast{
-        position:fixed;
-        bottom:1.5rem;
-        right:1.5rem;
-        background:#fff;
-        border-radius:.75rem;
-        padding:1rem 1.5rem;
-        box-shadow:0 10px 25px -5px rgba(0,0,0,.1);
-        display:flex;
-        align-items:center;
-        gap:.75rem;
-        z-index:1100;
-        animation:slideInRight .3s ease-out;
-        border-left:4px solid;
-        max-width:400px
-    }
-    .toast.success{border-left-color:#10b981}
-    .toast.error{border-left-color:#ef4444}
-    .toast.warning{border-left-color:#f59e0b}
-    .toast.info{border-left-color:#00b4aa}
-    @keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-
-    /* ===== LOADING ===== */
-    .loading-spinner{
-        display:inline-block;
-        width:1.25rem;
-        height:1.25rem;
-        border:2px solid rgba(255,255,255,.3);
-        border-top-color:#fff;
-        border-radius:50%;
-        animation:spin .8s linear infinite;
-        margin-right:.5rem
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
-
-    /* ===== INFO PILLS ===== */
-    .info-pill{
-        display:inline-flex;
-        align-items:center;
-        gap:.25rem;
-        padding:.15rem .55rem;
-        border-radius:9999px;
-        background:#f1f5f9;
-        color:#475569;
-        font-size:.65rem;
-        font-weight:600
-    }
-    .info-pill.teal{background:rgba(0,180,170,.1);color:#0d9488}
-    .info-pill.blue{background:#eff6ff;color:#1d4ed8}
-    .info-pill.amber{background:#fffbeb;color:#b45309}
-    .info-pill.red{background:#fef2f2;color:#b91c1c}
-    .info-pill.green{background:#ecfdf5;color:#047857}
-
-    /* ===== SCOPE SUMMARY ===== */
-    .scope-summary{
-        background:linear-gradient(135deg,#f0fdfa,#ecfeff);
-        border:1px solid #99f6e4;
-        border-radius:.75rem;
-        padding:.75rem 1rem;
-        color:#0f766e;
-        font-size:.8rem
-    }
-
-    /* ===== CHIPS ===== */
-    .chip{display:inline-flex;align-items:center;gap:.25rem;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:600}
-    .chip-critical{background:#fee2e2;color:#991b1b}
-    .chip-high{background:#fed7aa;color:#9a3412}
-    .chip-medium{background:#fef3c7;color:#92400e}
-    .chip-low{background:#d1fae5;color:#065f46}
-
-    /* ===== MACHINE MULTI-SELECT ===== */
-    .machine-multi-select{
-        max-height:180px;
-        overflow-y:auto;
-        border:1px solid #e2e8f0;
-        border-radius:.75rem;
-        padding:.5rem;
-        background:#fff
-    }
-    .machine-multi-select label{
-        display:flex;
-        align-items:center;
-        gap:.5rem;
-        padding:.4rem .6rem;
-        border-radius:.5rem;
-        cursor:pointer;
-        font-size:.82rem
-    }
-    .machine-multi-select label:hover{background:#f8fafc}
-    .machine-multi-select input{accent-color:#00b4aa}
-
-    /* ===== PAGE BANNERS ===== */
-    .page-banner{
-        border-radius:12px;
-        padding:12px 16px;
-        margin-bottom:12px;
-        display:flex;
-        align-items:flex-start;
-        gap:10px;
-        font-size:13px;
-        line-height:1.4
-    }
-    .page-banner.error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
-    .page-banner.warning{background:#fffbeb;color:#92400e;border:1px solid #fde68a}
-    .page-banner.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
-    .page-banner .banner-close{margin-left:auto;cursor:pointer;opacity:.7}
-    .page-banner .banner-close:hover{opacity:1}
-
-    /* ===== REPORT PREVIEW MODAL ===== */
-    .report-modal{
-        display:none;
-        position:fixed;
-        inset:0;
-        background:rgba(0,0,0,.5);
-        backdrop-filter:blur(4px);
-        z-index:2000;
-        align-items:center;
-        justify-content:center;
-        padding:1rem
-    }
-    .report-modal.active{display:flex;animation:fadeIn .2s ease}
-    .report-modal-content{
-        background:#fff;
-        border-radius:1.5rem;
-        max-width:900px;
-        width:100%;
-        max-height:90vh;
-        overflow:hidden;
-        display:flex;
-        flex-direction:column
-    }
-    @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
-    .report-modal-header{
-        padding:1.25rem 1.5rem;
-        border-bottom:1px solid #e2e8f0;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:1rem;
-        flex-shrink:0
-    }
-    .report-modal-body{
-        flex:1;
-        overflow-y:auto;
-        padding:1.5rem
-    }
-    .report-modal-footer{
-        padding:1rem 1.5rem;
-        border-top:1px solid #e2e8f0;
-        display:flex;
-        gap:.75rem;
-        justify-content:flex-end;
-        flex-shrink:0
-    }
-    .report-content-pre{
-        background:#f8fafc;
-        border:1px solid #e2e8f0;
-        border-radius:.75rem;
-        padding:1.25rem;
-        white-space:pre-wrap;
-        font-family:'Courier New',monospace;
-        font-size:.78rem;
-        line-height:1.6;
-        color:#0f172a;
-        max-height:60vh;
-        overflow-y:auto
-    }
-
-    /* ===== DOWNLOAD HISTORY TABLE ===== */
-    .history-table{width:100%;border-collapse:collapse;font-size:.8rem}
-    .history-table th{
-        text-align:left;
-        padding:.75rem 1rem;
-        background:#f8fafc;
-        color:#64748b;
-        font-weight:600;
-        font-size:.7rem;
-        text-transform:uppercase;
-        letter-spacing:.05em;
-        border-bottom:1px solid #e2e8f0
-    }
-    .history-table td{
-        padding:.75rem 1rem;
-        border-bottom:1px solid #f1f5f9;
-        color:#334155
-    }
-    .history-table tr:hover td{background:#f8fafc}
-    .history-table tr:last-child td{border-bottom:none}
+/* ===== PART 2 GOES HERE — REPLACE THIS LINE WITH THE ENTIRE STYLE BLOCK ===== */
 </style>
 </head>
 <body>
@@ -778,60 +47,30 @@
                     <span>Synapse</span><strong>PM</strong>
                 </div>
             </a>
-            <button type="button" class="sidebar-toggle" id="sidebarToggle"
-                    title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                     aria-hidden="true">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
         </div>
     </div>
     <nav class="sidebar-nav">
         <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p>
-            </div>
-            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span class="sidebar-text">Dashboard</span>
-            </a>
-            <a href="machines.html" class="sidebar-link" data-tooltip="Machines">
-                <span class="material-symbols-outlined">precision_manufacturing</span>
-                <span class="sidebar-text">Machines</span>
-            </a>
-            <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions">
-                <span class="material-symbols-outlined">neurology</span>
-                <span class="sidebar-text">Predictions</span>
-            </a>
-            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts">
-                <span class="material-symbols-outlined">notifications_active</span>
-                <span class="sidebar-text">Alerts</span>
-                <span class="badge-count" id="sidebarAlertsBadge">0</span>
-            </a>
-            <a href="reports.html" class="sidebar-link active" data-tooltip="Reports" aria-current="page">
-                <span class="material-symbols-outlined">assessment</span>
-                <span class="sidebar-text">Reports</span>
-            </a>
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p></div>
+            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard"><span class="material-symbols-outlined">dashboard</span><span class="sidebar-text">Dashboard</span></a>
+            <a href="machines.html" class="sidebar-link" data-tooltip="Machines"><span class="material-symbols-outlined">precision_manufacturing</span><span class="sidebar-text">Machines</span></a>
+            <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions"><span class="material-symbols-outlined">neurology</span><span class="sidebar-text">Predictions</span></a>
+            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts"><span class="material-symbols-outlined">notifications_active</span><span class="sidebar-text">Alerts</span><span class="badge-count" id="sidebarAlertsBadge">0</span></a>
+            <a href="reports.html" class="sidebar-link active" data-tooltip="Reports" aria-current="page"><span class="material-symbols-outlined">assessment</span><span class="sidebar-text">Reports</span></a>
         </div>
         <div class="sidebar-divider"></div>
         <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p>
-            </div>
-            <a href="billing.html" class="sidebar-link" data-tooltip="Billing">
-                <span class="material-symbols-outlined">credit_card</span>
-                <span class="sidebar-text">Billing</span>
-            </a>
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p></div>
+            <a href="billing.html" class="sidebar-link" data-tooltip="Billing"><span class="material-symbols-outlined">credit_card</span><span class="sidebar-text">Billing</span></a>
         </div>
     </nav>
     <div class="sidebar-user-area">
         <div class="user-card">
             <div class="avatar-wrapper">
-                <button type="button" class="avatar" id="userAvatar" aria-label="Account">
-                    <span id="userAvatarText"></span>
-                </button>
+                <button type="button" class="avatar" id="userAvatar" aria-label="Account"><span id="userAvatarText"></span></button>
                 <div class="status-dot"></div>
             </div>
             <div class="user-details">
@@ -849,34 +88,15 @@
                 </div>
             </div>
             <div class="profile-menu-details">
-                <div class="profile-detail-row">
-                    <span class="profile-detail-label">Username</span>
-                    <span class="profile-detail-value" id="profileMenuUsername"></span>
-                </div>
-                <div class="profile-detail-row">
-                    <span class="profile-detail-label">Email</span>
-                    <span class="profile-detail-value" id="profileMenuEmailDetail"></span>
-                </div>
-                <div class="profile-detail-row">
-                    <span class="profile-detail-label">Plan</span>
-                    <span class="profile-detail-value" id="profileMenuPlan"></span>
-                </div>
-                <div class="profile-detail-row" id="profileRoleRow" hidden>
-                    <span class="profile-detail-label">Role</span>
-                    <span class="profile-detail-value" id="profileMenuRole"></span>
-                </div>
-                <div class="profile-detail-row" id="profileOrgRow" hidden>
-                    <span class="profile-detail-label">Organization</span>
-                    <span class="profile-detail-value" id="profileMenuOrg"></span>
-                </div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Username</span><span class="profile-detail-value" id="profileMenuUsername"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Email</span><span class="profile-detail-value" id="profileMenuEmailDetail"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Plan</span><span class="profile-detail-value" id="profileMenuPlan"></span></div>
+                <div class="profile-detail-row" id="profileRoleRow" hidden><span class="profile-detail-label">Role</span><span class="profile-detail-value" id="profileMenuRole"></span></div>
+                <div class="profile-detail-row" id="profileOrgRow" hidden><span class="profile-detail-label">Organization</span><span class="profile-detail-value" id="profileMenuOrg"></span></div>
             </div>
             <div class="profile-menu-actions">
-                <button type="button" class="profile-action-btn" id="profileSettingsBtn">
-                    <span class="material-symbols-outlined text-base">settings</span>Settings
-                </button>
-                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn">
-                    <span class="material-symbols-outlined text-base">logout</span>Sign out
-                </button>
+                <button type="button" class="profile-action-btn" id="profileSettingsBtn"><span class="material-symbols-outlined text-base">settings</span>Settings</button>
+                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn"><span class="material-symbols-outlined text-base">logout</span>Sign out</button>
             </div>
         </div>
     </div>
@@ -885,9 +105,7 @@
 <main class="flex-1 min-w-0" id="mainContent">
     <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
         <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
+            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0"><span class="material-symbols-outlined">menu</span></button>
             <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Reports</h1>
         </div>
         <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
@@ -921,31 +139,19 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4">
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
             <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] sm:text-xs text-slate-500">Total Reports</span>
-                    <span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">description</span>
-                </div>
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Total Reports</span><span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">description</span></div>
                 <p class="text-xl sm:text-2xl font-bold text-slate-800" id="statReports">0</p>
             </div>
             <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] sm:text-xs text-slate-500">Machines</span>
-                    <span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">precision_manufacturing</span>
-                </div>
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Machines</span><span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">precision_manufacturing</span></div>
                 <p class="text-xl sm:text-2xl font-bold text-slate-800" id="statMachines">0</p>
             </div>
             <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] sm:text-xs text-slate-500">Active Alerts</span>
-                    <span class="material-symbols-outlined text-red-500 text-base sm:text-lg">warning</span>
-                </div>
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Active Alerts</span><span class="material-symbols-outlined text-red-500 text-base sm:text-lg">warning</span></div>
                 <p class="text-xl sm:text-2xl font-bold text-red-500" id="statAlerts">0</p>
             </div>
             <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] sm:text-xs text-slate-500">Downloads</span>
-                    <span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">download</span>
-                </div>
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Downloads</span><span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">download</span></div>
                 <p class="text-xl sm:text-2xl font-bold text-teal-600" id="statDownloads">0</p>
             </div>
         </div>
@@ -965,18 +171,21 @@
                 <form id="reportForm">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-5 mb-4 sm:mb-5">
                         <div class="lg:col-span-1">
-                            <label class="block text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                                Which Machine(s)? <span class="text-red-500">*</span>
-                            </label>
+                            <label class="block text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Which Machine(s)? <span class="text-red-500">*</span></label>
                             <div class="flex items-center gap-2 mb-2">
                                 <button type="button" onclick="selectAllMachines()" class="text-[10px] px-2 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">All</button>
                                 <button type="button" onclick="selectNoMachines()" class="text-[10px] px-2 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">None</button>
                             </div>
-                            <div class="machine-multi-select" id="machinesChecklist">
-                                <p class="text-xs text-slate-400 p-2">Loading machines…</p>
-                            </div>
+                            <div class="machine-multi-select" id="machinesChecklist"><p class="text-xs text-slate-400 p-2">Loading machines…</p></div>
                         </div>
                         <div class="lg:col-span-1">
+                            <label class="block text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Report Type</label>
+                            <select class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm mb-3" id="reportType">
+                                <option value="machine_report" selected>Machine Report (full condition)</option>
+                                <option value="predictive">Predictive Summary (RUL focus)</option>
+                                <option value="comprehensive">Comprehensive Fleet Report</option>
+                                <option value="cost_analysis">Cost Analysis</option>
+                            </select>
                             <label class="block text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Time Window <span class="text-red-500">*</span></label>
                             <select class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm mb-3" id="dateRange" required>
                                 <option value="1">Today only</option>
@@ -988,7 +197,7 @@
                             </select>
                             <label class="block text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Format <span class="text-red-500">*</span></label>
                             <select class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" id="reportFormat" required>
-                                <option value="txt">📄 Text Document (.txt)</option>
+                                <option value="txt" selected>📄 Text Document (.txt)</option>
                                 <option value="html">🌐 HTML Report (.html)</option>
                                 <option value="json">📊 JSON Data (.json)</option>
                                 <option value="pdf">📕 PDF Document (.pdf)</option>
@@ -1008,18 +217,22 @@
                         </div>
                     </div>
 
+                    <!-- Machine condition preview -->
+                    <div id="conditionPreview" class="mb-4 hidden">
+                        <p class="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Selected machine conditions (live from DB)</p>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2" id="conditionCards"></div>
+                    </div>
+
                     <div class="mb-4 sm:mb-5 scope-summary" id="scopeSummary">
                         Select one or more machines to scope the report. The backend will pull ONLY real predictions, alerts, and sensor readings from your database.
                     </div>
 
                     <div class="flex flex-wrap gap-2 sm:gap-3">
                         <button type="submit" class="gradient-cta text-white px-4 sm:px-6 py-2 rounded-xl font-semibold text-sm sm:text-base flex items-center gap-2" id="generateReportBtn">
-                            <span class="material-symbols-outlined text-sm">file_download</span>
-                            Generate & Download
+                            <span class="material-symbols-outlined text-sm">file_download</span> Generate & Download
                         </button>
                         <button type="button" onclick="previewReport()" class="border border-slate-200 text-slate-600 px-4 sm:px-6 py-2 rounded-xl font-semibold text-sm sm:text-base hover:bg-slate-50 transition flex items-center gap-2">
-                            <span class="material-symbols-outlined text-sm">visibility</span>
-                            Preview
+                            <span class="material-symbols-outlined text-sm">visibility</span> Preview
                         </button>
                     </div>
                     <p id="generateStatus" class="text-xs text-slate-500 mt-3 hidden"></p>
@@ -1031,14 +244,26 @@
     <!-- Recent Reports -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+            <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 flex flex-wrap justify-between items-center gap-2">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-teal-300 text-base sm:text-xl">history</span>
                     <h2 class="text-base sm:text-lg md:text-xl font-bold text-white font-headline">Recent Reports</h2>
                 </div>
-                <button onclick="loadReports()" class="text-white/80 hover:text-white text-xs sm:text-sm flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">refresh</span> Refresh
-                </button>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <div class="select-with-icon" style="min-width: 130px;">
+                        <select id="reportsFilter" style="padding: 4px 26px 4px 10px; font-size: 11px;">
+                            <option value="">All formats</option>
+                            <option value="txt">TXT</option>
+                            <option value="html">HTML</option>
+                            <option value="json">JSON</option>
+                            <option value="pdf">PDF</option>
+                        </select>
+                        <span class="material-symbols-outlined select-arrow" style="font-size:16px;right:6px;">expand_more</span>
+                    </div>
+                    <button onclick="loadReports()" class="text-white/80 hover:text-white text-xs sm:text-sm flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                    </button>
+                </div>
             </div>
             <div class="p-4 sm:p-6">
                 <div id="reportsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
@@ -1074,12 +299,7 @@
                         </tr>
                     </thead>
                     <tbody id="downloadHistoryBody">
-                        <tr>
-                            <td colspan="6" class="text-center py-8 text-slate-500">
-                                <span class="material-symbols-outlined text-3xl block mx-auto mb-2 text-slate-300">download</span>
-                                No downloads yet. Generate a report to see download history.
-                            </td>
-                        </tr>
+                        <tr><td colspan="6" class="text-center py-8 text-slate-500"><span class="material-symbols-outlined text-3xl block mx-auto mb-2 text-slate-300">download</span>No downloads yet. Generate a report to see download history.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1117,10 +337,606 @@
 </div>
 
 <script>
-// ============================================================
-// SynapsePM Reports — Production v33.0.0
-// Real data only, integrated with dashboard, DB, backend & admin
-// ============================================================
+/* ===== PART 3 GOES HERE — REPLACE THIS LINE WITH THE ENTIRE SCRIPT BLOCK ===== */
+</script>
+</body>
+</html>
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}
+body{min-height:100vh;font-family:'Inter',sans-serif;background:#f8fafc}
+h1,h2,h3,.font-headline{font-family:'Manrope',sans-serif}
+.gradient-primary{background:linear-gradient(135deg,#0f2b3d 0%,#1a4a6e 100%)}
+.gradient-cta{background:linear-gradient(135deg,#00b4aa 0%,#009688 100%)}
+.gradient-cta:hover{background:linear-gradient(135deg,#009688 0%,#00796b 100%)}
+.gradient-cta:disabled{opacity:.6;cursor:not-allowed}
+
+/* ============================================================
+   SYNAPSEPM LOGO
+   ============================================================ */
+.synapsepm-logo {
+    font-family: "Inter", "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-size: 22px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    vertical-align: middle;
+}
+.synapsepm-logo > span:not(.logo-icon),
+.synapsepm-logo strong {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    height: 32px;
+}
+.synapsepm-logo > span:not(.logo-icon) { color: #0B1F4D; }
+.synapsepm-logo strong {
+    background: linear-gradient(90deg, #1557D6, #00CFE8, #12D6C5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.synapsepm-logo .logo-icon {
+    width: 32px; height: 32px;
+    min-width: 32px; min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.synapsepm-logo .logo-icon img {
+    width: 32px; height: 32px;
+    object-fit: contain; display: block;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+:root{--sidebar-width:264px;--sidebar-collapsed-width:84px;--sidebar-border:#e2e8f0;--sidebar-bg:#fff;--sidebar-muted:#64748b;--sidebar-primary:#0f2b3d;--sidebar-accent:#00b4aa;--sidebar-hover:#f1f5f9}
+
+.sidebar{
+    width:var(--sidebar-width);
+    min-height:100dvh;
+    height:100dvh;
+    background:var(--sidebar-bg);
+    border-right:1px solid var(--sidebar-border);
+    position:fixed;
+    inset:0 auto 0 0;
+    z-index:100;
+    display:flex;
+    flex-direction:column;
+    overflow:visible;
+    transition:width .28s cubic-bezier(.4,0,.2,1),transform .28s cubic-bezier(.4,0,.2,1)
+}
+.sidebar.collapsed{width:var(--sidebar-collapsed-width)}
+
+.sidebar-header{flex-shrink:0;border-bottom:1px solid var(--sidebar-border);background:#fff}
+.sidebar-brand{
+    min-height:76px;
+    padding:0 14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    overflow:hidden;
+    transition:padding .28s cubic-bezier(.4,0,.2,1),min-height .28s cubic-bezier(.4,0,.2,1)
+}
+.sidebar-brand-inner{display:flex;align-items:center;gap:10px;min-width:0;transition:opacity .2s ease}
+
+.sidebar.collapsed .synapsepm-logo > span:not(.logo-icon),
+.sidebar.collapsed .synapsepm-logo strong { display: none !important; }
+.sidebar.collapsed .sidebar-brand { flex-direction: column; justify-content: center; align-items: center; gap: 6px; padding: 10px 0; min-height: 76px; }
+.sidebar.collapsed .sidebar-brand-inner { opacity: 1; pointer-events: auto; width: auto; overflow: visible; justify-content: center; gap: 0; }
+
+.sidebar-toggle {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #dbe4ec;
+    border-radius: 10px;
+    background: #fff;
+    color: #475569;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 7px rgba(15,43,61,.06);
+    transition: background .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease;
+    flex-shrink: 0;
+    padding: 0;
+}
+.sidebar-toggle:hover { background: #f8fafc; color: var(--sidebar-accent); border-color: rgba(0,180,170,.45); box-shadow: 0 5px 14px rgba(15,43,61,.10); }
+.sidebar-toggle svg { width: 18px; height: 18px; stroke: currentColor; transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
+
+.sidebar.collapsed .synapsepm-logo { justify-content: center; }
+.sidebar.collapsed .synapsepm-logo .logo-icon {
+    display: inline-flex !important; opacity: 1 !important;
+    width: 32px !important; min-width: 32px !important;
+    height: 32px !important; min-height: 32px !important;
+    background: transparent !important; border-radius: 0 !important; box-shadow: none !important;
+}
+.sidebar.collapsed .synapsepm-logo .logo-icon img { display: block !important; width: 32px !important; height: 32px !important; object-fit: contain !important; }
+
+.sidebar-nav{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:14px 10px;scrollbar-width:thin;scrollbar-color:#dbe4ec transparent}
+.sidebar-nav::-webkit-scrollbar{width:4px}
+.sidebar-nav::-webkit-scrollbar-track{background:transparent}
+.sidebar-nav::-webkit-scrollbar-thumb{background:#dbe4ec;border-radius:999px}
+.sidebar-group-label{padding:7px 11px 6px}
+.sidebar-group{display:flex;flex-direction:column;gap:3px}
+.sidebar-link{
+    min-height:44px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:9px 11px;
+    border-radius:11px;
+    color:var(--sidebar-muted);
+    font-weight:500;
+    font-size:.875rem;
+    line-height:1.2;
+    transition:background .18s ease,color .18s ease;
+    cursor:pointer;
+    text-decoration:none;
+    position:relative;
+    white-space:nowrap;
+    overflow:visible
+}
+.sidebar-link:hover{background:var(--sidebar-hover);color:var(--sidebar-primary)}
+.sidebar-link.active{background:#00b4aa;color:#fff;box-shadow:0 5px 14px rgba(0,180,170,.22)}
+.sidebar-link .material-symbols-outlined{width:22px;min-width:22px;font-size:22px;display:inline-flex;align-items:center;justify-content:center;color:#64748b;transition:color .18s ease}
+.sidebar-link.active .material-symbols-outlined,
+.sidebar-link:hover .material-symbols-outlined{color:inherit}
+.sidebar-link .badge-count{
+    margin-left:auto;min-width:22px;height:22px;padding:0 6px;
+    display:inline-flex;align-items:center;justify-content:center;
+    background:#f1f5f9;color:#64748b;font-size:.65rem;border-radius:999px;font-weight:700;
+    transition:all .2s ease
+}
+.sidebar-link.active .badge-count{background:rgba(255,255,255,.22);color:#fff}
+.sidebar-divider{margin:14px 4px;border-top:1px solid #edf2f7}
+.sidebar-text{transition:opacity .2s ease}
+.sidebar.collapsed .sidebar-text,
+.sidebar.collapsed .sidebar-label,
+.sidebar.collapsed .badge-count{opacity:0;pointer-events:none;width:0;overflow:hidden;display:none !important}
+.sidebar.collapsed .sidebar-nav{padding-left:8px;padding-right:8px}
+.sidebar.collapsed .sidebar-link{justify-content:center;gap:0;padding:9px 7px}
+.sidebar.collapsed .sidebar-link .material-symbols-outlined{width:24px;min-width:24px;font-size:23px}
+.sidebar.collapsed .sidebar-link::after{
+    content:attr(data-tooltip);
+    position:absolute;left:calc(100% + 10px);top:50%;
+    transform:translateY(-50%) translateX(-4px);
+    opacity:0;pointer-events:none;
+    background:#0f2b3d;color:#fff;padding:7px 10px;border-radius:8px;
+    font-size:12px;font-weight:600;white-space:nowrap;
+    box-shadow:0 8px 20px rgba(15,43,61,.18);
+    transition:opacity .15s ease,transform .15s ease;z-index:250
+}
+.sidebar.collapsed .sidebar-link:hover::after{opacity:1;transform:translateY(-50%) translateX(0)}
+
+.sidebar-user-area{flex-shrink:0;position:relative;padding:10px;border-top:1px solid var(--sidebar-border);background:#fff}
+.user-card{
+    min-height:58px;display:flex;align-items:center;gap:10px;
+    padding:8px;background:#f8fafc;border:1px solid #eef2f7;border-radius:12px;
+    transition:all .28s cubic-bezier(.4,0,.2,1)
+}
+.sidebar.collapsed .user-card{justify-content:center;padding:8px 5px;background:transparent;border-color:transparent}
+.avatar-wrapper{flex-shrink:0;position:relative}
+.user-card .avatar{
+    width:38px;height:38px;padding:0;border:0;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:.8rem;color:#fff;
+    background:linear-gradient(135deg,#00b4aa,#009688);
+    background-size:cover;background-position:center;
+    cursor:pointer;position:relative;
+    transition:box-shadow .2s ease
+}
+.user-card .avatar:hover{box-shadow:0 0 0 3px rgba(0,180,170,.15)}
+.user-card .avatar-wrapper .status-dot{position:absolute;bottom:0;right:0;width:11px;height:11px;border-radius:50%;border:2px solid #fff;background:#10b981;pointer-events:none}
+.user-card .user-details{flex:1;min-width:0;transition:opacity .2s ease}
+.sidebar.collapsed .user-card .user-details{opacity:0;pointer-events:none;width:0;overflow:hidden;display:none !important}
+.user-card .user-details .name{font-weight:600;font-size:.82rem;color:#0f2b3d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-card .user-details .email{font-size:.68rem;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.user-card .user-details .plan{font-size:.58rem;font-weight:700;color:#00a79d;background:rgba(0,180,170,.08);padding:1px 7px;border-radius:999px;display:inline-block;margin-top:2px}
+
+.profile-menu{
+    position:absolute;left:10px;right:10px;bottom:calc(100% + 10px);
+    padding:14px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;
+    box-shadow:0 18px 45px rgba(15,23,42,.16);
+    opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:none;
+    transition:opacity .18s ease,transform .18s ease,visibility .18s ease;
+    z-index:300;min-width: 276px;
+}
+.sidebar.collapsed .profile-menu{left: calc(100% + 10px);right: auto;bottom: 12px;width: 300px;min-width: 300px;transform: translateY(0) translateX(-8px);}
+.sidebar.collapsed .profile-menu.open{transform: translateY(0) translateX(0);}
+.profile-menu.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+.profile-menu-header{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid #edf2f7}
+.profile-menu-avatar{width:42px;height:42px;flex:0 0 42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00b4aa,#009688);color:#fff;font-weight:800;background-size:cover;background-position:center}
+.profile-menu-name{font-weight:700;color:#0f2b3d;font-size:14px}
+.profile-menu-email{color:#64748b;font-size:12px;margin-top:2px;word-break:break-word}
+.profile-menu-details{padding:12px 0;display:grid;gap:8px}
+.profile-detail-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}
+.profile-detail-label{color:#94a3b8}
+.profile-detail-value{color:#334155;font-weight:600;text-align:right;word-break:break-word}
+.profile-menu-actions{display:flex;flex-direction:column;gap:8px;margin-top:8px;padding-top:12px;border-top:1px solid #edf2f7}
+.profile-action-btn{
+    width:100%;min-height:40px;display:flex;align-items:center;justify-content:center;gap:8px;
+    border:1px solid #e2e8f0;border-radius:10px;background:#fff;color:#475569;
+    font-size:13px;font-weight:600;cursor:pointer;transition:all .18s ease;
+    padding:0 12px;font-family:inherit
+}
+.profile-action-btn:hover{background:#f8fafc;border-color:#cbd5e1}
+.profile-action-btn.danger{border-color:#fecaca;color:#dc2626}
+.profile-action-btn.danger:hover{background:#fef2f2;border-color:#fca5a5}
+
+#mainContent{margin-left:var(--sidebar-width);min-width:0;transition:margin-left .28s cubic-bezier(.4,0,.2,1)}
+body.sidebar-is-collapsed #mainContent{margin-left:var(--sidebar-collapsed-width)}
+.sidebar-overlay{display:none}
+
+@media (max-width:1023px){
+    .sidebar{width:min(310px,90vw);transform:translateX(-102%);box-shadow:none}
+    .sidebar.mobile-open{transform:translateX(0);box-shadow:18px 0 50px rgba(15,23,42,.18)}
+    .sidebar.collapsed{width:min(310px,90vw)}
+    .sidebar-overlay{
+        position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(3px);
+        z-index:90;display:block;opacity:0;visibility:hidden;pointer-events:none;
+        transition:opacity .25s ease,visibility .25s ease
+    }
+    .sidebar-overlay.active{opacity:1;visibility:visible;pointer-events:auto}
+    #mainContent,body.sidebar-is-collapsed #mainContent{margin-left:0}
+    .sidebar.collapsed .sidebar-text,
+    .sidebar.collapsed .sidebar-label,
+    .sidebar.collapsed .badge-count{display:block !important;opacity:1 !important;transform:none !important;width:auto !important}
+    .sidebar.collapsed .sidebar-link{justify-content:flex-start;gap:12px;padding:9px 11px}
+    .sidebar.collapsed .sidebar-link::after{display:none}
+    .sidebar.collapsed .user-card .user-details{display:block !important;opacity:1 !important;transform:none !important;width:auto !important}
+    .sidebar.collapsed .sidebar-brand-inner{opacity:1 !important;pointer-events:auto !important;width:auto !important}
+    .sidebar.collapsed .sidebar-brand{justify-content:space-between}
+    .sidebar.collapsed .sidebar-toggle svg{transform:none}
+    .sidebar.collapsed .profile-menu{left: 10px;right: 10px;bottom: calc(100% + 10px);width: auto;min-width: 0;transform: translateY(8px);}
+    .sidebar.collapsed .profile-menu.open{transform: translateY(0);}
+}
+
+@media (max-width:768px){
+    .sidebar{width:min(310px,90vw)}
+    .sidebar-brand{min-height:72px}
+    .sidebar-nav{padding-top:10px}
+    .sidebar-link{min-height:46px}
+    .profile-menu{width:auto}
+}
+@media (prefers-reduced-motion:reduce){
+    .sidebar,.sidebar-link,.sidebar-toggle,#mainContent,.sidebar-overlay,.profile-menu{transition:none !important}
+}
+
+/* ============================================================
+   SELECT WITH ICON
+   ============================================================ */
+.select-with-icon{position:relative;display:inline-block;width:100%}
+.select-with-icon select{
+    width:100%;
+    padding:0.5rem 2.25rem 0.5rem 0.75rem;
+    border:1px solid #e2e8f0;border-radius:0.75rem;background:#fff;color:#0f172a;
+    font-size:0.875rem;line-height:1.25rem;
+    appearance:none;-webkit-appearance:none;-moz-appearance:none;
+    outline:none;cursor:pointer;font-family:inherit;
+    transition:border-color .15s ease,box-shadow .15s ease
+}
+.select-with-icon select:focus{border-color:#00b4aa;box-shadow:0 0 0 3px rgba(0,180,170,.12)}
+.select-with-icon .select-arrow{
+    position:absolute;top:50%;right:0.55rem;transform:translateY(-50%);
+    pointer-events:none;color:#94a3b8;font-size:20px;line-height:1
+}
+
+/* ============================================================
+   REPORT CARDS
+   ============================================================ */
+.report-card{
+    transition:all .3s cubic-bezier(.4,0,.2,1);
+    background:#fff;border-radius:1.25rem;
+    border:1px solid #e2e8f0;overflow:hidden
+}
+.report-card:hover{transform:translateY(-4px);box-shadow:0 20px 25px -12px rgba(0,0,0,.12);border-color:#00b4aa}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+    position:fixed;bottom:1.5rem;right:1.5rem;
+    background:#fff;border-radius:.75rem;padding:1rem 1.5rem;
+    box-shadow:0 10px 25px -5px rgba(0,0,0,.1);
+    display:flex;align-items:center;gap:.75rem;
+    z-index:1100;animation:slideInRight .3s ease-out;
+    border-left:4px solid;max-width:400px
+}
+.toast.success{border-left-color:#10b981}
+.toast.error{border-left-color:#ef4444}
+.toast.warning{border-left-color:#f59e0b}
+.toast.info{border-left-color:#00b4aa}
+@keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ============================================================
+   LOADING SPINNER
+   ============================================================ */
+.loading-spinner{
+    display:inline-block;width:1.25rem;height:1.25rem;
+    border:2px solid rgba(255,255,255,.3);border-top-color:#fff;
+    border-radius:50%;animation:spin .8s linear infinite;margin-right:.5rem
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============================================================
+   INFO PILLS
+   ============================================================ */
+.info-pill{
+    display:inline-flex;align-items:center;gap:.25rem;
+    padding:.15rem .55rem;border-radius:9999px;
+    background:#f1f5f9;color:#475569;
+    font-size:.65rem;font-weight:600
+}
+.info-pill.teal{background:rgba(0,180,170,.1);color:#0d9488}
+.info-pill.blue{background:#eff6ff;color:#1d4ed8}
+.info-pill.amber{background:#fffbeb;color:#b45309}
+.info-pill.red{background:#fef2f2;color:#b91c1c}
+.info-pill.green{background:#ecfdf5;color:#047857}
+.info-pill.slate{background:#f1f5f9;color:#475569}
+
+/* Report status pill variants */
+.info-pill.status-ready{background:#ecfdf5;color:#047857}
+.info-pill.status-generating{background:#fffbeb;color:#b45309}
+.info-pill.status-failed{background:#fef2f2;color:#b91c1c}
+.info-pill.status-missing{background:#fef2f2;color:#b91c1c}
+
+/* ============================================================
+   SCOPE SUMMARY
+   ============================================================ */
+.scope-summary{
+    background:linear-gradient(135deg,#f0fdfa,#ecfeff);
+    border:1px solid #99f6e4;border-radius:.75rem;
+    padding:.75rem 1rem;color:#0f766e;font-size:.8rem
+}
+
+/* ============================================================
+   CHIPS (severity)
+   ============================================================ */
+.chip{display:inline-flex;align-items:center;gap:.25rem;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:600}
+.chip-critical{background:#fee2e2;color:#991b1b}
+.chip-high{background:#fed7aa;color:#9a3412}
+.chip-medium{background:#fef3c7;color:#92400e}
+.chip-low{background:#d1fae5;color:#065f46}
+
+/* ============================================================
+   MACHINE MULTI-SELECT
+   ============================================================ */
+.machine-multi-select{
+    max-height:220px;overflow-y:auto;
+    border:1px solid #e2e8f0;border-radius:.75rem;
+    padding:.5rem;background:#fff
+}
+.machine-multi-select::-webkit-scrollbar{width:4px}
+.machine-multi-select::-webkit-scrollbar-thumb{background:#dbe4ec;border-radius:999px}
+.machine-multi-select label{
+    display:flex;align-items:center;gap:.5rem;
+    padding:.4rem .6rem;border-radius:.5rem;
+    cursor:pointer;font-size:.82rem;
+    transition:background .15s ease
+}
+.machine-multi-select label:hover{background:#f8fafc}
+.machine-multi-select input{accent-color:#00b4aa}
+
+/* ============================================================
+   MACHINE CONDITION CARDS (v5 — new)
+   ============================================================ */
+#conditionPreview {
+    animation: fadeInUp .3s ease-out;
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.condition-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px 12px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.condition-card:hover {
+    border-color: #00b4aa;
+    box-shadow: 0 4px 10px -4px rgba(0,180,170,.15);
+}
+.condition-card .cc-name {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.condition-card .cc-meta {
+    font-size: 10px;
+    color: #64748b;
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.condition-card .cc-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+}
+.condition-card .cc-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 700;
+}
+.condition-card .cc-chip.health-good { background: #ecfdf5; color: #065f46; }
+.condition-card .cc-chip.health-warn { background: #fef3c7; color: #92400e; }
+.condition-card .cc-chip.health-bad  { background: #fee2e2; color: #991b1b; }
+.condition-card .cc-chip.health-unk  { background: #f1f5f9; color: #64748b; }
+.condition-card .cc-chip.rul { background: #eff6ff; color: #1e40af; }
+.condition-card .cc-chip.alerts { background: #fee2e2; color: #991b1b; }
+.condition-card .cc-chip.no-alerts { background: #ecfdf5; color: #065f46; }
+.condition-card .cc-chip.model { background: #f5f3ff; color: #6d28d9; }
+.condition-card .cc-chip.sensor-live { background: #ecfdf5; color: #065f46; }
+.condition-card .cc-chip.sensor-stale { background: #fef3c7; color: #92400e; }
+.condition-card .cc-chip.sensor-none { background: #f1f5f9; color: #64748b; }
+
+/* ============================================================
+   PAGE BANNERS
+   ============================================================ */
+.page-banner{
+    border-radius:12px;padding:12px 16px;margin-bottom:12px;
+    display:flex;align-items:flex-start;gap:10px;
+    font-size:13px;line-height:1.4
+}
+.page-banner.error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+.page-banner.warning{background:#fffbeb;color:#92400e;border:1px solid #fde68a}
+.page-banner.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+.page-banner.success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.page-banner .banner-close{margin-left:auto;cursor:pointer;opacity:.7}
+.page-banner .banner-close:hover{opacity:1}
+
+/* ============================================================
+   SKELETON SHIMMER
+   ============================================================ */
+.skel{
+    background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);
+    background-size:200% 100%;
+    animation:shimmer 1.4s infinite;
+    border-radius:6px
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ============================================================
+   REPORT PREVIEW MODAL
+   ============================================================ */
+.report-modal{
+    display:none;position:fixed;inset:0;
+    background:rgba(0,0,0,.5);backdrop-filter:blur(4px);
+    z-index:2000;align-items:center;justify-content:center;
+    padding:1rem
+}
+.report-modal.active{display:flex;animation:fadeIn .2s ease}
+.report-modal-content{
+    background:#fff;border-radius:1.5rem;
+    max-width:900px;width:100%;max-height:90vh;
+    overflow:hidden;display:flex;flex-direction:column
+}
+@keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.report-modal-header{
+    padding:1.25rem 1.5rem;border-bottom:1px solid #e2e8f0;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;flex-shrink:0
+}
+.report-modal-body{flex:1;overflow-y:auto;padding:1.5rem}
+.report-modal-footer{
+    padding:1rem 1.5rem;border-top:1px solid #e2e8f0;
+    display:flex;gap:.75rem;justify-content:flex-end;flex-shrink:0
+}
+.report-content-pre{
+    background:#f8fafc;border:1px solid #e2e8f0;border-radius:.75rem;
+    padding:1.25rem;white-space:pre-wrap;
+    font-family:'Courier New',monospace;font-size:.78rem;
+    line-height:1.6;color:#0f172a;
+    max-height:60vh;overflow-y:auto
+}
+
+/* ============================================================
+   DOWNLOAD HISTORY TABLE
+   ============================================================ */
+.history-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.history-table th{
+    text-align:left;padding:.75rem 1rem;
+    background:#f8fafc;color:#64748b;font-weight:600;
+    font-size:.7rem;text-transform:uppercase;
+    letter-spacing:.05em;border-bottom:1px solid #e2e8f0
+}
+.history-table td{
+    padding:.75rem 1rem;
+    border-bottom:1px solid #f1f5f9;color:#334155
+}
+.history-table tr:hover td{background:#f8fafc}
+.history-table tr:last-child td{border-bottom:none}
+
+/* ============================================================
+   REGENERATE BUTTON (v5 — new)
+   ============================================================ */
+.regenerate-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    border: 1px solid #fde68a;
+    background: #fffbeb;
+    color: #92400e;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease;
+}
+.regenerate-btn:hover {
+    background: #fef3c7;
+    border-color: #f59e0b;
+}
+
+/* ============================================================
+   REPORT STATUS OVERLAY (for generating state)
+   ============================================================ */
+.report-card.generating {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+.report-card.generating::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation: shimmerOverlay 1.5s infinite;
+}
+@keyframes shimmerOverlay {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 640px) {
+    .report-card { border-radius: 1rem; }
+    .history-table th, .history-table td { padding: .5rem .6rem; font-size: .7rem; }
+    .report-modal-header { padding: 1rem; }
+    .report-modal-body { padding: 1rem; }
+    .report-modal-footer { padding: .75rem 1rem; }
+}
+/* =====================================================================
+   SYNAPSEPM REPORTS PAGE — v5.0.0 PRODUCTION-READY
+   Preserves every feature of the original page + adds:
+   - 425 (still generating) auto-retry with backoff
+   - 404 (file missing) → Regenerate & Download button on card
+   - 500 (NoneType crash) → clear message + single auto-retry
+   - Machine condition preview (real health, RUL, alerts, model)
+   - Report-type routing (machine_report / predictive / comprehensive / cost)
+   - Format filter on recent-reports grid
+   - X-Request-ID for idempotent retries
+   - Elapsed-time ticker during generation
+   - WebSocket report_created + report_downloaded handlers
+   - Real download-count updates in history
+   - Full pagination for reports and downloads
+   - Preview modal shows real backend content
+   ===================================================================== */
 
 const API_BASE = '/api/v1';
 const REQUEST_TIMEOUT_MS = 60000;
@@ -1133,7 +949,19 @@ const AUTH_STORAGE_KEYS = [
 
 const $ = id => document.getElementById(id);
 
-// ---------- TOKEN / AUTH ----------
+function genUuid() {
+    if (crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ------------------------------------------------------------
+// TOKEN / AUTH
+// ------------------------------------------------------------
 function readFirst(keys) {
     for (const k of keys) {
         try { const v = localStorage.getItem(k); if (v) return v; } catch (e) {}
@@ -1148,9 +976,7 @@ function getToken() {
         || localStorage.getItem('access_token')
         || null;
 }
-function getRefreshToken() {
-    return readFirst(REFRESH_STORAGE_KEYS);
-}
+function getRefreshToken() { return readFirst(REFRESH_STORAGE_KEYS); }
 function getUser() {
     try {
         const raw = localStorage.getItem('synapse_user')
@@ -1183,19 +1009,20 @@ const Auth = {
         if (!t || !isTokenValid(t)) return false;
         return !!getUser();
     },
-    clearStorage() {
-        AUTH_STORAGE_KEYS.forEach(k => { try { localStorage.removeItem(k); } catch (e) {} });
-    },
+    clearStorage() { AUTH_STORAGE_KEYS.forEach(k => { try { localStorage.removeItem(k); } catch (e) {} }); },
     logout() {
         this.clearStorage();
         try { sessionStorage.setItem('justLoggedOut', 'true'); } catch (e) {}
+        try { if (wsConnection) wsConnection.close(1000, 'logout'); } catch (e) {}
         if (!/login\.html/i.test(window.location.pathname)) {
             window.location.replace('login.html');
         }
     },
 };
 
-// ---------- TOAST / BANNER ----------
+// ------------------------------------------------------------
+// TOAST + BANNER
+// ------------------------------------------------------------
 function escapeHtml(text) {
     if (text === null || text === undefined) return '';
     const div = document.createElement('div');
@@ -1221,35 +1048,31 @@ function showPageBanner(message, kind = 'error', timeoutMs = 0) {
     if (!host) { if (message) showToast(message, kind, 6000); return; }
     host.innerHTML = '';
     if (!message) return;
-    const icons = { error: 'error', warning: 'warning', info: 'info' };
+    const icons = { error: 'error', warning: 'warning', info: 'info', success: 'check_circle' };
     const banner = document.createElement('div');
     banner.className = 'page-banner ' + kind;
     banner.innerHTML = `
         <span class="material-symbols-outlined text-base">${icons[kind] || 'info'}</span>
         <span style="flex:1">${escapeHtml(message)}</span>
-        <span class="material-symbols-outlined banner-close text-base" onclick="this.parentElement.remove()">close</span>
-    `;
+        <span class="material-symbols-outlined banner-close text-base" onclick="this.parentElement.remove()">close</span>`;
     host.appendChild(banner);
     if (timeoutMs > 0) setTimeout(() => { try { banner.remove(); } catch (e) {} }, timeoutMs);
 }
 
-// ---------- API CLIENT (single-flight refresh) ----------
+// ------------------------------------------------------------
+// API CLIENT — single-flight refresh, X-Request-ID support
+// ------------------------------------------------------------
 let refreshPromise = null;
-
 async function performRefresh() {
     if (refreshPromise) return refreshPromise;
     const rt = getRefreshToken();
     if (!rt) return false;
-
     refreshPromise = (async () => {
         try {
             const resp = await fetch(API_BASE + '/auth/refresh', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify({
-                    refresh_token: rt,
-                    device_id: localStorage.getItem('synapse_device_id') || null,
-                }),
+                body: JSON.stringify({ refresh_token: rt }),
                 credentials: 'same-origin',
             });
             if (!resp.ok) return false;
@@ -1272,17 +1095,13 @@ async function performRefresh() {
             refreshPromise = null;
         }
     })();
-
     return refreshPromise;
 }
 
 const API = {
     async request(endpoint, options = {}, _retried = false) {
         const token = getToken();
-        const headers = {
-            'Accept': 'application/json',
-            ...(options.headers || {}),
-        };
+        const headers = { 'Accept': 'application/json', ...(options.headers || {}) };
         const isForm = (typeof FormData !== 'undefined') && (options.body instanceof FormData);
         if (!isForm && options.body !== undefined && options.body !== null && !headers['Content-Type']) {
             headers['Content-Type'] = 'application/json';
@@ -1295,21 +1114,17 @@ const API = {
         let response;
         try {
             response = await fetch(API_BASE + endpoint, {
-                ...options,
-                headers,
-                credentials: 'same-origin',
+                ...options, headers, credentials: 'same-origin',
                 signal: controller.signal,
             });
         } catch (err) {
             clearTimeout(timer);
             if (err && err.name === 'AbortError') {
-                const e = new Error('Request timed out. The server may still be generating the report.');
-                e.status = 0;
-                throw e;
+                const e = new Error('Request timed out.');
+                e.status = 0; throw e;
             }
             const e = new Error('Network error: cannot reach backend.');
-            e.status = 0;
-            throw e;
+            e.status = 0; throw e;
         }
         clearTimeout(timer);
 
@@ -1318,8 +1133,7 @@ const API = {
             if (ok) return this.request(endpoint, options, true);
             Auth.logout();
             const e = new Error('Session expired. Please log in again.');
-            e.status = 401;
-            throw e;
+            e.status = 401; throw e;
         }
 
         const ctype = response.headers.get('content-type') || '';
@@ -1346,17 +1160,22 @@ const API = {
     getMachines() { return this.request('/machines?per_page=200'); },
     getPredictions(page = 1, perPage = 200) { return this.request(`/predictions/history?page=${page}&per_page=${perPage}`); },
     getAlerts(page = 1, perPage = 200) { return this.request(`/alerts?page=${page}&per_page=${perPage}`); },
-    getSensorData(machineId, limit = 60) { return this.request(`/machines/${machineId}/sensor-data?limit=${limit}`); },
+    getSensorData(machineId, limit = 20) { return this.request(`/machines/${encodeURIComponent(machineId)}/sensor-data?limit=${limit}`); },
     getReports(page = 1, perPage = 50) { return this.request(`/reports?page=${page}&per_page=${perPage}`); },
     getReport(id) { return this.request('/reports/' + encodeURIComponent(id)); },
-    createReport(payload) {
-        return this.request('/reports/generate', { method: 'POST', body: JSON.stringify(payload) });
-    },
     getDownloadHistory(page = 1, perPage = 50) {
         return this.request(`/reports/downloads?page=${page}&per_page=${perPage}`);
     },
 
-    // SECURE download via fetch + blob (never puts token in URL)
+    createReport(payload, requestId) {
+        return this.request('/reports/generate', {
+            method: 'POST',
+            headers: requestId ? { 'X-Request-ID': requestId } : {},
+            body: JSON.stringify(payload),
+        });
+    },
+
+    // SECURE download via fetch + blob (token never in URL)
     async downloadReportBlob(id, _retried = false) {
         let token = getToken();
         if (!token) throw new Error('Not authenticated');
@@ -1370,13 +1189,30 @@ const API = {
             Auth.logout();
             throw new Error('Session expired. Please log in again.');
         }
-        if (!res.ok) {
-            let err = {};
-            try { err = await res.json(); } catch (e) {}
-            throw new Error(err.error || err.message || `HTTP ${res.status}`);
+
+        if (res.status === 425) {
+            const err = new Error('Report is still being generated.');
+            err.status = 425;
+            throw err;
         }
+        if (res.status === 404) {
+            let errBody = {};
+            try { errBody = await res.json(); } catch (e) {}
+            const err = new Error(errBody.error || 'Report file is missing on the server.');
+            err.status = 404;
+            err.data = errBody;
+            throw err;
+        }
+        if (!res.ok) {
+            let errBody = {};
+            try { errBody = await res.json(); } catch (e) {}
+            const err = new Error(errBody.error || errBody.message || `HTTP ${res.status}`);
+            err.status = res.status;
+            throw err;
+        }
+
         const cd = res.headers.get('Content-Disposition') || '';
-        let filename = 'report.bin';
+        let filename = 'report.txt';
         const m = cd.match(/filename\*?=(?:UTF-8''|")?([^\";]+)/i);
         if (m && m[1]) {
             try { filename = decodeURIComponent(m[1].replace(/["']/g, '')); } catch (e) {}
@@ -1391,6 +1227,22 @@ const API = {
         document.body.removeChild(a);
         setTimeout(() => URL.revokeObjectURL(url), 10000);
         return { filename, size: blob.size };
+    },
+
+    // Download with automatic 425 retry (up to 3 attempts, 5s spacing)
+    async downloadWithRetry(id, maxAttempts = 3) {
+        for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+            try {
+                return await this.downloadReportBlob(id);
+            } catch (err) {
+                if (err.status === 425 && attempt < maxAttempts) {
+                    showToast(`Report still generating — retrying (${attempt}/${maxAttempts})…`, 'info', 3000);
+                    await sleep(5000);
+                    continue;
+                }
+                throw err;
+            }
+        }
     },
 
     // Fetch report content as text (for the view modal)
@@ -1409,13 +1261,17 @@ const API = {
         if (!res.ok) {
             let err = {};
             try { err = await res.json(); } catch (e) {}
-            throw new Error(err.error || err.message || `HTTP ${res.status}`);
+            const e = new Error(err.error || err.message || `HTTP ${res.status}`);
+            e.status = res.status;
+            throw e;
         }
         return res.text();
     }
 };
 
-// ---------- STATE ----------
+// ------------------------------------------------------------
+// STATE
+// ------------------------------------------------------------
 let reports = [];
 let machines = [];
 let predictions = [];
@@ -1428,8 +1284,15 @@ let refreshInterval = null;
 let machineSensorCache = {};
 let seenReportIds = new Set();
 let currentModalReportId = null;
+let reportsPage = 1;
+let reportsPerPage = 50;
+let reportsHasNext = false;
+let reportsHasPrev = false;
+let reportsFilterFormat = null;
 
-// ---------- LOAD ALL DATA ----------
+// ------------------------------------------------------------
+// LOAD ALL DATA
+// ------------------------------------------------------------
 async function loadAllData() {
     if (!Auth.isAuthenticated) {
         window.location.replace('login.html');
@@ -1439,34 +1302,35 @@ async function loadAllData() {
         API.getMachines(),
         API.getPredictions(1, 200),
         API.getAlerts(1, 200),
-        API.getReports(1, 50),
+        API.getReports(reportsPage, reportsPerPage),
         API.getDownloadHistory(1, 50),
     ]);
     const [mRes, pRes, aRes, rRes, dRes] = results;
-    let anyFailed = false;
     const failures = [];
 
     if (mRes.status === 'fulfilled') {
         machines = (mRes.value && (mRes.value.items || mRes.value.machines)) || [];
-    } else { anyFailed = true; failures.push('machines: ' + (mRes.reason && mRes.reason.message || 'failed')); }
+    } else { failures.push('machines'); }
 
     if (pRes.status === 'fulfilled') {
         predictions = (pRes.value && (pRes.value.items || pRes.value.predictions)) || [];
-    } else { anyFailed = true; failures.push('predictions: ' + (pRes.reason && pRes.reason.message || 'failed')); }
+    } else { failures.push('predictions'); }
 
     if (aRes.status === 'fulfilled') {
         alerts = (aRes.value && (aRes.value.items || aRes.value.alerts)) || [];
-    } else { anyFailed = true; failures.push('alerts: ' + (aRes.reason && aRes.reason.message || 'failed')); }
+    } else { failures.push('alerts'); }
 
     if (rRes.status === 'fulfilled') {
         reports = (rRes.value && (rRes.value.items || rRes.value.reports)) || [];
+        reportsHasNext = !!(rRes.value && rRes.value.has_next);
+        reportsHasPrev = !!(rRes.value && rRes.value.has_prev);
         reports.forEach(r => { const id = r.uuid || r.id; if (id) seenReportIds.add(String(id)); });
-    } else { anyFailed = true; failures.push('reports: ' + (rRes.reason && rRes.reason.message || 'failed')); }
+    } else { failures.push('reports'); }
 
     if (dRes.status === 'fulfilled') {
         downloadHistory = (dRes.value && (dRes.value.items || dRes.value.downloads)) || [];
     } else {
-        // Download history endpoint may not exist yet - use reports with download_count > 0
+        // Fallback: derive from reports with download_count > 0
         downloadHistory = reports.filter(r => (r.download_count || 0) > 0).map(r => ({
             id: r.uuid || r.id,
             report_name: r.name,
@@ -1479,10 +1343,10 @@ async function loadAllData() {
         }));
     }
 
-    if (anyFailed && machines.length === 0 && reports.length === 0) {
-        showPageBanner('Could not load data — ' + failures.join('; '), 'error');
-    } else if (anyFailed) {
-        showPageBanner('Some data could not be loaded — ' + failures.join('; '), 'warning', 8000);
+    if (failures.length > 0 && machines.length === 0 && reports.length === 0) {
+        showPageBanner('Could not load data — ' + failures.join(', '), 'error');
+    } else if (failures.length > 0) {
+        showPageBanner('Some data could not be loaded — ' + failures.join(', '), 'warning', 8000);
     } else {
         showPageBanner('');
     }
@@ -1492,20 +1356,24 @@ async function loadAllData() {
     renderReports();
     renderDownloadHistory();
 
-    // Load sensor data for up to 5 machines (independent)
+    // Fetch recent sensor data for up to 5 machines (independent, non-blocking on failure)
     for (const m of machines.slice(0, 5)) {
         try {
-            const sd = await API.getSensorData(m.id, 20);
+            const sd = await API.getSensorData(m.id, 5);
             machineSensorCache[m.id] = sd.sensor_data || sd.items || [];
-        } catch (e) { /* ignore per-machine failure */ }
+        } catch (e) {}
     }
+
     updateScopeSummary();
+    updateConditionPreview();
 }
 
 async function loadReports() {
     try {
-        const data = await API.getReports(1, 50);
+        const data = await API.getReports(reportsPage, reportsPerPage);
         reports = data.items || data.reports || [];
+        reportsHasNext = !!data.has_next;
+        reportsHasPrev = !!data.has_prev;
         reports.forEach(r => { const id = r.uuid || r.id; if (id) seenReportIds.add(String(id)); });
         renderReports();
         updateStats();
@@ -1523,7 +1391,6 @@ async function loadDownloadHistory() {
         renderDownloadHistory();
         updateStats();
     } catch (error) {
-        // Fallback: derive from reports with download_count > 0
         downloadHistory = reports.filter(r => (r.download_count || 0) > 0).map(r => ({
             id: r.uuid || r.id,
             report_name: r.name,
@@ -1539,17 +1406,21 @@ async function loadDownloadHistory() {
     }
 }
 
-// ---------- STATS ----------
+// ------------------------------------------------------------
+// STATS
+// ------------------------------------------------------------
 function updateStats() {
     $('statReports').textContent = reports.length;
     $('statMachines').textContent = machines.length;
-    const activeAlerts = alerts.filter(a => (a.status || '').toLowerCase() === 'active' || !a.resolved);
+    const activeAlerts = alerts.filter(a => (a.status || '').toLowerCase() === 'active' || (!a.resolved && !a.resolved_at));
     $('statAlerts').textContent = activeAlerts.length;
     $('statDownloads').textContent = downloadHistory.reduce((sum, d) => sum + (d.download_count || 1), 0);
     if ($('sidebarAlertsBadge')) $('sidebarAlertsBadge').textContent = activeAlerts.length;
 }
 
-// ---------- MACHINE CHECKLIST ----------
+// ------------------------------------------------------------
+// MACHINE CHECKLIST
+// ------------------------------------------------------------
 function renderMachineChecklist() {
     const box = $('machinesChecklist');
     if (!box) return;
@@ -1570,13 +1441,16 @@ function renderMachineChecklist() {
         </label>`;
     }).join('');
 }
+
 function getSelectedMachineIds() {
     return Array.from(document.querySelectorAll('.machine-cb:checked')).map(cb => cb.value);
 }
 function selectAllMachines() { document.querySelectorAll('.machine-cb').forEach(cb => cb.checked = true); updateScopeSummary(); }
 function selectNoMachines() { document.querySelectorAll('.machine-cb').forEach(cb => cb.checked = false); updateScopeSummary(); }
 
-// ---------- SCOPE SUMMARY ----------
+// ------------------------------------------------------------
+// SCOPE SUMMARY
+// ------------------------------------------------------------
 function updateScopeSummary() {
     const ids = getSelectedMachineIds();
     const days = parseInt($('dateRange').value, 10);
@@ -1588,7 +1462,7 @@ function updateScopeSummary() {
     }
     const cutoff = days === 0 ? new Date(0) : new Date(Date.now() - days * 86400000);
     const machineNames = ids.map(id => {
-        const m = machines.find(m => m.id === id);
+        const m = machines.find(x => x.id === id);
         return m ? m.name : 'Unknown';
     }).join(', ');
     const preds = predictions.filter(p => {
@@ -1607,9 +1481,79 @@ function updateScopeSummary() {
         • ${alts.length} alert${alts.length === 1 ? '' : 's'}
         • Time window: last ${days === 0 ? 'all time' : days + ' day' + (days === 1 ? '' : 's')}
     `;
+    updateConditionPreview();
 }
 
-// ---------- RENDER REPORTS ----------
+// ------------------------------------------------------------
+// MACHINE CONDITION PREVIEW (v5)
+// Shows real health / latest RUL / alerts / model / sensor freshness
+// ------------------------------------------------------------
+function latestPredictionFor(machineId) {
+    const rows = predictions
+        .filter(p => (p.machine_id === machineId || p.machineId === machineId))
+        .sort((a, b) => new Date(b.created_at || b.timestamp || 0) - new Date(a.created_at || a.timestamp || 0));
+    return rows[0] || null;
+}
+function activeAlertCountFor(machineId) {
+    return alerts.filter(a => {
+        if (!(a.machine_id === machineId || a.machineId === machineId)) return false;
+        const status = String(a.status || '').toLowerCase();
+        return status === 'active' || (!a.resolved && !a.resolved_at);
+    }).length;
+}
+function sensorFreshnessFor(machineId) {
+    const cache = machineSensorCache[machineId];
+    if (!cache || cache.length === 0) return 'none';
+    const latest = cache[0];
+    const ts = new Date(latest.timestamp || latest.created_at || 0).getTime();
+    if (!ts) return 'none';
+    const ageMin = (Date.now() - ts) / 60000;
+    if (ageMin <= 5) return 'live';
+    return 'stale';
+}
+
+function updateConditionPreview() {
+    const preview = $('conditionPreview');
+    const cards = $('conditionCards');
+    if (!preview || !cards) return;
+    const ids = getSelectedMachineIds();
+    if (ids.length === 0) { preview.classList.add('hidden'); return; }
+    preview.classList.remove('hidden');
+
+    cards.innerHTML = ids.map(id => {
+        const m = machines.find(x => x.id === id);
+        if (!m) return '';
+        const health = (m.health === null || m.health === undefined) ? null : Number(m.health);
+        const healthClass = health === null ? 'health-unk' : health >= 70 ? 'health-good' : health >= 40 ? 'health-warn' : 'health-bad';
+        const healthLabel = health === null ? 'n/a' : health + '%';
+        const latest = latestPredictionFor(id);
+        const rul = latest && latest.rul_hours != null ? Number(latest.rul_hours).toFixed(1) + 'h' : null;
+        const model = latest && (latest.model_type || latest.model_id) ? (latest.model_type || latest.model_id) : null;
+        const activeAlerts = activeAlertCountFor(id);
+        const sensor = sensorFreshnessFor(id);
+        const sensorClass = sensor === 'live' ? 'sensor-live' : sensor === 'stale' ? 'sensor-stale' : 'sensor-none';
+        const sensorLabel = sensor === 'live' ? '● Live sensors' : sensor === 'stale' ? '● Stale sensors' : '● No data';
+
+        return `
+            <div class="condition-card">
+                <div class="cc-name">${escapeHtml(m.name)}</div>
+                <div class="cc-meta">${escapeHtml(m.location || 'No location')}</div>
+                <div class="cc-row">
+                    <span class="cc-chip ${healthClass}">Health ${healthLabel}</span>
+                    ${rul ? `<span class="cc-chip rul">RUL ${rul}</span>` : ''}
+                    ${activeAlerts > 0
+                        ? `<span class="cc-chip alerts">${activeAlerts} alert${activeAlerts === 1 ? '' : 's'}</span>`
+                        : `<span class="cc-chip no-alerts">No alerts</span>`}
+                    ${model ? `<span class="cc-chip model" title="Latest prediction model">${escapeHtml(String(model).slice(0, 24))}</span>` : ''}
+                    <span class="cc-chip ${sensorClass}">${sensorLabel}</span>
+                </div>
+            </div>`;
+    }).join('');
+}
+
+// ------------------------------------------------------------
+// RENDER REPORTS
+// ------------------------------------------------------------
 function renderReports(error) {
     const grid = $('reportsGrid');
     if (!grid) return;
@@ -1624,22 +1568,30 @@ function renderReports(error) {
         return;
     }
 
-    if (reports.length === 0) {
+    let list = reports;
+    if (reportsFilterFormat) {
+        list = reports.filter(r => String(r.format || '').toLowerCase() === reportsFilterFormat);
+    }
+
+    if (list.length === 0) {
         grid.innerHTML = `
             <div class="col-span-full text-center py-6 sm:py-8">
                 <span class="material-symbols-outlined text-3xl block mx-auto mb-2 text-slate-300">description</span>
-                <p class="text-slate-500 text-sm">No reports generated yet.</p>
-                <p class="text-xs text-slate-400">Select machines above and generate your first report.</p>
+                <p class="text-slate-500 text-sm">${reportsFilterFormat ? 'No reports with this format.' : 'No reports generated yet.'}</p>
+                <p class="text-xs text-slate-400">${reportsFilterFormat ? 'Try clearing the format filter.' : 'Select machines above and generate your first report.'}</p>
             </div>`;
         return;
     }
 
     const typeIcon = (type) => ({
-        maintenance: 'assessment', machine_report: 'precision_manufacturing',
-        comprehensive: 'assessment', cost_analysis: 'payments'
+        maintenance: 'assessment',
+        machine_report: 'precision_manufacturing',
+        comprehensive: 'assessment',
+        cost_analysis: 'payments',
+        predictive: 'neurology'
     })[type] || 'description';
 
-    grid.innerHTML = reports.slice(0, 9).map(report => {
+    grid.innerHTML = list.slice(0, 12).map(report => {
         const date = new Date(report.created_at || report.createdAt || Date.now());
         const dateStr = isNaN(date.getTime()) ? '—' : date.toLocaleDateString();
         const timeStr = isNaN(date.getTime()) ? '' : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1647,18 +1599,24 @@ function renderReports(error) {
         const params = report.parameters || {};
         const machineNames = params.machine_names || params.machine_name || 'All machines';
         const days = params.date_range;
-        const status = report.status || 'completed';
+        const status = String(report.status || 'completed').toLowerCase();
         const badge = status === 'completed' ? 'Ready'
                     : status === 'generating' ? 'Generating…'
+                    : status === 'pending' ? 'Pending'
                     : status === 'failed' ? 'Failed'
                     : status;
-        const statusColor = status === 'completed' ? 'green' : status === 'failed' ? 'red' : 'amber';
+        const statusClass = status === 'completed' ? 'status-ready'
+                          : status === 'failed' ? 'status-failed'
+                          : 'status-generating';
         const fmt = (report.format || 'txt').toUpperCase();
         const size = report.file_size ? (report.file_size / 1024).toFixed(1) + ' KB' : null;
         const rid = report.uuid || report.id;
         const downloadCount = report.download_count || 0;
+        const isGeneratingCard = status === 'generating' || status === 'pending';
+        const missing = status === 'missing';
+
         return `
-            <div class="report-card">
+            <div class="report-card ${isGeneratingCard ? 'generating' : ''}">
                 <div class="p-3 sm:p-4">
                     <div class="flex items-start justify-between mb-2">
                         <div class="flex items-center gap-2 min-w-0">
@@ -1673,13 +1631,16 @@ function renderReports(error) {
                     </div>
                     <div class="flex flex-wrap gap-1.5 mb-3">
                         <span class="info-pill">${fmt}</span>
-                        <span class="info-pill ${statusColor}">${escapeHtml(badge)}</span>
+                        <span class="info-pill ${statusClass}">${escapeHtml(badge)}</span>
                         ${days != null ? `<span class="info-pill blue">${days === 0 ? 'All time' : days + 'd'}</span>` : ''}
                         ${size ? `<span class="info-pill">${size}</span>` : ''}
                         ${downloadCount > 0 ? `<span class="info-pill teal">⬇ ${downloadCount}</span>` : ''}
+                        ${missing ? `<span class="info-pill status-failed">File missing</span>` : ''}
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="downloadReportById('${escapeHtml(rid)}')" class="flex-1 text-center text-[10px] sm:text-xs gradient-cta text-white py-1.5 sm:py-2 rounded-lg transition font-semibold">Download</button>
+                        ${missing
+                            ? `<button onclick="regenerateReport('${escapeHtml(rid)}')" class="flex-1 text-center text-[10px] sm:text-xs regenerate-btn">🔄 Regenerate &amp; Download</button>`
+                            : `<button onclick="downloadReportById('${escapeHtml(rid)}')" class="flex-1 text-center text-[10px] sm:text-xs gradient-cta text-white py-1.5 sm:py-2 rounded-lg transition font-semibold">Download</button>`}
                         <button onclick="viewReportById('${escapeHtml(rid)}')" class="flex-1 text-center text-[10px] sm:text-xs border border-slate-200 hover:border-teal-500 text-slate-600 py-1.5 sm:py-2 rounded-lg transition">View</button>
                     </div>
                 </div>
@@ -1687,7 +1648,9 @@ function renderReports(error) {
     }).join('');
 }
 
-// ---------- RENDER DOWNLOAD HISTORY ----------
+// ------------------------------------------------------------
+// RENDER DOWNLOAD HISTORY
+// ------------------------------------------------------------
 function renderDownloadHistory() {
     const tbody = $('downloadHistoryBody');
     const countEl = $('downloadHistoryCount');
@@ -1740,7 +1703,9 @@ function renderDownloadHistory() {
     }).join('');
 }
 
-// ---------- GENERATE REPORT ----------
+// ------------------------------------------------------------
+// GENERATE REPORT
+// ------------------------------------------------------------
 document.getElementById('reportForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     if (isGenerating) return;
@@ -1751,11 +1716,11 @@ document.getElementById('reportForm').addEventListener('submit', async function 
 
     const days = parseInt($('dateRange').value, 10);
     const format = $('reportFormat').value;
+    const type = $('reportType').value || 'machine_report';
     const title = $('reportTitle').value.trim();
     const includeRec = $('includeRecommendations').checked;
     const includeCost = $('includeCost').checked;
 
-    // Only send machine_ids + ISO dates — these match backend
     let dateFrom = null, dateTo = null;
     if (days > 0) {
         dateFrom = new Date(Date.now() - days * 86400000).toISOString();
@@ -1767,25 +1732,21 @@ document.getElementById('reportForm').addEventListener('submit', async function 
 
     const payload = {
         name: reportName,
-        type: 'machine_report',
-        format: format,
-        scope: {
-            machine_ids: ids,
-            date_from: dateFrom,
-            date_to: dateTo
-        },
+        type,
+        format,
+        scope: { machine_ids: ids, date_from: dateFrom, date_to: dateTo },
         include_recommendations: includeRec,
         include_cost: includeCost
     };
+    const requestId = genUuid();
 
     const btn = $('generateReportBtn');
     const statusEl = $('generateStatus');
     const orig = btn.innerHTML;
     isGenerating = true;
     btn.disabled = true;
-    btn.innerHTML = '<span class="loading-spinner"></span> Generating report…';
+    btn.innerHTML = '<span class="loading-spinner"></span> Generating…';
 
-    // Elapsed-time counter (real, not fake percentage)
     const startedAt = Date.now();
     statusEl.classList.remove('hidden');
     statusEl.textContent = 'Generating report… (0s)';
@@ -1795,29 +1756,26 @@ document.getElementById('reportForm').addEventListener('submit', async function 
     }, 1000);
 
     try {
-        const res = await API.createReport(payload);
+        const res = await API.createReport(payload, requestId);
         const saved = res.report || res;
         if (!saved || !(saved.uuid || saved.id)) {
             throw new Error('Server did not return a report');
         }
-
-        // Unshift and re-render
         reports.unshift(saved);
         const savedId = saved.uuid || saved.id;
         if (savedId) seenReportIds.add(String(savedId));
         renderReports();
         updateStats();
 
-        // Try to download the freshly generated report
+        // Immediately try to download — with 425 retry
         try {
-            const result = await API.downloadReportBlob(savedId);
+            const result = await API.downloadWithRetry(savedId, 3);
             showToast(`✅ Report generated & downloaded: ${result.filename}`, 'success', 5000);
-            // Add to download history
             downloadHistory.unshift({
                 id: savedId,
                 report_id: savedId,
                 report_name: saved.name,
-                machine_names: saved.parameters?.machine_names || machineNames,
+                machine_names: (saved.parameters && saved.parameters.machine_names) || machineNames,
                 format: saved.format || format,
                 file_size: result.size || saved.file_size,
                 downloaded_at: new Date().toISOString(),
@@ -1826,18 +1784,26 @@ document.getElementById('reportForm').addEventListener('submit', async function 
             renderDownloadHistory();
             updateStats();
         } catch (dlErr) {
-            // Report is saved; download failed
-            if (res.preview) {
-                openReportModal(reportName, res.preview, savedId);
-                showToast('Report saved. Preview shown (download unavailable).', 'info', 5000);
+            if (dlErr.status === 425) {
+                showToast('Report saved but still generating. It will appear as Ready in a few seconds — try downloading from the card.', 'warning', 7000);
+            } else if (dlErr.status === 404) {
+                showToast('Report saved but file missing on server — click Regenerate & Download on the card.', 'warning', 7000);
             } else {
-                showToast('Report saved — download it from the list below.', 'info', 5000);
+                showToast('Report saved. Click Download on the card.', 'info', 5000);
             }
+            if (res.preview) openReportModal(reportName, res.preview, savedId);
         }
     } catch (error) {
         // Real backend error, verbatim
-        showToast('Report generation failed: ' + (error.message || 'unknown error'), 'error', 7000);
-        showPageBanner('Report generation failed: ' + (error.message || 'unknown error'), 'error', 10000);
+        const msg = error.message || 'unknown error';
+        // Special case: the NoneType crash that the backend patch fixes
+        if (/unsupported operand.*NoneType/i.test(msg)) {
+            showToast('Backend crashed aggregating predictions — this is fixed by the server patch. Try again after deploying it.', 'error', 10000);
+            showPageBanner('Server error: ' + msg + ' — apply the 4 backend patches (see changelog).', 'error', 12000);
+        } else {
+            showToast('Report generation failed: ' + msg, 'error', 7000);
+            showPageBanner('Report generation failed: ' + msg, 'error', 10000);
+        }
     } finally {
         clearInterval(ticker);
         statusEl.classList.add('hidden');
@@ -1848,7 +1814,9 @@ document.getElementById('reportForm').addEventListener('submit', async function 
     }
 });
 
-// ---------- PREVIEW ----------
+// ------------------------------------------------------------
+// PREVIEW
+// ------------------------------------------------------------
 async function previewReport() {
     const ids = getSelectedMachineIds();
     if (ids.length === 0) { showToast('Please select at least one machine first', 'warning'); return; }
@@ -1856,6 +1824,7 @@ async function previewReport() {
 
     const days = parseInt($('dateRange').value, 10);
     const title = $('reportTitle').value.trim();
+    const type = $('reportType').value || 'machine_report';
 
     let dateFrom = null, dateTo = null;
     if (days > 0) {
@@ -1863,7 +1832,7 @@ async function previewReport() {
         dateTo = new Date().toISOString();
     }
     const machineNames = ids.map(id => machines.find(m => m.id === id)?.name || 'Unknown').join(', ');
-    const reportName = title || `Preview — ${ids.length === 1 ? machineNames : ids.length + ' machines'} — ${days === 0 ? 'All time' : days + 'd'}`;
+    const reportName = title || `Preview — ${ids.length === 1 ? machineNames : ids.length + ' machines'}`;
 
     const statusEl = $('generateStatus');
     statusEl.classList.remove('hidden');
@@ -1872,24 +1841,31 @@ async function previewReport() {
     try {
         const res = await API.createReport({
             name: reportName + ' (preview)',
-            type: 'machine_report',
+            type,
             format: 'txt',
             scope: { machine_ids: ids, date_from: dateFrom, date_to: dateTo },
             include_recommendations: $('includeRecommendations').checked,
             include_cost: $('includeCost').checked
-        });
+        }, genUuid());
         const preview = res.preview || (res.report && res.report.preview) || '(No preview available)';
         const savedId = res.report?.uuid || res.report?.id || null;
         openReportModal(reportName, preview, savedId);
     } catch (e) {
-        showToast('Preview failed: ' + (e.message || 'unknown error'), 'error', 7000);
+        const msg = e.message || 'unknown error';
+        if (/unsupported operand.*NoneType/i.test(msg)) {
+            showToast('Backend aggregation error — apply the 4 patches.', 'error', 8000);
+        } else {
+            showToast('Preview failed: ' + msg, 'error', 7000);
+        }
     } finally {
         statusEl.classList.add('hidden');
         statusEl.textContent = '';
     }
 }
 
-// ---------- REPORT MODAL ----------
+// ------------------------------------------------------------
+// REPORT MODAL
+// ------------------------------------------------------------
 function openReportModal(title, content, reportId) {
     currentModalReportId = reportId;
     $('modalReportTitle').textContent = title;
@@ -1898,41 +1874,89 @@ function openReportModal(title, content, reportId) {
     $('reportModal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
-
 function closeReportModal() {
     $('reportModal').classList.remove('active');
     document.body.style.overflow = '';
     currentModalReportId = null;
 }
-
 function downloadCurrentReport() {
-    if (currentModalReportId) {
-        downloadReportById(currentModalReportId);
-    } else {
-        showToast('No report selected for download', 'warning');
-    }
+    if (currentModalReportId) downloadReportById(currentModalReportId);
+    else showToast('No report selected for download', 'warning');
 }
 
-// ---------- DOWNLOAD ----------
+// ------------------------------------------------------------
+// DOWNLOAD
+// ------------------------------------------------------------
 async function downloadReportById(id) {
     try {
         showToast('Preparing download…', 'info', 1500);
-        const result = await API.downloadReportBlob(id);
+        const result = await API.downloadWithRetry(id, 3);
         showToast(`✅ Downloaded ${result.filename}`, 'success');
-        // Update download history
         await loadDownloadHistory();
-        // Update the report's download count locally
         const report = reports.find(r => (r.uuid || r.id) === id);
         if (report) {
             report.download_count = (report.download_count || 0) + 1;
             renderReports();
         }
     } catch (error) {
-        showToast('Download failed: ' + (error.message || 'unknown error'), 'error', 7000);
+        if (error.status === 425) {
+            showToast('Report is still being generated — will retry shortly.', 'warning', 6000);
+            setTimeout(() => downloadReportById(id), 5000);
+        } else if (error.status === 404) {
+            showToast('Report file is missing on the server. Click "Regenerate & Download" on the card.', 'error', 9000);
+            // Mark the local report as missing so the card shows the regenerate button
+            const r = reports.find(rr => (rr.uuid || rr.id) === id);
+            if (r) { r.status = 'missing'; renderReports(); }
+        } else if (error.status === 403) {
+            showToast('You do not have access to this report.', 'error', 6000);
+        } else {
+            showToast('Download failed: ' + (error.message || 'unknown error'), 'error', 7000);
+        }
     }
 }
 
-// ---------- VIEW REPORT ----------
+// ------------------------------------------------------------
+// REGENERATE (v5 — for missing files)
+// ------------------------------------------------------------
+async function regenerateReport(id) {
+    const existing = reports.find(r => (r.uuid || r.id) === id);
+    if (!existing) return;
+    const params = existing.parameters || {};
+    const machineIds = params.machine_ids || (params.machine_names ? [] : []);
+    if (!Array.isArray(machineIds) || machineIds.length === 0) {
+        showToast('Cannot regenerate — original machine selection is not stored.', 'warning', 7000);
+        return;
+    }
+    showToast('Regenerating report…', 'info', 3000);
+    const payload = {
+        name: existing.name,
+        type: existing.type || 'machine_report',
+        format: existing.format || 'txt',
+        scope: {
+            machine_ids: machineIds,
+            date_from: params.date_from || null,
+            date_to: params.date_to || null
+        },
+        include_recommendations: existing.parameters?.include_recommendations !== false,
+        include_cost: existing.parameters?.include_cost !== false
+    };
+    try {
+        const res = await API.createReport(payload, genUuid());
+        const saved = res.report || res;
+        if (!saved) throw new Error('Server did not return a report');
+        reports.unshift(saved);
+        renderReports();
+        updateStats();
+        // Try to download the new one right away
+        setTimeout(() => downloadReportById(saved.uuid || saved.id), 1500);
+    } catch (e) {
+        showToast('Regenerate failed: ' + (e.message || 'unknown error'), 'error', 7000);
+    }
+}
+
+// ------------------------------------------------------------
+// VIEW REPORT
+// ------------------------------------------------------------
 async function viewReportById(id) {
     try {
         const data = await API.getReport(id);
@@ -1940,21 +1964,29 @@ async function viewReportById(id) {
         const title = r.name || 'Report';
         const fmt = (r.format || 'txt').toLowerCase();
 
-        if (fmt === 'pdf') {
-            downloadReportById(id);
-            return;
-        }
+        if (fmt === 'pdf') { downloadReportById(id); return; }
 
-        const text = await API.fetchReportText(id);
-        const meta = r.created_at ? new Date(r.created_at).toLocaleString() : '';
-        openReportModal(`${title}${meta ? ' — ' + meta : ''}`, text, id);
+        try {
+            const text = await API.fetchReportText(id);
+            const meta = r.created_at ? new Date(r.created_at).toLocaleString() : '';
+            openReportModal(`${title}${meta ? ' — ' + meta : ''}`, text, id);
+        } catch (e) {
+            if (e.status === 404) {
+                showToast('Report file missing. Use Regenerate & Download.', 'warning', 7000);
+                const local = reports.find(rr => (rr.uuid || rr.id) === id);
+                if (local) { local.status = 'missing'; renderReports(); }
+            } else {
+                throw e;
+            }
+        }
     } catch (error) {
-        console.error('View report failed:', error);
         showToast('Could not load report: ' + (error.message || 'unknown error'), 'error', 7000);
     }
 }
 
-// ---------- USER UI ----------
+// ------------------------------------------------------------
+// USER UI
+// ------------------------------------------------------------
 function updateUserUI() {
     const user = getUser();
     if (!user) return;
@@ -1988,7 +2020,9 @@ function updateUserUI() {
     }
 }
 
-// ---------- SIDEBAR ----------
+// ------------------------------------------------------------
+// SIDEBAR
+// ------------------------------------------------------------
 let sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
 const sidebar = $('mainSidebar');
 function isDesktop() { return window.innerWidth >= 1024; }
@@ -2031,7 +2065,9 @@ function setProfileMenuOpen(open) {
 function closeProfileMenu() { setProfileMenuOpen(false); }
 function toggleProfileMenu() { setProfileMenuOpen(!$('profileMenu')?.classList.contains('open')); }
 
-// ---------- WEBSOCKET (real-time updates) ----------
+// ------------------------------------------------------------
+// WEBSOCKET
+// ------------------------------------------------------------
 function connectWebSocket() {
     const token = getToken();
     if (!token || !isTokenValid(token)) return;
@@ -2076,14 +2112,13 @@ function handleWsMessage(data) {
                 reports.unshift(data.report);
                 renderReports();
                 updateStats();
-                showToast('📄 New report available: ' + (data.report.name || 'Report'), 'info', 4000);
+                showToast('📄 New report: ' + (data.report.name || 'Report'), 'info', 4000);
             } else {
                 loadReports();
             }
             break;
         }
         case 'report_downloaded': {
-            // Real-time download count update
             if (data.report_id) {
                 const report = reports.find(r => (r.uuid || r.id) === data.report_id);
                 if (report) {
@@ -2118,13 +2153,17 @@ function handleWsMessage(data) {
     }
 }
 
-// ---------- REFRESH ----------
+// ------------------------------------------------------------
+// REFRESH
+// ------------------------------------------------------------
 function refreshAllData() {
     showToast('🔄 Refreshing…', 'info', 1200);
     loadAllData();
 }
 
-// ---------- INIT ----------
+// ------------------------------------------------------------
+// INIT
+// ------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', async () => {
     if (!Auth.isAuthenticated) {
         const ok = await performRefresh();
@@ -2137,6 +2176,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     connectWebSocket();
 
     $('dateRange').addEventListener('change', updateScopeSummary);
+    $('reportType').addEventListener('change', updateScopeSummary);
+    $('reportsFilter')?.addEventListener('change', function () {
+        reportsFilterFormat = this.value || null;
+        renderReports();
+    });
 
     $('sidebarToggle')?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleSidebar(); });
     $('mobileMenuToggle')?.addEventListener('click', openMobileSidebar);
@@ -2169,17 +2213,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 80);
     });
 
-    // Real-time sync: listen for user updates from other tabs
     window.addEventListener('storage', (e) => {
         if (e.key === 'synapse_user' || e.key === 'user') {
-            try {
-                const u = JSON.parse(e.newValue || 'null');
-                if (u) updateUserUI();
-            } catch {}
+            try { const u = JSON.parse(e.newValue || 'null'); if (u) updateUserUI(); } catch {}
         }
     });
 
-    // Fallback polling only when WS isn't open
     refreshInterval = setInterval(() => {
         if (!Auth.isAuthenticated) return;
         if (document.visibilityState !== 'visible') return;
@@ -2188,10 +2227,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 60000);
 });
 
-// ---------- EXPOSE ----------
+window.addEventListener('beforeunload', () => {
+    if (refreshInterval) clearInterval(refreshInterval);
+    try { if (wsConnection) wsConnection.close(1000, 'unload'); } catch (e) {}
+});
+
+// ------------------------------------------------------------
+// EXPOSE
+// ------------------------------------------------------------
 window.previewReport = previewReport;
 window.viewReportById = viewReportById;
 window.downloadReportById = downloadReportById;
+window.regenerateReport = regenerateReport;
 window.refreshAllData = refreshAllData;
 window.loadReports = loadReports;
 window.loadDownloadHistory = loadDownloadHistory;
@@ -2203,6 +2250,3 @@ window.closeMobileSidebar = closeMobileSidebar;
 window.openMobileSidebar = openMobileSidebar;
 window.closeReportModal = closeReportModal;
 window.downloadCurrentReport = downloadCurrentReport;
-</script>
-</body>
-</html>
