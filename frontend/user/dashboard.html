@@ -433,6 +433,19 @@
         .status-critical { background: #ef4444; animation: pulse 1s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
+        /* ===== ZONE PILLS (v20) ===== */
+        .zone-pill { display: inline-flex; align-items: center; gap: 3px; padding: 1px 7px; border-radius: 999px; font-size: 9px; font-weight: 700; letter-spacing: 0.02em; }
+        .zone-pill.red    { background: #fee2e2; color: #991b1b; }
+        .zone-pill.yellow { background: #fef3c7; color: #92400e; }
+        .zone-pill.green  { background: #d1fae5; color: #065f46; }
+        .zone-pill.slate  { background: #f1f5f9; color: #64748b; }
+
+        /* ===== STALE BADGE (v20) ===== */
+        .stale-badge { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; border-radius: 999px; font-size: 9px; font-weight: 700; }
+        .stale-badge.live  { background: #ecfdf5; color: #065f46; }
+        .stale-badge.stale { background: #fef3c7; color: #92400e; }
+        .stale-badge.none  { background: #f1f5f9; color: #64748b; }
+
         /* ===== TOAST ===== */
         .toast {
             position: fixed; bottom: 2rem; right: 2rem; padding: 0.75rem 1.5rem;
@@ -814,7 +827,7 @@
                             </div>
                             <div class="text-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 rounded-lg sm:rounded-xl backdrop-blur-sm">
                                 <div class="text-base sm:text-xl font-bold" id="welcomeUptime">--</div>
-                                <div class="text-[8px] sm:text-[10px] text-white/70">Uptime</div>
+                                <div class="text-[8px] sm:text-[10px] text-white/70">Fleet RUL</div>
                             </div>
                             <div class="text-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 rounded-lg sm:rounded-xl backdrop-blur-sm">
                                 <div class="text-base sm:text-xl font-bold" id="welcomePredictions">--</div>
@@ -841,6 +854,7 @@
                             <div class="min-w-0">
                                 <p class="text-[9px] sm:text-[10px] font-semibold text-slate-500 uppercase truncate">Active Alerts</p>
                                 <p class="text-lg sm:text-xl md:text-2xl font-bold text-error mt-0.5" id="statActiveAlerts">0</p>
+                                <p class="text-[9px] text-green-600 mt-0.5" id="statAllClear" style="display:none;">🟢 All clear</p>
                             </div>
                             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
                                 <span class="material-symbols-outlined text-error text-sm sm:text-base">notifications_active</span>
@@ -869,6 +883,34 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- ===== PREDICTION RISK ZONES (v20) ===== -->
+                <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-4 sm:mb-6">
+                    <a href="alerts.html" class="bg-white rounded-xl border-2 border-red-200 p-3 hover:border-red-400 transition no-underline">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-base">🔴</span>
+                            <p class="text-[10px] sm:text-xs font-bold text-red-700 uppercase">Red zone</p>
+                        </div>
+                        <p class="text-lg sm:text-2xl font-bold text-red-600" id="zoneRedCount">0</p>
+                        <p class="text-[9px] text-slate-500 mt-0.5">RUL &lt; 24h · Critical</p>
+                    </a>
+                    <a href="alerts.html" class="bg-white rounded-xl border-2 border-amber-200 p-3 hover:border-amber-400 transition no-underline">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-base">🟡</span>
+                            <p class="text-[10px] sm:text-xs font-bold text-amber-700 uppercase">Yellow zone</p>
+                        </div>
+                        <p class="text-lg sm:text-2xl font-bold text-amber-600" id="zoneYellowCount">0</p>
+                        <p class="text-[9px] text-slate-500 mt-0.5">RUL 24–72h · Warning</p>
+                    </a>
+                    <a href="predictions.html" class="bg-white rounded-xl border-2 border-green-200 p-3 hover:border-green-400 transition no-underline">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-base">🟢</span>
+                            <p class="text-[10px] sm:text-xs font-bold text-green-700 uppercase">Green zone</p>
+                        </div>
+                        <p class="text-lg sm:text-2xl font-bold text-green-600" id="zoneGreenCount">0</p>
+                        <p class="text-[9px] text-slate-500 mt-0.5">Healthy · RUL &gt; 72h</p>
+                    </a>
                 </div>
 
                 <div class="grid lg:grid-cols-2 gap-3 sm:gap-4 md:gap-5 mb-4 sm:mb-6">
@@ -912,7 +954,8 @@
 
 <script>
 // ============================================================
-// SYNAPSEPM DASHBOARD — v19.0.0 (Install Software + PWA tracking)
+// SYNAPSEPM DASHBOARD — v20.0.0 (Full restore + install fixes)
+// PART 1 of 2 — Auth, DOM, sidebar, profile, PWA, install modal, API client
 // ============================================================
 
 // ---------- PWA STATE ----------
@@ -1252,18 +1295,18 @@ const API = {
         try {
             return await this.request('/downloads/track-install', {
                 method: 'POST',
-                body: {
+                body: JSON.stringify({
                     platform,
                     display_mode: displayMode || 'standalone',
                     source: source || 'unknown'
-                }
+                })
             });
         } catch (e) {
             console.warn('[Install tracking]', e.message);
             return null;
         }
     },
-    async downloadFile(type, onProgress) {
+    async downloadFile(type, onProgress, _retried = false) {
         const urlMap = {
             windows: '/downloads/desktop/windows',
             macos:   '/downloads/desktop/macos',
@@ -1271,16 +1314,13 @@ const API = {
             android: '/downloads/mobile/android',
             ios:     '/downloads/mobile/ios'
         };
-
         const endpoint = urlMap[type];
         if (!endpoint) throw new Error('Invalid download type');
-
         const ext = type === 'windows' ? '.exe'
                   : type === 'macos' ? '.dmg'
                   : type === 'linux' ? '.AppImage'
                   : type === 'android' ? '.apk'
                   : '.ipa';
-
         const doFetch = () => fetch(this.baseURL + endpoint, {
             method: 'GET',
             headers: {
@@ -1290,93 +1330,56 @@ const API = {
             credentials: 'same-origin',
             cache: 'no-store'
         });
-
         let response = await doFetch();
-
-        if (response.status === 401) {
+        if (response.status === 401 && !_retried) {
             const refreshed = await refreshAccessToken();
-            if (refreshed) response = await doFetch();
-        }
-
-        if (response.status === 401) {
+            if (refreshed) return this.downloadFile(type, onProgress, true);
             clearAuthStorage();
             redirectToLoginOnce();
             throw new Error('Session expired. Please sign in again.');
         }
-
         if (!response.ok) {
             let errBody = {};
             try { errBody = await response.json(); } catch (_) {}
-            const error = new Error(
-                errBody.error ||
-                errBody.detail ||
-                `Download failed (${response.status})`
-            );
+            const error = new Error(errBody.error || errBody.detail || errBody.message || `Download failed (${response.status})`);
             error.status = response.status;
             error.payload = errBody;
             throw error;
         }
-
         let filename = `SynapsePM-${type}${ext}`;
         const cd = response.headers.get('Content-Disposition') || '';
         const match = cd.match(/filename\*?=(?:UTF-8'')?"?([^";]+)"?/i);
         if (match && match[1]) {
-            try {
-                filename = decodeURIComponent(match[1]).replace(/[\\/:*?"<>|]/g, '_');
-            } catch (_) {
-                filename = match[1].replace(/[\\/:*?"<>|]/g, '_');
-            }
+            try { filename = decodeURIComponent(match[1]).replace(/[\\/:*?"<>|]/g, '_'); }
+            catch (_) { filename = match[1].replace(/[\\/:*?"<>|]/g, '_'); }
         }
-
         const total = Number(response.headers.get('Content-Length') || 0);
         let received = 0;
-
         let blob;
-
+        const startedAt = Date.now();
         if (response.body && typeof response.body.getReader === 'function') {
             const reader = response.body.getReader();
             const chunks = [];
-
             while (true) {
                 const { done, value } = await reader.read();
                 if (done) break;
-
-                if (value) {
-                    chunks.push(value);
-                    received += value.byteLength;
-                }
-
+                if (value) { chunks.push(value); received += value.byteLength; }
                 if (typeof onProgress === 'function') {
+                    const elapsedSec = (Date.now() - startedAt) / 1000;
                     onProgress({
-                        received,
-                        total,
-                        percent: total > 0
-                            ? Math.min(100, Math.round((received / total) * 100))
-                            : null
+                        received, total,
+                        percent: total > 0 ? Math.min(100, Math.round((received / total) * 100)) : null,
+                        elapsedSec
                     });
                 }
             }
-
-            blob = new Blob(chunks, {
-                type: response.headers.get('Content-Type') || 'application/octet-stream'
-            });
+            blob = new Blob(chunks, { type: response.headers.get('Content-Type') || 'application/octet-stream' });
         } else {
             blob = await response.blob();
             received = blob.size;
-
-            if (typeof onProgress === 'function') {
-                onProgress({
-                    received,
-                    total: total || blob.size,
-                    percent: 100
-                });
-            }
+            if (typeof onProgress === 'function') onProgress({ received, total: total || blob.size, percent: 100, elapsedSec: (Date.now() - startedAt) / 1000 });
         }
-
-        if (!blob || blob.size === 0) {
-            throw new Error('The server returned an empty release file.');
-        }
-
+        if (!blob || blob.size === 0) throw new Error('The server returned an empty release file.');
         const blobUrl = URL.createObjectURL(blob);
         const anchor = document.createElement('a');
         anchor.href = blobUrl;
@@ -1386,21 +1389,13 @@ const API = {
         document.body.appendChild(anchor);
         anchor.click();
         anchor.remove();
-
         setTimeout(() => URL.revokeObjectURL(blobUrl), 120000);
-
-        return {
-            filename,
-            size: blob.size,
-            type,
-            downloaded: true
-        };
+        return { filename, size: blob.size, type, downloaded: true };
     }
 };
 
-// ============================================================
-// PWA INSTALL LOGIC
-// ============================================================
+// ---------- CONTINUES IN PART 2 ----------
+    // ---------- 7. PWA INSTALL LOGIC ----------
 function isStandalone() {
     return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
         || window.navigator.standalone === true
@@ -1424,12 +1419,10 @@ function detectPlatform() {
 function updatePWAButtons() {
     const profileBtn = $('profileInstallBtn');
     const installed = isStandalone();
-
     if (installed) {
         if (profileBtn) profileBtn.style.display = 'none';
         return;
     }
-
     const showable = pwaInstallAvailable || isIOS();
     if (profileBtn) {
         profileBtn.style.display = showable ? 'flex' : 'none';
@@ -1441,7 +1434,6 @@ async function promptPWAInstall() {
         showToast('SynapsePM is already installed as an app.', 'info', 3000);
         return;
     }
-
     if (deferredPWAInstallPrompt) {
         try {
             deferredPWAInstallPrompt.prompt();
@@ -1461,7 +1453,6 @@ async function promptPWAInstall() {
         }
         return;
     }
-
     if (isIOS()) {
         showToast(
             'To install on iPhone/iPad: tap the Share icon (□↑) → "Add to Home Screen".',
@@ -1469,14 +1460,12 @@ async function promptPWAInstall() {
         );
         return;
     }
-
     showToast(
         'To install: open your browser menu (⋮ or ⋯) → "Install app" or "Add to Home Screen".',
         'info', 8000
     );
 }
 
-// Track installs to backend so admin sees them in "Install Software"
 async function trackPWAInstall(source) {
     try {
         const token = getStoredToken();
@@ -1512,7 +1501,6 @@ window.addEventListener('appinstalled', () => {
 async function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) return;
     if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') return;
-
     try {
         const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
         console.log('[PWA] Service worker registered:', reg.scope);
@@ -1542,7 +1530,7 @@ function updateOnlineStatus() {
     }
 }
 
-// ---------- 7. INSTALL SOFTWARE MODAL ----------
+// ---------- 8. INSTALL SOFTWARE MODAL ----------
 function openDownloadModal() {
     const modal = $('downloadModal');
     if (!modal) return;
@@ -1561,26 +1549,21 @@ function closeDownloadModal() {
 function toggleDownloadCategory(categoryId) {
     const el = document.getElementById(categoryId);
     if (!el) return;
-
     document.querySelectorAll('.install-category').forEach(c => {
         if (c.id !== categoryId) c.classList.remove('open');
     });
-
     el.classList.toggle('open');
 }
 
 function setInstallProgress(sourceEl, stage, percent, message) {
     if (!sourceEl) return;
-
     const progress = sourceEl.querySelector('.install-progress');
     const label = sourceEl.querySelector('.install-progress-label');
     const fill = sourceEl.querySelector('.install-progress-fill');
-
     if (progress) progress.hidden = false;
     if (label) label.textContent = message || stage;
     if (fill) fill.style.width = `${Math.max(0, Math.min(100, percent || 0))}%`;
-
-    sourceEl.setAttribute('aria-busy', stage !== 'ready' && stage !== 'success');
+    sourceEl.setAttribute('aria-busy', stage !== 'ready' && stage !== 'success' && stage !== 'error');
 }
 
 function makeInstallOption(type, icon, iconStyle, title, description, extension) {
@@ -1733,10 +1716,13 @@ function renderDownloadContent() {
 }
 
 function applyDownloadManifest(data) {
-    const availability = data && data.availability ? data.availability : {};
+    // Support both shapes: {availability:{desktop,mobile}} and {downloads:{desktop,mobile}}
+    const avail = (data && data.availability) || (data && data.downloads) || {};
+    const desktop = avail.desktop || {};
+    const mobile = avail.mobile || {};
     const all = [
-        ...(availability.desktop ? Object.entries(availability.desktop) : []),
-        ...(availability.mobile ? Object.entries(availability.mobile) : [])
+        ...Object.entries(desktop),
+        ...Object.entries(mobile)
     ];
 
     const status = $('downloadReleaseStatus');
@@ -1745,10 +1731,8 @@ function applyDownloadManifest(data) {
     all.forEach(([platform, item]) => {
         const option = document.querySelector(`[data-download-type="${platform}"]`);
         if (!option) return;
-
         const available = !!(item && item.available);
         option.dataset.available = available ? 'true' : 'false';
-
         if (!available) {
             option.classList.add('download-unavailable');
             option.title = 'Native release not deployed. Use PWA install above for a working app.';
@@ -1771,13 +1755,11 @@ function applyDownloadManifest(data) {
 
 async function startDownload(type, sourceEl) {
     const token = getStoredToken();
-
     if (!token || !isTokenValid(token)) {
         showToast('Please sign in to install SynapsePM.', 'error');
         setTimeout(() => { window.location.href = 'login.html'; }, 800);
         return;
     }
-
     if (!sourceEl || sourceEl.dataset.downloading === 'true') return;
 
     sourceEl.dataset.downloading = 'true';
@@ -1790,27 +1772,27 @@ async function startDownload(type, sourceEl) {
         android: 'Android app',
         ios: 'iOS app'
     };
-
     const label = labels[type] || type;
 
     try {
         setInstallProgress(sourceEl, 'preparing', 8, `Preparing ${label}…`);
         showToast(`Preparing ${label}…`, 'info', 2500);
 
+        // Ask the backend whether the release file actually exists.
         try {
             const manifest = await API.getDownloadManifest();
+            const avail = (manifest && manifest.availability) || (manifest && manifest.downloads) || {};
             const group = ['windows', 'macos', 'linux'].includes(type) ? 'desktop' : 'mobile';
-            const item = manifest?.availability?.[group]?.[type];
-
+            const item = avail[group] && avail[group][type];
             if (item && item.available === false) {
-                throw new Error(
-                    `${label} is not deployed on the server yet. Use the PWA install option above — it works on every device.`
-                );
+                const expectedFile = item.filename || `${type} build`;
+                throw new Error(`${label} is not deployed yet (${expectedFile}). Use the PWA install above — it works on every device.`);
             }
         } catch (manifestError) {
-            if (manifestError && /not deployed|Expected release/i.test(manifestError.message || '')) {
+            if (/not deployed/i.test(manifestError.message || '')) {
                 throw manifestError;
             }
+            // Otherwise fall through — the download endpoint returns the real error.
         }
 
         setInstallProgress(sourceEl, 'ready', 18, 'Release ready — starting secure install…');
@@ -1818,59 +1800,42 @@ async function startDownload(type, sourceEl) {
 
         const result = await API.downloadFile(type, progress => {
             if (!progress) return;
-
-            const pct = progress.percent == null
-                ? Math.min(94, 20 + Math.round((progress.received / Math.max(progress.received, 1)) * 10))
-                : Math.max(20, Math.min(94, progress.percent));
-
-            const receivedMB = (progress.received / (1024 * 1024)).toFixed(1);
-            const totalMB = progress.total
-                ? (progress.total / (1024 * 1024)).toFixed(1)
-                : null;
-
-            setInstallProgress(
-                sourceEl,
-                'downloading',
-                pct,
-                totalMB
-                    ? `Downloading ${receivedMB} MB / ${totalMB} MB…`
-                    : `Downloading ${receivedMB} MB…`
-            );
+            const receivedMB = (progress.received / 1048576).toFixed(1);
+            const totalMB = progress.total ? (progress.total / 1048576).toFixed(1) : null;
+            if (progress.percent != null) {
+                const pct = Math.max(18, Math.min(94, progress.percent));
+                setInstallProgress(sourceEl, 'downloading', pct,
+                    `Downloading ${receivedMB} MB / ${totalMB} MB (${progress.percent}%)`);
+            } else {
+                // No Content-Length — show real bytes and real elapsed time, not fake percent
+                const elapsed = progress.elapsedSec ? Math.round(progress.elapsedSec) : 0;
+                setInstallProgress(sourceEl, 'downloading', 40,
+                    `Downloading ${receivedMB} MB (${elapsed}s elapsed)`);
+            }
         });
 
         setInstallProgress(sourceEl, 'success', 100, 'Ready to install.');
         sourceEl.classList.remove('loading');
         sourceEl.classList.add('download-complete');
-
         closeDownloadModal();
-
         showToast(
-            `✓ ${result.filename} ready. Open it from your Downloads folder to install.`,
-            'success',
-            7000
+            `✓ ${result.filename} (${(result.size / 1048576).toFixed(1)} MB) downloaded. Open it from your Downloads folder to install.`,
+            'success', 7000
         );
-
-        setTimeout(() => {
-            sourceEl.classList.remove('download-complete');
-        }, 1200);
-
+        setTimeout(() => sourceEl.classList.remove('download-complete'), 1200);
     } catch (error) {
         console.error('Install error:', error);
-
         const msg = String(error.message || '').toLowerCase();
-
         if (error.status === 401 || msg.includes('session expired') || msg.includes('unauthorized')) {
             showToast('Session expired. Please sign in again.', 'error', 5000);
-        } else if (error.status === 503 || msg.includes('not deployed') || msg.includes('not found')) {
+        } else if (error.status === 503 || error.status === 404 || msg.includes('not deployed') || msg.includes('not found')) {
             showToast(
                 `${label} native build is not available. Use the PWA install above — it works on every device.`,
-                'warning',
-                7000
+                'warning', 7000
             );
         } else {
             showToast(error.message || 'Install failed. Please try again.', 'error', 7000);
         }
-
         setInstallProgress(sourceEl, 'error', 0, 'Install failed — try PWA install above.');
         sourceEl.classList.remove('loading');
     } finally {
@@ -1878,12 +1843,15 @@ async function startDownload(type, sourceEl) {
     }
 }
 
-// ---------- 8. STATE ----------
+// ---------- 9. STATE ----------
 const State = {
     machines: [], predictions: [], alerts: [], activities: [],
-    stats: { totalMachines: 0, activeAlerts: 0, avgConfidence: 0,
-             predictionsThisMonth: 0, predictionsToday: 0,
-             healthScore: 0, uptime: 0, uptimeDisplay: '0%' },
+    stats: {
+        totalMachines: 0, activeAlerts: 0, avgConfidence: 0,
+        predictionsThisMonth: 0, predictionsToday: 0,
+        healthScore: 0, fleetAvgRul: 0,
+        zoneRed: 0, zoneYellow: 0, zoneGreen: 0
+    },
     charts: { trend: null, health: null },
     trendPeriod: 30,
     isLoading: false,
@@ -1895,7 +1863,7 @@ const State = {
     wsReconnectTimer: null
 };
 
-// ---------- 9. DATA LOADER ----------
+// ---------- 10. DATA LOADER ----------
 async function loadData() {
     const token = getStoredToken();
     if (!token || !isTokenValid(token)) {
@@ -1905,7 +1873,6 @@ async function loadData() {
         updateLiveStatus(false);
         return;
     }
-
     if (!navigator.onLine) {
         updateLiveStatus(false, 'Offline');
         return;
@@ -1917,15 +1884,11 @@ async function loadData() {
     const results = await Promise.allSettled([
         API.getMachines(), API.getPredictions(), API.getAlerts()
     ]);
-
     const failures = [];
     const [m, p, a] = results;
-    if (m.status === 'fulfilled') State.machines = m.value || [];
-    else failures.push('machines');
-    if (p.status === 'fulfilled') State.predictions = p.value || [];
-    else failures.push('predictions');
-    if (a.status === 'fulfilled') State.alerts = a.value || [];
-    else failures.push('alerts');
+    if (m.status === 'fulfilled') State.machines = m.value || []; else failures.push('machines');
+    if (p.status === 'fulfilled') State.predictions = p.value || []; else failures.push('predictions');
+    if (a.status === 'fulfilled') State.alerts = a.value || []; else failures.push('alerts');
 
     State.isAuthenticated = true;
     State.isGuest = false;
@@ -1940,14 +1903,21 @@ async function loadData() {
     State.isLoading = false;
 }
 
-// ---------- 10. STATS + ACTIVITIES ----------
+// ---------- 11. STATS + ACTIVITIES ----------
 function calculateStats() {
     const { machines, predictions, alerts } = State;
     const total = machines.length;
-    const activeAlerts = alerts.filter(a => a.status === 'active' || !a.resolved).length;
-    const totalPred = predictions.length;
-    const avgConf = totalPred > 0
-        ? Math.round(predictions.reduce((s, p) => s + Number(p.confidence || 0), 0) / totalPred) : 0;
+    const activeAlerts = alerts.filter(a => a.status === 'active' || (!a.resolved && !a.resolved_at)).length;
+
+    // Guarded confidence average (null-safe — no more NaN%)
+    const confValues = predictions
+        .map(p => p.confidence)
+        .filter(c => c != null && !isNaN(Number(c)))
+        .map(Number);
+    const avgConf = confValues.length
+        ? Math.round(confValues.reduce((s, c) => s + c, 0) / confValues.length)
+        : 0;
+
     const now = new Date();
     const mtd = predictions.filter(p => {
         const d = new Date(p.created_at || p.timestamp);
@@ -1958,14 +1928,41 @@ function calculateStats() {
         return !isNaN(d) && d.toDateString() === now.toDateString();
     }).length;
     const health = total > 0
-        ? Math.round(machines.reduce((s, m) => s + Number(m.health || 0), 0) / total) : 0;
-    const uptime = total > 0
-        ? Math.min(99.9, 95 + (1 - (activeAlerts / Math.max(total, 1))) * 4) : 99.9;
+        ? Math.round(machines.reduce((s, m) => s + Number(m.health || 0), 0) / total)
+        : 0;
+
+    // ---- 3-zone buckets from latest prediction per machine (real data) ----
+    const latestByMachine = {};
+    predictions.forEach(p => {
+        const mid = p.machine_id || p.machineId;
+        if (!mid) return;
+        const ts = new Date(p.created_at || p.timestamp || 0).getTime();
+        if (!latestByMachine[mid] || ts > latestByMachine[mid].ts) {
+            latestByMachine[mid] = { p, ts };
+        }
+    });
+    let zoneRed = 0, zoneYellow = 0, zoneGreen = 0;
+    const rulValues = [];
+    Object.values(latestByMachine).forEach(({ p }) => {
+        const rul = p.rul_hours != null ? Number(p.rul_hours) : null;
+        const risk = String(p.risk_level || '').toLowerCase();
+        const status = String(p.status || '').toLowerCase();
+        if (rul != null) rulValues.push(rul);
+        if (status === 'critical' || risk === 'critical' || risk === 'high' || (rul != null && rul < 24)) zoneRed++;
+        else if (status === 'warning' || risk === 'warning' || risk === 'medium' || (rul != null && rul < 72)) zoneYellow++;
+        else zoneGreen++;
+    });
+    const fleetAvgRul = rulValues.length ? rulValues.reduce((s, r) => s + r, 0) / rulValues.length : 0;
 
     State.stats = {
-        totalMachines: total, activeAlerts, avgConfidence: avgConf,
-        predictionsThisMonth: mtd, predictionsToday: today,
-        healthScore: health, uptime, uptimeDisplay: uptime.toFixed(1) + '%'
+        totalMachines: total,
+        activeAlerts,
+        avgConfidence: avgConf,
+        predictionsThisMonth: mtd,
+        predictionsToday: today,
+        healthScore: health,
+        fleetAvgRul,
+        zoneRed, zoneYellow, zoneGreen,
     };
 }
 
@@ -1975,7 +1972,7 @@ function buildActivities() {
         State.activities.push({
             type: 'prediction',
             title: `Prediction · ${p.machine_name || p.machine_id || 'machine'}`,
-            details: `RUL ${Math.round(Number(p.rul_hours || p.rul || 0))}h · Confidence ${Math.round(Number(p.confidence || 0))}% · ${p.model_type || 'model'}`,
+            details: `RUL ${p.rul_hours != null ? Number(p.rul_hours).toFixed(1) : 'n/a'}h · Confidence ${p.confidence != null ? Number(p.confidence).toFixed(0) + '%' : 'n/a'} · ${p.model_type || 'model'}`,
             ts: p.created_at || p.timestamp
         });
     });
@@ -1991,7 +1988,7 @@ function buildActivities() {
     State.activities = State.activities.slice(0, 20);
 }
 
-// ---------- 11. RENDER ----------
+// ---------- 12. RENDER ----------
 function renderUI() {
     const s = State.stats;
     $('statTotalMachines').textContent = s.totalMachines;
@@ -1999,10 +1996,50 @@ function renderUI() {
     $('statAvgConfidence').textContent = s.avgConfidence + '%';
     $('statPredictionsMTD').textContent = s.predictionsThisMonth.toLocaleString();
     $('welcomeHealthScore').textContent = s.healthScore + '%';
-    $('welcomeUptime').textContent = s.uptimeDisplay;
+    $('welcomeUptime').textContent = s.fleetAvgRul > 0 ? s.fleetAvgRul.toFixed(0) + 'h' : '--';
     $('welcomePredictions').textContent = s.predictionsToday;
+
+    // 3-zone counters
+    const r = $('zoneRedCount'), y = $('zoneYellowCount'), g = $('zoneGreenCount');
+    if (r) r.textContent = s.zoneRed;
+    if (y) y.textContent = s.zoneYellow;
+    if (g) g.textContent = s.zoneGreen;
+
+    // All-clear pill
+    const allClear = $('statAllClear');
+    if (allClear) allClear.style.display = (s.activeAlerts === 0 && s.totalMachines > 0) ? 'block' : 'none';
+
     renderMachines();
     renderActivity();
+}
+
+// Helper — latest prediction for a machine
+function latestPredFor(machineId) {
+    const rows = State.predictions.filter(p => (p.machine_id === machineId || p.machineId === machineId));
+    rows.sort((a, b) => new Date(b.created_at || b.timestamp || 0) - new Date(a.created_at || a.timestamp || 0));
+    return rows[0] || null;
+}
+
+// Helper — bucket a prediction into a zone
+function zoneOfPred(p) {
+    if (!p) return 'slate';
+    const rul = p.rul_hours != null ? Number(p.rul_hours) : null;
+    const risk = String(p.risk_level || '').toLowerCase();
+    const status = String(p.status || '').toLowerCase();
+    if (status === 'critical' || risk === 'critical' || risk === 'high' || (rul != null && rul < 24)) return 'red';
+    if (status === 'warning' || risk === 'warning' || risk === 'medium' || (rul != null && rul < 72)) return 'yellow';
+    return 'green';
+}
+
+// Helper — how fresh is the sensor data?
+function sensorFreshness(m) {
+    const ts = m.last_activity_at || m.updated_at || m.created_at;
+    if (!ts) return 'none';
+    const d = new Date(ts);
+    if (isNaN(d)) return 'none';
+    const ageMin = (Date.now() - d.getTime()) / 60000;
+    if (ageMin <= 5) return 'live';
+    return 'stale';
 }
 
 function renderMachines() {
@@ -2034,8 +2071,15 @@ function renderMachines() {
             offline:  { bg:'#e5e7eb', fg:'#4b5563', dot:'',                label:'Offline' }
         };
         const st = map[status];
+        const latest = latestPredFor(m.id);
+        const rul = latest && latest.rul_hours != null ? Number(latest.rul_hours) : null;
+        const zone = zoneOfPred(latest);
+        const zoneLabels = { red: '🔴 Red', yellow: '🟡 Yellow', green: '🟢 Green', slate: '—' };
+        const fresh = sensorFreshness(m);
+        const freshLabel = fresh === 'live' ? '● LIVE' : fresh === 'stale' ? '● STALE' : '● NO DATA';
+
         return `
-            <a href="machines.html?id=${encodeURIComponent(m.id || '')}" class="machine-card p-4 block no-underline">
+            <a href="machines.html" class="machine-card p-4 block no-underline">
                 <div class="flex items-start justify-between mb-3 gap-2">
                     <div class="flex items-center gap-2 min-w-0">
                         <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(0,180,170,.1)">
@@ -2052,6 +2096,11 @@ function renderMachines() {
                         ${st.label}
                     </span>
                 </div>
+                <div class="flex flex-wrap items-center gap-1.5 mb-2">
+                    <span class="zone-pill ${zone}">${zoneLabels[zone]}</span>
+                    ${rul != null ? `<span class="zone-pill slate" title="RUL from latest prediction">RUL ${rul.toFixed(0)}h</span>` : ''}
+                    <span class="stale-badge ${fresh}">${freshLabel}</span>
+                </div>
                 <div class="grid grid-cols-3 gap-2 pt-3 border-t border-border-light">
                     <div class="text-center">
                         <p class="text-[10px] text-slate-500">Health</p>
@@ -2060,11 +2109,11 @@ function renderMachines() {
                     </div>
                     <div class="text-center">
                         <p class="text-[10px] text-slate-500">Temp</p>
-                        <p class="text-sm font-bold text-primary">${m.temperature ?? '--'}°C</p>
+                        <p class="text-sm font-bold text-primary">${m.temperature != null ? Number(m.temperature).toFixed(0) + '°C' : '--'}</p>
                     </div>
                     <div class="text-center">
                         <p class="text-[10px] text-slate-500">Vibration</p>
-                        <p class="text-sm font-bold text-primary">${m.vibration ?? '--'}</p>
+                        <p class="text-sm font-bold text-primary">${m.vibration != null ? Number(m.vibration).toFixed(1) : '--'}</p>
                     </div>
                 </div>
             </a>`;
@@ -2111,30 +2160,50 @@ function formatTimeAgo(ts) {
     return d.toLocaleDateString();
 }
 
-// ---------- 12. CHARTS ----------
+// ---------- 13. CHARTS ----------
 function initCharts() {
     if (typeof Chart === 'undefined') return;
     const tc = $('trendChart');
     if (tc) {
         State.charts.trend = new Chart(tc.getContext('2d'), {
             type: 'line',
-            data: { labels: [], datasets: [{ label: 'Predictions', data: [],
-                borderColor: '#00b4aa', backgroundColor: 'rgba(0,180,170,.08)',
-                fill: true, tension: 0.4, pointRadius: 2, borderWidth: 2 }] },
-            options: { responsive: true, maintainAspectRatio: false,
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Predictions', data: [],
+                    borderColor: '#00b4aa',
+                    backgroundColor: 'rgba(0,180,170,.08)',
+                    fill: true, tension: 0.4, pointRadius: 2, borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, grid: { color: '#e2e8f0' }, ticks: { font: { size: 10 } } },
-                          x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 0, autoSkip: true } } } }
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#e2e8f0' }, ticks: { font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 0, autoSkip: true } }
+                }
+            }
         });
     }
     const hc = $('healthChart');
     if (hc) {
         State.charts.health = new Chart(hc.getContext('2d'), {
             type: 'doughnut',
-            data: { labels: ['Good','Warning','Critical'], datasets: [{ data: [0,0,0],
-                backgroundColor: ['#10b981','#f59e0b','#ef4444'], borderWidth: 0 }] },
-            options: { responsive: true, maintainAspectRatio: false, cutout: '68%',
-                plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12, padding: 12 } } } }
+            data: {
+                labels: ['Good','Warning','Critical'],
+                datasets: [{
+                    data: [0,0,0],
+                    backgroundColor: ['#10b981','#f59e0b','#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '68%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12, padding: 12 } }
+                }
+            }
         });
     }
 }
@@ -2168,7 +2237,7 @@ function updateCharts() {
 }
 
 function updateBadges() {
-    const active = State.alerts.filter(a => a.status === 'active' || !a.resolved).length;
+    const active = State.alerts.filter(a => a.status === 'active' || (!a.resolved && !a.resolved_at)).length;
     const dot = $('alertBellDot');
     if (dot) dot.style.display = active > 0 ? 'block' : 'none';
     const badge = $('sidebarAlertsBadge');
@@ -2189,7 +2258,7 @@ function updateLiveStatus(active, label) {
         : 'hidden sm:inline-block text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full';
 }
 
-// ---------- 13. USER UI ----------
+// ---------- 14. USER UI ----------
 function updateUserUI() {
     const user = getStoredUser();
     if (!user) return;
@@ -2257,17 +2326,17 @@ window.addEventListener('storage', (e) => {
         try {
             const u = JSON.parse(e.newValue || 'null');
             if (u) { updateUserUI(); showToast('Profile updated', 'success', 2500); }
-        } catch {}
+        } catch (e) {}
     }
 });
 window.addEventListener('synapse:user-updated', () => updateUserUI());
 window.addEventListener('synapse:token-refreshed', () => {
-    try { State.ws?.close(); } catch {}
+    try { State.ws?.close(); } catch (e) {}
     State.ws = null;
     connectWebSocket();
 });
 
-// ---------- 14. GUEST ----------
+// ---------- 15. GUEST ----------
 function continueAsGuest() {
     State.isGuest = true;
     State.isAuthenticated = false;
@@ -2279,7 +2348,7 @@ function continueAsGuest() {
     loadData();
 }
 
-// ---------- 15. WEBSOCKET ----------
+// ---------- 16. WEBSOCKET ----------
 function connectWebSocket() {
     const token = getStoredToken();
     if (!token || !isTokenValid(token)) return;
@@ -2293,7 +2362,9 @@ function connectWebSocket() {
             State.wsConnected = true;
             updateLiveStatus(true, 'Live · Realtime');
         };
-        State.ws.onmessage = (ev) => { try { handleWebSocketMessage(JSON.parse(ev.data)); } catch {} };
+        State.ws.onmessage = (ev) => {
+            try { handleWebSocketMessage(JSON.parse(ev.data)); } catch (e) {}
+        };
         State.ws.onerror = () => { State.wsConnected = false; };
         State.ws.onclose = (ev) => {
             State.wsConnected = false;
@@ -2344,7 +2415,9 @@ function handleWebSocketMessage(data) {
                 const i = State.alerts.findIndex(a => a.id === data.alert.id);
                 if (i >= 0) State.alerts[i] = { ...State.alerts[i], ...data.alert };
             }
+            calculateStats();
             updateBadges();
+            renderUI();
             break;
         case 'alerts_marked_read':
             State.alerts = State.alerts.map(a => ({ ...a, is_read: true }));
@@ -2358,18 +2431,18 @@ function handleWebSocketMessage(data) {
                         const merged = { ...(current || {}), ...data.user };
                         localStorage.setItem('synapse_user', JSON.stringify(merged));
                         localStorage.setItem('user', JSON.stringify(merged));
-                    } catch {}
+                    } catch (e) {}
                     updateUserUI();
                 }
             }
             break;
         case 'ping':
-            try { State.ws?.send(JSON.stringify({ type: 'pong' })); } catch {}
+            try { State.ws?.send(JSON.stringify({ type: 'pong' })); } catch (e) {}
             break;
     }
 }
 
-// ---------- 16. AUTO REFRESH ----------
+// ---------- 17. AUTO REFRESH ----------
 function startAutoRefresh() {
     if (State.updateInterval) clearInterval(State.updateInterval);
     State.updateInterval = setInterval(() => {
@@ -2379,7 +2452,7 @@ function startAutoRefresh() {
     }, 30000);
 }
 
-// ---------- 17. INIT ----------
+// ---------- 18. INIT ----------
 document.addEventListener('DOMContentLoaded', () => {
     initCharts();
     registerServiceWorker();
@@ -2387,7 +2460,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isStandalone()) {
         document.body.classList.add('pwa-standalone');
-        // First standalone launch: track as install (only once per session)
         const trackedKey = 'pwa_launch_tracked_v1';
         if (!sessionStorage.getItem(trackedKey)) {
             sessionStorage.setItem(trackedKey, 'true');
@@ -2469,7 +2541,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === e.currentTarget) closeDownloadModal();
     });
 
-    // Show install prompt hint once per session if installable
     setTimeout(() => {
         if (pwaInstallAvailable && !isStandalone()) {
             const shown = sessionStorage.getItem('pwa_hint_shown');
@@ -2481,7 +2552,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4000);
 });
 
-// ---------- 18. GLOBAL EXPORTS ----------
+window.addEventListener('beforeunload', () => {
+    if (State.updateInterval) clearInterval(State.updateInterval);
+    try { if (State.ws) State.ws.close(1000, 'unload'); } catch (e) {}
+});
+
+// ---------- 19. GLOBAL EXPORTS ----------
 window.continueAsGuest = continueAsGuest;
 window.showToast = showToast;
 window.toggleSidebar = toggleSidebar;
@@ -2499,6 +2575,3 @@ window.closeProfileMenu = closeProfileMenu;
 window.handleLogout = Auth.logout.bind(Auth);
 window.redirectToLogin = Auth.redirectToLogin.bind(Auth);
 window.redirectToSignup = Auth.redirectToSignup.bind(Auth);
-</script>
-</body>
-</html>
