@@ -13,452 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
 <style>
-/* ===== PART B GOES HERE — REPLACE THIS LINE WITH THE ENTIRE STYLE BLOCK ===== */
-</style>
-</head>
-<body>
-
-<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
-
-<!-- ============ SIDEBAR ============ -->
-<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
-    <div class="sidebar-header">
-        <div class="sidebar-brand">
-            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
-                <div class="synapsepm-logo">
-                    <span class="logo-icon">
-                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
-                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
-                    </span>
-                    <span>Synapse</span><strong>PM</strong>
-                </div>
-            </a>
-            <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-        </div>
-    </div>
-    <nav class="sidebar-nav" aria-label="Application">
-        <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p></div>
-            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard"><span class="material-symbols-outlined">dashboard</span><span class="sidebar-text">Dashboard</span></a>
-            <a href="machines.html" class="sidebar-link active" data-tooltip="Machines" aria-current="page"><span class="material-symbols-outlined">precision_manufacturing</span><span class="sidebar-text">Machines</span></a>
-            <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions"><span class="material-symbols-outlined">neurology</span><span class="sidebar-text">Predictions</span></a>
-            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts"><span class="material-symbols-outlined">notifications_active</span><span class="sidebar-text">Alerts</span><span class="badge-count" id="sidebarAlertsBadge">0</span></a>
-            <a href="reports.html" class="sidebar-link" data-tooltip="Reports"><span class="material-symbols-outlined">assessment</span><span class="sidebar-text">Reports</span></a>
-        </div>
-        <div class="sidebar-divider"></div>
-        <div class="sidebar-group">
-            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p></div>
-            <a href="billing.html" class="sidebar-link" data-tooltip="Billing"><span class="material-symbols-outlined">credit_card</span><span class="sidebar-text">Billing</span></a>
-        </div>
-    </nav>
-    <div class="sidebar-user-area">
-        <div class="user-card">
-            <div class="avatar-wrapper">
-                <button type="button" class="avatar" id="userAvatar" aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu"><span id="userAvatarText"></span></button>
-                <div class="status-dot" aria-hidden="true"></div>
-            </div>
-            <div class="user-details">
-                <div class="name" id="userName"></div>
-                <div class="email" id="userEmail"></div>
-                <div class="plan" id="userPlan"></div>
-            </div>
-        </div>
-        <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
-            <div class="profile-menu-header">
-                <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
-                <div class="min-w-0">
-                    <div class="profile-menu-name" id="profileMenuName"></div>
-                    <div class="profile-menu-email" id="profileMenuEmail"></div>
-                </div>
-            </div>
-            <div class="profile-menu-details">
-                <div class="profile-detail-row"><span class="profile-detail-label">Username</span><span class="profile-detail-value" id="profileMenuUsername"></span></div>
-                <div class="profile-detail-row"><span class="profile-detail-label">Email</span><span class="profile-detail-value" id="profileMenuEmailDetail"></span></div>
-                <div class="profile-detail-row"><span class="profile-detail-label">Plan</span><span class="profile-detail-value" id="profileMenuPlan"></span></div>
-                <div class="profile-detail-row" id="profileRoleRow" hidden><span class="profile-detail-label">Role</span><span class="profile-detail-value" id="profileMenuRole"></span></div>
-                <div class="profile-detail-row" id="profileOrgRow" hidden><span class="profile-detail-label">Organization</span><span class="profile-detail-value" id="profileMenuOrg"></span></div>
-            </div>
-            <div class="profile-menu-actions">
-                <button type="button" class="profile-action-btn" id="profileSettingsBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>Settings</button>
-                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>Sign out</button>
-            </div>
-        </div>
-    </div>
-</aside>
-
-<!-- ============ MAIN ============ -->
-<main class="flex-1 min-w-0" id="mainContent">
-    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
-        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
-            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Machines</h1>
-        </div>
-        <div class="flex items-center gap-2 flex-shrink-0">
-            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
-            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
-        </div>
-    </header>
-
-    <div class="bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="material-symbols-outlined text-teal-600 text-lg">precision_manufacturing</span>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-teal-600">Equipment Fleet</span>
-                    </div>
-                    <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Machines &amp; Equipment</h1>
-                    <p class="text-slate-500 text-sm mt-0.5">Monitor, manage, and predict maintenance for your industrial assets</p>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="openTestModal()" class="border border-slate-200 text-slate-700 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-semibold hover:bg-slate-50 transition text-sm sm:text-base whitespace-nowrap flex items-center gap-2">
-                        <span class="material-symbols-outlined text-base sm:text-lg">science</span> Simulate
-                    </button>
-                    <button id="addMachineBtn" class="gradient-cta text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center gap-2 text-sm sm:text-base whitespace-nowrap">
-                        <span class="material-symbols-outlined text-base sm:text-lg">add</span> Connect Machine
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Total Machines</span><span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">precision_manufacturing</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="totalMachines">0</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Online</span><span class="material-symbols-outlined text-green-600 text-base sm:text-lg">check_circle</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-green-600" id="onlineMachines">0</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Warning</span><span class="material-symbols-outlined text-amber-500 text-base sm:text-lg">warning</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-amber-500" id="warningMachines">0</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
-                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Critical</span><span class="material-symbols-outlined text-red-600 text-base sm:text-lg">error</span></div>
-                <p class="text-xl sm:text-2xl font-bold text-red-600" id="criticalMachines">0</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toolbar -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-between">
-            <div class="flex flex-wrap gap-2 sm:gap-3 flex-1">
-                <div class="relative flex-1 min-w-[180px]">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-base">search</span>
-                    <input type="text" id="searchInput" placeholder="Search machines by name, location..." class="w-full pl-9 sm:pl-10 pr-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm">
-                </div>
-                <div class="select-with-icon w-auto-sm">
-                    <select id="statusFilter" aria-label="Filter by status">
-                        <option value="">All Status</option>
-                        <option value="online">Online</option><option value="warning">Warning</option>
-                        <option value="critical">Critical</option><option value="offline">Offline</option>
-                    </select>
-                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
-                </div>
-                <div class="select-with-icon w-auto-sm">
-                    <select id="typeFilter" aria-label="Filter by type">
-                        <option value="">All Types</option>
-                        <option value="turbine">Turbine</option><option value="pump">Pump</option>
-                        <option value="compressor">Compressor</option><option value="motor">Motor</option>
-                        <option value="generator">Generator</option><option value="ct">CT Scanner</option>
-                        <option value="mri">MRI Scanner</option><option value="xray">X-Ray Machine</option>
-                        <option value="ultrasound">Ultrasound</option><option value="ventilator">Ventilator</option>
-                        <option value="ecg">ECG Machine</option><option value="laptop">Laptop/Computer</option>
-                        <option value="server">Server</option><option value="network">Network Device</option>
-                    </select>
-                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button id="refreshBtn" class="px-3 sm:px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-sm" aria-label="Refresh">
-                    <span class="material-symbols-outlined text-base">refresh</span> Refresh
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Grid -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div id="pageBannerHost"></div>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" id="machinesGrid">
-            <div class="col-span-full text-center py-12">
-                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-teal-500 border-t-transparent"></div>
-                <p class="text-slate-500 mt-3 text-sm">Loading machines...</p>
-            </div>
-        </div>
-    </div>
-</main>
-
-<!-- ============ ADD MACHINE MODAL ============ -->
-<div class="modal" id="addMachineModal" role="dialog" aria-modal="true">
-    <div class="modal-content max-w-lg w-full">
-        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white">Connect New Machine</h3>
-            <button id="closeModalBtn" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
-        </div>
-        <div class="p-4 sm:p-6">
-            <form id="addMachineForm">
-                <div class="mb-4">
-                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="machineName">Machine Name <span class="text-red-500">*</span></label>
-                    <input type="text" id="machineName" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., Pump P-204" required autocomplete="off">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="machineType">Machine Type <span class="text-red-500">*</span></label>
-                    <div class="select-with-icon">
-                        <select id="machineType" required>
-                            <option value="">Select type...</option>
-                            <option value="pump">Pump</option>
-                            <option value="turbine">Industrial Turbine</option>
-                            <option value="compressor">Air Compressor</option>
-                            <option value="motor">Electric Motor</option>
-                            <option value="generator">Generator</option>
-                            <option value="ct">CT Scanner</option>
-                            <option value="mri">MRI Scanner</option>
-                            <option value="xray">X-Ray Machine</option>
-                            <option value="ultrasound">Ultrasound</option>
-                            <option value="ventilator">Ventilator</option>
-                            <option value="ecg">ECG Machine</option>
-                            <option value="laptop">Laptop/Computer</option>
-                            <option value="server">Server</option>
-                            <option value="network">Network Device</option>
-                        </select>
-                        <span class="material-symbols-outlined select-arrow">expand_more</span>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="machineLocation">Location <span class="text-red-500">*</span></label>
-                    <input type="text" id="machineLocation" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., Plant A, Line 2" required autocomplete="off">
-                </div>
-
-                <div class="mb-3">
-                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-2">Connection Method <span class="text-red-500">*</span></label>
-                    <div id="connTileGrid" class="grid grid-cols-2 gap-2">
-                        <button type="button" class="conn-method-tile" data-conn="manual"><span class="cm-title">Manual Entry</span><span class="cm-sub">You enter readings by hand</span></button>
-                        <button type="button" class="conn-method-tile" data-conn="cable"><span class="cm-title">Cable / Direct</span><span class="cm-sub">Local gateway over TCP</span></button>
-                        <button type="button" class="conn-method-tile" data-conn="mqtt"><span class="cm-title">MQTT</span><span class="cm-sub">IoT broker subscription</span></button>
-                        <button type="button" class="conn-method-tile" data-conn="api"><span class="cm-title">REST API</span><span class="cm-sub">Device key POST readings</span></button>
-                        <button type="button" class="conn-method-tile" data-conn="opcua"><span class="cm-title">OPC UA</span><span class="cm-sub">Industrial PLC endpoint</span></button>
-                        <button type="button" class="conn-method-tile" data-conn="modbus"><span class="cm-title">Modbus TCP</span><span class="cm-sub">Register-level polling</span></button>
-                    </div>
-                    <input type="hidden" id="connectionType" value="manual">
-                </div>
-
-                <div id="connectionConfig" class="mb-4" style="display:none;">
-                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="connectionEndpoint">Endpoint <span class="text-red-500">*</span></label>
-                    <input type="text" id="connectionEndpoint" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm font-mono" placeholder="host:port" autocomplete="off">
-                    <p class="text-[10px] text-slate-400 mt-1" id="connectionExamples"></p>
-                </div>
-
-                <div id="manualEntryConfig" class="mb-4" style="display:none;">
-                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1">Initial Sensor Readings <span class="text-slate-400 font-normal">(optional)</span></label>
-                    <p class="text-[11px] text-slate-500 mb-2">Fields below are auto-selected based on the machine type. You can refine them in the detail view later.</p>
-                    <div id="manualFieldsHostAdd" class="grid grid-cols-2 gap-2"></div>
-                    <p class="text-[10px] text-slate-400 mt-2">Leave blank to save the machine without a first reading — it will remain <strong>offline</strong> until real data arrives.</p>
-                </div>
-
-                <div id="addMachineError" class="hidden mb-4 page-banner error"></div>
-
-                <div class="flex gap-3 pt-2">
-                    <button type="button" id="cancelModalBtn" class="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition text-sm">Cancel</button>
-                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition text-sm" id="addMachineSubmit">Connect Machine</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- ============ MACHINE DETAIL MODAL ============ -->
-<div class="modal" id="machineDetailModal" role="dialog" aria-modal="true">
-    <div class="modal-content max-w-2xl w-full">
-        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white" id="detailMachineName">Machine Details</h3>
-            <button id="closeDetailModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
-        </div>
-        <div class="px-4 sm:px-6 pt-4">
-            <div class="flex gap-1 border-b border-slate-200 pb-1 overflow-x-auto">
-                <div class="dt-tab active" data-dt="info" onclick="showDetailTab('info')">Info</div>
-                <div class="dt-tab" data-dt="telemetry" onclick="showDetailTab('telemetry')">Live Telemetry</div>
-                <div class="dt-tab" data-dt="manual" onclick="showDetailTab('manual')">Manual Reading</div>
-                <div class="dt-tab" data-dt="device-keys" onclick="showDetailTab('device-keys')">Device Keys</div>
-                <div class="dt-tab" data-dt="sensor-data" onclick="showDetailTab('sensor-data')">History</div>
-                <div class="dt-tab" data-dt="connection" onclick="showDetailTab('connection')">Connection</div>
-            </div>
-        </div>
-        <div class="p-4 sm:p-6">
-            <div id="dtPanel-info" class="dt-panel active"></div>
-            <div id="dtPanel-telemetry" class="dt-panel"></div>
-            <div id="dtPanel-manual" class="dt-panel"></div>
-            <div id="dtPanel-device-keys" class="dt-panel"></div>
-            <div id="dtPanel-sensor-data" class="dt-panel"></div>
-            <div id="dtPanel-connection" class="dt-panel"></div>
-        </div>
-    </div>
-</div>
-
-<!-- ============ LIVE PREDICTION MODAL ============ -->
-<div class="modal" id="livePredictionModal" role="dialog" aria-modal="true">
-    <div class="modal-content max-w-md w-full">
-        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white">Live Prediction</h3>
-            <button id="closeLiveModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
-        </div>
-        <div class="p-4 sm:p-6">
-            <p class="text-xs text-slate-500 mb-3" id="liveMachineLabel">Machine</p>
-            <p class="text-sm text-slate-600 mb-5">Runs a real trained-model prediction on the interval you choose. The <strong>first result appears after the selected interval elapses</strong>; subsequent runs follow the same cadence. Results stream into the machine card, activity history, and admin dashboard.</p>
-            <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Interval</label>
-            <div class="grid grid-cols-3 gap-2 mb-5" id="liveIntervalGrid">
-                <button type="button" data-interval="1" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">1 min</button>
-                <button type="button" data-interval="5" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">5 min</button>
-                <button type="button" data-interval="15" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">15 min</button>
-                <button type="button" data-interval="30" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">30 min</button>
-                <button type="button" data-interval="60" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">60 min</button>
-                <button type="button" data-interval="0" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-red-400 hover:bg-red-50 transition text-red-600">Stop</button>
-            </div>
-            <div class="bg-slate-50 rounded-xl p-3 mb-4 text-xs text-slate-600 leading-relaxed">
-                <strong class="text-slate-800">Note:</strong> Live predictions run only while this tab is open. Each run counts against your plan quota and creates an alert row on the backend when RUL drops below 72h.
-            </div>
-            <div id="liveStatusBox" class="hidden mb-4"></div>
-            <button type="button" id="liveStartBtn" class="w-full gradient-cta text-white px-4 py-3 rounded-xl font-semibold text-sm">Start Live Prediction</button>
-        </div>
-    </div>
-</div>
-
-<!-- ============ CONNECTING MODAL ============ -->
-<div class="modal" id="connectingModal" role="dialog" aria-modal="true">
-    <div class="modal-content max-w-sm w-full">
-        <div class="p-6 text-center">
-            <div class="w-16 h-16 mx-auto bg-teal-50 rounded-full flex items-center justify-center mb-4">
-                <span class="material-symbols-outlined text-teal-600 text-3xl animate-spin" id="connectSpinner">refresh</span>
-            </div>
-            <h3 class="text-lg font-bold text-slate-800 mb-1" id="connectTitle">Connecting...</h3>
-            <p class="text-xs text-slate-500 mb-4" id="connectSubtitle">Establishing connection to machine</p>
-            <div class="text-left bg-slate-50 rounded-xl p-4">
-                <div class="conn-step" id="step1"><div class="step-icon"><span class="material-symbols-outlined text-xs" id="step1icon">radio_button_unchecked</span></div><span>Creating machine record</span></div>
-                <div class="conn-step" id="step2"><div class="step-icon"><span class="material-symbols-outlined text-xs" id="step2icon">radio_button_unchecked</span></div><span>Verifying endpoint reachability</span></div>
-                <div class="conn-step" id="step3"><div class="step-icon"><span class="material-symbols-outlined text-xs" id="step3icon">radio_button_unchecked</span></div><span>Opening data stream</span></div>
-                <div class="conn-step" id="step4"><div class="step-icon"><span class="material-symbols-outlined text-xs" id="step4icon">radio_button_unchecked</span></div><span>Awaiting first real reading</span></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ============ PREDICTION RESULT MODAL ============ -->
-<div class="modal" id="predictionModal" role="dialog" aria-modal="true">
-    <div class="modal-content max-w-md w-full">
-        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white">AI Prediction Result</h3>
-            <button id="closePredictionModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
-        </div>
-        <div class="p-4 sm:p-6">
-            <div class="text-center">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="material-symbols-outlined text-teal-600 text-3xl sm:text-4xl">neurology</span></div>
-                <h4 id="predictionMachineName" class="text-base sm:text-lg font-bold text-slate-800 mb-3">Machine Name</h4>
-            </div>
-            <div class="bg-slate-50 rounded-xl p-4 mb-3 text-center">
-                <p class="text-xs text-slate-500 mb-1">Remaining Useful Life (RUL)</p>
-                <p class="text-3xl font-bold text-slate-800" id="predictionRul">--</p>
-                <p class="text-xs text-slate-400 mt-1">hours of operation remaining</p>
-            </div>
-            <div class="mb-3">
-                <div class="flex justify-between text-xs mb-1"><span class="text-slate-600">Model confidence</span><span class="font-semibold" id="predictionConfidence">--</span></div>
-                <div class="progress-bar"><div class="progress-fill" id="predictionBar" style="width: 0%"></div></div>
-            </div>
-            <div class="grid grid-cols-2 gap-2 mb-3">
-                <div class="bg-slate-50 rounded-xl p-3"><p class="text-[10px] text-slate-400">Risk level</p><p class="text-sm font-bold text-slate-800 capitalize" id="predictionRisk">—</p></div>
-                <div class="bg-slate-50 rounded-xl p-3"><p class="text-[10px] text-slate-400">Model used</p><p class="text-sm font-bold text-slate-800 truncate" id="predictionModel">—</p></div>
-                <div class="bg-slate-50 rounded-xl p-3"><p class="text-[10px] text-slate-400">Dataset family</p><p class="text-sm font-bold text-slate-800 truncate" id="predictionFamily">—</p></div>
-                <div class="bg-slate-50 rounded-xl p-3"><p class="text-[10px] text-slate-400">Processing time</p><p class="text-sm font-bold text-slate-800" id="predictionProcessing">—</p></div>
-            </div>
-            <div class="bg-amber-50 rounded-xl p-3 mb-3 text-left"><p class="text-xs text-amber-700 font-semibold mb-1">Recommended action</p><p id="predictionRecommendation" class="text-xs sm:text-sm text-amber-800">—</p></div>
-            <div id="predictionFallbackNote" class="hidden mb-3">
-                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-left"><p class="text-xs text-slate-600"><strong>Note:</strong> No trained ML model was compatible. <span id="predictionFallbackReason"></span></p></div>
-            </div>
-            <button id="closePredictionBtn" class="w-full gradient-cta text-white px-4 py-2.5 rounded-xl font-semibold text-sm">Close</button>
-        </div>
-    </div>
-</div>
-
-<!-- ============ TEST / SIMULATE MODAL ============ -->
-<div class="modal" id="testModal" role="dialog" aria-modal="true">
-    <div class="modal-content max-w-md w-full">
-        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white">Simulate / Test Machine</h3>
-            <button id="closeTestModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
-        </div>
-        <div class="p-4 sm:p-6">
-            <p class="text-slate-600 text-sm mb-4">Choose a mode to generate real data on the backend for testing. Use this when you have no physical machine available.</p>
-            <div class="space-y-3">
-                <div class="bg-slate-50 rounded-xl p-3 connection-option" onclick="selectTestOption('simulated', event)">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-teal-600">science</span>
-                            <div><p class="font-semibold text-slate-800 text-sm">Simulated Industrial Machine</p><p class="text-xs text-slate-400">Real sensor values emitted by the backend</p></div>
-                        </div><span class="material-symbols-outlined text-slate-300">chevron_right</span>
-                    </div>
-                </div>
-                <div class="bg-slate-50 rounded-xl p-3 connection-option" onclick="selectTestOption('medical', event)">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-teal-600">local_hospital</span>
-                            <div><p class="font-semibold text-slate-800 text-sm">Simulated Medical Device</p><p class="text-xs text-slate-400">CT/MRI/X-Ray test profile</p></div>
-                        </div><span class="material-symbols-outlined text-slate-300">chevron_right</span>
-                    </div>
-                </div>
-                <div class="bg-slate-50 rounded-xl p-3 connection-option" onclick="selectTestOption('it', event)">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-teal-600">computer</span>
-                            <div><p class="font-semibold text-slate-800 text-sm">Simulated IT Device</p><p class="text-xs text-slate-400">Server/Laptop test profile</p></div>
-                        </div><span class="material-symbols-outlined text-slate-300">chevron_right</span>
-                    </div>
-                </div>
-            </div>
-            <div id="testConfig" class="mt-4 hidden">
-                <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1">Machine Name</label>
-                <input type="text" id="testName" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm">
-                <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1 mt-3">Location</label>
-                <input type="text" id="testLocation" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm">
-                <button type="button" onclick="runSimulatedConnection()" class="mt-4 w-full gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm" id="simSubmitBtn">Create &amp; Simulate</button>
-            </div>
-            <button id="closeTestBtn" class="mt-3 w-full border border-slate-200 text-slate-600 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-slate-50 transition">Close</button>
-        </div>
-    </div>
-</div>
-
-<!-- ============ MANUAL READING MODAL ============ -->
-<div class="modal" id="manualReadingModal" role="dialog" aria-modal="true">
-    <div class="modal-content max-w-md w-full">
-        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white">Enter Manual Reading</h3>
-            <button id="closeManualReadingModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
-        </div>
-        <div class="p-4 sm:p-6">
-            <p class="text-xs text-slate-500 mb-4" id="manualMachineLabel">Machine</p>
-            <form id="manualReadingForm">
-                <div id="manualFieldsHostModal" class="grid grid-cols-2 gap-2 mb-3"></div>
-                <div id="manualReadingError" class="hidden mb-3 page-banner error text-xs"></div>
-                <div class="flex gap-3">
-                    <button type="button" id="cancelManualReadingBtn" class="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition text-sm">Cancel</button>
-                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition text-sm">Submit Reading</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-/* ===== PART C GOES HERE — REPLACE THIS LINE WITH THE ENTIRE SCRIPT BLOCK ===== */
-</script>
-</body>
-</html>
-/* ============================================================
-   GLOBAL RESET
-   ============================================================ */
-* { box-sizing: border-box; }
+    * { box-sizing: border-box; }
 .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
 body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #f8fafc; }
 h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
@@ -969,15 +524,443 @@ body.sidebar-is-collapsed #mainContent { margin-left: var(--sidebar-collapsed-wi
 @media (prefers-reduced-motion: reduce) {
     .sidebar, .sidebar-link, .sidebar-toggle, #mainContent, .sidebar-overlay, .profile-menu, .machine-card { transition: none !important; animation: none !important; }
 }
-/* =====================================================================
-   SYNAPSEPM MACHINES — v5.0.0 COMPLETE JS
-   Preserves ALL original features + adds:
-   - Real connection methods (cable/mqtt/api/opcua/modbus)
-   - Type-aware manual entry fields (pump vs CT vs server, etc.)
-   - Live telemetry polling for connected machines
-   - Strict interval-based live prediction scheduling
-   - Backend sensor-contract + telemetry-status endpoints
-   ===================================================================== */
+</style>
+</head>
+<body>
+
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" id="mainSidebar" aria-label="Primary navigation">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <a href="dashboard.html" class="sidebar-brand-inner" aria-label="SynapsePM home">
+                <div class="synapsepm-logo">
+                    <span class="logo-icon">
+                        <img src="/assets/img/logo.png" alt="SynapsePM Logo"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'material-symbols-outlined\' style=\'color:#00b4aa;font-size:26px\'>hub</span>'">
+                    </span>
+                    <span>Synapse</span><strong>PM</strong>
+                </div>
+            </a>
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+        </div>
+    </div>
+    <nav class="sidebar-nav" aria-label="Application">
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Main</p></div>
+            <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard"><span class="material-symbols-outlined">dashboard</span><span class="sidebar-text">Dashboard</span></a>
+            <a href="machines.html" class="sidebar-link active" data-tooltip="Machines" aria-current="page"><span class="material-symbols-outlined">precision_manufacturing</span><span class="sidebar-text">Machines</span></a>
+            <a href="predictions.html" class="sidebar-link" data-tooltip="Predictions"><span class="material-symbols-outlined">neurology</span><span class="sidebar-text">Predictions</span></a>
+            <a href="alerts.html" class="sidebar-link" data-tooltip="Alerts"><span class="material-symbols-outlined">notifications_active</span><span class="sidebar-text">Alerts</span><span class="badge-count" id="sidebarAlertsBadge">0</span></a>
+            <a href="reports.html" class="sidebar-link" data-tooltip="Reports"><span class="material-symbols-outlined">assessment</span><span class="sidebar-text">Reports</span></a>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-group">
+            <div class="sidebar-group-label sidebar-text"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider sidebar-label">Account</p></div>
+            <a href="billing.html" class="sidebar-link" data-tooltip="Billing"><span class="material-symbols-outlined">credit_card</span><span class="sidebar-text">Billing</span></a>
+        </div>
+    </nav>
+    <div class="sidebar-user-area">
+        <div class="user-card">
+            <div class="avatar-wrapper">
+                <button type="button" class="avatar" id="userAvatar" aria-label="Open account menu" aria-expanded="false" aria-controls="profileMenu"><span id="userAvatarText"></span></button>
+                <div class="status-dot" aria-hidden="true"></div>
+            </div>
+            <div class="user-details">
+                <div class="name" id="userName"></div>
+                <div class="email" id="userEmail"></div>
+                <div class="plan" id="userPlan"></div>
+            </div>
+        </div>
+        <div class="profile-menu" id="profileMenu" role="dialog" aria-label="Account details" aria-hidden="true">
+            <div class="profile-menu-header">
+                <div class="profile-menu-avatar" id="profileMenuAvatar" aria-hidden="true"></div>
+                <div class="min-w-0">
+                    <div class="profile-menu-name" id="profileMenuName"></div>
+                    <div class="profile-menu-email" id="profileMenuEmail"></div>
+                </div>
+            </div>
+            <div class="profile-menu-details">
+                <div class="profile-detail-row"><span class="profile-detail-label">Username</span><span class="profile-detail-value" id="profileMenuUsername"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Email</span><span class="profile-detail-value" id="profileMenuEmailDetail"></span></div>
+                <div class="profile-detail-row"><span class="profile-detail-label">Plan</span><span class="profile-detail-value" id="profileMenuPlan"></span></div>
+                <div class="profile-detail-row" id="profileRoleRow" hidden><span class="profile-detail-label">Role</span><span class="profile-detail-value" id="profileMenuRole"></span></div>
+                <div class="profile-detail-row" id="profileOrgRow" hidden><span class="profile-detail-label">Organization</span><span class="profile-detail-value" id="profileMenuOrg"></span></div>
+            </div>
+            <div class="profile-menu-actions">
+                <button type="button" class="profile-action-btn" id="profileSettingsBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">settings</span>Settings</button>
+                <button type="button" class="profile-action-btn danger" id="profileLogoutBtn"><span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>Sign out</button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main class="flex-1 min-w-0" id="mainContent">
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex justify-between items-center">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <button id="mobileMenuToggle" type="button" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 flex-shrink-0" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
+            <h1 class="text-base sm:text-lg md:text-xl font-bold text-slate-800 font-headline truncate">Machines</h1>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <span id="wsStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">● SYNC</span>
+            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="modeBadge">Live</span>
+        </div>
+    </header>
+
+    <div class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="material-symbols-outlined text-teal-600 text-lg">precision_manufacturing</span>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-teal-600">Equipment Fleet</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Machines &amp; Equipment</h1>
+                    <p class="text-slate-500 text-sm mt-0.5">Monitor, manage, and predict maintenance for your industrial assets</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="openTestModal()" class="border border-slate-200 text-slate-700 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-semibold hover:bg-slate-50 transition text-sm sm:text-base whitespace-nowrap flex items-center gap-2">
+                        <span class="material-symbols-outlined text-base sm:text-lg">science</span> Simulate
+                    </button>
+                    <button id="addMachineBtn" class="gradient-cta text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center gap-2 text-sm sm:text-base whitespace-nowrap">
+                        <span class="material-symbols-outlined text-base sm:text-lg">add</span> Connect Machine
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Total Machines</span><span class="material-symbols-outlined text-teal-600 text-base sm:text-lg">precision_manufacturing</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-slate-800" id="totalMachines">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Online</span><span class="material-symbols-outlined text-green-600 text-base sm:text-lg">check_circle</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-green-600" id="onlineMachines">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Warning</span><span class="material-symbols-outlined text-amber-500 text-base sm:text-lg">warning</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-amber-500" id="warningMachines">0</p>
+            </div>
+            <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-1"><span class="text-[10px] sm:text-xs text-slate-500">Critical</span><span class="material-symbols-outlined text-red-600 text-base sm:text-lg">error</span></div>
+                <p class="text-xl sm:text-2xl font-bold text-red-600" id="criticalMachines">0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-between">
+            <div class="flex flex-wrap gap-2 sm:gap-3 flex-1">
+                <div class="relative flex-1 min-w-[180px]">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-base">search</span>
+                    <input type="text" id="searchInput" placeholder="Search machines by name, location..." class="w-full pl-9 sm:pl-10 pr-3 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm">
+                </div>
+                <div class="select-with-icon w-auto-sm">
+                    <select id="statusFilter" aria-label="Filter by status">
+                        <option value="">All Status</option>
+                        <option value="online">Online</option><option value="warning">Warning</option>
+                        <option value="critical">Critical</option><option value="offline">Offline</option>
+                    </select>
+                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                </div>
+                <div class="select-with-icon w-auto-sm">
+                    <select id="typeFilter" aria-label="Filter by type">
+                        <option value="">All Types</option>
+                        <option value="turbine">Turbine</option><option value="pump">Pump</option>
+                        <option value="compressor">Compressor</option><option value="motor">Motor</option>
+                        <option value="generator">Generator</option><option value="ct">CT Scanner</option>
+                        <option value="mri">MRI Scanner</option><option value="xray">X-Ray Machine</option>
+                        <option value="ultrasound">Ultrasound</option><option value="ventilator">Ventilator</option>
+                        <option value="ecg">ECG Machine</option><option value="laptop">Laptop/Computer</option>
+                        <option value="server">Server</option><option value="network">Network Device</option>
+                    </select>
+                    <span class="material-symbols-outlined select-arrow" aria-hidden="true">expand_more</span>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button id="refreshBtn" class="px-3 sm:px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-sm" aria-label="Refresh">
+                    <span class="material-symbols-outlined text-base">refresh</span> Refresh
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div id="pageBannerHost"></div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" id="machinesGrid">
+            <div class="col-span-full text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-teal-500 border-t-transparent"></div>
+                <p class="text-slate-500 mt-3 text-sm">Loading machines...</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- ============ ADD MACHINE MODAL ============ -->
+<div class="modal" id="addMachineModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-lg w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Connect New Machine</h3>
+            <button id="closeModalBtn" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <form id="addMachineForm">
+                <div class="mb-4">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="machineName">Machine Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="machineName" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., Pump P-204" required autocomplete="off">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="machineType">Machine Type <span class="text-red-500">*</span></label>
+                    <div class="select-with-icon">
+                        <select id="machineType" required>
+                            <option value="">Select type...</option>
+                            <option value="pump">Pump</option>
+                            <option value="turbine">Industrial Turbine</option>
+                            <option value="compressor">Air Compressor</option>
+                            <option value="motor">Electric Motor</option>
+                            <option value="generator">Generator</option>
+                            <option value="ct">CT Scanner</option>
+                            <option value="mri">MRI Scanner</option>
+                            <option value="xray">X-Ray Machine</option>
+                            <option value="ultrasound">Ultrasound</option>
+                            <option value="ventilator">Ventilator</option>
+                            <option value="ecg">ECG Machine</option>
+                            <option value="laptop">Laptop/Computer</option>
+                            <option value="server">Server</option>
+                            <option value="network">Network Device</option>
+                        </select>
+                        <span class="material-symbols-outlined select-arrow">expand_more</span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="machineLocation">Location <span class="text-red-500">*</span></label>
+                    <input type="text" id="machineLocation" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm" placeholder="e.g., Plant A, Line 2" required autocomplete="off">
+                </div>
+
+                <div class="mb-3">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-2">Connection Method <span class="text-red-500">*</span></label>
+                    <div id="connTileGrid" class="grid grid-cols-2 gap-2">
+                        <button type="button" class="conn-method-tile" data-conn="manual"><span class="cm-title">Manual Entry</span><span class="cm-sub">You enter readings by hand</span></button>
+                        <button type="button" class="conn-method-tile" data-conn="cable"><span class="cm-title">Cable / Direct</span><span class="cm-sub">Local gateway over TCP</span></button>
+                        <button type="button" class="conn-method-tile" data-conn="mqtt"><span class="cm-title">MQTT</span><span class="cm-sub">IoT broker subscription</span></button>
+                        <button type="button" class="conn-method-tile" data-conn="api"><span class="cm-title">REST API</span><span class="cm-sub">Device key POST readings</span></button>
+                        <button type="button" class="conn-method-tile" data-conn="opcua"><span class="cm-title">OPC UA</span><span class="cm-sub">Industrial PLC endpoint</span></button>
+                        <button type="button" class="conn-method-tile" data-conn="modbus"><span class="cm-title">Modbus TCP</span><span class="cm-sub">Register-level polling</span></button>
+                    </div>
+                    <input type="hidden" id="connectionType" value="manual">
+                </div>
+
+                <div id="connectionConfig" class="mb-4" style="display:none;">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1" for="connectionEndpoint">Endpoint <span class="text-red-500">*</span></label>
+                    <input type="text" id="connectionEndpoint" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm font-mono" placeholder="host:port" autocomplete="off">
+                    <p class="text-[10px] text-slate-400 mt-1" id="connectionExamples"></p>
+                </div>
+
+                <div id="manualEntryConfig" class="mb-4" style="display:none;">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1">Initial Sensor Readings <span class="text-slate-400 font-normal">(optional)</span></label>
+                    <p class="text-[11px] text-slate-500 mb-2">Fields below are auto-selected based on the machine type. You can refine them in the detail view later.</p>
+                    <div id="manualFieldsHostAdd" class="grid grid-cols-2 gap-2"></div>
+                    <p class="text-[10px] text-slate-400 mt-2">Leave blank to save the machine without a first reading — it will remain <strong>offline</strong> until real data arrives.</p>
+                </div>
+
+                <div id="addMachineError" class="hidden mb-4 page-banner error"></div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" id="cancelModalBtn" class="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition text-sm">Cancel</button>
+                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition text-sm" id="addMachineSubmit">Connect Machine</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ============ MACHINE DETAIL MODAL ============ -->
+<div class="modal" id="machineDetailModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-2xl w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white" id="detailMachineName">Machine Details</h3>
+            <button id="closeDetailModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="px-4 sm:px-6 pt-4">
+            <div class="flex gap-1 border-b border-slate-200 pb-1 overflow-x-auto">
+                <div class="dt-tab active" data-dt="info" onclick="showDetailTab('info')">Info</div>
+                <div class="dt-tab" data-dt="telemetry" onclick="showDetailTab('telemetry')">Live Telemetry</div>
+                <div class="dt-tab" data-dt="manual" onclick="showDetailTab('manual')">Manual Reading</div>
+                <div class="dt-tab" data-dt="device-keys" onclick="showDetailTab('device-keys')">Device Keys</div>
+                <div class="dt-tab" data-dt="sensor-data" onclick="showDetailTab('sensor-data')">History</div>
+                <div class="dt-tab" data-dt="connection" onclick="showDetailTab('connection')">Connection</div>
+            </div>
+        </div>
+        <div class="p-4 sm:p-6">
+            <div id="dtPanel-info" class="dt-panel active"></div>
+            <div id="dtPanel-telemetry" class="dt-panel"></div>
+            <div id="dtPanel-manual" class="dt-panel"></div>
+            <div id="dtPanel-device-keys" class="dt-panel"></div>
+            <div id="dtPanel-sensor-data" class="dt-panel"></div>
+            <div id="dtPanel-connection" class="dt-panel"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ LIVE PREDICTION MODAL ============ -->
+<div class="modal" id="livePredictionModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Live Prediction</h3>
+            <button id="closeLiveModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <p class="text-xs text-slate-500 mb-3" id="liveMachineLabel">Machine</p>
+            <p class="text-sm text-slate-600 mb-5">Runs a real trained-model prediction on the interval you choose. The <strong>first result appears after the selected interval elapses</strong>; subsequent runs follow the same cadence. Results stream into the machine card, activity history, and admin dashboard.</p>
+            <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Interval</label>
+            <div class="grid grid-cols-3 gap-2 mb-5" id="liveIntervalGrid">
+                <button type="button" data-interval="1" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">1 min</button>
+                <button type="button" data-interval="5" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">5 min</button>
+                <button type="button" data-interval="15" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">15 min</button>
+                <button type="button" data-interval="30" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">30 min</button>
+                <button type="button" data-interval="60" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-teal-500 hover:bg-teal-50 transition">60 min</button>
+                <button type="button" data-interval="0" class="live-interval-btn border rounded-xl py-3 text-sm font-semibold hover:border-red-400 hover:bg-red-50 transition text-red-600">Stop</button>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-3 mb-4 text-xs text-slate-600 leading-relaxed">
+                <strong class="text-slate-800">Note:</strong> Live predictions run only while this tab is open. Each run counts against your plan quota and creates an alert row on the backend when RUL drops below 72h.
+            </div>
+            <div id="liveStatusBox" class="hidden mb-4"></div>
+            <button type="button" id="liveStartBtn" class="w-full gradient-cta text-white px-4 py-3 rounded-xl font-semibold text-sm">Start Live Prediction</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============ CONNECTING MODAL ============ -->
+<div class="modal" id="connectingModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-sm w-full">
+        <div class="p-6 text-center">
+            <div class="w-16 h-16 mx-auto bg-teal-50 rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-teal-600 text-3xl animate-spin" id="connectSpinner">refresh</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-1" id="connectTitle">Connecting...</h3>
+            <p class="text-xs text-slate-500 mb-4" id="connectSubtitle">Establishing connection to machine</p>
+            <div class="text-left bg-slate-50 rounded-xl p-4">
+                <div class="conn-step" id="step1"><div class="step-icon"><span class="material-symbols-outlined text-xs" id="step1icon">radio_button_unchecked</span></div><span>Creating machine record</span></div>
+                <div class="conn-step" id="step2"><div class="step-icon"><span class="material-symbols-outlined text-xs" id="step2icon">radio_button_unchecked</span></div><span>Verifying endpoint reachability</span></div>
+                <div class="conn-step" id="step3"><div class="step-icon"><span class="material-symbols-outlined text-xs" id="step3icon">radio_button_unchecked</span></div><span>Opening data stream</span></div>
+                <div class="conn-step" id="step4"><div class="step-icon"><span class="material-symbols-outlined text-xs" id="step4icon">radio_button_unchecked</span></div><span>Awaiting first real reading</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ PREDICTION RESULT MODAL ============ -->
+<div class="modal" id="predictionModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">AI Prediction Result</h3>
+            <button id="closePredictionModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <div class="text-center">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="material-symbols-outlined text-teal-600 text-3xl sm:text-4xl">neurology</span></div>
+                <h4 id="predictionMachineName" class="text-base sm:text-lg font-bold text-slate-800 mb-3">Machine Name</h4>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 mb-3 text-center">
+                <p class="text-xs text-slate-500 mb-1">Remaining Useful Life (RUL)</p>
+                <p class="text-3xl font-bold text-slate-800" id="predictionRul">--</p>
+                <p class="text-xs text-slate-400 mt-1">hours of operation remaining</p>
+            </div>
+            <div class="mb-3">
+                <div class="flex justify-between text-xs mb-1"><span class="text-slate-600">Model confidence</span><span class="font-semibold" id="predictionConfidence">--</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="predictionBar" style="width: 0%"></div></div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <div class="bg-slate-50 rounded-xl p-3"><p class="text-[10px] text-slate-400">Risk level</p><p class="text-sm font-bold text-slate-800 capitalize" id="predictionRisk">—</p></div>
+                <div class="bg-slate-50 rounded-xl p-3"><p class="text-[10px] text-slate-400">Model used</p><p class="text-sm font-bold text-slate-800 truncate" id="predictionModel">—</p></div>
+                <div class="bg-slate-50 rounded-xl p-3"><p class="text-[10px] text-slate-400">Dataset family</p><p class="text-sm font-bold text-slate-800 truncate" id="predictionFamily">—</p></div>
+                <div class="bg-slate-50 rounded-xl p-3"><p class="text-[10px] text-slate-400">Processing time</p><p class="text-sm font-bold text-slate-800" id="predictionProcessing">—</p></div>
+            </div>
+            <div class="bg-amber-50 rounded-xl p-3 mb-3 text-left"><p class="text-xs text-amber-700 font-semibold mb-1">Recommended action</p><p id="predictionRecommendation" class="text-xs sm:text-sm text-amber-800">—</p></div>
+            <div id="predictionFallbackNote" class="hidden mb-3">
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-left"><p class="text-xs text-slate-600"><strong>Note:</strong> No trained ML model was compatible. <span id="predictionFallbackReason"></span></p></div>
+            </div>
+            <button id="closePredictionBtn" class="w-full gradient-cta text-white px-4 py-2.5 rounded-xl font-semibold text-sm">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============ TEST / SIMULATE MODAL ============ -->
+<div class="modal" id="testModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Simulate / Test Machine</h3>
+            <button id="closeTestModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <p class="text-slate-600 text-sm mb-4">Choose a mode to generate real data on the backend for testing. Use this when you have no physical machine available.</p>
+            <div class="space-y-3">
+                <div class="bg-slate-50 rounded-xl p-3 connection-option" onclick="selectTestOption('simulated', event)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-teal-600">science</span>
+                            <div><p class="font-semibold text-slate-800 text-sm">Simulated Industrial Machine</p><p class="text-xs text-slate-400">Real sensor values emitted by the backend</p></div>
+                        </div><span class="material-symbols-outlined text-slate-300">chevron_right</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-3 connection-option" onclick="selectTestOption('medical', event)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-teal-600">local_hospital</span>
+                            <div><p class="font-semibold text-slate-800 text-sm">Simulated Medical Device</p><p class="text-xs text-slate-400">CT/MRI/X-Ray test profile</p></div>
+                        </div><span class="material-symbols-outlined text-slate-300">chevron_right</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-3 connection-option" onclick="selectTestOption('it', event)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-teal-600">computer</span>
+                            <div><p class="font-semibold text-slate-800 text-sm">Simulated IT Device</p><p class="text-xs text-slate-400">Server/Laptop test profile</p></div>
+                        </div><span class="material-symbols-outlined text-slate-300">chevron_right</span>
+                    </div>
+                </div>
+            </div>
+            <div id="testConfig" class="mt-4 hidden">
+                <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1">Machine Name</label>
+                <input type="text" id="testName" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm">
+                <label class="block text-xs sm:text-sm font-semibold text-slate-800 mb-1 mt-3">Location</label>
+                <input type="text" id="testLocation" class="w-full px-3 sm:px-4 py-2 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-sm">
+                <button type="button" onclick="runSimulatedConnection()" class="mt-4 w-full gradient-cta text-white px-4 py-2 rounded-xl font-semibold text-sm" id="simSubmitBtn">Create &amp; Simulate</button>
+            </div>
+            <button id="closeTestBtn" class="mt-3 w-full border border-slate-200 text-slate-600 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-slate-50 transition">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============ MANUAL READING MODAL ============ -->
+<div class="modal" id="manualReadingModal" role="dialog" aria-modal="true">
+    <div class="modal-content max-w-md w-full">
+        <div class="gradient-primary px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl flex justify-between items-center">
+            <h3 class="text-lg sm:text-xl font-bold text-white">Enter Manual Reading</h3>
+            <button id="closeManualReadingModal" class="text-white/80 hover:text-white text-xl sm:text-2xl leading-none" aria-label="Close">&times;</button>
+        </div>
+        <div class="p-4 sm:p-6">
+            <p class="text-xs text-slate-500 mb-4" id="manualMachineLabel">Machine</p>
+            <form id="manualReadingForm">
+                <div id="manualFieldsHostModal" class="grid grid-cols-2 gap-2 mb-3"></div>
+                <div id="manualReadingError" class="hidden mb-3 page-banner error text-xs"></div>
+                <div class="flex gap-3">
+                    <button type="button" id="cancelManualReadingBtn" class="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition text-sm">Cancel</button>
+                    <button type="submit" class="flex-1 gradient-cta text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition text-sm">Submit Reading</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
 
 const API_BASE = '/api/v1';
 const REQUEST_TIMEOUT_MS = 25000;
@@ -2294,3 +2277,6 @@ window.showToast = showToast;
 window.openManualReadingModal = openManualReadingModal;
 window.closeManualReadingModal = closeManualReadingModal;
 window.submitManualReading = submitManualReading;
+</script>
+</body>
+</html>
