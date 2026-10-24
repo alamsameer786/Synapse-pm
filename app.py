@@ -6365,15 +6365,15 @@ def create_app():
             "categories": ["business", "productivity", "utilities"],
             "prefer_related_applications": False,
             "icons": [
-                {"src": "/assets/img/logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-                {"src": "/assets/img/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-                {"src": "/assets/img/logo.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
-                {"src": "/assets/img/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+                {"src": "/user/assets/img/logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+                {"src": "/user/assets/img/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+                {"src": "/user/assets/img/logo.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+                {"src": "/user/assets/img/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
             ],
             "shortcuts": [
-                {"name": "Dashboard", "short_name": "Dashboard", "url": "/dashboard.html", "icons": [{"src": "/assets/img/logo.png", "sizes": "192x192"}]},
-                {"name": "Machines", "short_name": "Machines", "url": "/machines.html", "icons": [{"src": "/assets/img/logo.png", "sizes": "192x192"}]},
-                {"name": "Alerts", "short_name": "Alerts", "url": "/alerts.html", "icons": [{"src": "/assets/img/logo.png", "sizes": "192x192"}]}
+                {"name": "Dashboard", "short_name": "Dashboard", "url": "/dashboard.html", "icons": [{"src": "/user/assets/img/logo.png", "sizes": "192x192"}]},
+                {"name": "Machines", "short_name": "Machines", "url": "/machines.html", "icons": [{"src": "/user/assets/img/logo.png", "sizes": "192x192"}]},
+                {"name": "Alerts", "short_name": "Alerts", "url": "/alerts.html", "icons": [{"src": "/user/assets/img/logo.png", "sizes": "192x192"}]}
             ]
         }
         resp = jsonify(manifest)
@@ -6390,7 +6390,7 @@ def create_app():
         sw = r'''// SynapsePM Service Worker v1
 const CACHE_NAME = 'synapsepm-shell-v1';
 const RUNTIME_CACHE = 'synapsepm-runtime-v1';
-const SHELL_URLS = ['/dashboard.html','/machines.html','/predictions.html','/alerts.html','/reports.html','/billing.html','/settings.html','/login.html','/signup.html','/manifest.json','/assets/img/logo.png'];
+const SHELL_URLS = ['/dashboard.html','/machines.html','/predictions.html','/alerts.html','/reports.html','/billing.html','/settings.html','/login.html','/signup.html','/manifest.json','/user/assets/img/logo.png'];
 self.addEventListener('install', (event) => { event.waitUntil(caches.open(CACHE_NAME).then((cache) => Promise.allSettled(SHELL_URLS.map((u) => cache.add(u).catch(() => null)))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (event) => { event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE_NAME && k !== RUNTIME_CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', (event) => {

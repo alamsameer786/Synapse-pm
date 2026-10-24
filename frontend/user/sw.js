@@ -12,7 +12,7 @@ const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
 const PRECACHE_URLS = [
   '/manifest.json',
-  '/assets/img/logo.png',
+  '/user/assets/img/logo.png',
   '/offline.html'
 ];
 
@@ -119,8 +119,8 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
-      icon: '/assets/img/logo.png',
-      badge: '/assets/img/logo.png',
+      icon: '/user/assets/img/logo.png',
+      badge: '/user/assets/img/logo.png',
       data: data.data || {},
     })
   );
